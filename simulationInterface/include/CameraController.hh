@@ -1,7 +1,7 @@
 #ifndef _CAMERA_CONTROLLER_HH_
 #define _CAMERA_CONTROLLER_HH_
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents the interface that an input device must satisfy to qualify as a

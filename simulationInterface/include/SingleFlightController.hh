@@ -14,8 +14,9 @@
 #include "inputAbstraction/include/Input.hh"
 #include "inputAbstraction/include/WingMan.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
+#include "inputAbstraction/include/CompositeInput.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a single flight controller

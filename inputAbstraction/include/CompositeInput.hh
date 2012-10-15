@@ -12,7 +12,7 @@
 #include <vector>
 #include "Input.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * coalesces multiple {@link Input}s into a single entity, combining their

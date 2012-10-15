@@ -1,6 +1,6 @@
 #include "CompositeCameraController.hh"
 
-using namespace hardware;
+using namespace idf;
 
 void CompositeCameraController::addCameraController(CameraController& cameraController) {
     cameraControllers.push_back(&cameraController);

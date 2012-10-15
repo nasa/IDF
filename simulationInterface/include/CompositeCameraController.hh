@@ -12,7 +12,7 @@
 #include <vector>
 #include "CameraController.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * combines multiple <code>CameraController</code>s into a single entity,

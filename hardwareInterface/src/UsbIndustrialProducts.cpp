@@ -1,6 +1,6 @@
 #include "UsbIndustrialProducts.hh"
 
-using namespace hardware;
+using namespace idf;
 
 UsbIndustrialProducts::UsbIndustrialProducts(int vendorID, int productID) :
     UsbDevice(vendorID, productID) {}

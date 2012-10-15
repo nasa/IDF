@@ -12,7 +12,7 @@
 #include "UsbDevice.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a USB IndustrialProducts hand controller

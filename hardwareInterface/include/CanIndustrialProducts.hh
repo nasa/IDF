@@ -12,7 +12,7 @@
 #include "CanDevice.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a CAN IndustrialProducts hand controller

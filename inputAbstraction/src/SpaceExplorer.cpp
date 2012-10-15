@@ -1,6 +1,6 @@
 #include "SpaceExplorer.hh"
 
-using namespace hardware;
+using namespace idf;
 
 SpaceExplorer::SpaceExplorer() :
     button1(0, 1),

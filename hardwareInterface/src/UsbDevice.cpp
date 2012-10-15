@@ -1,6 +1,6 @@
 #include "UsbDevice.hh"
 
-using namespace hardware;
+using namespace idf;
 
 int UsbDevice::instanceCount = 0;
 

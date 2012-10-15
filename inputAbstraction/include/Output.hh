@@ -11,7 +11,7 @@
 
 #include "Input.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  *

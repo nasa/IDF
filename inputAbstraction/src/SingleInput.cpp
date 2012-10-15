@@ -1,7 +1,7 @@
 #include "SingleInput.hh"
 #include <cmath>
 
-using namespace hardware;
+using namespace idf;
 
 SingleInput::SingleInput(double min, double max) {
     initialize(min, max, (min + max) / 2);

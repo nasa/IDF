@@ -9,10 +9,9 @@
 #ifndef _INDUSTRIAL_PRODUCTS_HH_
 #define _INDUSTRIAL_PRODUCTS_HH_
 
-#include "hardwareInterface/include/InputDevice.hh"
 #include "SingleInput.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents an IndustrialProducts hand controller's input layout

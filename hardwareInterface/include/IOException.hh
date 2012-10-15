@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents an input/output exception

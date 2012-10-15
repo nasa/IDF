@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-namespace hardware {
+namespace idf {
 
 /**
  * abstract base class for all CAN input devices. Subclasses should usually

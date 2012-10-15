@@ -1,12 +1,12 @@
 #include "CompositeFlightController.hh"
 
-using namespace hardware;
+using namespace idf;
 
-void CompositeFlightController::addFlightController(FlightController& flightController) {
+void CompositeFlightController::add(FlightController& flightController) {
     flightControllers.push_back(&flightController);
 }
 
-void CompositeFlightController::removeFlightController(FlightController& flightController) {
+void CompositeFlightController::remove(FlightController& flightController) {
     for (std::vector<FlightController*>::iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         if (*i == &flightController) {
@@ -22,7 +22,7 @@ double CompositeFlightController::getRoll() {
       i != flightControllers.end(); ++i) {
         result += (*i)->getRoll();
     }
-    return boundResult(result);
+    return result;
 }
 
 double CompositeFlightController::getPitch() {
@@ -31,7 +31,7 @@ double CompositeFlightController::getPitch() {
       i != flightControllers.end(); ++i) {
         result += (*i)->getPitch();
     }
-    return boundResult(result);
+    return result;
 }
 
 double CompositeFlightController::getYaw() {
@@ -40,7 +40,7 @@ double CompositeFlightController::getYaw() {
       i != flightControllers.end(); ++i) {
         result += (*i)->getYaw();
     }
-    return boundResult(result);
+    return result;
 }
 
 double CompositeFlightController::getX() {
@@ -49,7 +49,7 @@ double CompositeFlightController::getX() {
       i != flightControllers.end(); ++i) {
         result += (*i)->getX();
     }
-    return boundResult(result);
+    return result;
 }
 
 double CompositeFlightController::getY() {
@@ -58,7 +58,7 @@ double CompositeFlightController::getY() {
       i != flightControllers.end(); ++i) {
         result += (*i)->getY();
     }
-    return boundResult(result);
+    return result;
 }
 
 double CompositeFlightController::getZ() {
@@ -67,9 +67,5 @@ double CompositeFlightController::getZ() {
       i != flightControllers.end(); ++i) {
         result += (*i)->getZ();
     }
-    return boundResult(result);
-}
-
-double CompositeFlightController::boundResult(double result) {
-    return result < -1 ? -1 : result > 1 ? 1 : result;
+    return result;
 }

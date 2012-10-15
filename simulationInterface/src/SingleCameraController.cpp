@@ -1,7 +1,7 @@
 #include "SingleCameraController.hh"
 #include "inputAbstraction/include/CompositeInput.hh"
 
-using namespace hardware;
+using namespace idf;
 
 SingleCameraController::SingleCameraController(Input& pan, Input& tilt, Input& Spin, Input& zoom) :
     mPan(&pan), mTilt(&tilt), mSpin(&Spin), mZoom(&zoom) {}

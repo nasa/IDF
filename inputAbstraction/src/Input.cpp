@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iomanip>
 
-using namespace hardware;
+using namespace idf;
 
 std::string Input::toString() {
     std::ostringstream oss;

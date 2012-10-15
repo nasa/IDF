@@ -4,7 +4,7 @@
 #include <sstream>
 #include "IOException.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * abstract base class for all input devices. Subclasses should usually be

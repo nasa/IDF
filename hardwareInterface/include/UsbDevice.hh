@@ -21,7 +21,7 @@
 #endif
 #endif
 
-namespace hardware {
+namespace idf {
 
 /**
  * abstract base class for all USB input devices. Subclasses should usually

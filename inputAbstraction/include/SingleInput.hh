@@ -11,7 +11,7 @@
 
 #include "Input.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a single degree of freedom or a single dimension of a device's

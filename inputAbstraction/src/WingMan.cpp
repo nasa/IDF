@@ -1,6 +1,6 @@
 #include "WingMan.hh"
 
-using namespace hardware;
+using namespace idf;
 
 WingMan::WingMan() :
         forwardBackwardPivot(0, 1023, 512),

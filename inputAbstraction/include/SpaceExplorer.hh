@@ -11,7 +11,7 @@
 
 #include "SpaceNavigator.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a SpaceExplorer hand controller's input layout

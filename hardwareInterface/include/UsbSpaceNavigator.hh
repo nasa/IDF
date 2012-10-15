@@ -12,7 +12,7 @@
 #include "UsbDevice.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a USB SpaceNavigator joy stick

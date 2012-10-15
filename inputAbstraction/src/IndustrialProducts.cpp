@@ -1,6 +1,6 @@
 #include "IndustrialProducts.hh"
 
-using namespace hardware;
+using namespace idf;
 
 IndustrialProducts::IndustrialProducts() :
         forwardBackwardPivot(0, 1023, 512),

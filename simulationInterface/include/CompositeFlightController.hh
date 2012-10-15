@@ -12,7 +12,7 @@
 #include <vector>
 #include "FlightController.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * combines multiple <code>FlightController</code>s into a single entity,
@@ -28,13 +28,13 @@ class CompositeFlightController : public FlightController {
      * adds <code>flightController</code>, combining its values with all other
      * added <code>FlightController</code>s
      */
-    void addFlightController(FlightController& flightController);
+    void add(FlightController& flightController);
 
     /**
      * removes <code>flightController</code>, no longer combining its values
      * with other <code>FlightController</code>s
      */
-    void removeFlightController(FlightController& flightController);
+    void remove(FlightController& flightController);
 
     /**
      * gets the conglomerate roll value
@@ -83,14 +83,6 @@ class CompositeFlightController : public FlightController {
     /** the consituent flight controllers */
     std::vector<FlightController*> flightControllers;
 
-    /**
-     * bounds <code>result</code> to [-1, 1]
-     *
-     * @param result the result to bound
-     *
-     * @return the bounded result
-     */
-    static double boundResult(double result);
 
 };
 

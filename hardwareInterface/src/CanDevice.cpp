@@ -1,6 +1,6 @@
 #include "CanDevice.hh"
 
-using namespace hardware;
+using namespace idf;
 
 int CanDevice::instanceCount = 0;
 

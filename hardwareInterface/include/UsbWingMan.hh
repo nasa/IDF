@@ -12,7 +12,7 @@
 #include "UsbDevice.hh"
 #include "inputAbstraction/include/WingMan.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a USB WingMan hand controller

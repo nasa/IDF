@@ -1,6 +1,6 @@
 #include "SpaceNavigator.hh"
 
-using namespace hardware;
+using namespace idf;
 
 SpaceNavigator::SpaceNavigator() :
     forwardBackwardPivot(-512, 511, 0),

@@ -12,7 +12,7 @@
 #include <string>
 #include <iostream>
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents an input source from a device. An <code>Input</code>'s value is

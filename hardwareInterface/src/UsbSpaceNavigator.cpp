@@ -1,6 +1,6 @@
 #include "UsbSpaceNavigator.hh"
 
-using namespace hardware;
+using namespace idf;
 
 UsbSpaceNavigator::UsbSpaceNavigator(int vendorID, int productID) :
     UsbDevice(vendorID, productID) {}

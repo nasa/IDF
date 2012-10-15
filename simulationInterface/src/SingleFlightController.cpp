@@ -1,7 +1,6 @@
 #include "SingleFlightController.hh"
-#include "inputAbstraction/include/CompositeInput.hh"
 
-using namespace hardware;
+using namespace idf;
 
 SingleFlightController::SingleFlightController(
   Input& rollInput, Input& pitchInput, Input& yawInput,
@@ -39,23 +38,29 @@ SingleFlightController* SingleFlightController::createInstance(WingMan& wingMan)
     x->addInput(wingMan.hatSouth, -1);
 
     CompositeInput* y = new CompositeInput();
-    y->addInput(wingMan.hatWest);
-    y->addInput(wingMan.hatEast, -1);
+    y->addInput(wingMan.hatWest, -1);
+    y->addInput(wingMan.hatEast);
 
     CompositeInput* z = new CompositeInput();
-    z->addInput(wingMan.button4);
-    z->addInput(wingMan.button5, -1);
+    z->addInput(wingMan.button4, -1);
+    z->addInput(wingMan.button5);
 
     return new SingleFlightController(wingMan.leftRightPivot,
       wingMan.forwardBackwardPivot, wingMan.twist, *x, *y, *z);
 }
 
 SingleFlightController* SingleFlightController::createInstance(SpaceNavigator& spaceNavigator) {
-    return new SingleFlightController(
+    SingleFlightController *spaceNavigatorSingleFlightController =
+      new SingleFlightController(
       spaceNavigator.leftRightPivot,
       spaceNavigator.forwardBackwardPivot,
       spaceNavigator.twist,
       spaceNavigator.forwardBackwardTranslation,
       spaceNavigator.leftRightTranslation,
       spaceNavigator.upDownTranslation);
+
+    spaceNavigatorSingleFlightController->x.setInverted(true);
+    spaceNavigatorSingleFlightController->roll.setInverted(true);
+
+    return spaceNavigatorSingleFlightController;
 }

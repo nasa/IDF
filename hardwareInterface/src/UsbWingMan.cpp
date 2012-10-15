@@ -1,6 +1,6 @@
 #include "UsbWingMan.hh"
 
-using namespace hardware;
+using namespace idf;
 
 UsbWingMan::UsbWingMan(int vendorID, int productID) :
     UsbDevice(vendorID, productID) {}

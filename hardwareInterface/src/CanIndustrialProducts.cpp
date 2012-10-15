@@ -1,6 +1,6 @@
 #include "CanIndustrialProducts.hh"
 
-using namespace hardware;
+using namespace idf;
 
 CanIndustrialProducts::CanIndustrialProducts(int networkID, int baudRate) :
     CanDevice(networkID, baudRate) {}

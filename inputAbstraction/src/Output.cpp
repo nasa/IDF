@@ -1,6 +1,6 @@
 #include "Output.hh"
 
-using namespace hardware;
+using namespace idf;
 
 Output::Output(Input& in) :
     input(&in),
@@ -46,16 +46,9 @@ double Output::getNeutralValue() {
 }
 
 double Output::getValue() {
-    double inputValue = input->getValue();
-    double inputNeutral = input->getNeutralValue();
-
-    return inputValue < inputNeutral ?
-
-      neutral + (inputValue - inputNeutral) /
-      (input->getMinimumValue() - inputNeutral) *
-      ((inverted ? maximum : minimum) - neutral) :
-
-      neutral + (inputValue - inputNeutral) /
-      (input->getMaximumValue() - inputNeutral) *
-      ((inverted ? minimum : maximum) - neutral);
+    double normalizedValue = input->getNormalizedValue();
+    return neutral + normalizedValue *
+      (normalizedValue < 0 ?
+        (neutral - (inverted ? maximum : minimum)) :
+        ((inverted ? minimum : maximum) - neutral));
 }

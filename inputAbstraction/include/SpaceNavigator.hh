@@ -9,10 +9,9 @@
 #ifndef _SPACE_NAVIGATOR_HH_
 #define _SPACE_NAVIGATOR_HH_
 
-#include "hardwareInterface/include/InputDevice.hh"
 #include "SingleInput.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a SpaceNavigator hand controller's input layout

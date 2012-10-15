@@ -9,10 +9,9 @@
 #ifndef _WING_MAN_HH_
 #define _WING_MAN_HH_
 
-#include "hardwareInterface/include/InputDevice.hh"
 #include "SingleInput.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a WingMan hand controller's input layout

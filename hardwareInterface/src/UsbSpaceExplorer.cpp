@@ -1,6 +1,6 @@
 #include "UsbSpaceExplorer.hh"
 
-using namespace hardware;
+using namespace idf;
 
 UsbSpaceExplorer::UsbSpaceExplorer(int vendorID, int productID) :
     UsbDevice(vendorID, productID) {}

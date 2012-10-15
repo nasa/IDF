@@ -13,7 +13,7 @@
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"
 
-namespace hardware {
+namespace idf {
 
 /**
  * represents a single camera controller

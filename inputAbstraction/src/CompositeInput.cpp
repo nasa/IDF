@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <cmath>
 
-using namespace hardware;
+using namespace idf;
 
 CompositeInput::CompositeInput(bool simple) :
     simpleCombination(simple) {}
