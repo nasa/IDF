@@ -43,6 +43,8 @@ class InputDevice {
     /**
      * updates this instance so that it reflects the target device's current
      * state
+     *
+     * @throws IOException if the device is not open
      */
     virtual void update() {
         if (!mOpen) {
@@ -52,8 +54,6 @@ class InputDevice {
             throw IOException(oss.str().c_str());
         }
     }
-
-    virtual void printState() = 0;
 
     protected:
 

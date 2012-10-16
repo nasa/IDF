@@ -8,4 +8,6 @@ SpaceNavigator::SpaceNavigator() :
     twist(-512, 511, 0),
     forwardBackwardTranslation(-512, 511, 0),
     leftRightTranslation(-512, 511, 0),
-    upDownTranslation(-512, 511, 0) {}
+    upDownTranslation(-512, 511, 0),
+    leftButton(0, 1),
+    rightButton(0, 1) {}

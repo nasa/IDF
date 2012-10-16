@@ -38,15 +38,41 @@ SingleFlightController* SingleFlightController::createInstance(WingMan& wingMan)
     x->addInput(wingMan.hatSouth, -1);
 
     CompositeInput* y = new CompositeInput();
-    y->addInput(wingMan.hatWest, -1);
-    y->addInput(wingMan.hatEast);
+    y->addInput(wingMan.hatWest);
+    y->addInput(wingMan.hatEast, -1);
 
     CompositeInput* z = new CompositeInput();
-    z->addInput(wingMan.button4, -1);
-    z->addInput(wingMan.button5);
+    z->addInput(wingMan.button4);
+    z->addInput(wingMan.button5, -1);
 
-    return new SingleFlightController(wingMan.leftRightPivot,
+    SingleFlightController *wingManSingleFlightController =
+      new SingleFlightController(wingMan.leftRightPivot,
       wingMan.forwardBackwardPivot, wingMan.twist, *x, *y, *z);
+
+    wingManSingleFlightController->pitch.setInverted(true);
+    wingManSingleFlightController->yaw.setInverted(true);
+
+    return wingManSingleFlightController;
+}
+
+SingleFlightController* SingleFlightController::createInstance(SpaceExplorer& spaceExplorer) {
+    SingleFlightController *spaceExplorerSingleFlightController =
+      new SingleFlightController(
+      spaceExplorer.leftRightPivot,
+      spaceExplorer.forwardBackwardPivot,
+      spaceExplorer.twist,
+      spaceExplorer.forwardBackwardTranslation,
+      spaceExplorer.leftRightTranslation,
+      spaceExplorer.upDownTranslation);
+
+    spaceExplorerSingleFlightController->x.setInverted(true);
+    spaceExplorerSingleFlightController->y.setInverted(true);
+    spaceExplorerSingleFlightController->z.setInverted(true);
+    spaceExplorerSingleFlightController->roll.setInverted(true);
+    spaceExplorerSingleFlightController->pitch.setInverted(true);
+    spaceExplorerSingleFlightController->yaw.setInverted(true);
+
+    return spaceExplorerSingleFlightController;
 }
 
 SingleFlightController* SingleFlightController::createInstance(SpaceNavigator& spaceNavigator) {
@@ -60,7 +86,11 @@ SingleFlightController* SingleFlightController::createInstance(SpaceNavigator& s
       spaceNavigator.upDownTranslation);
 
     spaceNavigatorSingleFlightController->x.setInverted(true);
+    spaceNavigatorSingleFlightController->y.setInverted(true);
+    spaceNavigatorSingleFlightController->z.setInverted(true);
     spaceNavigatorSingleFlightController->roll.setInverted(true);
+    spaceNavigatorSingleFlightController->pitch.setInverted(true);
+    spaceNavigatorSingleFlightController->yaw.setInverted(true);
 
     return spaceNavigatorSingleFlightController;
 }

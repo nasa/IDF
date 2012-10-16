@@ -1,4 +1,5 @@
 #include "UsbDevice.hh"
+#include <cstring>
 
 using namespace idf;
 
@@ -24,11 +25,11 @@ UsbDevice::~UsbDevice() {
 }
 
 void UsbDevice::open() {
-    if (!this->mOpen) {
+    if (!mOpen) {
         for (std::vector<int>::iterator i = productIds.begin(); i != productIds.end(); ++i) {
             if ((hidDevice = hid_open(vendorId, *i, NULL))) {
                 hid_set_nonblocking(hidDevice, 1);
-                this->mOpen = true;
+                mOpen = true;
                 return;
             }
         }
@@ -39,9 +40,30 @@ void UsbDevice::open() {
     }
 }
 
+int UsbDevice::read(unsigned char *buffer, size_t length) {
+    if (!mOpen) {
+        std::ostringstream oss;
+        oss << __FILE__ << ":" << __LINE__ << " (" << __FUNCTION__ << ") "
+            << "Error while reading: device is not open " << strerror(errno);
+        throw IOException(oss.str().c_str());
+    }
+
+    int bytesRead = hid_read(hidDevice, buffer, length);
+
+    if (bytesRead < 0) {
+        mOpen = false;
+        std::ostringstream oss;
+        oss << __FILE__ << ":" << __LINE__ << " (" << __FUNCTION__ << ") "
+            << "Error while reading: " << strerror(errno);
+        throw IOException(oss.str().c_str());
+    }
+
+    return bytesRead;
+}
+
 void UsbDevice::close() {
-    if (this->mOpen) {
+    if (mOpen) {
         hid_close(hidDevice);
-        this->mOpen = false;
+        mOpen = false;
     }
 }

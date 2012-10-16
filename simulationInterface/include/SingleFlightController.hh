@@ -13,6 +13,7 @@
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"
 #include "inputAbstraction/include/WingMan.hh"
+#include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
 #include "inputAbstraction/include/CompositeInput.hh"
 
@@ -113,6 +114,16 @@ class SingleFlightController : public FlightController {
      * @return a new WingMan-based flight controller
      */
     static SingleFlightController* createInstance(WingMan& wingMan);
+
+    /**
+     * creates a new <code>SingleFlightController</code> mapped to
+     * <code>spaceExplorer</code> using appropriate defaults
+     *
+     * @param spaceExplorer the inputs to use in the default mapping
+     *
+     * @return a new SpaceExplorer-based flight controller
+     */
+    static SingleFlightController* createInstance(SpaceExplorer& spaceExplorer);
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to

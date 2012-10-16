@@ -48,8 +48,10 @@ class UsbDevice : public InputDevice {
     /** destructs this instance */
     virtual ~UsbDevice();
 
+    /** opens this device for communication */
     virtual void open();
 
+    /** closes this device */
     virtual void close();
 
     protected:
@@ -62,6 +64,20 @@ class UsbDevice : public InputDevice {
 
     /** handle to the device */
     hid_device* hidDevice;
+
+    /**
+     * reads <code>length</code> bytes from this device and stores them in
+     * <code>buffer</code>
+     *
+     * @param buffer the location to store the data
+     * @param length the number of bytes to read
+     *
+     * @return the number of bytes read (always non-negative)
+     *
+     * @throws IOException if an error occurs while reading or if the device
+     * is not open
+     */
+    virtual int read(unsigned char *buffer, size_t length);
 
     private:
 

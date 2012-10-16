@@ -43,6 +43,12 @@ class SpaceNavigator {
     /** up-down translation */
     SingleInput upDownTranslation;
 
+    /** the left button */
+    SingleInput leftButton;
+
+    /** the right button */
+    SingleInput rightButton;
+
 };
 
 }

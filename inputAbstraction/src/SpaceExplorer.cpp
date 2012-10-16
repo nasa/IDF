@@ -3,6 +3,12 @@
 using namespace idf;
 
 SpaceExplorer::SpaceExplorer() :
+    forwardBackwardPivot(-512, 511, 0),
+    leftRightPivot(-512, 511, 0),
+    twist(-512, 511, 0),
+    forwardBackwardTranslation(-512, 511, 0),
+    leftRightTranslation(-512, 511, 0),
+    upDownTranslation(-512, 511, 0),
     button1(0, 1),
     button2(0, 1),
     buttonMinus(0, 1),

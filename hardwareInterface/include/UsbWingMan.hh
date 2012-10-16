@@ -28,8 +28,6 @@ class UsbWingMan : public UsbDevice, public WingMan {
 
     void update();
 
-    void printState();
-
 };
 
 }

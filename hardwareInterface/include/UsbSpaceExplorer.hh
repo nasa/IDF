@@ -28,8 +28,6 @@ class UsbSpaceExplorer : public UsbDevice, public SpaceExplorer {
 
     void update();
 
-    void printState();
-
 };
 
 }

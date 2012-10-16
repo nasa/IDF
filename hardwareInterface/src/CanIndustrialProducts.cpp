@@ -8,6 +8,3 @@ CanIndustrialProducts::CanIndustrialProducts(int networkID, int baudRate) :
 void CanIndustrialProducts::update() {
     CanDevice::update();
 }
-
-void CanIndustrialProducts::printState() {
-}

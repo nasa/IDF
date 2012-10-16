@@ -24,11 +24,9 @@ class UsbSpaceNavigator : public UsbDevice, public SpaceNavigator {
     public:
 
     /** constructor */
-    UsbSpaceNavigator(int vendorID = 0x046D, int productID = 0xC627);
+    UsbSpaceNavigator(int vendorID = 0x046D, int productID = 0xC628);
 
     void update();
-
-    void printState();
 
 };
 

@@ -9,5 +9,3 @@ void UsbIndustrialProducts::update() {
     UsbDevice::update();
 }
 
-void UsbIndustrialProducts::printState() {
-}

@@ -28,8 +28,6 @@ class UsbIndustrialProducts : public UsbDevice, public IndustrialProducts {
 
     void update();
 
-    void printState();
-
 };
 
 }
