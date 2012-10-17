@@ -1,4 +1,5 @@
 #include "CompositeFlightController.hh"
+#include <algorithm>
 
 using namespace idf;
 
@@ -7,13 +8,8 @@ void CompositeFlightController::add(FlightController& flightController) {
 }
 
 void CompositeFlightController::remove(FlightController& flightController) {
-    for (std::vector<FlightController*>::iterator i = flightControllers.begin();
-      i != flightControllers.end(); ++i) {
-        if (*i == &flightController) {
-            flightControllers.erase(i);
-            break;
-        }
-    }
+    flightControllers.erase(std::remove(flightControllers.begin(),
+      flightControllers.end(), &flightController), flightControllers.end());
 }
 
 double CompositeFlightController::getRoll() {

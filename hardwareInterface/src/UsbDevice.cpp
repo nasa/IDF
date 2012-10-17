@@ -1,4 +1,5 @@
 #include "UsbDevice.hh"
+#include <algorithm>
 #include <cstring>
 
 using namespace idf;
@@ -51,7 +52,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
     int bytesRead = hid_read(hidDevice, buffer, length);
 
     if (bytesRead < 0) {
-        mOpen = false;
+        close();
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__ << " (" << __FUNCTION__ << ") "
             << "Error while reading: " << strerror(errno);

@@ -1,4 +1,5 @@
 #include "CompositeCameraController.hh"
+#include <algorithm>
 
 using namespace idf;
 
@@ -7,13 +8,8 @@ void CompositeCameraController::addCameraController(CameraController& cameraCont
 }
 
 void CompositeCameraController::removeCameraController(CameraController& cameraController) {
-    for (std::vector<CameraController*>::iterator i = cameraControllers.begin();
-      i != cameraControllers.end(); ++i) {
-        if (*i == &cameraController) {
-            cameraControllers.erase(i);
-            break;
-        }
-    }
+    cameraControllers.erase(std::remove(cameraControllers.begin(),
+      cameraControllers.end(), &cameraController), cameraControllers.end());
 }
 
 double CompositeCameraController::getPan() {
