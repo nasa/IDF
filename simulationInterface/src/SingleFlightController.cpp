@@ -94,3 +94,31 @@ SingleFlightController* SingleFlightController::createInstance(SpaceNavigator& s
 
     return spaceNavigatorSingleFlightController;
 }
+
+SingleFlightController* SingleFlightController::createInstance(Gravis& gravis) {
+    CompositeInput* roll = new CompositeInput();
+    roll->addInput(gravis.rightBumper2);
+    roll->addInput(gravis.leftBumper2, -1);
+
+    CompositeInput* pitch = new CompositeInput();
+    pitch->addInput(gravis.eastButton);
+    pitch->addInput(gravis.northButton, -1);
+
+    CompositeInput* yaw = new CompositeInput();
+    yaw->addInput(gravis.leftBumper1);
+    yaw->addInput(gravis.rightBumper1, -1);
+
+    CompositeInput* x = new CompositeInput();
+    x->addInput(gravis.westButton);
+    x->addInput(gravis.southButton, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(gravis.directionalPadLeft);
+    y->addInput(gravis.directionalPadRight, -1);
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(gravis.directionalPadUp);
+    z->addInput(gravis.directionalPadDown, -1);
+
+    return new SingleFlightController(*roll, *pitch, *yaw, *x, *y, *z);
+}

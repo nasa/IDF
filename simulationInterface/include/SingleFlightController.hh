@@ -12,10 +12,11 @@
 #include "FlightController.hh"
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"
+#include "inputAbstraction/include/CompositeInput.hh"
 #include "inputAbstraction/include/WingMan.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
-#include "inputAbstraction/include/CompositeInput.hh"
+#include "inputAbstraction/include/Gravis.hh"
 
 namespace idf {
 
@@ -134,6 +135,16 @@ class SingleFlightController : public FlightController {
      * @return a new SpaceNavigator-based flight controller
      */
     static SingleFlightController* createInstance(SpaceNavigator& spaceNavigator);
+
+    /**
+     * creates a new <code>SingleFlightController</code> mapped to
+     * <code>gravis</code> using appropriate defaults
+     *
+     * @param gravis the inputs to use in the default mapping
+     *
+     * @return a new Gravis-based flight controller
+     */
+    static SingleFlightController* createInstance(Gravis& gravis);
 
 };
 
