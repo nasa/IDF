@@ -2,8 +2,7 @@
 
 using namespace idf;
 
-CanIndustrialProducts::CanIndustrialProducts(int networkID, int baudRate) :
-    CanDevice(networkID, baudRate) {}
+CanIndustrialProducts::CanIndustrialProducts(int networkID, int baudRate) {}
 
 void CanIndustrialProducts::update() {
     CanDevice::update();

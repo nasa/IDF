@@ -9,13 +9,13 @@
 #ifndef _USB_SPACE_EXPLORER_HH_
 #define _USB_SPACE_EXPLORER_HH_
 
-#include "UsbSpaceNavigator.hh"
+#include "UsbDevice.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 
 namespace idf {
 
 /**
- * represents a USB SpaceExplorer joy stick
+ * represents a USB SpaceExplorer hand controller
  *
  * @author Derek Bankieris
  */

@@ -10,9 +10,6 @@
 #define _CAN_DEVICE_HH_
 
 #include "InputDevice.hh"
-#include <vector>
-#include <stdio.h>
-#include <errno.h>
 
 namespace idf {
 
@@ -30,13 +27,9 @@ class CanDevice : public InputDevice {
     public:
 
     /**
-     * constructs a new instance whose <code>open()</code> will look for a CAN
-     * device
-     *
-     * @param networkID the target CAN device's vendorID
-     * @param baudRate the target CAN device's productID
+     * constructs a new instance
      */
-    CanDevice(int networkID, int baudRate);
+    CanDevice();
 
     /** destructs this instance */
     virtual ~CanDevice();
@@ -44,19 +37,6 @@ class CanDevice : public InputDevice {
     virtual void open();
 
     virtual void close();
-
-    protected:
-
-    /** vendor ID, used to lookup this device in the CAN hierarchy */
-    int mNetworkID;
-
-    /** product IDs, used to lookup this device in the CAN hierarchy */
-    int mBaudRate;
-
-    private:
-
-    /** number of instances in existance */
-    static int instanceCount;
 
 };
 

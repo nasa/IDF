@@ -28,23 +28,23 @@ class Output {
 
     public:
 
-    /** destructs this instance */
+    /** destructor */
     virtual ~Output() {};
 
     /**
      * constructs a new, non-inverting instance with a range of
      * </code>[-1, 1]</code> and neutral point of <code>0</code>
      *
-     * @oaran input the input that this output is to process
+     * @param input the input that this output will process
      */
     Output(Input& input);
 
     /**
-     * sets the input that this output is to process
+     * sets the input that this output will process
      *
      * @param input the input to be processed by this output
      */
-    void setInput(Input& input);
+    virtual void setInput(Input& input);
 
     /**
      * sets the range to which this output will scale its input's value
@@ -53,7 +53,7 @@ class Output {
      * @param maximum the maximum value
      * @param neutral the neutral value
      */
-    void setRange(double minimum, double maximum, double neutral);
+    virtual void setRange(double minimum, double maximum, double neutral);
 
     /**
      * sets the range to which this output will scale its input's value, with
@@ -62,21 +62,21 @@ class Output {
      * @param minimum the minimum value
      * @param maximum the maximum value
      */
-    void setRange(double minimum, double maximum);
+    virtual void setRange(double minimum, double maximum);
 
     /**
      * sets whether or not this output inverts its input
      *
      * @param inverted the inverted state of this output
      */
-    void setInverted(bool inverted);
+    virtual void setInverted(bool inverted);
 
     /**
      * returns whether or not this output inverts its input
      *
      * @return the inverted state of this output
      */
-    bool isInverted();
+    virtual bool isInverted();
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -87,7 +87,7 @@ class Output {
      *
      * returns the minimum value that this output can return
      */
-    double getMinimumValue();
+    virtual double getMinimumValue();
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -98,7 +98,7 @@ class Output {
      *
      * returns the maximum value that this output can return
      */
-    double getMaximumValue();
+    virtual double getMaximumValue();
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -107,17 +107,27 @@ class Output {
      *
      * returns the neutral value of this output
      */
-    double getNeutralValue();
+    virtual double getNeutralValue();
 
     /**
-     * returns the value of the this instances <code>Input</code>
+     * returns the value of the this instance's <code>Input</code>
      * scaled to [<code>getMinimumValue()</code>,
      * <code>getMaximumValue()</code>], with a neutral
-     * value of <code>getNeutralValue()</code>
+     * value of <code>getNeutralValue()</code>, and inverted as specified by
+     * <code>isInverted()</code>
      *
      * @return the processed value
      */
-    double getValue();
+    virtual double getValue();
+
+    /**
+     * returns the value of the this instance's <code>Input</code> normalized to
+     * <code>[-1, 0, 1]</code> and inverted as specified by
+     * <code>isInverted()</code>
+     *
+     * @return the normalized and possibly inverted value
+     */
+    virtual double getNormalizedValue();
 
     private:
 

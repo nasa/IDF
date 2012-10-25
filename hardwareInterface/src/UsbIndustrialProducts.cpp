@@ -8,4 +8,3 @@ UsbIndustrialProducts::UsbIndustrialProducts(int vendorID, int productID) :
 void UsbIndustrialProducts::update() {
     UsbDevice::update();
 }
-

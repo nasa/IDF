@@ -52,3 +52,8 @@ double Output::getValue() {
         (neutral - (inverted ? maximum : minimum)) :
         ((inverted ? minimum : maximum) - neutral));
 }
+
+double Output::getNormalizedValue() {
+    double normalizedValue = input->getNormalizedValue();
+    return inverted ? -normalizedValue : normalizedValue;
+}

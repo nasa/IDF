@@ -1,19 +1,18 @@
-/**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbDevice.cpp)
-    (hardwareInterface/src/hidapi.c))
- */
+/*
+ PURPOSE:
+ ()
+
+ LIBRARY DEPENDENCIES:
+ ((hardwareInterface/src/UsbDevice.cpp)
+  (hardwareInterface/src/hidapi.c))
+*/
 
 #ifndef _USB_DEVICE_HH_
 #define _USB_DEVICE_HH_
 
-#include "InputDevice.hh"
 #include <vector>
-#include <stdio.h>
-#include <errno.h>
+
+#include "InputDevice.hh"
 
 #ifndef TRICK_ICG
 #ifndef SWIG
@@ -45,7 +44,7 @@ class UsbDevice : public InputDevice {
      */
     UsbDevice(int vendorID, int productID);
 
-    /** destructs this instance */
+    /** destructor */
     virtual ~UsbDevice();
 
     /** opens this device for communication */

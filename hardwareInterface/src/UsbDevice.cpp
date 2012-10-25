@@ -1,5 +1,9 @@
 #include "UsbDevice.hh"
-#include <algorithm>
+#include "IOException.hh"
+
+#include <stdio.h>
+#include <errno.h>
+#include <sstream>
 #include <cstring>
 
 using namespace idf;

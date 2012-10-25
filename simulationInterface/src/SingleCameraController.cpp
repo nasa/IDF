@@ -1,55 +1,91 @@
 #include "SingleCameraController.hh"
-#include "inputAbstraction/include/CompositeInput.hh"
 
 using namespace idf;
 
-SingleCameraController::SingleCameraController(Input& pan, Input& tilt, Input& Spin, Input& zoom) :
-    mPan(&pan), mTilt(&tilt), mSpin(&Spin), mZoom(&zoom) {}
+SingleCameraController::SingleCameraController(
+  Input& panInput, Input& tiltInput, Input& spinInput, Input& zoomInput) :
+    pan(panInput), tilt(tiltInput), spin(spinInput), zoom(zoomInput) {}
 
-double SingleCameraController::getPan() {
-    return mPan->getValue();
+double SingleCameraController::getCommandedPan() {
+    return pan.getValue();
 }
 
-double SingleCameraController::getTilt() {
-    return mTilt->getValue();
+double SingleCameraController::getCommandedTilt() {
+    return tilt.getValue();
 }
 
-double SingleCameraController::getSpin() {
-    return mSpin->getValue();
+double SingleCameraController::getCommandedSpin() {
+    return spin.getValue();
 }
 
-double SingleCameraController::getZoom() {
-    return mZoom->getValue();
+double SingleCameraController::getCommandedZoom() {
+    return zoom.getValue();
 }
 
-Input& SingleCameraController::getPanInput() {
-    return *mPan;
+SingleCameraController* SingleCameraController::createInstance(WingMan& wingMan) {
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(wingMan.hatNorth);
+    zoom->addInput(wingMan.hatSouth, -1);
+
+    SingleCameraController *wingManSingleCameraController =
+      new SingleCameraController(wingMan.twist, wingMan.forwardBackwardPivot,
+      wingMan.leftRightPivot, *zoom);
+
+    wingManSingleCameraController->pan.setInverted(true);
+    wingManSingleCameraController->tilt.setInverted(true);
+
+    return wingManSingleCameraController;
 }
 
-Input& SingleCameraController::getTiltInput() {
-    return *mTilt;
+SingleCameraController* SingleCameraController::createInstance(SpaceExplorer& spaceExplorer) {
+    SingleCameraController *spaceExplorerSingleCameraController =
+      new SingleCameraController(
+      spaceExplorer.twist,
+      spaceExplorer.forwardBackwardPivot,
+      spaceExplorer.leftRightPivot,
+      spaceExplorer.forwardBackwardTranslation);
+
+    spaceExplorerSingleCameraController->pan.setInverted(true);
+    spaceExplorerSingleCameraController->tilt.setInverted(true);
+    spaceExplorerSingleCameraController->spin.setInverted(true);
+    spaceExplorerSingleCameraController->zoom.setInverted(true);
+
+    return spaceExplorerSingleCameraController;
 }
 
-Input& SingleCameraController::getSpinInput() {
-    return *mSpin;
+SingleCameraController* SingleCameraController::createInstance(SpaceNavigator& spaceNavigator) {
+    SingleCameraController *spaceNavigatorSingleCameraController =
+      new SingleCameraController(
+      spaceNavigator.twist,
+      spaceNavigator.forwardBackwardPivot,
+      spaceNavigator.leftRightPivot,
+      spaceNavigator.forwardBackwardTranslation);
+
+    spaceNavigatorSingleCameraController->pan.setInverted(true);
+    spaceNavigatorSingleCameraController->tilt.setInverted(true);
+    spaceNavigatorSingleCameraController->spin.setInverted(true);
+    spaceNavigatorSingleCameraController->zoom.setInverted(true);
+
+    return spaceNavigatorSingleCameraController;
 }
 
-Input& SingleCameraController::getZoomInput() {
-    return *mZoom;
+SingleCameraController* SingleCameraController::createInstance(Gravis& gravis) {
+    CompositeInput* pan = new CompositeInput();
+    pan->addInput(gravis.directionalPadLeft);
+    pan->addInput(gravis.directionalPadRight, -1);
+
+    CompositeInput* tilt = new CompositeInput();
+    tilt->addInput(gravis.directionalPadUp);
+    tilt->addInput(gravis.directionalPadDown, -1);
+
+    CompositeInput* spin = new CompositeInput();
+    spin->addInput(gravis.leftBumper1);
+    spin->addInput(gravis.rightBumper1, -1);
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(gravis.westButton);
+    zoom->addInput(gravis.southButton, -1);
+
+    return new SingleCameraController(*pan, *tilt, *spin, *zoom);
 }
 
-void SingleCameraController::setPan(Input& pan) {
-    mPan = &pan;
-}
-
-void SingleCameraController::setTilt(Input& tilt) {
-    mTilt = &tilt;
-}
-
-void SingleCameraController::setSpin(Input& Spin) {
-    mSpin = &Spin;
-}
-
-void SingleCameraController::setZoom(Input& zoom) {
-    mZoom = &zoom;
-}

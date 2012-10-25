@@ -1,15 +1,25 @@
+/**
+ * PURPOSE:
+ * ()
+ *
+ * LIBRARY DEPENDENCIES:
+ * ((simulationInterface/src/FlightController.cpp))
+ */
+
 #ifndef _FLIGHT_CONTROLLER_HH_
 #define _FLIGHT_CONTROLLER_HH_
+
+#include "Controller.hh"
 
 namespace idf {
 
 /**
  * represents the interface that an input device must satisfy to qualify as a
- * flight controller device
+ * flight controller
  *
  * @author Derek Bankieris
  */
-class FlightController {
+class FlightController : public Controller {
 
     public:
 
@@ -17,46 +27,96 @@ class FlightController {
     virtual ~FlightController() {};
 
     /**
-     * returns the commanded roll
+     * when active, returns the commanded roll normalized to [-1, 0, 1].
+     * When inactive, returns <code>0</code>.
      *
      * @return the roll command
      */
-    virtual double getRoll() = 0;
+    virtual double getRoll();
 
     /**
-     * returns the commanded pitch
+     * when active, returns the commanded pitch normalized to [-1, 0, 1].
+     * When inactive, returns <code>0</code>.
      *
      * @return the pitch command
      */
-    virtual double getPitch() = 0;
+    virtual double getPitch();
 
     /**
-     * returns the commanded yaw
+     * when active, returns the commanded yaw normalized to [-1, 0, 1].
+     * When inactive, returns <code>0</code>.
      *
      * @return the yaw command
      */
-    virtual double getYaw() = 0;
+    virtual double getYaw();
 
     /**
-     * returns the commanded x
+     * when active, returns the commanded x normalized to [-1, 0, 1].
+     * When inactive, returns <code>0</code>.
      *
      * @return the x command
      */
-    virtual double getX() = 0;
+    virtual double getX();
 
     /**
-     * returns the commanded y
+     * when active, returns the commanded y normalized to [-1, 0, 1].
+     * When inactive, returns <code>0</code>.
      *
      * @return the y command
      */
-    virtual double getY() = 0;
+    virtual double getY();
 
     /**
-     * returns the commanded z
+     * when active, returns the commanded z normalized to [-1, 0, 1].
+     * When inactive, returns <code>0</code>.
      *
      * @return the z command
      */
-    virtual double getZ() = 0;
+    virtual double getZ();
+
+    protected:
+
+    /**
+     * returns the commanded roll normalized to [-1, 0, 1]
+     *
+     * @return the roll command
+     */
+    virtual double getCommandedRoll() = 0;
+
+    /**
+     * returns the commanded pitch normalized to [-1, 0, 1]
+     *
+     * @return the pitch command
+     */
+    virtual double getCommandedPitch() = 0;
+
+    /**
+     * returns the commanded yaw normalized to [-1, 0, 1]
+     *
+     * @return the yaw command
+     */
+    virtual double getCommandedYaw() = 0;
+
+    /**
+     * returns the commanded x normalized to [-1, 0, 1]
+     *
+     * @return the x command
+     */
+    virtual double getCommandedX() = 0;
+
+    /**
+     * returns the commanded y normalized to [-1, 0, 1]
+     *
+     * @return the y command
+     */
+    virtual double getCommandedY() = 0;
+
+    /**
+     * returns the commanded z normalized to [-1, 0, 1]
+     *
+     * @return the z command
+     */
+    virtual double getCommandedZ() = 0;
 
 };
 

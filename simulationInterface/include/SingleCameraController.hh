@@ -12,6 +12,11 @@
 #include "CameraController.hh"
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"
+#include "inputAbstraction/include/CompositeInput.hh"
+#include "inputAbstraction/include/WingMan.hh"
+#include "inputAbstraction/include/SpaceExplorer.hh"
+#include "inputAbstraction/include/SpaceNavigator.hh"
+#include "inputAbstraction/include/Gravis.hh"
 
 namespace idf {
 
@@ -46,17 +51,76 @@ class SingleCameraController : public CameraController {
      */
     SingleCameraController(Input& pan, Input& tilt, Input& spin, Input& zoom);
 
+    /** destructor */
     virtual ~SingleCameraController() {};
 
-    virtual double getPan();
-    virtual double getTilt();
-    virtual double getSpin();
-    virtual double getZoom();
+    /**
+     * returns the commanded pan, normalized to [-1, 0, 1]
+     *
+     * @return the pan command
+     */
+    virtual double getCommandedPan();
 
-    void setPan(Input& pan);
-    void setTilt(Input& tilt);
-    void setSpin(Input& spin);
-    void setZoom(Input& zoom);
+    /**
+     * returns the commanded tilt, normalized to [-1, 0, 1]
+     *
+     * @return the tilt command
+     */
+    virtual double getCommandedTilt();
+
+    /**
+     * returns the commanded spin, normalized to [-1, 0, 1]
+     *
+     * @return the spin command
+     */
+    virtual double getCommandedSpin();
+
+    /**
+     * returns the commanded zoom, normalized to [-1, 0, 1]
+     *
+     * @return the zoom command
+     */
+    virtual double getCommandedZoom();
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>wingMan</code> using appropriate defaults
+     *
+     * @param wingMan the inputs to use in the default mapping
+     *
+     * @return a new WingMan-based camera controller
+     */
+    static SingleCameraController* createInstance(WingMan& wingMan);
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>spaceExplorer</code> using appropriate defaults
+     *
+     * @param spaceExplorer the inputs to use in the default mapping
+     *
+     * @return a new SpaceExplorer-based camera controller
+     */
+    static SingleCameraController* createInstance(SpaceExplorer& spaceExplorer);
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>spaceNavigator</code> using appropriate defaults
+     *
+     * @param spaceNavigator the inputs to use in the default mapping
+     *
+     * @return a new SpaceNavigator-based camera controller
+     */
+    static SingleCameraController* createInstance(SpaceNavigator& spaceNavigator);
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>gravis</code> using appropriate defaults
+     *
+     * @param gravis the inputs to use in the default mapping
+     *
+     * @return a new Gravis-based camera controller
+     */
+    static SingleCameraController* createInstance(Gravis& gravis);
 
 };
 

@@ -65,46 +65,46 @@ class SingleFlightController : public FlightController {
     virtual ~SingleFlightController() {};
 
     /**
-     * returns the commanded roll
+     * returns the commanded roll, normalized to [-1, 0, 1]
      *
      * @return the roll command
      */
-    virtual double getRoll();
+    virtual double getCommandedRoll();
 
     /**
-     * returns the commanded pitch
+     * returns the commanded pitch, normalized to [-1, 0, 1]
      *
      * @return the pitch command
      */
-    virtual double getPitch();
+    virtual double getCommandedPitch();
 
     /**
-     * returns the commanded yaw
+     * returns the commanded yaw, normalized to [-1, 0, 1]
      *
      * @return the yaw command
      */
-    virtual double getYaw();
+    virtual double getCommandedYaw();
 
     /**
-     * returns the commanded x
+     * returns the commanded x, normalized to [-1, 0, 1]
      *
      * @return the x command
      */
-    virtual double getX();
+    virtual double getCommandedX();
 
     /**
-     * returns the commanded y
+     * returns the commanded y, normalized to [-1, 0, 1]
      *
      * @return the y command
      */
-    virtual double getY();
+    virtual double getCommandedY();
 
     /**
-     * returns the commanded z
+     * returns the commanded z, normalized to [-1, 0, 1]
      *
      * @return the z command
      */
-    virtual double getZ();
+    virtual double getCommandedZ();
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to

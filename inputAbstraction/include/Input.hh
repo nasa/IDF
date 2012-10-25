@@ -9,9 +9,6 @@
 #ifndef _INPUT_HH_
 #define _INPUT_HH_
 
-#include <string>
-#include <iostream>
-
 namespace idf {
 
 /**
@@ -25,7 +22,7 @@ class Input {
 
     public:
 
-    /** destructs this instance */
+    /** destructor */
     virtual ~Input() {};
 
     /**
@@ -64,8 +61,6 @@ class Input {
      * @return the normalized value
      */
     virtual double getNormalizedValue();
-
-    virtual std::string toString();
 
 };
 

@@ -8,27 +8,27 @@ SingleFlightController::SingleFlightController(
     roll(rollInput), pitch(pitchInput), yaw(yawInput),
     x(xInput), y(yInput), z(zInput) {}
 
-double SingleFlightController::getRoll() {
+double SingleFlightController::getCommandedRoll() {
     return roll.getValue();
 }
 
-double SingleFlightController::getPitch() {
+double SingleFlightController::getCommandedPitch() {
     return pitch.getValue();
 }
 
-double SingleFlightController::getYaw() {
+double SingleFlightController::getCommandedYaw() {
     return yaw.getValue();
 }
 
-double SingleFlightController::getX() {
+double SingleFlightController::getCommandedX() {
     return x.getValue();
 }
 
-double SingleFlightController::getY() {
+double SingleFlightController::getCommandedY() {
     return y.getValue();
 }
 
-double SingleFlightController::getZ() {
+double SingleFlightController::getCommandedZ() {
     return z.getValue();
 }
 

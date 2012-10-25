@@ -44,10 +44,17 @@ double CompositeInput::getValue() {
 }
 
 void CompositeInput::addInput(Input& input, double weight) {
+    // Add the input, if not present.
+    for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); ++i) {
+        if ((*i)->input == &input) {
+            return;
+        }
+    }
     components.push_back(new Component(input, weight));
 }
 
 void CompositeInput::removeInput(Input& input) {
+    // Remove the input, if present.
     for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); ++i) {
         if ((*i)->input == &input) {
             components.erase(i);
@@ -55,51 +62,6 @@ void CompositeInput::removeInput(Input& input) {
         }
     }
 }
-
-#include "SingleInput.hh"
-void CompositeInput::unitTest() {
-    SingleInput input1(-1, 1);
-    SingleInput input2(-1, 1);
-
-    CompositeInput compositeInput(true);
-    compositeInput.addInput(input1);
-    compositeInput.addInput(input2, 2);
-
-    std::cout << input1.getValue() << " "
-              << input2.getValue() << " => "
-              << compositeInput.getNormalizedValue() << std::endl;
-
-    input1.setValue(input1.getMaximumValue());
-    std::cout << input1.getValue() << " "
-              << input2.getValue() << " => "
-              << compositeInput.getNormalizedValue() << std::endl;
-
-    input2.setValue(input2.getMaximumValue());
-    std::cout << input1.getValue() << " "
-              << input2.getValue() << " => "
-              << compositeInput.getNormalizedValue() << std::endl;
-
-    input1.setValue(input1.getNeutralValue());
-    std::cout << input1.getValue() << " "
-              << input2.getValue() << " => "
-              << compositeInput.getNormalizedValue() << std::endl;
-
-    input1.setValue(input1.getMinimumValue());
-    std::cout << input1.getValue() << " "
-              << input2.getValue() << " => "
-              << compositeInput.getNormalizedValue() << std::endl;
-
-    input2.setValue(input2.getNeutralValue());
-    std::cout << input1.getValue() << " "
-              << input2.getValue() << " => "
-              << compositeInput.getNormalizedValue() << std::endl;
-
-    input2.setValue(input2.getMinimumValue());
-    std::cout << input1.getValue() << " "
-              << input2.getValue() << " => "
-              << compositeInput.getNormalizedValue() << std::endl;
-}
-
 
 CompositeInput::Component::Component(Input& in, double wght) :
     input(&in),

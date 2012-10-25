@@ -10,13 +10,14 @@
 #define _COMPOSITE_INPUT_HH_
 
 #include <vector>
+
 #include "Input.hh"
 
 namespace idf {
 
 /**
- * coalesces multiple {@link Input}s into a single entity, combining their
- * values as dictated by <code>proportional</code>
+ * coalesces multiple <code>Input</code>s into a single entity, combining their
+ * values as dictated by <code>simpleCombination</code>
  *
  * @author Derek Bankieris
  */
@@ -43,8 +44,7 @@ class CompositeInput : public Input {
     /**
      * constructor
      *
-     * @param proportional wether inputs are combined proportionally (true)
-     * or additively (false)
+     * @param simpleCombination dictates the method by which inputs are combined
      */
     CompositeInput(bool simpleComination = true);
 
@@ -72,39 +72,52 @@ class CompositeInput : public Input {
     /**
      * gets the conglomerate value
      *
-     * @return the combination, as dictated by <code>proportional</code>, of
-     * all added inputs
+     * @return the combination, as dictated by <code>simpleCombination</code>,
+     * of all added inputs
      */
-    double getValue();
+    virtual double getValue();
 
     /**
-     * adds <code>input</code>, inverting its value as specified by
-     * <code>invert</code> and combining its value with all other added
-     * <code>Input</code>s
+     * adds <code>input</code>, weighting its value by <code>weight</code> and
+     * combining its value with all other added inputs. Adding an input that is
+     * already contained by this instance has no effect.
      *
-     * @param input the <code>Input</code> to incorporate
-     * @param invert weather or not to invert the input's value
+     * @param input the input to incorporate
+     * @param weight the value by which to weight the input
      */
-    void addInput(Input& input, double weight = 1);
+    virtual void addInput(Input& input, double weight = 1);
 
     /**
      * removes <code>input</code>, no longer combining its value with other
-     * <code>Input</code>s
+     * inputs. Removing an input that is not contained by this instance has no
+     * effect.
      *
-     * @param input the <code>Input</code> to unincorporate
+     * @param input the input to unincorporate
      */
-    void removeInput(Input& input);
+    virtual void removeInput(Input& input);
 
-    static void unitTest();
+    protected:
 
-    private:
-
+    /**
+     * pairs an input with its weight
+     */
     class Component {
 
         public:
-        Input *input;
+
+        /** the input */
+        Input* input;
+
+        /** the value by which to weight the input */
         double weight;
 
+        /**
+         * constructs an instance containing <code>input</code> weighted by
+         * <code>weight</code>
+         *
+         * @param input the input
+         * @param weight the value by which to weight the input
+         */
         Component(Input& input, double weight);
 
     };

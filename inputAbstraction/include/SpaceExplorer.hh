@@ -9,7 +9,7 @@
 #ifndef _SPACE_EXPLORER_HH_
 #define _SPACE_EXPLORER_HH_
 
-#include "SpaceNavigator.hh"
+#include "SingleInput.hh"
 
 namespace idf {
 
