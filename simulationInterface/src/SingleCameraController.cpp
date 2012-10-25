@@ -7,19 +7,19 @@ SingleCameraController::SingleCameraController(
     pan(panInput), tilt(tiltInput), spin(spinInput), zoom(zoomInput) {}
 
 double SingleCameraController::getCommandedPan() {
-    return pan.getValue();
+    return pan.getNormalizedValue();
 }
 
 double SingleCameraController::getCommandedTilt() {
-    return tilt.getValue();
+    return tilt.getNormalizedValue();
 }
 
 double SingleCameraController::getCommandedSpin() {
-    return spin.getValue();
+    return spin.getNormalizedValue();
 }
 
 double SingleCameraController::getCommandedZoom() {
-    return zoom.getValue();
+    return zoom.getNormalizedValue();
 }
 
 SingleCameraController* SingleCameraController::createInstance(WingMan& wingMan) {

@@ -9,27 +9,27 @@ SingleFlightController::SingleFlightController(
     x(xInput), y(yInput), z(zInput) {}
 
 double SingleFlightController::getCommandedRoll() {
-    return roll.getValue();
+    return roll.getNormalizedValue();
 }
 
 double SingleFlightController::getCommandedPitch() {
-    return pitch.getValue();
+    return pitch.getNormalizedValue();
 }
 
 double SingleFlightController::getCommandedYaw() {
-    return yaw.getValue();
+    return yaw.getNormalizedValue();
 }
 
 double SingleFlightController::getCommandedX() {
-    return x.getValue();
+    return x.getNormalizedValue();
 }
 
 double SingleFlightController::getCommandedY() {
-    return y.getValue();
+    return y.getNormalizedValue();
 }
 
 double SingleFlightController::getCommandedZ() {
-    return z.getValue();
+    return z.getNormalizedValue();
 }
 
 SingleFlightController* SingleFlightController::createInstance(WingMan& wingMan) {
