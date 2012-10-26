@@ -11,7 +11,7 @@ void UsbSpaceExplorer::update() {
     int bytesRead;
     do {
         unsigned char buffer[7];
-        bytesRead = hid_read(hidDevice, buffer, sizeof(buffer));
+        bytesRead = read(buffer, sizeof(buffer));
 
         switch (buffer[0]) {
             case 1:

@@ -16,7 +16,7 @@ UsbDevice::UsbDevice(int vendorID, int productID) :
     if (++instanceCount == 1) {
         if (hid_init() < 0) {
             std::ostringstream oss;
-            oss << __FILE__ << ":" << __LINE__ << " (" << __FUNCTION__ << ") "
+            oss << __FILE__ << ":" << __LINE__
                 << "Failed to initialize HID library.";
             throw IOException(oss.str().c_str());
         }
@@ -39,7 +39,7 @@ void UsbDevice::open() {
             }
         }
         std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__ << " (" << __FUNCTION__ << ") "
+        oss << __FILE__ << ":" << __LINE__
             << "Failed to find device.";
         throw IOException(oss.str().c_str());
     }
@@ -48,7 +48,7 @@ void UsbDevice::open() {
 int UsbDevice::read(unsigned char *buffer, size_t length) {
     if (!mOpen) {
         std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__ << " (" << __FUNCTION__ << ") "
+        oss << __FILE__ << ":" << __LINE__
             << "Error while reading: device is not open " << strerror(errno);
         throw IOException(oss.str().c_str());
     }
@@ -58,7 +58,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
     if (bytesRead < 0) {
         close();
         std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__ << " (" << __FUNCTION__ << ") "
+        oss << __FILE__ << ":" << __LINE__
             << "Error while reading: " << strerror(errno);
         throw IOException(oss.str().c_str());
     }
