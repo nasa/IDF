@@ -3,36 +3,36 @@
 using namespace idf;
 
 SingleFlightController::SingleFlightController(
-  Input& rollInput, Input& pitchInput, Input& yawInput,
-  Input& xInput, Input& yInput, Input& zInput) :
+  const Input& rollInput, const Input& pitchInput, const Input& yawInput,
+  const Input& xInput, const Input& yInput, const Input& zInput) :
     roll(rollInput), pitch(pitchInput), yaw(yawInput),
     x(xInput), y(yInput), z(zInput) {}
 
-double SingleFlightController::getCommandedRoll() {
+double SingleFlightController::getCommandedRoll() const {
     return roll.getNormalizedValue();
 }
 
-double SingleFlightController::getCommandedPitch() {
+double SingleFlightController::getCommandedPitch() const {
     return pitch.getNormalizedValue();
 }
 
-double SingleFlightController::getCommandedYaw() {
+double SingleFlightController::getCommandedYaw() const {
     return yaw.getNormalizedValue();
 }
 
-double SingleFlightController::getCommandedX() {
+double SingleFlightController::getCommandedX() const {
     return x.getNormalizedValue();
 }
 
-double SingleFlightController::getCommandedY() {
+double SingleFlightController::getCommandedY() const {
     return y.getNormalizedValue();
 }
 
-double SingleFlightController::getCommandedZ() {
+double SingleFlightController::getCommandedZ() const {
     return z.getNormalizedValue();
 }
 
-SingleFlightController* SingleFlightController::createInstance(WingMan& wingMan) {
+SingleFlightController* SingleFlightController::createInstance(const WingMan& wingMan) {
     CompositeInput* x = new CompositeInput();
     x->addInput(wingMan.hatNorth);
     x->addInput(wingMan.hatSouth, -1);
@@ -52,10 +52,15 @@ SingleFlightController* SingleFlightController::createInstance(WingMan& wingMan)
     wingManSingleFlightController->pitch.setInverted(true);
     wingManSingleFlightController->yaw.setInverted(true);
 
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    wingManSingleFlightController->roll.addDeadband(*deadband);
+    wingManSingleFlightController->pitch.addDeadband(*deadband);
+    wingManSingleFlightController->yaw.addDeadband(*deadband);
+
     return wingManSingleFlightController;
 }
 
-SingleFlightController* SingleFlightController::createInstance(SpaceExplorer& spaceExplorer) {
+SingleFlightController* SingleFlightController::createInstance(const SpaceExplorer& spaceExplorer) {
     SingleFlightController *spaceExplorerSingleFlightController =
       new SingleFlightController(
       spaceExplorer.leftRightPivot,
@@ -72,10 +77,18 @@ SingleFlightController* SingleFlightController::createInstance(SpaceExplorer& sp
     spaceExplorerSingleFlightController->pitch.setInverted(true);
     spaceExplorerSingleFlightController->yaw.setInverted(true);
 
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    spaceExplorerSingleFlightController->roll.addDeadband(*deadband);
+    spaceExplorerSingleFlightController->pitch.addDeadband(*deadband);
+    spaceExplorerSingleFlightController->yaw.addDeadband(*deadband);
+    spaceExplorerSingleFlightController->x.addDeadband(*deadband);
+    spaceExplorerSingleFlightController->y.addDeadband(*deadband);
+    spaceExplorerSingleFlightController->z.addDeadband(*deadband);
+
     return spaceExplorerSingleFlightController;
 }
 
-SingleFlightController* SingleFlightController::createInstance(SpaceNavigator& spaceNavigator) {
+SingleFlightController* SingleFlightController::createInstance(const SpaceNavigator& spaceNavigator) {
     SingleFlightController *spaceNavigatorSingleFlightController =
       new SingleFlightController(
       spaceNavigator.leftRightPivot,
@@ -92,10 +105,18 @@ SingleFlightController* SingleFlightController::createInstance(SpaceNavigator& s
     spaceNavigatorSingleFlightController->pitch.setInverted(true);
     spaceNavigatorSingleFlightController->yaw.setInverted(true);
 
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    spaceNavigatorSingleFlightController->roll.addDeadband(*deadband);
+    spaceNavigatorSingleFlightController->pitch.addDeadband(*deadband);
+    spaceNavigatorSingleFlightController->yaw.addDeadband(*deadband);
+    spaceNavigatorSingleFlightController->x.addDeadband(*deadband);
+    spaceNavigatorSingleFlightController->y.addDeadband(*deadband);
+    spaceNavigatorSingleFlightController->z.addDeadband(*deadband);
+
     return spaceNavigatorSingleFlightController;
 }
 
-SingleFlightController* SingleFlightController::createInstance(Gravis& gravis) {
+SingleFlightController* SingleFlightController::createInstance(const Gravis& gravis) {
     CompositeInput* roll = new CompositeInput();
     roll->addInput(gravis.rightBumper2);
     roll->addInput(gravis.leftBumper2, -1);

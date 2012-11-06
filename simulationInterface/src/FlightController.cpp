@@ -2,26 +2,26 @@
 
 using namespace idf;
 
-double FlightController::getRoll() {
+double FlightController::getRoll() const {
     return active ? getCommandedRoll() : 0;
 }
 
-double FlightController::getPitch() {
+double FlightController::getPitch() const {
     return active ? getCommandedPitch() : 0;
 }
 
-double FlightController::getYaw() {
+double FlightController::getYaw() const {
     return active ? getCommandedYaw() : 0;
 }
 
-double FlightController::getX() {
+double FlightController::getX() const {
     return active ? getCommandedX() : 0;
 }
 
-double FlightController::getY() {
+double FlightController::getY() const {
     return active ? getCommandedY() : 0;
 }
 
-double FlightController::getZ() {
+double FlightController::getZ() const {
     return active ? getCommandedZ() : 0;
 }

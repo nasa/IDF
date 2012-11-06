@@ -3,26 +3,26 @@
 using namespace idf;
 
 SingleCameraController::SingleCameraController(
-  Input& panInput, Input& tiltInput, Input& spinInput, Input& zoomInput) :
+  const Input& panInput, const Input& tiltInput, const Input& spinInput, const Input& zoomInput) :
     pan(panInput), tilt(tiltInput), spin(spinInput), zoom(zoomInput) {}
 
-double SingleCameraController::getCommandedPan() {
+double SingleCameraController::getCommandedPan() const {
     return pan.getNormalizedValue();
 }
 
-double SingleCameraController::getCommandedTilt() {
+double SingleCameraController::getCommandedTilt() const {
     return tilt.getNormalizedValue();
 }
 
-double SingleCameraController::getCommandedSpin() {
+double SingleCameraController::getCommandedSpin() const {
     return spin.getNormalizedValue();
 }
 
-double SingleCameraController::getCommandedZoom() {
+double SingleCameraController::getCommandedZoom() const {
     return zoom.getNormalizedValue();
 }
 
-SingleCameraController* SingleCameraController::createInstance(WingMan& wingMan) {
+SingleCameraController* SingleCameraController::createInstance(const WingMan& wingMan) {
     CompositeInput* zoom = new CompositeInput();
     zoom->addInput(wingMan.hatNorth);
     zoom->addInput(wingMan.hatSouth, -1);
@@ -34,10 +34,15 @@ SingleCameraController* SingleCameraController::createInstance(WingMan& wingMan)
     wingManSingleCameraController->pan.setInverted(true);
     wingManSingleCameraController->tilt.setInverted(true);
 
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    wingManSingleCameraController->pan.addDeadband(*deadband);
+    wingManSingleCameraController->tilt.addDeadband(*deadband);
+    wingManSingleCameraController->spin.addDeadband(*deadband);
+
     return wingManSingleCameraController;
 }
 
-SingleCameraController* SingleCameraController::createInstance(SpaceExplorer& spaceExplorer) {
+SingleCameraController* SingleCameraController::createInstance(const SpaceExplorer& spaceExplorer) {
     SingleCameraController *spaceExplorerSingleCameraController =
       new SingleCameraController(
       spaceExplorer.twist,
@@ -50,10 +55,15 @@ SingleCameraController* SingleCameraController::createInstance(SpaceExplorer& sp
     spaceExplorerSingleCameraController->spin.setInverted(true);
     spaceExplorerSingleCameraController->zoom.setInverted(true);
 
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    spaceExplorerSingleCameraController->pan.addDeadband(*deadband);
+    spaceExplorerSingleCameraController->tilt.addDeadband(*deadband);
+    spaceExplorerSingleCameraController->spin.addDeadband(*deadband);
+
     return spaceExplorerSingleCameraController;
 }
 
-SingleCameraController* SingleCameraController::createInstance(SpaceNavigator& spaceNavigator) {
+SingleCameraController* SingleCameraController::createInstance(const SpaceNavigator& spaceNavigator) {
     SingleCameraController *spaceNavigatorSingleCameraController =
       new SingleCameraController(
       spaceNavigator.twist,
@@ -66,10 +76,15 @@ SingleCameraController* SingleCameraController::createInstance(SpaceNavigator& s
     spaceNavigatorSingleCameraController->spin.setInverted(true);
     spaceNavigatorSingleCameraController->zoom.setInverted(true);
 
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    spaceNavigatorSingleCameraController->pan.addDeadband(*deadband);
+    spaceNavigatorSingleCameraController->tilt.addDeadband(*deadband);
+    spaceNavigatorSingleCameraController->spin.addDeadband(*deadband);
+
     return spaceNavigatorSingleCameraController;
 }
 
-SingleCameraController* SingleCameraController::createInstance(Gravis& gravis) {
+SingleCameraController* SingleCameraController::createInstance(const Gravis& gravis) {
     CompositeInput* pan = new CompositeInput();
     pan->addInput(gravis.directionalPadLeft);
     pan->addInput(gravis.directionalPadRight, -1);

@@ -49,7 +49,7 @@ class SingleCameraController : public CameraController {
      * @param spin the input to process as spin
      * @param zoom the input to process as zoom
      */
-    SingleCameraController(Input& pan, Input& tilt, Input& spin, Input& zoom);
+    SingleCameraController(const Input& pan, const Input& tilt, const Input& spin, const Input& zoom);
 
     /** destructor */
     virtual ~SingleCameraController() {};
@@ -59,28 +59,28 @@ class SingleCameraController : public CameraController {
      *
      * @return the pan command
      */
-    virtual double getCommandedPan();
+    virtual double getCommandedPan() const;
 
     /**
      * returns the commanded tilt, normalized to [-1, 0, 1]
      *
      * @return the tilt command
      */
-    virtual double getCommandedTilt();
+    virtual double getCommandedTilt() const;
 
     /**
      * returns the commanded spin, normalized to [-1, 0, 1]
      *
      * @return the spin command
      */
-    virtual double getCommandedSpin();
+    virtual double getCommandedSpin() const;
 
     /**
      * returns the commanded zoom, normalized to [-1, 0, 1]
      *
      * @return the zoom command
      */
-    virtual double getCommandedZoom();
+    virtual double getCommandedZoom() const;
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to
@@ -90,7 +90,7 @@ class SingleCameraController : public CameraController {
      *
      * @return a new WingMan-based camera controller
      */
-    static SingleCameraController* createInstance(WingMan& wingMan);
+    static SingleCameraController* createInstance(const WingMan& wingMan);
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to
@@ -100,7 +100,7 @@ class SingleCameraController : public CameraController {
      *
      * @return a new SpaceExplorer-based camera controller
      */
-    static SingleCameraController* createInstance(SpaceExplorer& spaceExplorer);
+    static SingleCameraController* createInstance(const SpaceExplorer& spaceExplorer);
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to
@@ -110,7 +110,7 @@ class SingleCameraController : public CameraController {
      *
      * @return a new SpaceNavigator-based camera controller
      */
-    static SingleCameraController* createInstance(SpaceNavigator& spaceNavigator);
+    static SingleCameraController* createInstance(const SpaceNavigator& spaceNavigator);
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to
@@ -120,7 +120,7 @@ class SingleCameraController : public CameraController {
      *
      * @return a new Gravis-based camera controller
      */
-    static SingleCameraController* createInstance(Gravis& gravis);
+    static SingleCameraController* createInstance(const Gravis& gravis);
 
 };
 

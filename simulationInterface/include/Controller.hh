@@ -45,7 +45,7 @@ class Controller {
      *
      * @return the active state
      */
-    bool isActive();
+    bool isActive() const;
 
     /**
      * causes <code>stateChangeListener</code> to be notified when this
@@ -63,7 +63,7 @@ class Controller {
      *
      * @stateChangeListener the listener to stop notifying
      */
-    virtual void removeStateChangeListener(StateChangeListener& stateChangeListener);
+    virtual void removeStateChangeListener(const StateChangeListener& stateChangeListener);
 
     protected:
 

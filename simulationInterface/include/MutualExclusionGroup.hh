@@ -3,11 +3,11 @@
  * ()
  *
  * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/MutualExclusivityGroup.cpp))
+ * ((simulationInterface/src/MutualExclusionGroup.cpp))
  */
 
-#ifndef __MUTUAL_EXCLUSIVITY_GROUP_HH_
-#define __MUTUAL_EXCLUSIVITY_GROUP_HH_
+#ifndef __MUTUAL_EXCLUSION_GROUP_HH_
+#define __MUTUAL_EXCLUSION_GROUP_HH_
 
 #include <vector>
 
@@ -23,12 +23,12 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class MutualExclusivityGroup : public StateChangeListener {
+class MutualExclusionGroup : public StateChangeListener {
 
     public:
 
     /** destructor */
-    virtual ~MutualExclusivityGroup() {}
+    virtual ~MutualExclusionGroup() {}
 
     /**
      * causes <code>controller</code>'s operation to be mutually exclusive with
@@ -46,7 +46,7 @@ class MutualExclusivityGroup : public StateChangeListener {
      *
      * @param controller the controller to stop managing
      */
-    virtual void remove(Controller& controller);
+    virtual void remove(const Controller& controller);
 
     /**
      * called in response to a change in state of a <code>Controller</code>
@@ -67,7 +67,7 @@ class MutualExclusivityGroup : public StateChangeListener {
      *
      * @param activeController the only controller not to disable
      */
-    void disableOtherControllers(Controller& activeController);
+    void disableOtherControllers(const Controller& activeController);
 
 };
 

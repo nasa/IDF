@@ -28,7 +28,7 @@ class IOException : public std::runtime_error {
      *
      * @param message a description of the error
      */
-    IOException(std::string& message) :
+    IOException(const std::string& message) :
         std::runtime_error(message) {}
 
 };

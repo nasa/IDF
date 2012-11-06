@@ -40,7 +40,7 @@ class InputDevice {
      *
      * @return whether or not this device is open
      */
-    virtual bool isOpen();
+    virtual bool isOpen() const;
 
     /**
      * updates this instance so that it reflects the target device's current

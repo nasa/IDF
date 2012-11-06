@@ -36,35 +36,35 @@ class CompositeCameraController : public CameraController {
      * with other <code>CameraController</code>s. Removing a controller
      * that is not contained by this instance has no effect.
      */
-    void remove(CameraController& cameraController);
+    void remove(const CameraController& cameraController);
 
     /**
      * gets the conglomerate pan value, normalized to [-1, 0, 1]
      *
      * @return the combined pan of all added camera controllers
      */
-    double getCommandedPan();
+    double getCommandedPan() const;
 
     /**
      * gets the conglomerate tilt value, normalized to [-1, 0, 1]
      *
      * @return the combined tilt of all added camera controllers
      */
-    double getCommandedTilt();
+    double getCommandedTilt() const;
 
     /**
      * gets the conglomerate spin value, normalized to [-1, 0, 1]
      *
      * @return the combined spin of all added camera controllers
      */
-    double getCommandedSpin();
+    double getCommandedSpin() const;
 
     /**
      * gets the conglomerate zoom value, normalized to [-1, 0, 1]
      *
      * @return the combined zoom of all added camera controllers
      */
-    double getCommandedZoom();
+    double getCommandedZoom() const;
 
     /**
      * sets the active state of this controller and all consituent controllers

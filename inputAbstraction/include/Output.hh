@@ -10,19 +10,21 @@
 #define _OUTPUT_HH_
 
 #include "Input.hh"
+#include "Deadband.hh"
+
+#include <vector>
 
 namespace idf {
 
 /**
- *
- * @author Derek Bankieris
- *
  * reprents an {@link Input} which has been processed for ouput as a command
  * from a controller. An <code>Output</code> scales its corresponding
  * <code>Input<code> to fit within the <code>Output</code>'s bounds as defined
  * by <code>getMinimumValue()</code>, <code>getMaximumValue()</code>, and
  * <code>getNeutralValue()</code>, and provides support for further processing,
  * such as dead-bands and inversion.
+ *
+ * @author Derek Bankieris
  */
 class Output {
 
@@ -37,14 +39,14 @@ class Output {
      *
      * @param input the input that this output will process
      */
-    Output(Input& input);
+    Output(const Input& input);
 
     /**
      * sets the input that this output will process
      *
      * @param input the input to be processed by this output
      */
-    virtual void setInput(Input& input);
+    virtual void setInput(const Input& input);
 
     /**
      * sets the range to which this output will scale its input's value
@@ -76,7 +78,7 @@ class Output {
      *
      * @return the inverted state of this output
      */
-    virtual bool isInverted();
+    virtual bool isInverted() const;
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -87,7 +89,7 @@ class Output {
      *
      * returns the minimum value that this output can return
      */
-    virtual double getMinimumValue();
+    virtual double getMinimumValue() const;
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -98,7 +100,7 @@ class Output {
      *
      * returns the maximum value that this output can return
      */
-    virtual double getMaximumValue();
+    virtual double getMaximumValue() const;
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -107,7 +109,7 @@ class Output {
      *
      * returns the neutral value of this output
      */
-    virtual double getNeutralValue();
+    virtual double getNeutralValue() const;
 
     /**
      * returns the value of the this instance's <code>Input</code>
@@ -118,7 +120,7 @@ class Output {
      *
      * @return the processed value
      */
-    virtual double getValue();
+    virtual double getValue() const;
 
     /**
      * returns the value of the this instance's <code>Input</code> normalized to
@@ -127,15 +129,38 @@ class Output {
      *
      * @return the normalized and possibly inverted value
      */
-    virtual double getNormalizedValue();
+    virtual double getNormalizedValue() const;
 
-    private:
+    /**
+     * adds <code>deadband</code> to the list of filters. Adding a deadband
+     * that is already applied to this instance has no effect.
+     *
+     * @param deadband the deadband to add
+     */
+    virtual void addDeadband(const Deadband& deadband);
+
+    /**
+     * remove <code>deadband</code> from the list of filters. Removing a
+     * deadband that is not applied to this instance has no effect.
+     *
+     * @param deadband the deadband to remove
+     */
+    virtual void removeDeadband(const Deadband& deadband);
+
+    /**
+     * returns the deadbands applied to this intance
+     *
+     * @return the current deadbands
+     */
+    virtual const std::vector<const Deadband*>& getDeadbands() const;
+
+    protected:
 
     /**
      * the correpsonding input that this output will process and derive its
      * value from
      */
-    Input *input;
+    const Input *input;
 
     /**
      * the value <code>getValue()</code> will return when this instance's
@@ -167,6 +192,9 @@ class Output {
      * about the neutral point
      */
     bool inverted;
+
+    /** deadband filters */
+    std::vector<const Deadband*> deadbands;
 
 };
 

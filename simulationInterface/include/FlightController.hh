@@ -32,7 +32,7 @@ class FlightController : public Controller {
      *
      * @return the roll command
      */
-    virtual double getRoll();
+    virtual double getRoll() const;
 
     /**
      * when active, returns the commanded pitch normalized to [-1, 0, 1].
@@ -40,7 +40,7 @@ class FlightController : public Controller {
      *
      * @return the pitch command
      */
-    virtual double getPitch();
+    virtual double getPitch() const;
 
     /**
      * when active, returns the commanded yaw normalized to [-1, 0, 1].
@@ -48,7 +48,7 @@ class FlightController : public Controller {
      *
      * @return the yaw command
      */
-    virtual double getYaw();
+    virtual double getYaw() const;
 
     /**
      * when active, returns the commanded x normalized to [-1, 0, 1].
@@ -56,7 +56,7 @@ class FlightController : public Controller {
      *
      * @return the x command
      */
-    virtual double getX();
+    virtual double getX() const;
 
     /**
      * when active, returns the commanded y normalized to [-1, 0, 1].
@@ -64,7 +64,7 @@ class FlightController : public Controller {
      *
      * @return the y command
      */
-    virtual double getY();
+    virtual double getY() const;
 
     /**
      * when active, returns the commanded z normalized to [-1, 0, 1].
@@ -72,7 +72,7 @@ class FlightController : public Controller {
      *
      * @return the z command
      */
-    virtual double getZ();
+    virtual double getZ() const;
 
     protected:
 
@@ -81,42 +81,42 @@ class FlightController : public Controller {
      *
      * @return the roll command
      */
-    virtual double getCommandedRoll() = 0;
+    virtual double getCommandedRoll() const = 0;
 
     /**
      * returns the commanded pitch normalized to [-1, 0, 1]
      *
      * @return the pitch command
      */
-    virtual double getCommandedPitch() = 0;
+    virtual double getCommandedPitch() const = 0;
 
     /**
      * returns the commanded yaw normalized to [-1, 0, 1]
      *
      * @return the yaw command
      */
-    virtual double getCommandedYaw() = 0;
+    virtual double getCommandedYaw() const = 0;
 
     /**
      * returns the commanded x normalized to [-1, 0, 1]
      *
      * @return the x command
      */
-    virtual double getCommandedX() = 0;
+    virtual double getCommandedX() const = 0;
 
     /**
      * returns the commanded y normalized to [-1, 0, 1]
      *
      * @return the y command
      */
-    virtual double getCommandedY() = 0;
+    virtual double getCommandedY() const = 0;
 
     /**
      * returns the commanded z normalized to [-1, 0, 1]
      *
      * @return the z command
      */
-    virtual double getCommandedZ() = 0;
+    virtual double getCommandedZ() const = 0;
 
 };
 

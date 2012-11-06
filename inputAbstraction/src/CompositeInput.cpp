@@ -7,24 +7,24 @@ using namespace idf;
 CompositeInput::CompositeInput(bool simple) :
     simpleCombination(simple) {}
 
-double CompositeInput::getMinimumValue() {
+double CompositeInput::getMinimumValue() const {
     return -getMaximumValue();
 }
 
-double CompositeInput::getNeutralValue() {
+double CompositeInput::getNeutralValue() const {
     return 0;
 }
 
-double CompositeInput::getMaximumValue() {
+double CompositeInput::getMaximumValue() const {
     double maximum = 0;
 
     if (simpleCombination) {
-        for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); ++i) {
+        for (std::vector<const Component*>::const_iterator i = components.begin(); i != components.end(); ++i) {
             maximum = std::max(maximum, fabs((*i)->weight));
         }
     }
     else {
-        for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); ++i) {
+        for (std::vector<const Component*>::const_iterator i = components.begin(); i != components.end(); ++i) {
             maximum += fabs((*i)->weight);
         }
     }
@@ -32,10 +32,10 @@ double CompositeInput::getMaximumValue() {
     return maximum;
 }
 
-double CompositeInput::getValue() {
+double CompositeInput::getValue() const {
     double result = 0;
 
-    for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); ++i) {
+    for (std::vector<const Component*>::const_iterator i = components.begin(); i != components.end(); ++i) {
         result += (*i)->weight * (*i)->input->getNormalizedValue();
     }
 
@@ -43,9 +43,9 @@ double CompositeInput::getValue() {
        result > getMaximumValue() ? getMaximumValue() : result;
 }
 
-void CompositeInput::addInput(Input& input, double weight) {
+void CompositeInput::addInput(const Input& input, double weight) {
     // Add the input, if not present.
-    for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); ++i) {
+    for (std::vector<const Component*>::iterator i = components.begin(); i != components.end(); ++i) {
         if ((*i)->input == &input) {
             return;
         }
@@ -53,9 +53,9 @@ void CompositeInput::addInput(Input& input, double weight) {
     components.push_back(new Component(input, weight));
 }
 
-void CompositeInput::removeInput(Input& input) {
+void CompositeInput::removeInput(const Input& input) {
     // Remove the input, if present.
-    for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); ++i) {
+    for (std::vector<const Component*>::iterator i = components.begin(); i != components.end(); ++i) {
         if ((*i)->input == &input) {
             components.erase(i);
             break;
@@ -63,6 +63,6 @@ void CompositeInput::removeInput(Input& input) {
     }
 }
 
-CompositeInput::Component::Component(Input& in, double wght) :
+CompositeInput::Component::Component(const Input& in, double wght) :
     input(&in),
     weight(wght) {}

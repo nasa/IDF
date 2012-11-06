@@ -58,8 +58,8 @@ class SingleFlightController : public FlightController {
      * @param z the input to process as z
      */
     SingleFlightController(
-      Input& roll, Input& pitch, Input& yaw,
-      Input& x, Input& y, Input& z);
+      const Input& roll, const Input& pitch, const Input& yaw,
+      const Input& x, const Input& y, const Input& z);
 
     /** destructor */
     virtual ~SingleFlightController() {};
@@ -69,42 +69,42 @@ class SingleFlightController : public FlightController {
      *
      * @return the roll command
      */
-    virtual double getCommandedRoll();
+    virtual double getCommandedRoll() const;
 
     /**
      * returns the commanded pitch, normalized to [-1, 0, 1]
      *
      * @return the pitch command
      */
-    virtual double getCommandedPitch();
+    virtual double getCommandedPitch() const;
 
     /**
      * returns the commanded yaw, normalized to [-1, 0, 1]
      *
      * @return the yaw command
      */
-    virtual double getCommandedYaw();
+    virtual double getCommandedYaw() const;
 
     /**
      * returns the commanded x, normalized to [-1, 0, 1]
      *
      * @return the x command
      */
-    virtual double getCommandedX();
+    virtual double getCommandedX() const;
 
     /**
      * returns the commanded y, normalized to [-1, 0, 1]
      *
      * @return the y command
      */
-    virtual double getCommandedY();
+    virtual double getCommandedY() const;
 
     /**
      * returns the commanded z, normalized to [-1, 0, 1]
      *
      * @return the z command
      */
-    virtual double getCommandedZ();
+    virtual double getCommandedZ() const;
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to
@@ -114,7 +114,7 @@ class SingleFlightController : public FlightController {
      *
      * @return a new WingMan-based flight controller
      */
-    static SingleFlightController* createInstance(WingMan& wingMan);
+    static SingleFlightController* createInstance(const WingMan& wingMan);
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to
@@ -124,7 +124,7 @@ class SingleFlightController : public FlightController {
      *
      * @return a new SpaceExplorer-based flight controller
      */
-    static SingleFlightController* createInstance(SpaceExplorer& spaceExplorer);
+    static SingleFlightController* createInstance(const SpaceExplorer& spaceExplorer);
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to
@@ -134,7 +134,7 @@ class SingleFlightController : public FlightController {
      *
      * @return a new SpaceNavigator-based flight controller
      */
-    static SingleFlightController* createInstance(SpaceNavigator& spaceNavigator);
+    static SingleFlightController* createInstance(const SpaceNavigator& spaceNavigator);
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to
@@ -144,7 +144,7 @@ class SingleFlightController : public FlightController {
      *
      * @return a new Gravis-based flight controller
      */
-    static SingleFlightController* createInstance(Gravis& gravis);
+    static SingleFlightController* createInstance(const Gravis& gravis);
 
 };
 

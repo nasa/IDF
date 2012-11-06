@@ -11,19 +11,19 @@ SingleInput::SingleInput(double min, double max, double middle) {
     initialize(min, max, middle);
 }
 
-double SingleInput::getMinimumValue() {
+double SingleInput::getMinimumValue() const {
     return minimum;
 }
 
-double SingleInput::getNeutralValue() {
+double SingleInput::getNeutralValue() const {
     return neutral;
 }
 
-double SingleInput::getMaximumValue() {
+double SingleInput::getMaximumValue() const {
     return maximum;
 }
 
-double SingleInput::getValue() {
+double SingleInput::getValue() const {
     return value;
 }
 

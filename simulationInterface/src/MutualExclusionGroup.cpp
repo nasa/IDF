@@ -1,10 +1,10 @@
-#include "MutualExclusivityGroup.hh"
+#include "MutualExclusionGroup.hh"
 
 #include <algorithm>
 
 using namespace idf;
 
-void MutualExclusivityGroup::add(Controller& controller) {
+void MutualExclusionGroup::add(Controller& controller) {
     // Add the controller, if no present, and begin listening for state changes.
     if (std::find(controllers.begin(), controllers.end(), &controller) == controllers.end()) {
         controllers.push_back(&controller);
@@ -17,7 +17,7 @@ void MutualExclusivityGroup::add(Controller& controller) {
     }
 }
 
-void MutualExclusivityGroup::remove(Controller& controller) {
+void MutualExclusionGroup::remove(const Controller& controller) {
     std::vector<Controller*>::iterator i =
       std::find(controllers.begin(), controllers.end(), &controller);
 
@@ -28,7 +28,7 @@ void MutualExclusivityGroup::remove(Controller& controller) {
     }
 }
 
-void MutualExclusivityGroup::stateChanged(Controller& controller) {
+void MutualExclusionGroup::stateChanged(Controller& controller) {
     // If a controller being managed by this instance becomes active,
     // disable all other controllers.
     if (controller.isActive() && std::find(controllers.begin(),
@@ -37,7 +37,7 @@ void MutualExclusivityGroup::stateChanged(Controller& controller) {
     }
 }
 
-void MutualExclusivityGroup::disableOtherControllers(Controller& activeController) {
+void MutualExclusionGroup::disableOtherControllers(const Controller& activeController) {
     for (std::vector<Controller*>::iterator i = controllers.begin(); i != controllers.end(); ++i) {
         if (*i != &activeController) {
             (*i)->setActive(false);

@@ -49,28 +49,28 @@ class SingleInput : public Input {
      *
      * @return the minimum possible value
      */
-    virtual double getMinimumValue();
+    virtual double getMinimumValue() const;
 
     /**
      * returns the neutral value
      *
      * @return the neutral value
      */
-    virtual double getNeutralValue();
+    virtual double getNeutralValue() const;
 
     /**
      * returns the maximum value this input can take
      *
      * @return the maximum possible value
      */
-    virtual double getMaximumValue();
+    virtual double getMaximumValue() const;
 
     /**
      * returns the value
      *
      * @return the value
      */
-    virtual double getValue();
+    virtual double getValue() const;
 
     /**
      * sets the value, which should be a raw input value from the device

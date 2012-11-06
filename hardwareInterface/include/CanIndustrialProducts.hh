@@ -28,8 +28,6 @@ class CanIndustrialProducts : public CanDevice, public IndustrialProducts {
 
     void update();
 
-    void printState();
-
 };
 
 }

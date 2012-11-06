@@ -8,7 +8,7 @@ using namespace idf;
 InputDevice::InputDevice() :
     mOpen(false) {}
 
-bool InputDevice::isOpen() {
+bool InputDevice::isOpen() const {
     return mOpen;
 }
 

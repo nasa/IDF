@@ -53,21 +53,21 @@ class CompositeInput : public Input {
      *
      * @return the minimum possible value
      */
-    virtual double getMinimumValue();
+    virtual double getMinimumValue() const;
 
     /**
      * returns the neutral value
      *
      * @return the neutral value
      */
-    virtual double getNeutralValue();
+    virtual double getNeutralValue() const;
 
     /**
      * returns the maximum value this input can take
      *
      * @return the maximum possible value
      */
-    virtual double getMaximumValue();
+    virtual double getMaximumValue() const;
 
     /**
      * gets the conglomerate value
@@ -75,7 +75,7 @@ class CompositeInput : public Input {
      * @return the combination, as dictated by <code>simpleCombination</code>,
      * of all added inputs
      */
-    virtual double getValue();
+    virtual double getValue() const;
 
     /**
      * adds <code>input</code>, weighting its value by <code>weight</code> and
@@ -85,7 +85,7 @@ class CompositeInput : public Input {
      * @param input the input to incorporate
      * @param weight the value by which to weight the input
      */
-    virtual void addInput(Input& input, double weight = 1);
+    virtual void addInput(const Input& input, double weight = 1);
 
     /**
      * removes <code>input</code>, no longer combining its value with other
@@ -94,7 +94,7 @@ class CompositeInput : public Input {
      *
      * @param input the input to unincorporate
      */
-    virtual void removeInput(Input& input);
+    virtual void removeInput(const Input& input);
 
     protected:
 
@@ -106,7 +106,7 @@ class CompositeInput : public Input {
         public:
 
         /** the input */
-        Input* input;
+        const Input* input;
 
         /** the value by which to weight the input */
         double weight;
@@ -118,12 +118,12 @@ class CompositeInput : public Input {
          * @param input the input
          * @param weight the value by which to weight the input
          */
-        Component(Input& input, double weight);
+        Component(const Input& input, double weight);
 
     };
 
     /** the constituent inputs */
-    std::vector<Component*> components;
+    std::vector<const Component*> components;
 
 };
 

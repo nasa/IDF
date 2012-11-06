@@ -2,18 +2,18 @@
 
 using namespace idf;
 
-double CameraController::getPan() {
+double CameraController::getPan() const {
     return active ? getCommandedPan() : 0;
 }
 
-double CameraController::getTilt() {
+double CameraController::getTilt() const {
     return active ? getCommandedTilt() : 0;
 }
 
-double CameraController::getSpin() {
+double CameraController::getSpin() const {
     return active ? getCommandedSpin() : 0;
 }
 
-double CameraController::getZoom() {
+double CameraController::getZoom() const {
     return active ? getCommandedZoom() : 0;
 }

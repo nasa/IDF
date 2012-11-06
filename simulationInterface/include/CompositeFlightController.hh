@@ -40,49 +40,49 @@ class CompositeFlightController : public FlightController {
      * with other <code>FlightController</code>s. Removing a controller
      * that is not contained by this instance has no effect.
      */
-    virtual void remove(FlightController& flightController);
+    virtual void remove(const FlightController& flightController);
 
     /**
      * gets the conglomerate roll value, normalized to [-1, 0, 1]
      *
      * @return the combined roll of all added flight controllers
      */
-    virtual double getCommandedRoll();
+    virtual double getCommandedRoll() const;
 
     /**
      * gets the conglomerate pitch value, normalized to [-1, 0, 1]
      *
      * @return the combined pitch of all added flight controllers
      */
-    virtual double getCommandedPitch();
+    virtual double getCommandedPitch() const;
 
     /**
      * gets the conglomerate yaw value, normalized to [-1, 0, 1]
      *
      * @return the combined yaw of all added flight controllers
      */
-    virtual double getCommandedYaw();
+    virtual double getCommandedYaw() const;
 
     /**
      * gets the conglomerate x value, normalized to [-1, 0, 1]
      *
      * @return the combined x of all added flight controllers
      */
-    virtual double getCommandedX();
+    virtual double getCommandedX() const;
 
     /**
      * gets the conglomerate y value, normalized to [-1, 0, 1]
      *
      * @return the combined y of all added flight controllers
      */
-    virtual double getCommandedY();
+    virtual double getCommandedY() const;
 
     /**
      * gets the conglomerate z value, normalized to [-1, 0, 1]
      *
      * @return the combined z of all added flight controllers
      */
-    virtual double getCommandedZ();
+    virtual double getCommandedZ() const;
 
     /**
      * sets the active state of this controller and all consituent controllers

@@ -30,28 +30,28 @@ class Input {
      *
      * @return the minimum possible value
      */
-    virtual double getMinimumValue() = 0;
+    virtual double getMinimumValue() const = 0;
 
     /**
      * returns the neutral value
      *
      * @return the neutral value
      */
-    virtual double getNeutralValue() = 0;
+    virtual double getNeutralValue() const = 0;
 
     /**
      * returns the maximum value this input can take
      *
      * @return the maximum possible value
      */
-    virtual double getMaximumValue() = 0;
+    virtual double getMaximumValue() const = 0;
 
     /**
      * returns the value
      *
      * @return the value
      */
-    virtual double getValue() = 0;
+    virtual double getValue() const = 0;
 
     /**
      * returns the value such that
@@ -60,7 +60,7 @@ class Input {
      *
      * @return the normalized value
      */
-    virtual double getNormalizedValue();
+    virtual double getNormalizedValue() const;
 
 };
 

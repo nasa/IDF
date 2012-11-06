@@ -21,7 +21,7 @@ void Controller::setActive(bool activate) {
     }
 }
 
-bool Controller::isActive() {
+bool Controller::isActive() const {
     return active;
 }
 
@@ -33,7 +33,7 @@ void Controller::addStateChangeListener(StateChangeListener& stateChangeListener
     }
 }
 
-void Controller::removeStateChangeListener(StateChangeListener& stateChangeListener) {
+void Controller::removeStateChangeListener(const StateChangeListener& stateChangeListener) {
     // Remove the listener, if present.
     stateChangeListeners.erase(std::remove(stateChangeListeners.begin(),
       stateChangeListeners.end(), &stateChangeListener), stateChangeListeners.end());
