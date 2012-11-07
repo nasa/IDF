@@ -6,8 +6,8 @@
  * ((hardwareInterface/src/UsbSaitek.cpp))
  */
 
-#ifndef _USB_GRAVIS_HH_
-#define _USB_GRAVIS_HH_
+#ifndef _USB_SAITEK_HH_
+#define _USB_SAITEK_HH_
 
 #include "UsbDevice.hh"
 #include "inputAbstraction/include/Saitek.hh"
@@ -15,7 +15,7 @@
 namespace idf {
 
 /**
- * represents a USB Saitek Pro Flight Foot Pedals input device
+ * represents a USB Saitek Pro Flight Rudder Pedals input device
  *
  * @author Derek Bankieris
  */

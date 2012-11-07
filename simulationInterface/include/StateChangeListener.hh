@@ -1,11 +1,3 @@
-/**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/StateChangeListener.cpp))
- */
-
 #ifndef __STATE_CHANGE_LISTENER_HH_
 #define __STATE_CHANGE_LISTENER_HH_
 

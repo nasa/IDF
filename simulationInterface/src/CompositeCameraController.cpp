@@ -68,13 +68,13 @@ double CompositeCameraController::getCommandedZoom() const {
     return result > 1 ? 1 : result < -1 ? -1 : result;
 }
 
-void CompositeCameraController::setActive(bool active) {
+void CompositeCameraController::setActive(bool activate) {
     // Set all consituent controller's states.
     for (std::vector<CameraController*>::iterator i = cameraControllers.begin();
       i != cameraControllers.end(); ++i) {
-        (*i)->setActive(active);
+        (*i)->setActive(activate);
     }
 
     // Call the parent method to set this instance's state.
-    Controller::setActive(active);
+    Controller::setActive(activate);
 }

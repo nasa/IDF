@@ -95,13 +95,13 @@ double CompositeFlightController::getCommandedZ() const {
     return result > 1 ? 1 : result < -1 ? -1 : result;
 }
 
-void CompositeFlightController::setActive(bool active) {
+void CompositeFlightController::setActive(bool activate) {
     // Set all consituent controller's states.
     for (std::vector<FlightController*>::iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
-        (*i)->setActive(active);
+        (*i)->setActive(activate);
     }
 
     // Call the parent method to set this instance's state.
-    Controller::setActive(active);
+    Controller::setActive(activate);
 }
