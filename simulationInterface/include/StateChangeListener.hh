@@ -1,5 +1,5 @@
-#ifndef __STATE_CHANGE_LISTENER_HH_
-#define __STATE_CHANGE_LISTENER_HH_
+#ifndef _STATE_CHANGE_LISTENER_HH_
+#define _STATE_CHANGE_LISTENER_HH_
 
 namespace idf {
 

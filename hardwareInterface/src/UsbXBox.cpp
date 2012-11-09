@@ -19,8 +19,8 @@ void UsbXBox::update() {
     if (dataReceived) {
         directionalPadUp.setValue(buffer[2] & 1);
         directionalPadDown.setValue(buffer[2] >> 1 & 1);
-        directionalPadDown.setValue(buffer[2] >> 2 & 1);
-        directionalPadDown.setValue(buffer[2] >> 3 & 1);
+        directionalPadLeft.setValue(buffer[2] >> 2 & 1);
+        directionalPadRight.setValue(buffer[2] >> 3 & 1);
 
         startButton.setValue(buffer[2] >> 4 & 1);
         backButton.setValue(buffer[2] >> 5 & 1);

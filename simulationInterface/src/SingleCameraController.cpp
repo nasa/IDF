@@ -104,3 +104,22 @@ SingleCameraController* SingleCameraController::createInstance(const Gravis& gra
     return new SingleCameraController(*pan, *tilt, *spin, *zoom);
 }
 
+SingleCameraController* SingleCameraController::createInstance(const DualShock3& dualShock3) {
+    CompositeInput* pan = new CompositeInput();
+    pan->addInput(dualShock3.directionalPadLeft);
+    pan->addInput(dualShock3.directionalPadRight, -1);
+
+    CompositeInput* tilt = new CompositeInput();
+    tilt->addInput(dualShock3.directionalPadUp, -1);
+    tilt->addInput(dualShock3.directionalPadDown);
+
+    CompositeInput* spin = new CompositeInput();
+    spin->addInput(dualShock3.leftBumper, -1);
+    spin->addInput(dualShock3.rightBumper);
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(dualShock3.circleButton);
+    zoom->addInput(dualShock3.squareButton, -1);
+
+    return new SingleCameraController(*pan, *tilt, *spin, *zoom);
+}

@@ -6,8 +6,8 @@
  * ((simulationInterface/src/MutualExclusionGroup.cpp))
  */
 
-#ifndef __MUTUAL_EXCLUSION_GROUP_HH_
-#define __MUTUAL_EXCLUSION_GROUP_HH_
+#ifndef _MUTUAL_EXCLUSION_GROUP_HH_
+#define _MUTUAL_EXCLUSION_GROUP_HH_
 
 #include <vector>
 

@@ -6,8 +6,8 @@
  * ((simulationInterface/src/Controller.cpp))
  */
 
-#ifndef __CONTROLLER_HH_
-#define __CONTROLLER_HH_
+#ifndef _CONTROLLER_HH_
+#define _CONTROLLER_HH_
 
 #include <vector>
 

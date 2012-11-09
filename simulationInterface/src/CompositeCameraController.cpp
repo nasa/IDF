@@ -19,7 +19,7 @@ void CompositeCameraController::remove(const CameraController& cameraController)
 double CompositeCameraController::getCommandedPan() const {
     double result = 0;
 
-    // Sum all consituent controller's pan commands.
+    // Sum all constituent controller's pan commands.
     for (std::vector<CameraController*>::const_iterator i = cameraControllers.begin();
       i != cameraControllers.end(); ++i) {
         result += (*i)->getPan();
@@ -32,7 +32,7 @@ double CompositeCameraController::getCommandedPan() const {
 double CompositeCameraController::getCommandedTilt() const {
     double result = 0;
 
-    // Sum all consituent controller's tilt commands.
+    // Sum all constituent controller's tilt commands.
     for (std::vector<CameraController*>::const_iterator i = cameraControllers.begin();
       i != cameraControllers.end(); ++i) {
         result += (*i)->getTilt();
@@ -45,7 +45,7 @@ double CompositeCameraController::getCommandedTilt() const {
 double CompositeCameraController::getCommandedSpin() const {
     double result = 0;
 
-    // Sum all consituent controller's spin commands.
+    // Sum all constituent controller's spin commands.
     for (std::vector<CameraController*>::const_iterator i = cameraControllers.begin();
       i != cameraControllers.end(); ++i) {
         result += (*i)->getSpin();
@@ -58,7 +58,7 @@ double CompositeCameraController::getCommandedSpin() const {
 double CompositeCameraController::getCommandedZoom() const {
     double result = 0;
 
-    // Sum all consituent controller's zoom commands.
+    // Sum all constituent controller's zoom commands.
     for (std::vector<CameraController*>::const_iterator i = cameraControllers.begin();
       i != cameraControllers.end(); ++i) {
         result += (*i)->getZoom();
@@ -69,7 +69,7 @@ double CompositeCameraController::getCommandedZoom() const {
 }
 
 void CompositeCameraController::setActive(bool activate) {
-    // Set all consituent controller's states.
+    // Set all constituent controller's states.
     for (std::vector<CameraController*>::iterator i = cameraControllers.begin();
       i != cameraControllers.end(); ++i) {
         (*i)->setActive(activate);

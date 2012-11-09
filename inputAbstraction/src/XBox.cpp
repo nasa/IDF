@@ -3,11 +3,11 @@
 using namespace idf;
 
 XBox::XBox() :
-    leftAnalogLeftRightPivot(0x80, 0xFF7F),
-    leftAnalogUpDownPivot(0x80, 0xFF7F),
+    leftAnalogLeftRightPivot(-0x7FFF, 0x7FFF),
+    leftAnalogUpDownPivot(-0x7FFF, 0x7FFF),
     leftAnalogIn(0, 1),
-    rightAnalogLeftRightPivot(0x80, 0xFF7F),
-    rightAnalogUpDownPivot(0x80, 0xFF7F),
+    rightAnalogLeftRightPivot(-0x7FFF, 0x7FFF),
+    rightAnalogUpDownPivot(-0x7FFF, 0x7FFF),
     rightAnalogIn(0, 1),
     directionalPadUp(0, 1),
     directionalPadDown(0, 1),

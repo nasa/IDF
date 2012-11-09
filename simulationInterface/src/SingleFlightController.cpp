@@ -143,3 +143,36 @@ SingleFlightController* SingleFlightController::createInstance(const Gravis& gra
 
     return new SingleFlightController(*roll, *pitch, *yaw, *x, *y, *z);
 }
+
+SingleFlightController* SingleFlightController::createInstance(const DualShock3& dualShock3) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(dualShock3.triangleButton);
+    z->addInput(dualShock3.xButton, -1);
+
+    CompositeInput* roll = new CompositeInput();
+    roll->addInput(dualShock3.leftTrigger, -1);
+    roll->addInput(dualShock3.rightTrigger);
+
+    SingleFlightController *dualShock3SingleFlightController =
+      new SingleFlightController(
+      *roll,
+      dualShock3.rightAnalogUpDownPivot,
+      dualShock3.rightAnalogLeftRightPivot,
+      dualShock3.leftAnalogUpDownPivot,
+      dualShock3.leftAnalogLeftRightPivot,
+      *z);
+
+    dualShock3SingleFlightController->x.setInverted(true);
+    dualShock3SingleFlightController->y.setInverted(true);
+    dualShock3SingleFlightController->pitch.setInverted(true);
+    dualShock3SingleFlightController->yaw.setInverted(true);
+
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    dualShock3SingleFlightController->pitch.addDeadband(*deadband);
+    dualShock3SingleFlightController->yaw.addDeadband(*deadband);
+    dualShock3SingleFlightController->x.addDeadband(*deadband);
+    dualShock3SingleFlightController->y.addDeadband(*deadband);
+
+    return dualShock3SingleFlightController;
+}
+

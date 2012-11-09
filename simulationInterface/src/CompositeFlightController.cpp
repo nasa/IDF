@@ -20,7 +20,7 @@ void CompositeFlightController::remove(const FlightController& flightController)
 double CompositeFlightController::getCommandedRoll() const {
     double result = 0;
 
-    // Sum all consituent controller's roll commands.
+    // Sum all constituent controller's roll commands.
     for (std::vector<FlightController*>::const_iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         result += (*i)->getRoll();
@@ -33,7 +33,7 @@ double CompositeFlightController::getCommandedRoll() const {
 double CompositeFlightController::getCommandedPitch() const {
     double result = 0;
 
-    // Sum all consituent controller's pitch commands.
+    // Sum all constituent controller's pitch commands.
     for (std::vector<FlightController*>::const_iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         result += (*i)->getPitch();
@@ -46,7 +46,7 @@ double CompositeFlightController::getCommandedPitch() const {
 double CompositeFlightController::getCommandedYaw() const {
     double result = 0;
 
-    // Sum all consituent controller's yaw commands.
+    // Sum all constituent controller's yaw commands.
     for (std::vector<FlightController*>::const_iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         result += (*i)->getYaw();
@@ -59,7 +59,7 @@ double CompositeFlightController::getCommandedYaw() const {
 double CompositeFlightController::getCommandedX() const {
     double result = 0;
 
-    // Sum all consituent controller's x commands.
+    // Sum all constituent controller's x commands.
     for (std::vector<FlightController*>::const_iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         result += (*i)->getX();
@@ -72,7 +72,7 @@ double CompositeFlightController::getCommandedX() const {
 double CompositeFlightController::getCommandedY() const {
     double result = 0;
 
-    // Sum all consituent controller's y commands.
+    // Sum all constituent controller's y commands.
     for (std::vector<FlightController*>::const_iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         result += (*i)->getY();
@@ -85,7 +85,7 @@ double CompositeFlightController::getCommandedY() const {
 double CompositeFlightController::getCommandedZ() const {
     double result = 0;
 
-    // Sum all consituent controller's z commands.
+    // Sum all constituent controller's z commands.
     for (std::vector<FlightController*>::const_iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         result += (*i)->getZ();
@@ -96,7 +96,7 @@ double CompositeFlightController::getCommandedZ() const {
 }
 
 void CompositeFlightController::setActive(bool activate) {
-    // Set all consituent controller's states.
+    // Set all constituent controller's states.
     for (std::vector<FlightController*>::iterator i = flightControllers.begin();
       i != flightControllers.end(); ++i) {
         (*i)->setActive(activate);
