@@ -1,0 +1,35 @@
+Java Virtual Hand Controller
+by Derek Bankieris
+derek.r.bankieris@nasa.gov
+
+
+Requirements:
+
+Sun/Oracle Java SE6 (NOT OpenJDK)
+
+
+Running:
+
+build/VirtualHandController.jar is an executable JAR-file that can be run on
+any OS from the command line as:
+
+java -jar build/VirtualHandController.jar [options]
+
+Pass -help for a list of options. Windows users can optionally double-click the
+file to open it.
+
+
+"build/Virtual Hand Controller.app" is a Mac application bundle that provides
+users with a more native look and feel. It can be launched via double-click or
+the command line as:
+
+open build/Virtual\ Hand\ Controller.app
+
+
+Compiling:
+
+This application comes precompiled. All the other files are only useful if you
+would like to make changes and recompile, in which case you will need Trick 10
+and Apache Ant. Otherwise, you can delete them from your local storage. For
+build options:
+ant -p
