@@ -18,6 +18,7 @@
 #include "inputAbstraction/include/SpaceNavigator.hh"
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/VirtualLayout.hh"
 
 namespace idf {
 
@@ -156,6 +157,16 @@ class SingleFlightController : public FlightController {
      * @return a new DualShock3-based flight controller
      */
     static SingleFlightController* createInstance(const DualShock3& dualShock3);
+
+    /*
+     * creates a new <code>SingleFlightController</code> mapped to
+     * <code>virtualLayout</code> using appropriate defaults
+     *
+     * @param virtualLayout the inputs to use in the default mapping
+     *
+     * @return a new VirtualLayout-based flight controller
+     */
+    static SingleFlightController* createInstance(const VirtualLayout& virtualLayout);
 
 };
 

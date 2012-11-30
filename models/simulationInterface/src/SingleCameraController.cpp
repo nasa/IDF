@@ -123,3 +123,11 @@ SingleCameraController* SingleCameraController::createInstance(const DualShock3&
 
     return new SingleCameraController(*pan, *tilt, *spin, *zoom);
 }
+
+SingleCameraController* SingleCameraController::createInstance(const VirtualLayout& virtualLayout) {
+    return new SingleCameraController(
+      virtualLayout.leftRightRotation,
+      virtualLayout.upDownRotation,
+      virtualLayout.clockwiseCounterclockwiseRotation,
+      virtualLayout.inOutTranslation);
+}

@@ -18,6 +18,7 @@
 #include "inputAbstraction/include/SpaceNavigator.hh"
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/VirtualLayout.hh"
 
 namespace idf {
 
@@ -132,6 +133,16 @@ class SingleCameraController : public CameraController {
      * @return a new DualShock3-based camera controller
      */
     static SingleCameraController* createInstance(const DualShock3& dualShock3);
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>virtualLayout</code> using appropriate defaults
+     *
+     * @param virtualLayout the inputs to use in the default mapping
+     *
+     * @return a new VirtualLayout-based camera controller
+     */
+    static SingleCameraController* createInstance(const VirtualLayout& virtualLayout);
 
 };
 

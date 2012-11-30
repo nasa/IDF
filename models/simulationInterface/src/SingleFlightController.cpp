@@ -176,3 +176,12 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock3&
     return dualShock3SingleFlightController;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const VirtualLayout& virtualLayout) {
+    return new SingleFlightController(
+      virtualLayout.clockwiseCounterclockwiseRotation,
+      virtualLayout.upDownRotation,
+      virtualLayout.leftRightRotation,
+      virtualLayout.inOutTranslation,
+      virtualLayout.leftRightTranslation,
+      virtualLayout.upDownTranslation);
+}
