@@ -9,9 +9,8 @@
 #ifndef _COMPOSITE_FLIGHT_CONTROLLER_HH_
 #define _COMPOSITE_FLIGHT_CONTROLLER_HH_
 
-#include <vector>
-
 #include "FlightController.hh"
+#include <vector>
 
 namespace idf {
 

@@ -9,8 +9,8 @@
 #ifndef _COMPOSITE_CAMERA_CONTROLLER_HH_
 #define _COMPOSITE_CAMERA_CONTROLLER_HH_
 
-#include <vector>
 #include "CameraController.hh"
+#include <vector>
 
 namespace idf {
 

@@ -49,7 +49,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
     if (!mOpen) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
-            << " Error while reading: device is not open " << strerror(errno);
+            << " Error while reading: device is not open.";
         throw IOException(oss.str().c_str());
     }
 

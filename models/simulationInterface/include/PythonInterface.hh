@@ -22,6 +22,7 @@
 #include "inputAbstraction/include/Deadband.hh"
 
 #include "hardwareInterface/include/CanIndustrialProducts.hh"
+#include "hardwareInterface/include/SerialThrustMaster.hh"
 #include "hardwareInterface/include/UsbChProPedals.hh"
 #include "hardwareInterface/include/UsbGravis.hh"
 #include "hardwareInterface/include/UsbIndustrialProducts.hh"

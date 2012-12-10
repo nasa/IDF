@@ -10,7 +10,6 @@
 #define _CONTROLLER_HH_
 
 #include <vector>
-
 #include "StateChangeListener.hh"
 
 namespace idf {

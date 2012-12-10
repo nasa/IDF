@@ -1,29 +1,22 @@
 /*
- PURPOSE:
- ()
+ * PURPOSE:
+ * ()
+ *
+ * LIBRARY DEPENDENCIES:
+ * ((hardwareInterface/src/SerialDevice.cpp))
+ */
 
- LIBRARY DEPENDENCIES:
- ((hardwareInterface/src/UsbDevice.cpp)
-  (hardwareInterface/src/hidapi.c))
-*/
-
-#ifndef _USB_DEVICE_HH_
-#define _USB_DEVICE_HH_
+#ifndef _SERIAL_DEVICE_HH_
+#define _SERIAL_DEVICE_HH_
 
 #include "InputDevice.hh"
 
-#include <vector>
-
-#ifndef TRICK_ICG
-#ifndef SWIG
-#include "hidapi/hidapi/hidapi.h"
-#endif
-#endif
+#include <string>
 
 namespace idf {
 
 /**
- * abstract base class for all USB input devices. Subclasses should usually
+ * abstract base class for all serial input devices. Subclasses should usually
  * represent a specific physical device (WingMan, SpaceExplorer, etc) and
  * implement logic to fulfill the contract of <code>open</code>. They should
  * also usually derive from the appropriate class from the Input Abstraction
@@ -31,21 +24,20 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class UsbDevice : public InputDevice {
+class SerialDevice : public InputDevice {
 
     public:
 
     /**
-     * constructs a new instance whose <code>open()</code> will look for a USB
-     * device with the <code>vendorID</code> and <code>productID</code>
+     * constructs a new instance whose <code>open()</code> will open the serial
+     * port at <code>path</code>
      *
-     * @param vendorID the target USB device's vendorID
-     * @param productID the target USB device's productID
+     * @param system path to the terminal to which the device is attached
      */
-    UsbDevice(int vendorID, int productID);
+    SerialDevice(const char *path);
 
     /** destructor */
-    virtual ~UsbDevice();
+    virtual ~SerialDevice() {};
 
     /** opens this device for communication */
     virtual void open();
@@ -55,14 +47,8 @@ class UsbDevice : public InputDevice {
 
     protected:
 
-    /** vendor ID, used to lookup this device in the USB hierarchy */
-    int vendorId;
-
-    /** product IDs, used to lookup this device in the USB hierarchy */
-    std::vector<int> productIds;
-
     /** handle to the device */
-    hid_device* hidDevice;
+    int handle;
 
     /**
      * reads <code>length</code> bytes from this device and stores them in
@@ -78,10 +64,23 @@ class UsbDevice : public InputDevice {
      */
     virtual int read(unsigned char *buffer, size_t length);
 
-    private:
+    /**
+     * writes <code>length</code> bytes from <code>buffer</code> to this device
+     *
+     * @param buffer the location of the data to write
+     * @param length the number of bytes to write
+     *
+     * @return the number of bytes written (always non-negative)
+     *
+     * @throws IOException if an error occurs while writing or if the device
+     * is not open
+     */
+    virtual int write(const void *buffer, size_t length);
 
-    /** number of instances in existance */
-    static int instanceCount;
+    protected:
+
+    /** terminal path */
+    std::string path;
 
 };
 

@@ -10,15 +10,18 @@
 #define _SINGLE_FLIGHT_CONTROLLER_HH_
 
 #include "FlightController.hh"
+
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"
 #include "inputAbstraction/include/CompositeInput.hh"
-#include "inputAbstraction/include/WingMan.hh"
+
+#include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
-#include "inputAbstraction/include/Gravis.hh"
-#include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/ThrustMaster.hh"
 #include "inputAbstraction/include/VirtualLayout.hh"
+#include "inputAbstraction/include/WingMan.hh"
 
 namespace idf {
 
@@ -167,6 +170,16 @@ class SingleFlightController : public FlightController {
      * @return a new VirtualLayout-based flight controller
      */
     static SingleFlightController* createInstance(const VirtualLayout& virtualLayout);
+
+    /*
+     * creates a new <code>SingleFlightController</code> mapped to
+     * <code>thrustMaster</code> using appropriate defaults
+     *
+     * @param thrustMaster the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster-based flight controller
+     */
+    static SingleFlightController* createInstance(const ThrustMaster& thrustMaster);
 
 };
 

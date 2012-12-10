@@ -131,3 +131,11 @@ SingleCameraController* SingleCameraController::createInstance(const VirtualLayo
       virtualLayout.clockwiseCounterclockwiseRotation,
       virtualLayout.inOutTranslation);
 }
+
+SingleCameraController* SingleCameraController::createInstance(const ThrustMaster& thrustMaster) {
+    return new SingleCameraController(
+      thrustMaster.leftRightPivot,
+      thrustMaster.forwardBackwardPivot,
+      thrustMaster.twist,
+      thrustMaster.forwardBackwardTranslation);
+}

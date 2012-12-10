@@ -10,15 +10,18 @@
 #define _SINGLE_CAMERA_CONTROLLER_HH_
 
 #include "CameraController.hh"
+
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"
 #include "inputAbstraction/include/CompositeInput.hh"
-#include "inputAbstraction/include/WingMan.hh"
+
+#include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
-#include "inputAbstraction/include/Gravis.hh"
-#include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/ThrustMaster.hh"
 #include "inputAbstraction/include/VirtualLayout.hh"
+#include "inputAbstraction/include/WingMan.hh"
 
 namespace idf {
 
@@ -143,6 +146,16 @@ class SingleCameraController : public CameraController {
      * @return a new VirtualLayout-based camera controller
      */
     static SingleCameraController* createInstance(const VirtualLayout& virtualLayout);
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>thrustMaster</code> using appropriate defaults
+     *
+     * @param thrustMaster the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster-based camera controller
+     */
+    static SingleCameraController* createInstance(const ThrustMaster& thrustMaster);
 
 };
 

@@ -45,23 +45,23 @@ SingleFlightController* SingleFlightController::createInstance(const WingMan& wi
     z->addInput(wingMan.button4);
     z->addInput(wingMan.button5, -1);
 
-    SingleFlightController *wingManSingleFlightController =
+    SingleFlightController *controller =
       new SingleFlightController(wingMan.leftRightPivot,
       wingMan.forwardBackwardPivot, wingMan.twist, *x, *y, *z);
 
-    wingManSingleFlightController->pitch.setInverted(true);
-    wingManSingleFlightController->yaw.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
 
     Deadband *deadband = new Deadband(-0.05, 0.05);
-    wingManSingleFlightController->roll.addDeadband(*deadband);
-    wingManSingleFlightController->pitch.addDeadband(*deadband);
-    wingManSingleFlightController->yaw.addDeadband(*deadband);
+    controller->roll.addDeadband(*deadband);
+    controller->pitch.addDeadband(*deadband);
+    controller->yaw.addDeadband(*deadband);
 
-    return wingManSingleFlightController;
+    return controller;
 }
 
 SingleFlightController* SingleFlightController::createInstance(const SpaceExplorer& spaceExplorer) {
-    SingleFlightController *spaceExplorerSingleFlightController =
+    SingleFlightController *controller =
       new SingleFlightController(
       spaceExplorer.leftRightPivot,
       spaceExplorer.forwardBackwardPivot,
@@ -70,26 +70,26 @@ SingleFlightController* SingleFlightController::createInstance(const SpaceExplor
       spaceExplorer.leftRightTranslation,
       spaceExplorer.upDownTranslation);
 
-    spaceExplorerSingleFlightController->x.setInverted(true);
-    spaceExplorerSingleFlightController->y.setInverted(true);
-    spaceExplorerSingleFlightController->z.setInverted(true);
-    spaceExplorerSingleFlightController->roll.setInverted(true);
-    spaceExplorerSingleFlightController->pitch.setInverted(true);
-    spaceExplorerSingleFlightController->yaw.setInverted(true);
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+    controller->roll.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
 
     Deadband *deadband = new Deadband(-0.05, 0.05);
-    spaceExplorerSingleFlightController->roll.addDeadband(*deadband);
-    spaceExplorerSingleFlightController->pitch.addDeadband(*deadband);
-    spaceExplorerSingleFlightController->yaw.addDeadband(*deadband);
-    spaceExplorerSingleFlightController->x.addDeadband(*deadband);
-    spaceExplorerSingleFlightController->y.addDeadband(*deadband);
-    spaceExplorerSingleFlightController->z.addDeadband(*deadband);
+    controller->roll.addDeadband(*deadband);
+    controller->pitch.addDeadband(*deadband);
+    controller->yaw.addDeadband(*deadband);
+    controller->x.addDeadband(*deadband);
+    controller->y.addDeadband(*deadband);
+    controller->z.addDeadband(*deadband);
 
-    return spaceExplorerSingleFlightController;
+    return controller;
 }
 
 SingleFlightController* SingleFlightController::createInstance(const SpaceNavigator& spaceNavigator) {
-    SingleFlightController *spaceNavigatorSingleFlightController =
+    SingleFlightController *controller =
       new SingleFlightController(
       spaceNavigator.leftRightPivot,
       spaceNavigator.forwardBackwardPivot,
@@ -98,22 +98,22 @@ SingleFlightController* SingleFlightController::createInstance(const SpaceNaviga
       spaceNavigator.leftRightTranslation,
       spaceNavigator.upDownTranslation);
 
-    spaceNavigatorSingleFlightController->x.setInverted(true);
-    spaceNavigatorSingleFlightController->y.setInverted(true);
-    spaceNavigatorSingleFlightController->z.setInverted(true);
-    spaceNavigatorSingleFlightController->roll.setInverted(true);
-    spaceNavigatorSingleFlightController->pitch.setInverted(true);
-    spaceNavigatorSingleFlightController->yaw.setInverted(true);
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+    controller->roll.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
 
     Deadband *deadband = new Deadband(-0.05, 0.05);
-    spaceNavigatorSingleFlightController->roll.addDeadband(*deadband);
-    spaceNavigatorSingleFlightController->pitch.addDeadband(*deadband);
-    spaceNavigatorSingleFlightController->yaw.addDeadband(*deadband);
-    spaceNavigatorSingleFlightController->x.addDeadband(*deadband);
-    spaceNavigatorSingleFlightController->y.addDeadband(*deadband);
-    spaceNavigatorSingleFlightController->z.addDeadband(*deadband);
+    controller->roll.addDeadband(*deadband);
+    controller->pitch.addDeadband(*deadband);
+    controller->yaw.addDeadband(*deadband);
+    controller->x.addDeadband(*deadband);
+    controller->y.addDeadband(*deadband);
+    controller->z.addDeadband(*deadband);
 
-    return spaceNavigatorSingleFlightController;
+    return controller;
 }
 
 SingleFlightController* SingleFlightController::createInstance(const Gravis& gravis) {
@@ -153,7 +153,7 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock3&
     roll->addInput(dualShock3.leftTrigger, -1);
     roll->addInput(dualShock3.rightTrigger);
 
-    SingleFlightController *dualShock3SingleFlightController =
+    SingleFlightController *controller =
       new SingleFlightController(
       *roll,
       dualShock3.rightAnalogUpDownPivot,
@@ -162,18 +162,18 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock3&
       dualShock3.leftAnalogLeftRightPivot,
       *z);
 
-    dualShock3SingleFlightController->x.setInverted(true);
-    dualShock3SingleFlightController->y.setInverted(true);
-    dualShock3SingleFlightController->pitch.setInverted(true);
-    dualShock3SingleFlightController->yaw.setInverted(true);
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
 
     Deadband *deadband = new Deadband(-0.05, 0.05);
-    dualShock3SingleFlightController->pitch.addDeadband(*deadband);
-    dualShock3SingleFlightController->yaw.addDeadband(*deadband);
-    dualShock3SingleFlightController->x.addDeadband(*deadband);
-    dualShock3SingleFlightController->y.addDeadband(*deadband);
+    controller->pitch.addDeadband(*deadband);
+    controller->yaw.addDeadband(*deadband);
+    controller->x.addDeadband(*deadband);
+    controller->y.addDeadband(*deadband);
 
-    return dualShock3SingleFlightController;
+    return controller;
 }
 
 SingleFlightController* SingleFlightController::createInstance(const VirtualLayout& virtualLayout) {
@@ -184,4 +184,29 @@ SingleFlightController* SingleFlightController::createInstance(const VirtualLayo
       virtualLayout.inOutTranslation,
       virtualLayout.leftRightTranslation,
       virtualLayout.upDownTranslation);
+}
+
+SingleFlightController* SingleFlightController::createInstance(const ThrustMaster& thrustMaster) {
+    SingleFlightController *controller =
+      new SingleFlightController(
+      thrustMaster.leftRightPivot,
+      thrustMaster.forwardBackwardPivot,
+      thrustMaster.twist,
+      thrustMaster.forwardBackwardTranslation,
+      thrustMaster.leftRightTranslation,
+      thrustMaster.upDownTranslation);
+
+    controller->y.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    controller->roll.addDeadband(*deadband);
+    controller->pitch.addDeadband(*deadband);
+    controller->yaw.addDeadband(*deadband);
+    controller->x.addDeadband(*deadband);
+    controller->y.addDeadband(*deadband);
+    controller->z.addDeadband(*deadband);
+
+    return controller;
 }

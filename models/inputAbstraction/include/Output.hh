@@ -9,10 +9,10 @@
 #ifndef _OUTPUT_HH_
 #define _OUTPUT_HH_
 
+#include <vector>
+
 #include "Input.hh"
 #include "Deadband.hh"
-
-#include <vector>
 
 namespace idf {
 
