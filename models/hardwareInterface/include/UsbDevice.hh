@@ -61,8 +61,10 @@ class UsbDevice : public InputDevice {
     /** product IDs, used to lookup this device in the USB hierarchy */
     std::vector<int> productIds;
 
+#ifndef TRICK_ICG
     /** handle to the device */
     hid_device* hidDevice;
+#endif
 
     /**
      * reads <code>length</code> bytes from this device and stores them in
