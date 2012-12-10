@@ -133,9 +133,15 @@ SingleCameraController* SingleCameraController::createInstance(const VirtualLayo
 }
 
 SingleCameraController* SingleCameraController::createInstance(const ThrustMaster& thrustMaster) {
-    return new SingleCameraController(
-      thrustMaster.leftRightPivot,
-      thrustMaster.forwardBackwardPivot,
+    SingleCameraController *controller =
+      new SingleCameraController(
       thrustMaster.twist,
+      thrustMaster.forwardBackwardPivot,
+      thrustMaster.leftRightPivot,
       thrustMaster.forwardBackwardTranslation);
+
+    controller->tilt.setInverted(true);
+    controller->pan.setInverted(true);
+
+    return controller;
 }
