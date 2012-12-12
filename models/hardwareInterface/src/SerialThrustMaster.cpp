@@ -1,7 +1,5 @@
 #include "SerialThrustMaster.hh"
 
-#include <iostream>
-
 using namespace idf;
 
 SerialThrustMaster::SerialThrustMaster(const char *terminalPath) :

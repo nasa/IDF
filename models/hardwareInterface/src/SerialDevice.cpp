@@ -14,7 +14,7 @@ SerialDevice::SerialDevice(const char *terminalPath) :
 
 void SerialDevice::open() {
     if (!mOpen) {
-        handle = ::open(path.c_str(), O_NOCTTY | O_RDWR | O_NONBLOCK | O_NDELAY);
+        handle = ::open(path.c_str(), O_NOCTTY | O_RDWR);
 
         if (handle < 0) {
             std::ostringstream oss;
