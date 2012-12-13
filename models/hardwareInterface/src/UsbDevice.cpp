@@ -31,13 +31,32 @@ UsbDevice::~UsbDevice() {
 
 void UsbDevice::open() {
     if (!mOpen) {
-        for (std::vector<int>::iterator i = productIds.begin(); i != productIds.end(); ++i) {
-            if ((hidDevice = hid_open(vendorId, *i, NULL))) {
-                hid_set_nonblocking(hidDevice, 1);
-                mOpen = true;
-                return;
+        struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
+
+        for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+            if (deviceInfo->vendor_id == vendorId) {
+                for (std::vector<int>::iterator i = productIds.begin(); i != productIds.end(); ++i) {
+                    if (deviceInfo->product_id == *i) {
+                        if ((hidDevice = hid_open_path(deviceInfo->path))) {
+                            hid_free_enumeration(enumerationHead);
+                            hid_set_nonblocking(hidDevice, 1);
+                            mOpen = true;
+                            return;
+                        }
+                        else {
+                            hid_free_enumeration(enumerationHead);
+                            std::ostringstream oss;
+                            oss << __FILE__ << ":" << __LINE__
+                                << " Failed to open device: " << strerror(errno);
+                            throw IOException(oss.str().c_str());
+                        }
+                    }
+                }
             }
         }
+
+        hid_free_enumeration(enumerationHead);
+
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Failed to find device.";
