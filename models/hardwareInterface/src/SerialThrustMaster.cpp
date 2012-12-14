@@ -2,8 +2,9 @@
 
 using namespace idf;
 
-SerialThrustMaster::SerialThrustMaster(const char *terminalPath) :
-    SerialDevice(terminalPath) {}
+SerialThrustMaster::SerialThrustMaster(const char *terminalPath, bool isMale) :
+    SerialDevice(terminalPath),
+    ThrustMaster(isMale) {}
 
 void SerialThrustMaster::update() {
     SerialDevice::update();

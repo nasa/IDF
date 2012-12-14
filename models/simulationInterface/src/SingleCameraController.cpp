@@ -143,5 +143,11 @@ SingleCameraController* SingleCameraController::createInstance(const ThrustMaste
     controller->tilt.setInverted(true);
     controller->pan.setInverted(true);
 
+    Deadband *deadband = new Deadband(-0.2, 0.2);
+    controller->pan.addDeadband(*deadband);
+    controller->tilt.addDeadband(*deadband);
+    controller->spin.addDeadband(*deadband);
+    controller->zoom.addDeadband(*deadband);
+
     return controller;
 }

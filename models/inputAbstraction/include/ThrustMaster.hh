@@ -22,8 +22,14 @@ class ThrustMaster {
 
     public:
 
+    /**
+     *  describes the pin-out of the translational hand controller.
+     *  Male upDownTranslation is inverted with respect to female.
+     *  */
+    const bool male;
+
     /** constructor */
-    ThrustMaster();
+    ThrustMaster(bool isMale = false);
 
     /** forward-backward pivoting */
     SingleInput forwardBackwardPivot;
@@ -54,6 +60,11 @@ class ThrustMaster {
 
     /** the trigger */
     SingleInput trigger;
+
+    private:
+
+    /** this object is not copy-assignable */
+    ThrustMaster& operator=(const ThrustMaster&);
 
 };
 

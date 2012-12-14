@@ -24,9 +24,10 @@ class SerialThrustMaster : public SerialDevice, public ThrustMaster {
     public:
 
     /** constructor */
-    SerialThrustMaster(const char *path = "/dev/ttyS0");
+    SerialThrustMaster(const char *path = "/dev/ttyS0", bool isMale = false);
 
     void update();
+
 
 };
 

@@ -200,7 +200,11 @@ SingleFlightController* SingleFlightController::createInstance(const ThrustMaste
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
-    Deadband *deadband = new Deadband(-0.05, 0.05);
+    if (thrustMaster.male) {
+        controller->z.setInverted(true);
+    }
+
+    Deadband *deadband = new Deadband(-0.2, 0.2);
     controller->roll.addDeadband(*deadband);
     controller->pitch.addDeadband(*deadband);
     controller->yaw.addDeadband(*deadband);
