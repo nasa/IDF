@@ -26,7 +26,11 @@ class UsbDualShock3 : public UsbDevice, public DualShock3 {
     /** constructor */
     UsbDualShock3(int vendorID = 0x054C, int productID = 0x0268);
 
+    void open();
+
     void update();
+
+    void sendCommand();
 
 };
 

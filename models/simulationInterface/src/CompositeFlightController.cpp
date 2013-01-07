@@ -6,7 +6,7 @@ using namespace idf;
 
 void CompositeFlightController::add(FlightController& flightController) {
     // Add the controller, if not present.
-    if(std::find(flightControllers.begin(), flightControllers.end(), &flightController) == flightControllers.end()) {
+    if (std::find(flightControllers.begin(), flightControllers.end(), &flightController) == flightControllers.end()) {
         flightControllers.push_back(&flightController);
     }
 }
