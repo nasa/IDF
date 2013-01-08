@@ -5,10 +5,14 @@
 #include <errno.h>
 #include <sstream>
 #include <cstring>
+
+#ifdef __linux__
 #include <libusb.h>
+#endif
 
 using namespace idf;
 
+#ifdef __linux__
 /**
  * This is required to access fields within struct hid_device in the
  * sendCommand function. hid_device_ is defined in hid.c, which cannot be
@@ -19,6 +23,7 @@ struct hid_device_ {
     libusb_device_handle *device_handle;
     int a, b, c, interface;
 };
+#endif
 
 UsbDualShock3::UsbDualShock3(int vendorID, int productID) :
     UsbDevice(vendorID, productID) {}
@@ -96,6 +101,7 @@ void UsbDualShock3::sendCommand() {
         throw IOException(oss.str().c_str());
     }
 
+#ifdef __linux__
     /**
      * This devices incorrectly requires that commands be sent over the control
      * endpoint, so we have to call libusb directly rather than use hidapi,
@@ -112,4 +118,5 @@ void UsbDualShock3::sendCommand() {
             << " Transfer failed with LIBUSB_ERROR code " << result;
         throw IOException(oss.str().c_str());
     }
+#endif
 }
