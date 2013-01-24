@@ -1,8 +1,8 @@
-#include "IndustrialProducts.hh"
+#include "IndustrialProducts2.hh"
 
 using namespace idf;
 
-IndustrialProducts::IndustrialProducts() :
+IndustrialProducts2::IndustrialProducts2() :
         forwardBackwardPivot(0, 1023, 512),
         leftRightPivot(0, 1023, 512),
         twist(0, 1023, 512),
@@ -11,7 +11,7 @@ IndustrialProducts::IndustrialProducts() :
         hatEast(0, 1),
         hatSouth(0, 1),
         hatWest(0, 1),
-        switchUp(0, 1),
-        switchDown(0, 1),
-        hatUpDownPivot(0, 1023, 512),
-        hatLeftRightPivot(0, 1023, 512) {}
+        northWestButton(0, 1),
+        southWestButton(0, 1),
+        northEastButton(0, 1),
+        southEastButton(0, 1) {}

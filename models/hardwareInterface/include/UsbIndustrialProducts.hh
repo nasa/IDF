@@ -10,7 +10,7 @@
 #define _USB_INDUSTRIAL_PRODUCTS_HH_
 
 #include "UsbDevice.hh"
-#include "inputAbstraction/include/IndustrialProducts.hh"
+#include "inputAbstraction/include/IndustrialProducts2.hh"
 
 namespace idf {
 
@@ -19,12 +19,12 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class UsbIndustrialProducts : public UsbDevice, public IndustrialProducts {
+class UsbIndustrialProducts : public UsbDevice, public IndustrialProducts2 {
 
     public:
 
     /** constructor */
-    UsbIndustrialProducts(int vendorID = 0x046D, int productID = 0xC212);
+    UsbIndustrialProducts(int vendorID = 0x068E, int productID = 0x002E);
 
     void update();
 

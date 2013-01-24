@@ -43,7 +43,7 @@
 #include <linux/input.h>
 #include <libudev.h>
 
-#include "hidapi.h"
+#include "../hidapi/hidapi.h"
 
 /* Definitions from linux/hidraw.h. Since these are new, some distros
    may not have header files which contain them. */
@@ -685,19 +685,25 @@ int HID_API_EXPORT hid_read_timeout(hid_device *dev, unsigned char *data, size_t
 			return ret;
 	}
 
-	bytes_read = read(dev->device_handle, data, length);
-	if (bytes_read < 0 && errno == EAGAIN)
-		bytes_read = 0;
+        if (kernel_version < KERNEL_VERSION(2,6,34) &&
+            dev->uses_numbered_reports) {
+                /* Kernel returns an extra byte at the beginning. */
+                unsigned char buffer[length + 1];
+                bytes_read = read(dev->device_handle, buffer, sizeof(buffer));
 
-	if (bytes_read >= 0 &&
-	    kernel_version < KERNEL_VERSION(2,6,34) &&
-	    dev->uses_numbered_reports) {
-		/* Work around a kernel bug. Chop off the first byte. */
-		memmove(data, data+1, bytes_read);
-		bytes_read--;
-	}
+                if (bytes_read > 0) {
+                        bytes_read--;
+                        memcpy(data, &buffer[1], sizeof(buffer) - 1);
+                }
+        }
+        else {
+                bytes_read = read(dev->device_handle, data, length);
+        }
 
-	return bytes_read;
+        if (bytes_read < 0 && errno == EAGAIN)
+                bytes_read = 0;
+
+        return bytes_read;
 }
 
 int HID_API_EXPORT hid_read(hid_device *dev, unsigned char *data, size_t length)

@@ -13,6 +13,7 @@
 #include "InputDevice.hh"
 
 #include <vector>
+#include <string>
 
 #ifndef TRICK_ICG
 #ifndef SWIG
@@ -82,8 +83,35 @@ class UsbDevice : public InputDevice {
 
     private:
 
+    class DeviceTag {
+
+        public:
+
+        /** path to the device */
+        std::string path;
+
+#ifndef TRICK_ICG
+        /** handle to the device */
+        hid_device* handle;
+
+        /**
+         * constructor
+         *
+         * @param deviceHandle handle to the device
+         * @param devicepath path to the device
+         */
+        DeviceTag(hid_device* deviceHandle, std::string& devicePath) :
+            path(devicePath),
+            handle(deviceHandle) {}
+#endif
+
+    };
+
     /** number of instances in existance */
     static int instanceCount;
+
+    /** open devices */
+    static std::vector<DeviceTag> openDevices;
 
 };
 

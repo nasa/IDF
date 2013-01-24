@@ -28,30 +28,6 @@ struct hid_device_ {
 UsbDualShock3::UsbDualShock3(int vendorID, int productID) :
     UsbDevice(vendorID, productID) {}
 
-void UsbDualShock3::open() {
-    UsbDevice::open();
-
-    /**
-     * This device must be sent an HID get report request before it will
-     * report events. I found this in a patch to the linux kernel in
-     * hid-sony.c. While the device does fill the array with a response, it
-     * still doesn't report events until I press the clear PlayStation button
-     * on the controller, which worked even before I found this wakeup command.
-     * I'm not sure this is necessary or if it's supposed to replace the
-     * need to press that button and I'm still missing something, but here it
-     * is either way.
-     */
-    unsigned char wakeup[18];
-    wakeup[0] = 0xf2;
-
-    if (hid_get_feature_report(hidDevice, wakeup, sizeof(wakeup)) < 0) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Failed to send wakeup command: " << strerror(errno);
-        throw IOException(oss.str().c_str());
-    }
-}
-
 void UsbDualShock3::update() {
     UsbDevice::update();
 

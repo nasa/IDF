@@ -214,3 +214,59 @@ SingleFlightController* SingleFlightController::createInstance(const ThrustMaste
 
     return controller;
 }
+
+SingleFlightController* SingleFlightController::createInstance(const IndustrialProducts& industrialProducts) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(industrialProducts.switchUp);
+    z->addInput(industrialProducts.switchDown, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+      industrialProducts.leftRightPivot,
+      industrialProducts.forwardBackwardPivot,
+      industrialProducts.twist,
+      industrialProducts.hatUpDownPivot,
+      industrialProducts.hatLeftRightPivot,
+      *z);
+
+    controller->yaw.setInverted(true);
+    controller->y.setInverted(true);
+
+    Deadband *deadband = new Deadband(-0.05, 0.05);
+    controller->roll.addDeadband(*deadband);
+    controller->pitch.addDeadband(*deadband);
+    controller->yaw.addDeadband(*deadband);
+
+    return controller;
+}
+
+SingleFlightController* SingleFlightController::createInstance(const IndustrialProducts2& industrialProducts2) {
+    CompositeInput* x = new CompositeInput();
+    x->addInput(industrialProducts2.hatNorth);
+    x->addInput(industrialProducts2.hatSouth, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(industrialProducts2.hatWest);
+    y->addInput(industrialProducts2.hatEast, -1);
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(industrialProducts2.northEastButton);
+    z->addInput(industrialProducts2.southEastButton, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+      industrialProducts2.leftRightPivot,
+      industrialProducts2.forwardBackwardPivot,
+      industrialProducts2.twist,
+      *x, *y, *z);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    Deadband *deadband = new Deadband(-0.1, 0.1);
+    controller->roll.addDeadband(*deadband);
+    controller->pitch.addDeadband(*deadband);
+    controller->yaw.addDeadband(*deadband);
+
+    return controller;
+}

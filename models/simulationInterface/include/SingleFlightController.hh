@@ -17,6 +17,8 @@
 
 #include "inputAbstraction/include/DualShock3.hh"
 #include "inputAbstraction/include/Gravis.hh"
+#include "inputAbstraction/include/IndustrialProducts.hh"
+#include "inputAbstraction/include/IndustrialProducts2.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
 #include "inputAbstraction/include/ThrustMaster.hh"
@@ -180,6 +182,26 @@ class SingleFlightController : public FlightController {
      * @return a new ThrustMaster-based flight controller
      */
     static SingleFlightController* createInstance(const ThrustMaster& thrustMaster);
+
+    /*
+     * creates a new <code>SingleFlightController</code> mapped to
+     * <code>industrialProducts</code> using appropriate defaults
+     *
+     * @param industrialProducts the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts-based flight controller
+     */
+    static SingleFlightController* createInstance(const IndustrialProducts& industrialProducts);
+
+    /*
+     * creates a new <code>SingleFlightController</code> mapped to
+     * <code>industrialProducts2</code> using appropriate defaults
+     *
+     * @param industrialProducts2 the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts2-based flight controller
+     */
+    static SingleFlightController* createInstance(const IndustrialProducts2& industrialProducts2);
 
 };
 

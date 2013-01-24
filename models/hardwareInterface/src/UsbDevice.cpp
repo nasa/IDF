@@ -1,14 +1,16 @@
 #include "UsbDevice.hh"
 #include "IOException.hh"
 
-#include <stdio.h>
 #include <errno.h>
 #include <sstream>
 #include <cstring>
+#include <algorithm>
 
 using namespace idf;
 
 int UsbDevice::instanceCount = 0;
+
+std::vector<UsbDevice::DeviceTag> UsbDevice::openDevices;
 
 UsbDevice::UsbDevice(int vendorID, int productID) :
     vendorId(vendorID) {
@@ -24,6 +26,7 @@ UsbDevice::UsbDevice(int vendorID, int productID) :
 }
 
 UsbDevice::~UsbDevice() {
+    close();
     if (--instanceCount == 0) {
         hid_exit();
     }
@@ -34,22 +37,35 @@ void UsbDevice::open() {
         struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
 
         for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+
+            std::string path(deviceInfo->path);
+            bool pathAlreadyOpen = false;
+            for (std::vector<DeviceTag>::iterator i = openDevices.begin(); i < openDevices.end(); ++i) {
+                if (i->path == path) {
+                    pathAlreadyOpen = true;
+                    break;
+                }
+            }
+            if (pathAlreadyOpen) {
+                continue;
+            }
+
             if (deviceInfo->vendor_id == vendorId) {
-                for (std::vector<int>::iterator i = productIds.begin(); i != productIds.end(); ++i) {
-                    if (deviceInfo->product_id == *i) {
-                        if ((hidDevice = hid_open_path(deviceInfo->path))) {
-                            hid_free_enumeration(enumerationHead);
-                            hid_set_nonblocking(hidDevice, 1);
-                            mOpen = true;
-                            return;
-                        }
-                        else {
-                            hid_free_enumeration(enumerationHead);
-                            std::ostringstream oss;
-                            oss << __FILE__ << ":" << __LINE__
-                                << " Failed to open device: " << strerror(errno);
-                            throw IOException(oss.str().c_str());
-                        }
+                if (std::find(productIds.begin(), productIds.end(), deviceInfo->product_id) != productIds.end()) {
+                    if ((hidDevice = hid_open_path(deviceInfo->path))) {
+                        openDevices.push_back(DeviceTag(hidDevice, path));
+                        hid_free_enumeration(enumerationHead);
+                        hid_set_nonblocking(hidDevice, 1);
+                        mOpen = true;
+                        return;
+                    }
+                    else {
+                        hid_free_enumeration(enumerationHead);
+                        std::ostringstream oss;
+                        oss << __FILE__ << ":" << __LINE__
+                            << " Failed to open device: " << strerror(errno)
+                            << " See the IDF README for troubleshooting.";
+                        throw IOException(oss.str().c_str());
                     }
                 }
             }
@@ -87,6 +103,12 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
 
 void UsbDevice::close() {
     if (mOpen) {
+        for (std::vector<DeviceTag>::iterator i = openDevices.begin(); i < openDevices.end(); ++i) {
+            if (i->handle == hidDevice) {
+                openDevices.erase(i);
+                break;
+            }
+        }
         hid_close(hidDevice);
         mOpen = false;
     }

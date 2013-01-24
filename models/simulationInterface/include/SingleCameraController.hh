@@ -17,6 +17,8 @@
 
 #include "inputAbstraction/include/DualShock3.hh"
 #include "inputAbstraction/include/Gravis.hh"
+#include "inputAbstraction/include/IndustrialProducts.hh"
+#include "inputAbstraction/include/IndustrialProducts2.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
 #include "inputAbstraction/include/ThrustMaster.hh"
@@ -156,6 +158,26 @@ class SingleCameraController : public CameraController {
      * @return a new ThrustMaster-based camera controller
      */
     static SingleCameraController* createInstance(const ThrustMaster& thrustMaster);
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>industrialProducts</code> using appropriate defaults
+     *
+     * @param industrialProducts the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts-based camera controller
+     */
+    static SingleCameraController* createInstance(const IndustrialProducts& industrialProducts);
+
+    /**
+     * creates a new <code>SingleCameraController</code> mapped to
+     * <code>industrialProducts2</code> using appropriate defaults
+     *
+     * @param industrialProducts2 the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts2-based camera controller
+     */
+    static SingleCameraController* createInstance(const IndustrialProducts2& industrialProducts2);
 
 };
 

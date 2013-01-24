@@ -107,9 +107,11 @@ class DualShock3 {
     virtual void setRumbleCommand(Rumbler rumbler, unsigned char duration, unsigned char intensity);
 
     /**
-     * sets the portion of the command packet that correspons to
+     * sets the portion of the command packet that corresponds to
      * <code>led</code>. The total cycle period is equal to
-     * <code>cyclePeriodInteger + cyclePeriodFraction / 256</code>.
+     * <code>cyclePeriodInteger + cyclePeriodFraction / 256</code>. The actual
+     * on/off time is some combination of the total cycle period and the on and
+     * off factors, but documentation is sparse.
      *
      * @param led the led to command
      * @param commandDuration the length of time, in units of 20 ms, that the
@@ -127,7 +129,17 @@ class DualShock3 {
       unsigned char offFactor, unsigned char onFactor);
 
     /**
-     * sends the rumble pack and LED command packet
+     * sends the rumble pack and LED command packet.
+     *
+     * Quirks
+     * The sixaxis has both a control endpoint and an interrupt out endpoint.
+     * In such a case, output reports would normally be sent over the interrupt
+     * out endpoint. However, the sixaxis accepts output reports ONLY on the
+     * control endpoint, and silently discards those arriving on the interrupt
+     * out endpoint. Thus, the effectiveness of this function depends on the OS
+     * libraries (hidraw for Linux and the IOKit framework on Mac) having
+     * patches to support the sixaxis' unique behavior. Similarly, patches may
+     * be required to support communication via Bluetooth as well.
      */
     virtual void sendCommand() = 0;
 

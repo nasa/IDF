@@ -9,6 +9,11 @@
  * provides an easy way to ensure that all appropriate IDF headers are
  * processed.
  *
+ * Support for various device types here is modular. Serial and USB devices are
+ * included by default. Support for other device classes must be explicitly
+ * requested via definition of preprocessor symbols found below. This should
+ * typically done with -D options in your TRICK_CFLAGS or TRICK_CXXFLAGS.
+ *
  * @author Derek Bankieris
  */
 
@@ -21,8 +26,10 @@
 #include "inputAbstraction/include/CompositeInput.hh"
 #include "inputAbstraction/include/Deadband.hh"
 
-#include "hardwareInterface/include/CanIndustrialProducts.hh"
+// Serial Devices
 #include "hardwareInterface/include/SerialThrustMaster.hh"
+
+// USB Devices
 #include "hardwareInterface/include/UsbChProPedals.hh"
 #include "hardwareInterface/include/UsbGravis.hh"
 #include "hardwareInterface/include/UsbIndustrialProducts.hh"
@@ -32,5 +39,10 @@
 #include "hardwareInterface/include/UsbWingMan.hh"
 #include "hardwareInterface/include/UsbXBox.hh"
 #include "hardwareInterface/include/UsbDualShock3.hh"
+
+// CAN Devices
+#ifdef IDF_CAN
+#include "hardwareInterface/include/CanIndustrialProducts.hh"
+#endif
 
 #endif

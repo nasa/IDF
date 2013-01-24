@@ -3,27 +3,27 @@
  * ()
  *
  * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/IndustrialProducts.cpp))
+ * ((inputAbstraction/src/IndustrialProducts2.cpp))
  */
 
-#ifndef _INDUSTRIAL_PRODUCTS_HH_
-#define _INDUSTRIAL_PRODUCTS_HH_
+#ifndef _INDUSTRIAL_PRODUCTS2_HH_
+#define _INDUSTRIAL_PRODUCTS2_HH_
 
 #include "SingleInput.hh"
 
 namespace idf {
 
 /**
- * represents an IndustrialProducts hand controller's input layout
+ * represents an IndustrialProducts2 hand controller's input layout
  *
  * @author Derek Bankieris
  */
-class IndustrialProducts {
+class IndustrialProducts2 {
 
     public:
 
     /** constructor */
-    IndustrialProducts();
+    IndustrialProducts2();
 
     /** forward-backward pivoting */
     SingleInput forwardBackwardPivot;
@@ -49,17 +49,17 @@ class IndustrialProducts {
     /** the digital hat's western trigger */
     SingleInput hatWest;
 
-    /** the upper trigger of the switch */
-    SingleInput switchUp;
+    /** the northwest button */
+    SingleInput northWestButton;
 
-    /** the lower trigger of the switch */
-    SingleInput switchDown;
+    /** the southwest button */
+    SingleInput southWestButton;
 
-    /** up-down pivoting of the analog hat */
-    SingleInput hatUpDownPivot;
+    /** the northeast button */
+    SingleInput northEastButton;
 
-    /** left-right pivoting of the analog hat */
-    SingleInput hatLeftRightPivot;
+    /** the southeast button */
+    SingleInput southEastButton;
 
 };
 
