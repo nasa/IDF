@@ -6,6 +6,20 @@ SingleCameraController::SingleCameraController(
   const Input& panInput, const Input& tiltInput, const Input& spinInput, const Input& zoomInput) :
     pan(panInput), tilt(tiltInput), spin(spinInput), zoom(zoomInput) {}
 
+void SingleCameraController::addDeadband(const Deadband& deadband) {
+    pan.addDeadband(deadband);
+    tilt.addDeadband(deadband);
+    spin.addDeadband(deadband);
+    zoom.addDeadband(deadband);
+}
+
+void SingleCameraController::clearDeadbands() {
+    pan.clearDeadbands();
+    tilt.clearDeadbands();
+    spin.clearDeadbands();
+    zoom.clearDeadbands();
+}
+
 double SingleCameraController::getCommandedPan() const {
     return pan.getNormalizedValue();
 }
@@ -34,11 +48,6 @@ SingleCameraController* SingleCameraController::createInstance(const WingMan& wi
     controller->pan.setInverted(true);
     controller->tilt.setInverted(true);
 
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->pan.addDeadband(*deadband);
-    controller->tilt.addDeadband(*deadband);
-    controller->spin.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -55,11 +64,6 @@ SingleCameraController* SingleCameraController::createInstance(const SpaceExplor
     controller->spin.setInverted(true);
     controller->zoom.setInverted(true);
 
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->pan.addDeadband(*deadband);
-    controller->tilt.addDeadband(*deadband);
-    controller->spin.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -75,11 +79,6 @@ SingleCameraController* SingleCameraController::createInstance(const SpaceNaviga
     controller->tilt.setInverted(true);
     controller->spin.setInverted(true);
     controller->zoom.setInverted(true);
-
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->pan.addDeadband(*deadband);
-    controller->tilt.addDeadband(*deadband);
-    controller->spin.addDeadband(*deadband);
 
     return controller;
 }
@@ -123,11 +122,6 @@ SingleCameraController* SingleCameraController::createInstance(const DualShock3&
 
     SingleCameraController* controller = new SingleCameraController(*pan, *tilt, *spin, *zoom);
 
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->pan.addDeadband(*deadband);
-    controller->tilt.addDeadband(*deadband);
-    controller->spin.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -150,12 +144,6 @@ SingleCameraController* SingleCameraController::createInstance(const ThrustMaste
     controller->tilt.setInverted(true);
     controller->pan.setInverted(true);
 
-    Deadband *deadband = new Deadband(-0.2, 0.2);
-    controller->pan.addDeadband(*deadband);
-    controller->tilt.addDeadband(*deadband);
-    controller->spin.addDeadband(*deadband);
-    controller->zoom.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -168,12 +156,6 @@ SingleCameraController* SingleCameraController::createInstance(const IndustrialP
       industrialProducts.hatUpDownPivot);
 
     controller->pan.setInverted(true);
-
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->pan.addDeadband(*deadband);
-    controller->tilt.addDeadband(*deadband);
-    controller->spin.addDeadband(*deadband);
-    controller->zoom.addDeadband(*deadband);
 
     return controller;
 }
@@ -192,11 +174,6 @@ SingleCameraController* SingleCameraController::createInstance(const IndustrialP
 
     controller->pan.setInverted(true);
     controller->tilt.setInverted(true);
-
-    Deadband *deadband = new Deadband(-0.1, 0.1);
-    controller->pan.addDeadband(*deadband);
-    controller->tilt.addDeadband(*deadband);
-    controller->spin.addDeadband(*deadband);
 
     return controller;
 }

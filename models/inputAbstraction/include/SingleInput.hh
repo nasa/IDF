@@ -45,6 +45,24 @@ class SingleInput : public Input {
     SingleInput(double minimum, double maximum, double neutral);
 
     /**
+     * configures this instance's values, using a neutral value of
+     * <code>(min + max) / 2</code>
+     *
+     * @param min the minimum value
+     * @param max the maximum value
+     */
+    void configure(double minimum, double maximum);
+
+    /**
+     * configures this instance's values
+     *
+     * @param min the minimum value
+     * @param max the maximum value
+     * @param neutral the neutral value
+     */
+    void configure(double minimum, double maximum, double neutral);
+
+    /**
      * returns the minimum value this input can take
      *
      * @return the minimum possible value
@@ -93,17 +111,6 @@ class SingleInput : public Input {
 
     /** the current value */
     double value;
-
-    private:
-
-    /**
-     * initializes this instance's values
-     *
-     * @param min the minimum value
-     * @param max the maximum value
-     * @param neutral the neutral value
-     */
-    void initialize(double minimum, double maximum, double neutral);
 
 };
 

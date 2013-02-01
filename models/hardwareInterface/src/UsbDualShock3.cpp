@@ -74,7 +74,7 @@ void UsbDualShock3::sendCommand() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Device is not open.";
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
 #ifdef __linux__
@@ -92,7 +92,7 @@ void UsbDualShock3::sendCommand() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Transfer failed with LIBUSB_ERROR code " << result;
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 #endif
 }

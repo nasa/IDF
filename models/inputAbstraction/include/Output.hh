@@ -148,11 +148,16 @@ class Output {
     virtual void removeDeadband(const Deadband& deadband);
 
     /**
+     * removes all deadbands applied to this instance
+     */
+    virtual void clearDeadbands();
+
+    /**
      * returns the deadbands applied to this intance
      *
      * @return the current deadbands
      */
-    virtual const std::vector<const Deadband*>& getDeadbands() const;
+    virtual const std::vector<Deadband>& getDeadbands() const;
 
     protected:
 
@@ -194,7 +199,7 @@ class Output {
     bool inverted;
 
     /** deadband filters */
-    std::vector<const Deadband*> deadbands;
+    std::vector<Deadband> deadbands;
 
 };
 

@@ -17,6 +17,6 @@ void InputDevice::update() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Device is not open.";
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 }

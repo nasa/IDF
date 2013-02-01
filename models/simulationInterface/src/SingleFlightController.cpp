@@ -8,6 +8,24 @@ SingleFlightController::SingleFlightController(
     roll(rollInput), pitch(pitchInput), yaw(yawInput),
     x(xInput), y(yInput), z(zInput) {}
 
+void SingleFlightController::addDeadband(const Deadband& deadband) {
+    roll.addDeadband(deadband);
+    pitch.addDeadband(deadband);
+    yaw.addDeadband(deadband);
+    x.addDeadband(deadband);
+    y.addDeadband(deadband);
+    z.addDeadband(deadband);
+}
+
+void SingleFlightController::clearDeadbands() {
+    roll.clearDeadbands();
+    pitch.clearDeadbands();
+    yaw.clearDeadbands();
+    x.clearDeadbands();
+    y.clearDeadbands();
+    z.clearDeadbands();
+}
+
 double SingleFlightController::getCommandedRoll() const {
     return roll.getNormalizedValue();
 }
@@ -52,11 +70,6 @@ SingleFlightController* SingleFlightController::createInstance(const WingMan& wi
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->roll.addDeadband(*deadband);
-    controller->pitch.addDeadband(*deadband);
-    controller->yaw.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -77,14 +90,6 @@ SingleFlightController* SingleFlightController::createInstance(const SpaceExplor
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->roll.addDeadband(*deadband);
-    controller->pitch.addDeadband(*deadband);
-    controller->yaw.addDeadband(*deadband);
-    controller->x.addDeadband(*deadband);
-    controller->y.addDeadband(*deadband);
-    controller->z.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -104,14 +109,6 @@ SingleFlightController* SingleFlightController::createInstance(const SpaceNaviga
     controller->roll.setInverted(true);
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
-
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->roll.addDeadband(*deadband);
-    controller->pitch.addDeadband(*deadband);
-    controller->yaw.addDeadband(*deadband);
-    controller->x.addDeadband(*deadband);
-    controller->y.addDeadband(*deadband);
-    controller->z.addDeadband(*deadband);
 
     return controller;
 }
@@ -167,12 +164,6 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock3&
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->pitch.addDeadband(*deadband);
-    controller->yaw.addDeadband(*deadband);
-    controller->x.addDeadband(*deadband);
-    controller->y.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -204,14 +195,6 @@ SingleFlightController* SingleFlightController::createInstance(const ThrustMaste
         controller->z.setInverted(true);
     }
 
-    Deadband *deadband = new Deadband(-0.2, 0.2);
-    controller->roll.addDeadband(*deadband);
-    controller->pitch.addDeadband(*deadband);
-    controller->yaw.addDeadband(*deadband);
-    controller->x.addDeadband(*deadband);
-    controller->y.addDeadband(*deadband);
-    controller->z.addDeadband(*deadband);
-
     return controller;
 }
 
@@ -231,11 +214,6 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
 
     controller->yaw.setInverted(true);
     controller->y.setInverted(true);
-
-    Deadband *deadband = new Deadband(-0.05, 0.05);
-    controller->roll.addDeadband(*deadband);
-    controller->pitch.addDeadband(*deadband);
-    controller->yaw.addDeadband(*deadband);
 
     return controller;
 }
@@ -262,11 +240,6 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
-
-    Deadband *deadband = new Deadband(-0.1, 0.1);
-    controller->roll.addDeadband(*deadband);
-    controller->pitch.addDeadband(*deadband);
-    controller->yaw.addDeadband(*deadband);
 
     return controller;
 }

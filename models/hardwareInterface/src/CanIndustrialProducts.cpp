@@ -21,7 +21,7 @@ void CanIndustrialProducts::open() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Failed to set baud rate: NTCAN_ERRNO = " << result;
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     result = canIdAdd(ntCanHandle, canId);
@@ -29,7 +29,7 @@ void CanIndustrialProducts::open() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Failed to add message ID: NTCAN_ERRNO = " << result;
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 }
 
@@ -45,7 +45,7 @@ void CanIndustrialProducts::update() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Error while reading: NTCAN_ERRNO = " << result;
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     if (!(message.len & NTCAN_NO_DATA)) {

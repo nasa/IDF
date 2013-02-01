@@ -30,6 +30,25 @@ namespace idf {
 /**
  * represents a single camera controller
  *
+ * Note: All <code>createInstance</code> functions return a controller whose
+ * outputs are mapped to the inputs of the specified device following
+ * conventional spatial mapping relationships when avaiable and reasonable
+ * choices otherwise. The axes follow the right-handed convention and are
+ * oriented as follows:
+ *
+ * +x points forward
+ * +y points to the left
+ * +z points up
+ *
+ * positive roll is measured from the +z axis towards the -x axis
+ * positive pitch is measured from the +y axis towards the -z axis
+ * positive yaw is measured from the +y axis towards the +x axis
+ *
+ * You may alter the polarity of any axis by inverting the appropriate output.
+ * If this orientation is not appropriate for your application, you should
+ * use the constructor instead, which allows you to fully customize the
+ * mapping.
+ *
  * @author Derek Bankieris
  */
 class SingleCameraController : public CameraController {
@@ -60,6 +79,18 @@ class SingleCameraController : public CameraController {
 
     /** destructor */
     virtual ~SingleCameraController() {};
+
+    /**
+     * adds <code>deadband</code> to all outputs
+     *
+     * @param deadband the deadband to add
+     */
+    virtual void addDeadband(const Deadband& deadband);
+
+    /**
+     * removes all deadbands from all outputs
+     */
+    virtual void clearDeadbands();
 
     /**
      * returns the commanded pan, normalized to [-1, 0, 1]

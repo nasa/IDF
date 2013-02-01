@@ -20,7 +20,7 @@ void SerialDevice::open() {
             std::ostringstream oss;
             oss << __FILE__ << ":" << __LINE__
                 << " Failed to open " << path << ".";
-            throw IOException(oss.str().c_str());
+            throw IOException(oss.str());
         }
 
         mOpen = true;
@@ -32,7 +32,7 @@ int SerialDevice::read(unsigned char *buffer, size_t length) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Error while reading: device is not open.";
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     int bytesRead = ::read(handle, buffer, length);
@@ -42,7 +42,7 @@ int SerialDevice::read(unsigned char *buffer, size_t length) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Error while reading: " << strerror(errno);
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     return bytesRead;
@@ -53,7 +53,7 @@ int SerialDevice::write(const void *buffer, size_t length) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Error while writing: device is not open.";
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     int bytesWritten = ::write(handle, buffer, length);
@@ -63,7 +63,7 @@ int SerialDevice::write(const void *buffer, size_t length) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Error while writing: " << strerror(errno);
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     return bytesWritten;

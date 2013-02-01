@@ -13,7 +13,7 @@ namespace idf {
 
 /**
  * represents a filter that returns the specified output value when an input
- * value falls within its bounds
+ * value falls within its bounds, exclusive
  *
  * @author Derek Bankieris
  */
@@ -92,6 +92,11 @@ class Deadband {
      * @return the filtered value
      */
     double filter(double value) const;
+
+    /**
+     * performs a shallow comparison of all member values
+     */
+    bool operator ==(const Deadband& other) const;
 
     protected:
 

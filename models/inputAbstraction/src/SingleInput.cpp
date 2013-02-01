@@ -1,14 +1,50 @@
 #include "SingleInput.hh"
-#include <cmath>
+#include <stdexcept>
+#include <sstream>
 
 using namespace idf;
 
 SingleInput::SingleInput(double min, double max) {
-    initialize(min, max, (min + max) / 2);
+    configure(min, max);
 }
 
 SingleInput::SingleInput(double min, double max, double middle) {
-    initialize(min, max, middle);
+    configure(min, max, middle);
+}
+
+void SingleInput::configure(double min, double  max) {
+    configure(min, max, (min + max) / 2);
+}
+
+void SingleInput::configure(double min, double  max, double middle) {
+    if (min >= max) {
+        std::ostringstream oss;
+        oss << __FILE__ << ":" << __LINE__
+            << " Minimum (" << min << ") must be less than maximum ("
+            << max << ").";
+        throw std::logic_error(oss.str());
+    }
+
+    if (middle < min) {
+        std::ostringstream oss;
+        oss << __FILE__ << ":" << __LINE__
+            << " Neutral (" << middle << ") must not be less than minimum ("
+            << min << ").";
+        throw std::logic_error(oss.str());
+    }
+
+    if (middle > max) {
+        std::ostringstream oss;
+        oss << __FILE__ << ":" << __LINE__
+            << " Neutral (" << middle << ") must not be greater than maximum ("
+            << max << ").";
+        throw std::logic_error(oss.str());
+    }
+
+    minimum = min;
+    maximum = max;
+    neutral = middle;
+    value = neutral;
 }
 
 double SingleInput::getMinimumValue() const {
@@ -29,11 +65,4 @@ double SingleInput::getValue() const {
 
 void SingleInput::setValue(double rawValue) {
     value = rawValue;
-}
-
-void SingleInput::initialize(double min, double  max, double middle) {
-    minimum = min;
-    maximum = max;
-    neutral = middle;
-    value = neutral;
 }

@@ -20,7 +20,7 @@ UsbDevice::UsbDevice(int vendorID, int productID) :
             std::ostringstream oss;
             oss << __FILE__ << ":" << __LINE__
                 << " Failed to initialize HID library.";
-            throw IOException(oss.str().c_str());
+            throw IOException(oss.str());
         }
     }
 }
@@ -65,7 +65,7 @@ void UsbDevice::open() {
                         oss << __FILE__ << ":" << __LINE__
                             << " Failed to open device: " << strerror(errno)
                             << " See the IDF README for troubleshooting.";
-                        throw IOException(oss.str().c_str());
+                        throw IOException(oss.str());
                     }
                 }
             }
@@ -76,7 +76,7 @@ void UsbDevice::open() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Failed to find device.";
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 }
 
@@ -85,7 +85,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Error while reading: device is not open.";
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     int bytesRead = hid_read(hidDevice, buffer, length);
@@ -95,7 +95,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Error while reading: " << strerror(errno);
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     return bytesRead;

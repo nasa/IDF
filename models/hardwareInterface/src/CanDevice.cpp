@@ -28,7 +28,7 @@ void CanDevice::open() {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Failed to open device: NTCAN_ERRNO = " << result;
-        throw IOException(oss.str().c_str());
+        throw IOException(oss.str());
     }
 
     mOpen = true;

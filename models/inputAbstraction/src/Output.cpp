@@ -6,19 +6,16 @@ using namespace idf;
 
 Output::Output(const Input& in) :
     input(&in),
-    minimum(-1),
-    maximum(1),
-    neutral(0),
-    inverted(false) {}
+    inverted(false) {
+    setRange(-1, 1);
+}
 
 void Output::setInput(const Input& in) {
     input = &in;
 }
 
 void Output::setRange(double min, double max) {
-    minimum = min;
-    maximum = max;
-    neutral = (minimum + maximum) / 2;
+    setRange(min, max, (min + max) / 2);
 }
 
 void Output::setRange(double min, double max, double middle) {
@@ -55,8 +52,8 @@ double Output::getValue() const {
         (neutral - (inverted ? maximum : minimum)) :
         ((inverted ? minimum : maximum) - neutral));
 
-    for (std::vector<const Deadband*>::const_iterator i = deadbands.begin(); i != deadbands.end(); ++i) {
-        value = (*i)->filter(value);
+    for (std::vector<Deadband>::const_iterator i = deadbands.begin(); i != deadbands.end(); ++i) {
+        value = i->filter(value);
     }
 
     return value;
@@ -65,22 +62,32 @@ double Output::getValue() const {
 double Output::getNormalizedValue() const {
     double value = getValue();
 
+    // This check is necessary to prevent a division by zero when
+    // value == neutral == maximum
+    if (value == maximum) {
+        return 1;
+    }
+
     return (value - neutral) /
       (value < neutral ? (neutral - minimum) : (maximum - neutral));
 }
 
 void Output::addDeadband(const Deadband& deadband) {
     // Add the deadband, if not present.
-    if(std::find(deadbands.begin(), deadbands.end(), &deadband) == deadbands.end()) {
-        deadbands.push_back(&deadband);
+    if(std::find(deadbands.begin(), deadbands.end(), deadband) == deadbands.end()) {
+        deadbands.push_back(deadband);
     }
 }
 
 void Output::removeDeadband(const Deadband& deadband) {
     // Remove the deadband, if present.
-    deadbands.erase(std::remove(deadbands.begin(), deadbands.end(), &deadband), deadbands.end());
+    deadbands.erase(std::remove(deadbands.begin(), deadbands.end(), deadband), deadbands.end());
 }
 
-const std::vector<const Deadband*>& Output::getDeadbands() const {
+void Output::clearDeadbands() {
+    deadbands.clear();
+}
+
+const std::vector<Deadband>& Output::getDeadbands() const {
     return deadbands;
 }

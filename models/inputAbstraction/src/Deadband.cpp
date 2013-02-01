@@ -35,3 +35,9 @@ double Deadband::getDeadbandValue() const {
 double Deadband::filter(double val) const {
     return val > lowerBound && val < upperBound ? value : val;
 }
+
+bool Deadband::operator ==(const Deadband& other) const {
+    return lowerBound == other.lowerBound &&
+      upperBound == other.upperBound &&
+      value == other.value;
+}
