@@ -8,7 +8,7 @@ Library Dependencies:
        flags and the path to libusb-1.0.so and the option to include the library
        in your linker flags.
 
-    2. libntcan
+    2. libntcan (only if CAN device support is required)
        Required for CAN bus device support. Avaiable for a fee at
        www.esd.eu. Follow the installation instructions to install the drivers
        and create the device nodes. Ensure you include the path to ntcan.h in

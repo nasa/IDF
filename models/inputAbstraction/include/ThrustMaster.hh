@@ -63,7 +63,7 @@ class ThrustMaster {
 
     private:
 
-    /** this object is not copy-assignable */
+    /** this class is not copy-assignable */
     ThrustMaster& operator=(const ThrustMaster&);
 
 };

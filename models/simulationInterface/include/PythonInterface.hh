@@ -17,12 +17,17 @@
  * @author Derek Bankieris
  */
 
-#include "CompositeCameraController.hh"
-#include "CompositeFlightController.hh"
-#include "MutualExclusionGroup.hh"
-#include "SingleCameraController.hh"
+// FlightController
 #include "SingleFlightController.hh"
+#include "CompositeFlightController.hh"
+#include "RemoteFlightController.hh"
 
+// CameraController
+#include "SingleCameraController.hh"
+#include "CompositeCameraController.hh"
+
+// Miscellaneous
+#include "MutualExclusionGroup.hh"
 #include "inputAbstraction/include/CompositeInput.hh"
 #include "inputAbstraction/include/Deadband.hh"
 

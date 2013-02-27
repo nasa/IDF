@@ -26,7 +26,6 @@ UsbDevice::UsbDevice(int vendorID, int productID) :
 }
 
 UsbDevice::~UsbDevice() {
-    close();
     if (--instanceCount == 0) {
         hid_exit();
     }

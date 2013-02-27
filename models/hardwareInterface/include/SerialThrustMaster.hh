@@ -26,6 +26,15 @@ class SerialThrustMaster : public SerialDevice, public ThrustMaster {
     /** constructor */
     SerialThrustMaster(const char *path = "/dev/ttyS0", bool isMale = false);
 
+    /** opens this device for communication */
+    void open();
+
+    /**
+     * updates this instance so that it reflects the target device's current
+     * state
+     *
+     * @throws IOException if the device is not open
+     */
     void update();
 
 

@@ -45,7 +45,7 @@ class UsbDevice : public InputDevice {
      */
     UsbDevice(int vendorID, int productID);
 
-    /** destructor */
+    /** destructs this instance */
     virtual ~UsbDevice();
 
     /** opens this device for communication */

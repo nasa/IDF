@@ -51,10 +51,12 @@ class CanDevice : public InputDevice {
       int32_t transmitTimeout = 0, int32_t receiveTimeout = 0);
 
     /** destructs this instance */
-    virtual ~CanDevice();
+    virtual ~CanDevice() {};
 
+    /** opens this device for communication */
     virtual void open();
 
+    /** closes this device */
     virtual void close();
 
     protected:
@@ -92,7 +94,7 @@ class CanDevice : public InputDevice {
     /** receive timeout in ms */
     const int32_t receiveTimeout;
 
-    /** prevent SWIG from trying to copy this instance */
+    /** this class is not copy-assignable */
     CanDevice& operator=(const CanDevice&);
 
 };

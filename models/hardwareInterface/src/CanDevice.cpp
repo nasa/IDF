@@ -1,6 +1,4 @@
 #include "CanDevice.hh"
-
-#include <iostream>
 #include <sstream>
 
 using namespace idf;
@@ -14,10 +12,6 @@ CanDevice::CanDevice(int networkID, uint32_t flagz,
     receiveQueueSize(rxQueueSize),
     transmitTimeout(txTimeout),
     receiveTimeout(rxTimeout) {}
-
-CanDevice::~CanDevice() {
-    close();
-}
 
 void CanDevice::open() {
 

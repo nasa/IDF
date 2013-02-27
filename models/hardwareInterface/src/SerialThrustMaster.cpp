@@ -1,10 +1,35 @@
 #include "SerialThrustMaster.hh"
+#include "IOException.hh"
+#include <termios.h>
+#include <errno.h>
+#include <string.h>
+#include <sstream>
 
 using namespace idf;
 
 SerialThrustMaster::SerialThrustMaster(const char *terminalPath, bool isMale) :
     SerialDevice(terminalPath),
     ThrustMaster(isMale) {}
+
+void SerialThrustMaster::open() {
+    SerialDevice::open();
+
+    struct termios settings;
+    tcgetattr(handle, &settings);
+    cfsetspeed(&settings, B9600);
+    settings.c_cflag |= (CLOCAL | CREAD);
+    settings.c_cflag &= ~PARENB;
+    settings.c_cflag &= ~CSTOPB;
+    settings.c_cflag &= ~CSIZE;
+    settings.c_cflag |= CS8;
+
+    if (tcsetattr(handle, TCSANOW, &settings) == -1) {
+        std::ostringstream oss;
+        oss << __FILE__ << ":" << __LINE__
+            << " Failed to set serial port attributes: " << strerror(errno);
+        throw IOException(oss.str());
+    }
+}
 
 void SerialThrustMaster::update() {
     SerialDevice::update();
