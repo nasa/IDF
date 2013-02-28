@@ -26,6 +26,10 @@
 #include "SingleCameraController.hh"
 #include "CompositeCameraController.hh"
 
+// RoboticsController
+#include "SingleRoboticsController.hh"
+#include "CompositeRoboticsController.hh"
+
 // Miscellaneous
 #include "MutualExclusionGroup.hh"
 #include "inputAbstraction/include/CompositeInput.hh"

@@ -36,7 +36,7 @@ class Controller {
      *
      * @param active the state to be set
      */
-    void setActive(bool active);
+    virtual void setActive(bool active);
 
     /**
      * gets the active state of this controller. Inactive controllers output

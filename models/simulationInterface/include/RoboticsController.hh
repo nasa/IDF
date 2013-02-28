@@ -3,11 +3,11 @@
  * ()
  *
  * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/FlightController.cpp))
+ * ((simulationInterface/src/RoboticsController.cpp))
  */
 
-#ifndef _FLIGHT_CONTROLLER_HH_
-#define _FLIGHT_CONTROLLER_HH_
+#ifndef _ROBOTICS_CONTROLLER_HH_
+#define _ROBOTICS_CONTROLLER_HH_
 
 #include "Controller.hh"
 
@@ -15,16 +15,25 @@ namespace idf {
 
 /**
  * represents the interface that an input device must satisfy to qualify as a
- * flight controller
+ * robotics controller
  *
  * @author Derek Bankieris
  */
-class FlightController : public Controller {
+class RoboticsController : public Controller {
 
     public:
 
     /** destructor */
-    virtual ~FlightController() {};
+    virtual ~RoboticsController() {};
+
+    /**
+     * sets the active state of this controller and notifies all registered
+     * listeners of any change. Inactive controllers output neutral or default
+     * values when polled.
+     *
+     * @param active the state to be set
+     */
+    virtual void setActive(bool active);
 
     /**
      * when active, returns the commanded roll normalized to [-1, 0, 1].
@@ -74,6 +83,22 @@ class FlightController : public Controller {
      */
     double getZ() const;
 
+    /**
+     * when active, returns the commanded trigger state.
+     * When inactive, returns <code>false</code>.
+     *
+     * @return the trigger command
+     */
+    bool getTrigger() const;
+
+    /**
+     * when active, returns the commanded rate mode.
+     * When inactive, returns the last commanded rate mode.
+     *
+     * @return the rate mode command
+     */
+    bool getRateMode() const;
+
     protected:
 
     /**
@@ -117,6 +142,25 @@ class FlightController : public Controller {
      * @return the z command
      */
     virtual double getCommandedZ() const = 0;
+
+    /**
+     * returns the commanded trigger state
+     *
+     * @return the trigger command
+     */
+    virtual bool getCommandedTrigger() const = 0;
+
+    /**
+     * returns the commanded rate mode
+     *
+     * @return the rate mode command
+     */
+    virtual bool getCommandedRateMode() const = 0;
+
+    private:
+
+    /** the rate mode returned by <code>getRateMode()</code> when inactive */
+    bool inactiveRateMode;
 
 };
 

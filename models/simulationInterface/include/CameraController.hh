@@ -32,7 +32,7 @@ class CameraController : public Controller {
      *
      * @return the pan command
      */
-    virtual double getPan() const;
+    double getPan() const;
 
     /**
      * when active, returns the commanded tilt normalized to [-1, 0, 1].
@@ -40,7 +40,7 @@ class CameraController : public Controller {
      *
      * @return the tilt command
      */
-    virtual double getTilt() const;
+    double getTilt() const;
 
     /**
      * when active, returns the commanded spin normalized to [-1, 0, 1].
@@ -48,7 +48,7 @@ class CameraController : public Controller {
      *
      * @return the spin command
      */
-    virtual double getSpin() const;
+    double getSpin() const;
 
     /**
      * when active, returns the commanded zoom normalized to [-1, 0, 1].
@@ -56,7 +56,7 @@ class CameraController : public Controller {
      *
      * @return the zoom command
      */
-    virtual double getZoom() const;
+    double getZoom() const;
 
     protected:
 

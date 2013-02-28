@@ -63,7 +63,7 @@ void UsbDevice::open() {
                         std::ostringstream oss;
                         oss << __FILE__ << ":" << __LINE__
                             << " Failed to open device: " << strerror(errno)
-                            << " See the IDF README for troubleshooting.";
+                            << ". See the IDF README for troubleshooting.";
                         throw IOException(oss.str());
                     }
                 }
