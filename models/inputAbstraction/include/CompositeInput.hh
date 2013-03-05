@@ -53,21 +53,21 @@ class CompositeInput : public Input {
      *
      * @return the minimum possible value
      */
-    virtual double getMinimumValue() const;
+    double getMinimumValue() const;
 
     /**
      * returns the neutral value
      *
      * @return the neutral value
      */
-    virtual double getNeutralValue() const;
+    double getNeutralValue() const;
 
     /**
      * returns the maximum value this input can take
      *
      * @return the maximum possible value
      */
-    virtual double getMaximumValue() const;
+    double getMaximumValue() const;
 
     /**
      * gets the conglomerate value
@@ -75,7 +75,7 @@ class CompositeInput : public Input {
      * @return the combination, as dictated by <code>simpleCombination</code>,
      * of all added inputs
      */
-    virtual double getValue() const;
+    double getValue() const;
 
     /**
      * adds <code>input</code>, weighting its value by <code>weight</code> and
@@ -85,7 +85,7 @@ class CompositeInput : public Input {
      * @param input the input to incorporate
      * @param weight the value by which to weight the input
      */
-    virtual void addInput(const Input& input, double weight = 1);
+    void addInput(const Input& input, double weight = 1);
 
     /**
      * removes <code>input</code>, no longer combining its value with other
@@ -94,7 +94,7 @@ class CompositeInput : public Input {
      *
      * @param input the input to unincorporate
      */
-    virtual void removeInput(const Input& input);
+    void removeInput(const Input& input);
 
     protected:
 

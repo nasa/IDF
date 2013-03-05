@@ -32,56 +32,56 @@ class CompositeFlightController : public FlightController {
      * added <code>FlightController</code>s. Adding a controller that is
      * already contained by this instance has no effect.
      */
-    virtual void add(FlightController& flightController);
+    void add(FlightController& flightController);
 
     /**
      * removes <code>flightController</code>, no longer combining its values
      * with other <code>FlightController</code>s. Removing a controller
      * that is not contained by this instance has no effect.
      */
-    virtual void remove(const FlightController& flightController);
+    void remove(const FlightController& flightController);
 
     /**
      * gets the conglomerate roll value, normalized to [-1, 0, 1]
      *
      * @return the combined roll of all added flight controllers
      */
-    virtual double getCommandedRoll() const;
+    double getCommandedRoll() const;
 
     /**
      * gets the conglomerate pitch value, normalized to [-1, 0, 1]
      *
      * @return the combined pitch of all added flight controllers
      */
-    virtual double getCommandedPitch() const;
+    double getCommandedPitch() const;
 
     /**
      * gets the conglomerate yaw value, normalized to [-1, 0, 1]
      *
      * @return the combined yaw of all added flight controllers
      */
-    virtual double getCommandedYaw() const;
+    double getCommandedYaw() const;
 
     /**
      * gets the conglomerate x value, normalized to [-1, 0, 1]
      *
      * @return the combined x of all added flight controllers
      */
-    virtual double getCommandedX() const;
+    double getCommandedX() const;
 
     /**
      * gets the conglomerate y value, normalized to [-1, 0, 1]
      *
      * @return the combined y of all added flight controllers
      */
-    virtual double getCommandedY() const;
+    double getCommandedY() const;
 
     /**
      * gets the conglomerate z value, normalized to [-1, 0, 1]
      *
      * @return the combined z of all added flight controllers
      */
-    virtual double getCommandedZ() const;
+    double getCommandedZ() const;
 
     /**
      * sets the active state of this controller and all consituent controllers
@@ -90,7 +90,7 @@ class CompositeFlightController : public FlightController {
      *
      * @param active the state to be set
      */
-    virtual void setActive(bool active);
+    void setActive(bool active);
 
     protected:
 

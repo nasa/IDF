@@ -21,9 +21,6 @@ class Deadband {
 
     public:
 
-    /** destructor */
-    virtual ~Deadband() {};
-
     /**
      * constructs an instance with a deadband value of
      * <code>(lowerBound + upperBound) / 2</code>

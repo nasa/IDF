@@ -1,4 +1,5 @@
 #include "CompositeCameraController.hh"
+#include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 
 using namespace idf;
@@ -26,7 +27,7 @@ double CompositeCameraController::getCommandedPan() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeCameraController::getCommandedTilt() const {
@@ -39,7 +40,7 @@ double CompositeCameraController::getCommandedTilt() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeCameraController::getCommandedSpin() const {
@@ -52,7 +53,7 @@ double CompositeCameraController::getCommandedSpin() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeCameraController::getCommandedZoom() const {
@@ -65,7 +66,7 @@ double CompositeCameraController::getCommandedZoom() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 void CompositeCameraController::setActive(bool activate) {

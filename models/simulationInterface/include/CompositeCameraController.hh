@@ -73,7 +73,7 @@ class CompositeCameraController : public CameraController {
      *
      * @param active the state to be set
      */
-    virtual void setActive(bool active);
+    void setActive(bool active);
 
     private:
 

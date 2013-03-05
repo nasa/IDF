@@ -1,5 +1,5 @@
 #include "CompositeFlightController.hh"
-
+#include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 
 using namespace idf;
@@ -27,7 +27,7 @@ double CompositeFlightController::getCommandedRoll() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeFlightController::getCommandedPitch() const {
@@ -40,7 +40,7 @@ double CompositeFlightController::getCommandedPitch() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeFlightController::getCommandedYaw() const {
@@ -53,7 +53,7 @@ double CompositeFlightController::getCommandedYaw() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeFlightController::getCommandedX() const {
@@ -66,7 +66,7 @@ double CompositeFlightController::getCommandedX() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeFlightController::getCommandedY() const {
@@ -79,7 +79,7 @@ double CompositeFlightController::getCommandedY() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeFlightController::getCommandedZ() const {
@@ -92,7 +92,7 @@ double CompositeFlightController::getCommandedZ() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 void CompositeFlightController::setActive(bool activate) {

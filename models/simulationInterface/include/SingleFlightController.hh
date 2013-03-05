@@ -87,62 +87,59 @@ class SingleFlightController : public FlightController {
       const Input& roll, const Input& pitch, const Input& yaw,
       const Input& x, const Input& y, const Input& z);
 
-    /** destructor */
-    virtual ~SingleFlightController() {};
-
     /**
      * adds <code>deadband</code> to all outputs
      *
      * @param deadband the deadband to add
      */
-    virtual void addDeadband(const Deadband& deadband);
+    void addDeadband(const Deadband& deadband);
 
     /**
      * removes all deadbands from all outputs
      */
-    virtual void clearDeadbands();
+    void clearDeadbands();
 
     /**
      * returns the commanded roll, normalized to [-1, 0, 1]
      *
      * @return the roll command
      */
-    virtual double getCommandedRoll() const;
+    double getCommandedRoll() const;
 
     /**
      * returns the commanded pitch, normalized to [-1, 0, 1]
      *
      * @return the pitch command
      */
-    virtual double getCommandedPitch() const;
+    double getCommandedPitch() const;
 
     /**
      * returns the commanded yaw, normalized to [-1, 0, 1]
      *
      * @return the yaw command
      */
-    virtual double getCommandedYaw() const;
+    double getCommandedYaw() const;
 
     /**
      * returns the commanded x, normalized to [-1, 0, 1]
      *
      * @return the x command
      */
-    virtual double getCommandedX() const;
+    double getCommandedX() const;
 
     /**
      * returns the commanded y, normalized to [-1, 0, 1]
      *
      * @return the y command
      */
-    virtual double getCommandedY() const;
+    double getCommandedY() const;
 
     /**
      * returns the commanded z, normalized to [-1, 0, 1]
      *
      * @return the z command
      */
-    virtual double getCommandedZ() const;
+    double getCommandedZ() const;
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to

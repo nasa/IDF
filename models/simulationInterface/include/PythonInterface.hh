@@ -25,10 +25,12 @@
 // CameraController
 #include "SingleCameraController.hh"
 #include "CompositeCameraController.hh"
+#include "RemoteCameraController.hh"
 
 // RoboticsController
 #include "SingleRoboticsController.hh"
 #include "CompositeRoboticsController.hh"
+#include "RemoteRoboticsController.hh"
 
 // Miscellaneous
 #include "MutualExclusionGroup.hh"
@@ -37,6 +39,7 @@
 
 // Serial Devices
 #include "hardwareInterface/include/SerialThrustMaster.hh"
+#include "hardwareInterface/include/SerialThrustMaster2.hh"
 
 // USB Devices
 #include "hardwareInterface/include/UsbChProPedals.hh"

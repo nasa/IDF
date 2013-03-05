@@ -32,56 +32,56 @@ class CompositeRoboticsController : public RoboticsController {
      * added <code>RoboticsController</code>s. Adding a controller that is
      * already contained by this instance has no effect.
      */
-    virtual void add(RoboticsController& roboticsController);
+    void add(RoboticsController& roboticsController);
 
     /**
      * removes <code>roboticsController</code>, no longer combining its values
      * with other <code>RoboticsController</code>s. Removing a controller
      * that is not contained by this instance has no effect.
      */
-    virtual void remove(const RoboticsController& roboticsController);
+    void remove(const RoboticsController& roboticsController);
 
     /**
      * gets the conglomerate roll value, normalized to [-1, 0, 1]
      *
      * @return the combined roll of all added robotics controllers
      */
-    virtual double getCommandedRoll() const;
+    double getCommandedRoll() const;
 
     /**
      * gets the conglomerate pitch value, normalized to [-1, 0, 1]
      *
      * @return the combined pitch of all added robotics controllers
      */
-    virtual double getCommandedPitch() const;
+    double getCommandedPitch() const;
 
     /**
      * gets the conglomerate yaw value, normalized to [-1, 0, 1]
      *
      * @return the combined yaw of all added robotics controllers
      */
-    virtual double getCommandedYaw() const;
+    double getCommandedYaw() const;
 
     /**
      * gets the conglomerate x value, normalized to [-1, 0, 1]
      *
      * @return the combined x of all added robotics controllers
      */
-    virtual double getCommandedX() const;
+    double getCommandedX() const;
 
     /**
      * gets the conglomerate y value, normalized to [-1, 0, 1]
      *
      * @return the combined y of all added robotics controllers
      */
-    virtual double getCommandedY() const;
+    double getCommandedY() const;
 
     /**
      * gets the conglomerate z value, normalized to [-1, 0, 1]
      *
      * @return the combined z of all added robotics controllers
      */
-    virtual double getCommandedZ() const;
+    double getCommandedZ() const;
 
     /**
      * gets the conglomerate trigger value, which is the logical
@@ -89,7 +89,7 @@ class CompositeRoboticsController : public RoboticsController {
      *
      * @return the combined trigger of all added robotics controllers
      */
-    virtual bool getCommandedTrigger() const;
+    bool getCommandedTrigger() const;
 
     /**
      * gets the conglomerate rate mode value, which is the logical
@@ -97,7 +97,7 @@ class CompositeRoboticsController : public RoboticsController {
      *
      * @return the combined rate mode of all added robotics controllers
      */
-    virtual bool getCommandedRateMode() const;
+    bool getCommandedRateMode() const;
 
     /**
      * sets the active state of this controller and all consituent controllers
@@ -106,7 +106,7 @@ class CompositeRoboticsController : public RoboticsController {
      *
      * @param active the state to be set
      */
-    virtual void setActive(bool active);
+    void setActive(bool active);
 
     protected:
 

@@ -27,9 +27,6 @@ class MutualExclusionGroup : public StateChangeListener {
 
     public:
 
-    /** destructor */
-    virtual ~MutualExclusionGroup() {}
-
     /**
      * causes <code>controller</code>'s operation to be mutually exclusive with
      * all other controllers managed by this instance. Adding a controller that
@@ -37,7 +34,7 @@ class MutualExclusionGroup : public StateChangeListener {
      *
      * @param controller the controller to manage
      */
-    virtual void add(Controller& controller);
+    void add(Controller& controller);
 
     /**
      * causes <code>controller</code>'s operation to no longer be mutually
@@ -46,7 +43,7 @@ class MutualExclusionGroup : public StateChangeListener {
      *
      * @param controller the controller to stop managing
      */
-    virtual void remove(const Controller& controller);
+    void remove(const Controller& controller);
 
     /**
      * called in response to a change in state of a <code>Controller</code>
@@ -54,7 +51,7 @@ class MutualExclusionGroup : public StateChangeListener {
      *
      * @param controller the controller whose state has changed
      */
-    virtual void stateChanged(Controller& controller);
+    void stateChanged(Controller& controller);
 
     protected:
 

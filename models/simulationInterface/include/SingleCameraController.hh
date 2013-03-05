@@ -77,48 +77,45 @@ class SingleCameraController : public CameraController {
      */
     SingleCameraController(const Input& pan, const Input& tilt, const Input& spin, const Input& zoom);
 
-    /** destructor */
-    virtual ~SingleCameraController() {};
-
     /**
      * adds <code>deadband</code> to all outputs
      *
      * @param deadband the deadband to add
      */
-    virtual void addDeadband(const Deadband& deadband);
+    void addDeadband(const Deadband& deadband);
 
     /**
      * removes all deadbands from all outputs
      */
-    virtual void clearDeadbands();
+    void clearDeadbands();
 
     /**
      * returns the commanded pan, normalized to [-1, 0, 1]
      *
      * @return the pan command
      */
-    virtual double getCommandedPan() const;
+    double getCommandedPan() const;
 
     /**
      * returns the commanded tilt, normalized to [-1, 0, 1]
      *
      * @return the tilt command
      */
-    virtual double getCommandedTilt() const;
+    double getCommandedTilt() const;
 
     /**
      * returns the commanded spin, normalized to [-1, 0, 1]
      *
      * @return the spin command
      */
-    virtual double getCommandedSpin() const;
+    double getCommandedSpin() const;
 
     /**
      * returns the commanded zoom, normalized to [-1, 0, 1]
      *
      * @return the zoom command
      */
-    virtual double getCommandedZoom() const;
+    double getCommandedZoom() const;
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to

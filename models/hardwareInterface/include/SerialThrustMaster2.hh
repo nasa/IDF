@@ -3,28 +3,28 @@
  * ()
  *
  * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/SerialThrustMaster.cpp))
+ * ((hardwareInterface/src/SerialThrustMaster2.cpp))
  */
 
-#ifndef _SERIAL_THRUST_MASTER_HH_
-#define _SERIAL_THRUST_MASTER_HH_
+#ifndef _SERIAL_THRUST_MASTER2_HH_
+#define _SERIAL_THRUST_MASTER2_HH_
 
 #include "SerialThrustMasterBase.hh"
-#include "inputAbstraction/include/ThrustMaster.hh"
+#include "inputAbstraction/include/ThrustMaster2.hh"
 
 namespace idf {
 
 /**
- * represents a shuttle-style serial ThrustMaster hand controller
+ * represents a Orion-style serial ThrustMaster hand controller
  *
  * @author Derek Bankieris
  */
-class SerialThrustMaster : public SerialThrustMasterBase, public ThrustMaster {
+class SerialThrustMaster2 : public SerialThrustMasterBase, public ThrustMaster2 {
 
     public:
 
     /** constructor */
-    SerialThrustMaster(const char *path = "/dev/ttyS0", bool isMale = false);
+    SerialThrustMaster2(const char *path = "/dev/ttyS0", bool isMale = false);
 
     protected:
 

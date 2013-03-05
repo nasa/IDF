@@ -103,3 +103,7 @@ unsigned short RemoteDeviceServerBase::getPort() const {
 
     return port;
 }
+
+double RemoteDeviceServerBase::unpack(signed char value) {
+    return value / serializationFactor;
+}

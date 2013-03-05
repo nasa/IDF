@@ -30,9 +30,6 @@ class Output {
 
     public:
 
-    /** destructor */
-    virtual ~Output() {};
-
     /**
      * constructs a new, non-inverting instance with a range of
      * </code>[-1, 1]</code> and neutral point of <code>0</code>
@@ -46,7 +43,7 @@ class Output {
      *
      * @param input the input to be processed by this output
      */
-    virtual void setInput(const Input& input);
+    void setInput(const Input& input);
 
     /**
      * sets the range to which this output will scale its input's value
@@ -55,7 +52,7 @@ class Output {
      * @param maximum the maximum value
      * @param neutral the neutral value
      */
-    virtual void setRange(double minimum, double maximum, double neutral);
+    void setRange(double minimum, double maximum, double neutral);
 
     /**
      * sets the range to which this output will scale its input's value, with
@@ -64,21 +61,21 @@ class Output {
      * @param minimum the minimum value
      * @param maximum the maximum value
      */
-    virtual void setRange(double minimum, double maximum);
+    void setRange(double minimum, double maximum);
 
     /**
      * sets whether or not this output inverts its input
      *
      * @param inverted the inverted state of this output
      */
-    virtual void setInverted(bool inverted);
+    void setInverted(bool inverted);
 
     /**
      * returns whether or not this output inverts its input
      *
      * @return the inverted state of this output
      */
-    virtual bool isInverted() const;
+    bool isInverted() const;
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -89,7 +86,7 @@ class Output {
      *
      * returns the minimum value that this output can return
      */
-    virtual double getMinimumValue() const;
+    double getMinimumValue() const;
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -100,7 +97,7 @@ class Output {
      *
      * returns the maximum value that this output can return
      */
-    virtual double getMaximumValue() const;
+    double getMaximumValue() const;
 
     /**
      * returns the value <code>getValue()</code> will return when this instance's
@@ -109,7 +106,7 @@ class Output {
      *
      * returns the neutral value of this output
      */
-    virtual double getNeutralValue() const;
+    double getNeutralValue() const;
 
     /**
      * returns the value of the this instance's <code>Input</code>
@@ -120,7 +117,7 @@ class Output {
      *
      * @return the processed value
      */
-    virtual double getValue() const;
+    double getValue() const;
 
     /**
      * returns the value of the this instance's <code>Input</code> normalized to
@@ -129,7 +126,7 @@ class Output {
      *
      * @return the normalized and possibly inverted value
      */
-    virtual double getNormalizedValue() const;
+    double getNormalizedValue() const;
 
     /**
      * adds <code>deadband</code> to the list of filters. Adding a deadband
@@ -137,7 +134,7 @@ class Output {
      *
      * @param deadband the deadband to add
      */
-    virtual void addDeadband(const Deadband& deadband);
+    void addDeadband(const Deadband& deadband);
 
     /**
      * remove <code>deadband</code> from the list of filters. Removing a
@@ -145,19 +142,19 @@ class Output {
      *
      * @param deadband the deadband to remove
      */
-    virtual void removeDeadband(const Deadband& deadband);
+    void removeDeadband(const Deadband& deadband);
 
     /**
      * removes all deadbands applied to this instance
      */
-    virtual void clearDeadbands();
+    void clearDeadbands();
 
     /**
      * returns the deadbands applied to this intance
      *
      * @return the current deadbands
      */
-    virtual const std::vector<Deadband>& getDeadbands() const;
+    const std::vector<Deadband>& getDeadbands() const;
 
     protected:
 

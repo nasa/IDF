@@ -3,19 +3,19 @@
  * ()
  *
  * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/RemoteFlightController.cpp))
+ * ((simulationInterface/src/RemoteRoboticsController.cpp))
  */
 
-#ifndef _REMOTE_FLIGHT_CONTROLLER_HH_
-#define _REMOTE_FLIGHT_CONTROLLER_HH_
+#ifndef _REMOTE_ROBOTICS_CONTROLLER_HH_
+#define _REMOTE_ROBOTICS_CONTROLLER_HH_
 
-#include "FlightController.hh"
+#include "RoboticsController.hh"
 #include "hardwareInterface/include/RemoteDeviceServer.hh"
 #include "hardwareInterface/include/RemoteDeviceClient.hh"
 
 namespace idf {
 
-class RemoteFlightController {
+class RemoteRoboticsController {
 
     public:
 
@@ -40,6 +40,12 @@ class RemoteFlightController {
         /** serialized commanded z */
         signed char z;
 
+        /** trigger command */
+        bool trigger;
+
+        /** rate mode command */
+        bool rateMode;
+
     };
 
     /**
@@ -48,7 +54,7 @@ class RemoteFlightController {
      *
      * @author Derek Bankieris
      */
-    class Server : public FlightController, public RemoteDeviceServer<Commands> {
+    class Server : public RoboticsController, public RemoteDeviceServer<Commands> {
 
         public:
 
@@ -63,78 +69,94 @@ class RemoteFlightController {
         /**
          * gets the roll value, normalized to [-1, 0, 1]
          *
-         * @return the roll of all added flight controllers
+         * @return the roll of all added robotics controllers
          */
         double getCommandedRoll() const;
 
         /**
          * gets the pitch value, normalized to [-1, 0, 1]
          *
-         * @return the pitch of all added flight controllers
+         * @return the pitch of all added robotics controllers
          */
         double getCommandedPitch() const;
 
         /**
          * gets the yaw value, normalized to [-1, 0, 1]
          *
-         * @return the yaw of all added flight controllers
+         * @return the yaw of all added robotics controllers
          */
         double getCommandedYaw() const;
 
         /**
          * gets the x value, normalized to [-1, 0, 1]
          *
-         * @return the x of all added flight controllers
+         * @return the x of all added robotics controllers
          */
         double getCommandedX() const;
 
         /**
          * gets the y value, normalized to [-1, 0, 1]
          *
-         * @return the y of all added flight controllers
+         * @return the y of all added robotics controllers
          */
         double getCommandedY() const;
 
         /**
          * gets the z value, normalized to [-1, 0, 1]
          *
-         * @return the z of all added flight controllers
+         * @return the z of all added robotics controllers
          */
         double getCommandedZ() const;
+
+        /**
+         * gets the trigger value, which is the logical OR of all added
+         * controllers' trigger values
+         *
+         * @return the trigger of all added robotics controllers
+         */
+        bool getCommandedTrigger() const;
+
+        /**
+         * gets the rate mode value, which is the logical OR of all added
+         * controllers' rate mode values
+         *
+         * @return the rate mode of all added robotics controllers
+         */
+        bool getCommandedRateMode() const;
 
     };
 
     /**
-     * transmits commands from a contained {@link FlightController} to a
+     * transmits commands from a contained {@link RoboticsController} to a
      * <code>Server</code>
      *
      * @author Derek Bankieris
      */
-    class Client : public RemoteDeviceClient<FlightController, Commands> {
+    class Client : public RemoteDeviceClient<RoboticsController, Commands> {
 
         public:
 
         /**
          * constructs an instance that transmits commands from
-         * <code>flightController</code> to the <code>Server</code>
+         * <code>roboticsController</code> to the <code>Server</code>
          * listening on <code>host</code>:<code>port</code>
          *
-         * @param flightController the command source
+         * @param roboticsController the command source
          * @param host the name or ip address of the server host machine
          * @param port the port on which the server is listening
          */
-        Client(const FlightController& flightController,
+        Client(const RoboticsController& roboticsController,
           const std::string host, unsigned short port);
 
         /**
-         * packs commands from <code>flightController</code> into
+         * packs commands from <code>roboticsController</code> into
          * <code>commands</code>
          *
          * @param commands the structure into which the commands are packed
-         * @param flightController the controller whose commands are to be packed
+         * @param roboticsController the controller whose commands are to be packed
          */
         void packCommands(Commands& commands,
-          const FlightController& flightController);
+          const RoboticsController& roboticsController);
 
     };
 

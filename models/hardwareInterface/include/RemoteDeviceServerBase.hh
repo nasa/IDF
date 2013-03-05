@@ -17,13 +17,14 @@ class RemoteDeviceServerBase : public InputDevice {
 
     public:
 
-    virtual ~RemoteDeviceServerBase();
-
     /**
      * the factor to use when packing and unpacking commands, facilitating
      * conversion between double and short
      */
     static const double serializationFactor;
+
+    /** destructor */
+    virtual ~RemoteDeviceServerBase();
 
     /**
      * begins listening for client connections on the port returned by
@@ -66,6 +67,13 @@ class RemoteDeviceServerBase : public InputDevice {
      * @param port the port over which to listen for connections
      */
     RemoteDeviceServerBase(unsigned short port = 0);
+
+    /**
+     * unpacks the normalized <code>value</code>
+     *
+     * @param value the normalized value
+     */
+    static double unpack(signed char value);
 
     private:
 

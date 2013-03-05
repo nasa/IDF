@@ -1,5 +1,5 @@
 #include "CompositeRoboticsController.hh"
-
+#include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 
 using namespace idf;
@@ -27,7 +27,7 @@ double CompositeRoboticsController::getCommandedRoll() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeRoboticsController::getCommandedPitch() const {
@@ -40,7 +40,7 @@ double CompositeRoboticsController::getCommandedPitch() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeRoboticsController::getCommandedYaw() const {
@@ -53,7 +53,7 @@ double CompositeRoboticsController::getCommandedYaw() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeRoboticsController::getCommandedX() const {
@@ -66,7 +66,7 @@ double CompositeRoboticsController::getCommandedX() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeRoboticsController::getCommandedY() const {
@@ -79,7 +79,7 @@ double CompositeRoboticsController::getCommandedY() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 double CompositeRoboticsController::getCommandedZ() const {
@@ -92,7 +92,7 @@ double CompositeRoboticsController::getCommandedZ() const {
     }
 
     // Restrict the result to [-1, 1]
-    return result > 1 ? 1 : result < -1 ? -1 : result;
+    return bound(result);
 }
 
 bool CompositeRoboticsController::getCommandedTrigger() const {
