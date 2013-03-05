@@ -9,7 +9,7 @@
 #ifndef _USB_SPACE_NAVIGATOR_HH_
 #define _USB_SPACE_NAVIGATOR_HH_
 
-#include "UsbDevice.hh"
+#include "UsbSpaceBase.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
 
 namespace idf {
@@ -19,14 +19,21 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class UsbSpaceNavigator : public UsbDevice, public SpaceNavigator {
+class UsbSpaceNavigator : public UsbSpaceBase, public SpaceNavigator {
 
     public:
 
     /** constructor */
     UsbSpaceNavigator(int vendorID = 0x046D, int productID = 0xC628);
 
-    void update();
+    protected:
+
+    /**
+     * processes the button data and sets the appropriate inputs
+     *
+     * @param buttonData the raw button data
+     */
+    void processButtons(unsigned char* buttonData);
 
 };
 
