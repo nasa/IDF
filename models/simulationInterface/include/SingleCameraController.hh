@@ -19,9 +19,8 @@
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
 #include "inputAbstraction/include/IndustrialProducts2.hh"
-#include "inputAbstraction/include/SpaceExplorer.hh"
-#include "inputAbstraction/include/SpaceNavigator.hh"
-#include "inputAbstraction/include/ThrustMaster.hh"
+#include "inputAbstraction/include/SpaceBase.hh"
+#include "inputAbstraction/include/ThrustMasterBase.hh"
 #include "inputAbstraction/include/VirtualLayout.hh"
 #include "inputAbstraction/include/WingMan.hh"
 
@@ -133,19 +132,9 @@ class SingleCameraController : public CameraController {
      *
      * @param spaceExplorer the inputs to use in the default mapping
      *
-     * @return a new SpaceExplorer-based camera controller
+     * @return a new 3dconnexion-based camera controller
      */
-    static SingleCameraController* createInstance(const SpaceExplorer& spaceExplorer);
-
-    /**
-     * creates a new <code>SingleCameraController</code> mapped to
-     * <code>spaceNavigator</code> using appropriate defaults
-     *
-     * @param spaceNavigator the inputs to use in the default mapping
-     *
-     * @return a new SpaceNavigator-based camera controller
-     */
-    static SingleCameraController* createInstance(const SpaceNavigator& spaceNavigator);
+    static SingleCameraController* createInstance(const SpaceBase& spaceBase);
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to
@@ -185,7 +174,7 @@ class SingleCameraController : public CameraController {
      *
      * @return a new ThrustMaster-based camera controller
      */
-    static SingleCameraController* createInstance(const ThrustMaster& thrustMaster);
+    static SingleCameraController* createInstance(const ThrustMasterBase& thrustMaster);
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to

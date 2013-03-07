@@ -19,9 +19,8 @@
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
 #include "inputAbstraction/include/IndustrialProducts2.hh"
-#include "inputAbstraction/include/SpaceExplorer.hh"
-#include "inputAbstraction/include/SpaceNavigator.hh"
-#include "inputAbstraction/include/ThrustMaster.hh"
+#include "inputAbstraction/include/SpaceBase.hh"
+#include "inputAbstraction/include/ThrustMasterBase.hh"
 #include "inputAbstraction/include/VirtualLayout.hh"
 #include "inputAbstraction/include/WingMan.hh"
 
@@ -157,19 +156,9 @@ class SingleFlightController : public FlightController {
      *
      * @param spaceExplorer the inputs to use in the default mapping
      *
-     * @return a new SpaceExplorer-based flight controller
+     * @return a new 3dconnexion-based flight controller
      */
-    static SingleFlightController* createInstance(const SpaceExplorer& spaceExplorer);
-
-    /**
-     * creates a new <code>SingleFlightController</code> mapped to
-     * <code>spaceNavigator</code> using appropriate defaults
-     *
-     * @param spaceNavigator the inputs to use in the default mapping
-     *
-     * @return a new SpaceNavigator-based flight controller
-     */
-    static SingleFlightController* createInstance(const SpaceNavigator& spaceNavigator);
+    static SingleFlightController* createInstance(const SpaceBase& spaceBase);
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to
@@ -209,7 +198,7 @@ class SingleFlightController : public FlightController {
      *
      * @return a new ThrustMaster-based flight controller
      */
-    static SingleFlightController* createInstance(const ThrustMaster& thrustMaster);
+    static SingleFlightController* createInstance(const ThrustMasterBase& thrustMaster);
 
     /*
      * creates a new <code>SingleFlightController</code> mapped to

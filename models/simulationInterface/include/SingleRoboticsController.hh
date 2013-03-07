@@ -22,6 +22,7 @@
 #include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
 #include "inputAbstraction/include/ThrustMaster.hh"
+#include "inputAbstraction/include/ThrustMaster2.hh"
 #include "inputAbstraction/include/VirtualLayout.hh"
 #include "inputAbstraction/include/WingMan.hh"
 
@@ -231,9 +232,19 @@ class SingleRoboticsController : public RoboticsController {
      *
      * @param thrustMaster the inputs to use in the default mapping
      *
-     * @return a new ThrustMaster-based robotics controller
+     * @return a new shuttle-style ThrustMaster-based robotics controller
      */
     static SingleRoboticsController* createInstance(const ThrustMaster& thrustMaster);
+
+    /*
+     * creates a new <code>SingleRoboticsController</code> mapped to
+     * <code>thrustMaster2</code> using appropriate defaults
+     *
+     * @param thrustMaster2 the inputs to use in the default mapping
+     *
+     * @return a new Orion-style ThrustMaster-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const ThrustMaster2& thrustMaster2);
 
     /*
      * creates a new <code>SingleRoboticsController</code> mapped to

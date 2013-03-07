@@ -73,35 +73,15 @@ SingleFlightController* SingleFlightController::createInstance(const WingMan& wi
     return controller;
 }
 
-SingleFlightController* SingleFlightController::createInstance(const SpaceExplorer& spaceExplorer) {
+SingleFlightController* SingleFlightController::createInstance(const SpaceBase& spaceBase) {
     SingleFlightController *controller =
       new SingleFlightController(
-      spaceExplorer.leftRightPivot,
-      spaceExplorer.forwardBackwardPivot,
-      spaceExplorer.twist,
-      spaceExplorer.forwardBackwardTranslation,
-      spaceExplorer.leftRightTranslation,
-      spaceExplorer.upDownTranslation);
-
-    controller->x.setInverted(true);
-    controller->y.setInverted(true);
-    controller->z.setInverted(true);
-    controller->roll.setInverted(true);
-    controller->pitch.setInverted(true);
-    controller->yaw.setInverted(true);
-
-    return controller;
-}
-
-SingleFlightController* SingleFlightController::createInstance(const SpaceNavigator& spaceNavigator) {
-    SingleFlightController *controller =
-      new SingleFlightController(
-      spaceNavigator.leftRightPivot,
-      spaceNavigator.forwardBackwardPivot,
-      spaceNavigator.twist,
-      spaceNavigator.forwardBackwardTranslation,
-      spaceNavigator.leftRightTranslation,
-      spaceNavigator.upDownTranslation);
+      spaceBase.leftRightPivot,
+      spaceBase.forwardBackwardPivot,
+      spaceBase.twist,
+      spaceBase.forwardBackwardTranslation,
+      spaceBase.leftRightTranslation,
+      spaceBase.upDownTranslation);
 
     controller->x.setInverted(true);
     controller->y.setInverted(true);
@@ -177,7 +157,7 @@ SingleFlightController* SingleFlightController::createInstance(const VirtualLayo
       virtualLayout.upDownTranslation);
 }
 
-SingleFlightController* SingleFlightController::createInstance(const ThrustMaster& thrustMaster) {
+SingleFlightController* SingleFlightController::createInstance(const ThrustMasterBase& thrustMaster) {
     SingleFlightController *controller =
       new SingleFlightController(
       thrustMaster.leftRightPivot,

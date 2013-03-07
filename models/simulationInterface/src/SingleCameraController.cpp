@@ -51,29 +51,13 @@ SingleCameraController* SingleCameraController::createInstance(const WingMan& wi
     return controller;
 }
 
-SingleCameraController* SingleCameraController::createInstance(const SpaceExplorer& spaceExplorer) {
+SingleCameraController* SingleCameraController::createInstance(const SpaceBase& spaceBase) {
     SingleCameraController *controller =
       new SingleCameraController(
-      spaceExplorer.twist,
-      spaceExplorer.forwardBackwardPivot,
-      spaceExplorer.leftRightPivot,
-      spaceExplorer.forwardBackwardTranslation);
-
-    controller->pan.setInverted(true);
-    controller->tilt.setInverted(true);
-    controller->spin.setInverted(true);
-    controller->zoom.setInverted(true);
-
-    return controller;
-}
-
-SingleCameraController* SingleCameraController::createInstance(const SpaceNavigator& spaceNavigator) {
-    SingleCameraController *controller =
-      new SingleCameraController(
-      spaceNavigator.twist,
-      spaceNavigator.forwardBackwardPivot,
-      spaceNavigator.leftRightPivot,
-      spaceNavigator.forwardBackwardTranslation);
+      spaceBase.twist,
+      spaceBase.forwardBackwardPivot,
+      spaceBase.leftRightPivot,
+      spaceBase.forwardBackwardTranslation);
 
     controller->pan.setInverted(true);
     controller->tilt.setInverted(true);
@@ -133,7 +117,7 @@ SingleCameraController* SingleCameraController::createInstance(const VirtualLayo
       virtualLayout.inOutTranslation);
 }
 
-SingleCameraController* SingleCameraController::createInstance(const ThrustMaster& thrustMaster) {
+SingleCameraController* SingleCameraController::createInstance(const ThrustMasterBase& thrustMaster) {
     SingleCameraController *controller =
       new SingleCameraController(
       thrustMaster.twist,

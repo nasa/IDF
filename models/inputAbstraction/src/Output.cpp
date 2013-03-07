@@ -6,7 +6,10 @@ using namespace idf;
 
 Output::Output(const Input& in) :
     input(&in),
-    inverted(false) {
+    inverted(false),
+    toggle(false),
+    toggleValue(-1),
+    lastValue(0) {
     setRange(-1, 1);
 }
 
@@ -30,6 +33,14 @@ void Output::setInverted(bool flip) {
 
 bool Output::isInverted() const {
     return inverted;
+}
+
+void Output::setToggle(bool tog) {
+    toggle = tog;
+}
+
+bool Output::isToggle() const {
+    return toggle;
 }
 
 double Output::getMinimumValue() const {
@@ -56,7 +67,12 @@ double Output::getValue() const {
         value = i->filter(value);
     }
 
-    return value;
+    if (lastValue <= neutral && value > neutral) {
+        toggleValue = toggleValue == minimum ? maximum : minimum;
+    }
+    lastValue = value;
+
+    return toggle ? toggleValue : value;
 }
 
 double Output::getNormalizedValue() const {

@@ -103,6 +103,8 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const SpaceEx
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
+    controller->rateMode.setToggle(true);
+
     return controller;
 }
 
@@ -124,6 +126,8 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const SpaceNa
     controller->roll.setInverted(true);
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
+
+    controller->rateMode.setToggle(true);
 
     return controller;
 }
@@ -153,8 +157,13 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Gravis&
     z->addInput(gravis.directionalPadUp);
     z->addInput(gravis.directionalPadDown, -1);
 
-    return new SingleRoboticsController(*roll, *pitch, *yaw, *x, *y, *z,
+    SingleRoboticsController *controller = new SingleRoboticsController(
+      *roll, *pitch, *yaw, *x, *y, *z,
       gravis.startButton, gravis.selectButton);
+
+    controller->rateMode.setToggle(true);
+
+    return controller;
 }
 
 SingleRoboticsController* SingleRoboticsController::createInstance(const DualShock3& dualShock3) {
@@ -182,6 +191,8 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const DualSho
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
+    controller->rateMode.setToggle(true);
+
     return controller;
 }
 
@@ -199,8 +210,6 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Virtual
 }
 
 SingleRoboticsController* SingleRoboticsController::createInstance(const ThrustMaster& thrustMaster) {
-    SingleInput* dummyInput = new SingleInput(-1, 1);
-
     SingleRoboticsController *controller =
       new SingleRoboticsController(
       thrustMaster.leftRightPivot,
@@ -209,13 +218,37 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const ThrustM
       thrustMaster.forwardBackwardTranslation,
       thrustMaster.leftRightTranslation,
       thrustMaster.upDownTranslation,
-      *dummyInput, *dummyInput);
+      thrustMaster.trigger, thrustMaster.topSwitch);
 
     controller->y.setInverted(true);
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
     if (thrustMaster.male) {
+        controller->z.setInverted(true);
+    }
+
+    return controller;
+}
+
+SingleRoboticsController* SingleRoboticsController::createInstance(const ThrustMaster2& thrustMaster2) {
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+      thrustMaster2.leftRightPivot,
+      thrustMaster2.forwardBackwardPivot,
+      thrustMaster2.twist,
+      thrustMaster2.forwardBackwardTranslation,
+      thrustMaster2.leftRightTranslation,
+      thrustMaster2.upDownTranslation,
+      thrustMaster2.trigger, thrustMaster2.middleButton);
+
+    controller->y.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    controller->rateMode.setToggle(true);
+
+    if (thrustMaster2.male) {
         controller->z.setInverted(true);
     }
 
@@ -236,10 +269,12 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Industr
       industrialProducts.hatLeftRightPivot,
       *z,
       industrialProducts.trigger,
-      industrialProducts.switchUp);
+      industrialProducts.hatNorth);
 
     controller->yaw.setInverted(true);
     controller->y.setInverted(true);
+
+    controller->rateMode.setToggle(true);
 
     return controller;
 }
@@ -268,6 +303,8 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Industr
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
+
+    controller->rateMode.setToggle(true);
 
     return controller;
 }

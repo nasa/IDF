@@ -78,6 +78,26 @@ class Output {
     bool isInverted() const;
 
     /**
+     * sets whether or not this output acts as a toggle switch. A toggle output
+     * returns only the extemeties of its range (minimum or maximum value) and
+     * alternates between the two every time its true value rises through its
+     * neutral point.
+     *
+     * @param toggle the toggle state of this output
+     */
+    void setToggle(bool toggle);
+
+    /**
+     * returns whether or not this output acts as a toggle switch. A toggle
+     * output returns only the extemeties of its range (minimum or maximum
+     * value) and alternates between the two every time its true value rises
+     * through its neutral point.
+     *
+     * @return the toggle state of this output
+     */
+    bool isToggle() const;
+
+    /**
      * returns the value <code>getValue()</code> will return when this instance's
      * <code>Input</code>'s value is at its minimum (or maximum), as determined by
      * <code>Input::getMinimumValue()</code>
@@ -156,7 +176,7 @@ class Output {
      */
     const std::vector<Deadband>& getDeadbands() const;
 
-    protected:
+    private:
 
     /**
      * the correpsonding input that this output will process and derive its
@@ -194,6 +214,19 @@ class Output {
      * about the neutral point
      */
     bool inverted;
+
+    /**
+     * causes this output to act as a toggle switch. A toggle output returns
+     * only either the <code>minimum</code> or <code>maximum</code> value, and
+     * switches when its true value rises through <code>neutral</code>.
+     */
+    bool toggle;
+
+    /** the value to return when acting as a toggle switch */
+    mutable double toggleValue;
+
+    /** used to determine when to toggle, if enabled */
+    mutable double lastValue;
 
     /** deadband filters */
     std::vector<Deadband> deadbands;
