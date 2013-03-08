@@ -23,6 +23,11 @@ void SerialThrustMasterBase::open() {
     settings.c_cflag &= ~CSIZE;
     settings.c_cflag |= CS8;
 
+    // Set a timeout of 0.1 seconds
+    settings.c_lflag &= ~ICANON;
+    settings.c_cc[VTIME] = 1;
+    settings.c_cc[VMIN] = 0;
+
     if (tcsetattr(handle, TCSANOW, &settings) == -1) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
@@ -42,7 +47,14 @@ void SerialThrustMasterBase::update() {
     unsigned char buffer[bytesRemaining];
 
     while(bytesRemaining) {
-        bytesRemaining -= read(buffer + (9 - bytesRemaining), bytesRemaining);
+        int bytesRead = read(buffer + (9 - bytesRemaining), bytesRemaining);
+        if (bytesRead == 0) {
+            std::ostringstream oss;
+            oss << __FILE__ << ":" << __LINE__
+                << " Timeout while reading: " << strerror(errno);
+            throw IOException(oss.str());
+        }
+        bytesRemaining -= bytesRead;
     }
 
     forwardBackwardPivot.setValue(buffer[0]);
