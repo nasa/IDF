@@ -12,6 +12,4 @@ ThrustMasterBase::ThrustMasterBase(bool isMale) :
     forwardBackwardTranslation(0, 255),
     leftRightTranslation(72, 200),
     upDownTranslation(72, 200),
-    trigger(0, 1) {
-        std::cout << "ThrustMasterBase isMale = " << isMale << std::endl;
-}
+    trigger(0, 1) {}
