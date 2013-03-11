@@ -3,7 +3,9 @@
 using namespace idf;
 
 SerialThrustMaster2::SerialThrustMaster2(const char *terminalPath, bool isMale) :
-    SerialThrustMasterBase(terminalPath, isMale) {}
+    ThrustMasterBase(isMale),
+    SerialThrustMasterBase(terminalPath, isMale),
+    ThrustMaster2(isMale) {}
 
 void SerialThrustMaster2::processButtons(unsigned char buttonByte) {
     leftButton.setValue(buttonByte >> 1 & 1);

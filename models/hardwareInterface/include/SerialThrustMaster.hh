@@ -24,7 +24,7 @@ class SerialThrustMaster : public SerialThrustMasterBase, public ThrustMaster {
     public:
 
     /** constructor */
-    SerialThrustMaster(const char *path = "/dev/ttyS0", bool isMale = false);
+    SerialThrustMaster(const char *path = "/dev/ttyS0", bool isMale = true);
 
     protected:
 

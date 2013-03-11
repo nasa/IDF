@@ -2,12 +2,10 @@
 
 using namespace idf;
 
-#include <iostream>
-
 SerialThrustMaster::SerialThrustMaster(const char *terminalPath, bool isMale) :
-    SerialThrustMasterBase(terminalPath, isMale) {
-    std::cout << "SerialThrustMaster isMale = " << isMale << std::endl;
-}
+    ThrustMasterBase(isMale),
+    SerialThrustMasterBase(terminalPath, isMale),
+    ThrustMaster(isMale) {}
 
 void SerialThrustMaster::processButtons(unsigned char buttonByte) {
     topSwitch.setValue(buttonByte >> 2 & 1);
