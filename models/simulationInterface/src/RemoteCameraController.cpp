@@ -52,7 +52,7 @@ double RemoteCameraController::Server::getCommandedZoom() const {
 
 RemoteCameraController::Client::Client(const CameraController& cameraController,
   std::string host, unsigned short port) :
-    RemoteDeviceClient<CameraController, Commands>(cameraController, host, port) {}
+    RemoteDeviceClient<CameraController, Commands, Client>(cameraController, host, port) {}
 
 void RemoteCameraController::Client::packCommands(Commands& commands,
   const CameraController& cameraController) {

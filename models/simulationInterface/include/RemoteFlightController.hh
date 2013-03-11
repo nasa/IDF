@@ -110,7 +110,7 @@ class RemoteFlightController {
      *
      * @author Derek Bankieris
      */
-    class Client : public RemoteDeviceClient<FlightController, Commands> {
+    class Client : public RemoteDeviceClient<FlightController, Commands, Client> {
 
         public:
 
@@ -133,7 +133,7 @@ class RemoteFlightController {
          * @param commands the structure into which the commands are packed
          * @param flightController the controller whose commands are to be packed
          */
-        void packCommands(Commands& commands,
+        static void packCommands(Commands& commands,
           const FlightController& flightController);
 
     };

@@ -90,7 +90,7 @@ class RemoteCameraController {
      *
      * @author Derek Bankieris
      */
-    class Client : public RemoteDeviceClient<CameraController, Commands> {
+    class Client : public RemoteDeviceClient<CameraController, Commands, Client> {
 
         public:
 
@@ -113,7 +113,7 @@ class RemoteCameraController {
          * @param commands the structure into which the commands are packed
          * @param cameraController the controller whose commands are to be packed
          */
-        void packCommands(Commands& commands,
+        static void packCommands(Commands& commands,
           const CameraController& cameraController);
 
     };

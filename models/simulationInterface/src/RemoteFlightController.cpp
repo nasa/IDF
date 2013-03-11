@@ -67,7 +67,7 @@ double RemoteFlightController::Server::getCommandedZ() const {
 
 RemoteFlightController::Client::Client(const FlightController& flightController,
   std::string host, unsigned short port) :
-    RemoteDeviceClient<FlightController, Commands>(flightController, host, port) {}
+    RemoteDeviceClient<FlightController, Commands, Client>(flightController, host, port) {}
 
 void RemoteFlightController::Client::packCommands(Commands& commands,
   const FlightController& flightController) {

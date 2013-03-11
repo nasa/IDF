@@ -32,7 +32,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-template <class T, class U>
+template <class T, class U, class DerivedClass>
 class RemoteDeviceClient {
 
     public:
@@ -127,12 +127,16 @@ class RemoteDeviceClient {
      * @param commands the structure into which the commands are packed
      * @param controller the controller whose commands are to be packed
      */
-    virtual void packCommands(U& commands, const T& controller) = 0;
+    static void packCommands(U& commands, const T& controller) {
+        DerivedClass::packCommands(commands, controller);
+    };
 
     /**
      * packs the normalized <code>value</code> into a short
      *
      * @param value the normalized value
+     *
+     * @return the packed value
      */
     static unsigned char pack(double value) {
         return (signed char)(bound(value) * RemoteDeviceServerBase::serializationFactor);

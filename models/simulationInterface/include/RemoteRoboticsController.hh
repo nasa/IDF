@@ -132,7 +132,7 @@ class RemoteRoboticsController {
      *
      * @author Derek Bankieris
      */
-    class Client : public RemoteDeviceClient<RoboticsController, Commands> {
+    class Client : public RemoteDeviceClient<RoboticsController, Commands, Client> {
 
         public:
 
@@ -155,7 +155,7 @@ class RemoteRoboticsController {
          * @param commands the structure into which the commands are packed
          * @param roboticsController the controller whose commands are to be packed
          */
-        void packCommands(Commands& commands,
+        static void packCommands(Commands& commands,
           const RoboticsController& roboticsController);
 
     };

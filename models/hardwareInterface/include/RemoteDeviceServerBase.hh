@@ -55,6 +55,15 @@ class RemoteDeviceServerBase : public InputDevice {
      */
     unsigned short getPort() const;
 
+    /**
+     * unpacks the <code>value</code> packed by <code>RemoteDeviceClient::pack</code>
+     *
+     * @param value the packed value
+     *
+     * @return the normalized value
+     */
+    static double unpack(signed char value);
+
     protected:
 
     /** the listening socket */
@@ -67,13 +76,6 @@ class RemoteDeviceServerBase : public InputDevice {
      * @param port the port over which to listen for connections
      */
     RemoteDeviceServerBase(unsigned short port = 0);
-
-    /**
-     * unpacks the normalized <code>value</code>
-     *
-     * @param value the normalized value
-     */
-    static double unpack(signed char value);
 
     private:
 
