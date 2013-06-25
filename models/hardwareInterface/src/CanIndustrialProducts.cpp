@@ -1,6 +1,5 @@
 #include "CanIndustrialProducts.hh"
 
-#include <iostream>
 #include <sstream>
 
 using namespace idf;

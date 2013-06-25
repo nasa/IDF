@@ -19,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class UsbWingMan : public UsbDevice, public WingMan {
+class UsbWingMan : public UsbDevice, public virtual WingMan {
 
     public:
 
@@ -27,6 +27,26 @@ class UsbWingMan : public UsbDevice, public WingMan {
     UsbWingMan(int vendorID = 0x046D, int productID = 0xC212);
 
     void update();
+
+    protected:
+
+    /** number of bytes per status message */
+    const int byteCount;
+
+    /** constructor */
+    UsbWingMan(int vendorID, int productID, int byteCount);
+
+    /**
+     * decodes the raw data and fills in input values
+     *
+     * @param data the raw data from the device
+     */
+    virtual void processData(unsigned char *data);
+
+    private:
+
+    /** this class is not copy-assignable */
+    void operator=(const UsbWingMan&);
 
 };
 

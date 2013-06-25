@@ -43,6 +43,8 @@
 
 // USB Devices
 #include "hardwareInterface/include/UsbChProPedals.hh"
+#include "hardwareInterface/include/UsbDualShock3.hh"
+#include "hardwareInterface/include/UsbExtreme3dPro.hh"
 #include "hardwareInterface/include/UsbGravis.hh"
 #include "hardwareInterface/include/UsbIndustrialProducts.hh"
 #include "hardwareInterface/include/UsbSaitek.hh"
@@ -50,7 +52,6 @@
 #include "hardwareInterface/include/UsbSpaceNavigator.hh"
 #include "hardwareInterface/include/UsbWingMan.hh"
 #include "hardwareInterface/include/UsbXBox.hh"
-#include "hardwareInterface/include/UsbDualShock3.hh"
 
 // CAN Devices
 #ifdef IDF_CAN

@@ -2,8 +2,6 @@
 
 using namespace idf;
 
-#include <iostream>
-
 ThrustMasterBase::ThrustMasterBase(bool isMale) :
     male(isMale),
     forwardBackwardPivot(72, 200),
