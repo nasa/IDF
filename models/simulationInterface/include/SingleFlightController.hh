@@ -16,6 +16,7 @@
 #include "inputAbstraction/include/CompositeInput.hh"
 
 #include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/Extreme3dPro.hh"
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
 #include "inputAbstraction/include/IndustrialProducts2.hh"
@@ -149,6 +150,16 @@ class SingleFlightController : public FlightController {
      * @return a new WingMan-based flight controller
      */
     static SingleFlightController* createInstance(const WingMan& wingMan);
+
+    /**
+     * creates a new <code>SingleFlightController</code> mapped to
+     * <code>extreme3dPro</code> using appropriate defaults
+     *
+     * @param extreme3dPro the inputs to use in the default mapping
+     *
+     * @return a new Extreme3dPro-based flight controller
+     */
+    static SingleFlightController* createInstance(const Extreme3dPro& extreme3dPro);
 
     /**
      * creates a new <code>SingleFlightController</code> mapped to

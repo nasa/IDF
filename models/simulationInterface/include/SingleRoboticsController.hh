@@ -16,6 +16,7 @@
 #include "inputAbstraction/include/CompositeInput.hh"
 
 #include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/Extreme3dPro.hh"
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
 #include "inputAbstraction/include/IndustrialProducts2.hh"
@@ -175,6 +176,16 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new WingMan-based robotics controller
      */
     static SingleRoboticsController* createInstance(const WingMan& wingMan);
+
+    /**
+     * creates a new <code>SingleRoboticsController</code> mapped to
+     * <code>extreme3dPro</code> using appropriate defaults
+     *
+     * @param extreme3dPro the inputs to use in the default mapping
+     *
+     * @return a new Extreme3dPro-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const Extreme3dPro& extreme3dPro);
 
     /**
      * creates a new <code>SingleRoboticsController</code> mapped to

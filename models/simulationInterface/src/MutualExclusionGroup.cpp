@@ -5,7 +5,7 @@
 using namespace idf;
 
 void MutualExclusionGroup::add(Controller& controller) {
-    // Add the controller, if no present, and begin listening for state changes.
+    // Add the controller, if not present, and begin listening for state changes.
     if (std::find(controllers.begin(), controllers.end(), &controller) == controllers.end()) {
         controllers.push_back(&controller);
         controller.addStateChangeListener(*this);

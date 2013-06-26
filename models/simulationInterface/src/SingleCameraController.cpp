@@ -51,6 +51,21 @@ SingleCameraController* SingleCameraController::createInstance(const WingMan& wi
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const Extreme3dPro& extreme3dPro) {
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(extreme3dPro.hatNorth);
+    zoom->addInput(extreme3dPro.hatSouth, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(extreme3dPro.twist, extreme3dPro.forwardBackwardPivot,
+      extreme3dPro.leftRightPivot, *zoom);
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+
+    return controller;
+}
+
 SingleCameraController* SingleCameraController::createInstance(const SpaceBase& spaceBase) {
     SingleCameraController *controller =
       new SingleCameraController(

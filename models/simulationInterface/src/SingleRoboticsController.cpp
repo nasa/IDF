@@ -84,6 +84,31 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const WingMan
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const Extreme3dPro& extreme3dPro) {
+    CompositeInput* x = new CompositeInput();
+    x->addInput(extreme3dPro.hatNorth);
+    x->addInput(extreme3dPro.hatSouth, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(extreme3dPro.hatWest);
+    y->addInput(extreme3dPro.hatEast, -1);
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(extreme3dPro.button6);
+    z->addInput(extreme3dPro.button4, -1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(extreme3dPro.leftRightPivot,
+      extreme3dPro.forwardBackwardPivot, extreme3dPro.twist, *x, *y, *z,
+      extreme3dPro.trigger, extreme3dPro.slider);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+    controller->rateMode.setInverted(true);
+
+    return controller;
+}
+
 SingleRoboticsController* SingleRoboticsController::createInstance(const SpaceExplorer& spaceExplorer) {
     SingleRoboticsController *controller =
       new SingleRoboticsController(

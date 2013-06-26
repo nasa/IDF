@@ -73,6 +73,29 @@ SingleFlightController* SingleFlightController::createInstance(const WingMan& wi
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const Extreme3dPro& extreme3dPro) {
+    CompositeInput* x = new CompositeInput();
+    x->addInput(extreme3dPro.hatNorth);
+    x->addInput(extreme3dPro.hatSouth, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(extreme3dPro.hatWest);
+    y->addInput(extreme3dPro.hatEast, -1);
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(extreme3dPro.button6);
+    z->addInput(extreme3dPro.button4, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(extreme3dPro.leftRightPivot,
+      extreme3dPro.forwardBackwardPivot, extreme3dPro.twist, *x, *y, *z);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 SingleFlightController* SingleFlightController::createInstance(const SpaceBase& spaceBase) {
     SingleFlightController *controller =
       new SingleFlightController(
