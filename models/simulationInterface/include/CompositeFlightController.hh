@@ -9,10 +9,14 @@
 #ifndef _COMPOSITE_FLIGHT_CONTROLLER_HH_
 #define _COMPOSITE_FLIGHT_CONTROLLER_HH_
 
+#include "CompositeController.hh"
 #include "FlightController.hh"
-#include <vector>
 
 namespace idf {
+
+#ifdef SWIG
+%template(CompositeControllerFlightController) CompositeController<FlightController>;
+#endif
 
 /**
  * combines multiple <code>FlightController</code>s into a single entity,
@@ -20,26 +24,9 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class CompositeFlightController : public FlightController {
+class CompositeFlightController : public CompositeController<FlightController> {
 
     public:
-
-    /** destructor */
-    ~CompositeFlightController() {}
-
-    /**
-     * adds <code>flightController</code>, combining its values with all other
-     * added <code>FlightController</code>s. Adding a controller that is
-     * already contained by this instance has no effect.
-     */
-    void add(FlightController& flightController);
-
-    /**
-     * removes <code>flightController</code>, no longer combining its values
-     * with other <code>FlightController</code>s. Removing a controller
-     * that is not contained by this instance has no effect.
-     */
-    void remove(const FlightController& flightController);
 
     /**
      * gets the conglomerate roll value, normalized to [-1, 0, 1]
@@ -82,21 +69,6 @@ class CompositeFlightController : public FlightController {
      * @return the combined z of all added flight controllers
      */
     double getCommandedZ() const;
-
-    /**
-     * sets the active state of this controller and all consituent controllers
-     * and notifies all registered listeners of any change. Inactive controllers
-     * output neutral or default values when polled.
-     *
-     * @param active the state to be set
-     */
-    void setActive(bool active);
-
-    protected:
-
-    /** the consituent flight controllers */
-    std::vector<FlightController*> flightControllers;
-
 
 };
 

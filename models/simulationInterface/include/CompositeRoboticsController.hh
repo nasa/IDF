@@ -9,10 +9,14 @@
 #ifndef _COMPOSITE_ROBOTICS_CONTROLLER_HH_
 #define _COMPOSITE_ROBOTICS_CONTROLLER_HH_
 
+#include "CompositeController.hh"
 #include "RoboticsController.hh"
-#include <vector>
 
 namespace idf {
+
+#ifdef SWIG
+%template(CompositeControllerRoboticsController) CompositeController<RoboticsController>;
+#endif
 
 /**
  * combines multiple <code>RoboticsController</code>s into a single entity,
@@ -20,26 +24,9 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class CompositeRoboticsController : public RoboticsController {
+class CompositeRoboticsController : public CompositeController<RoboticsController> {
 
     public:
-
-    /** destructor */
-    ~CompositeRoboticsController() {}
-
-    /**
-     * adds <code>roboticsController</code>, combining its values with all other
-     * added <code>RoboticsController</code>s. Adding a controller that is
-     * already contained by this instance has no effect.
-     */
-    void add(RoboticsController& roboticsController);
-
-    /**
-     * removes <code>roboticsController</code>, no longer combining its values
-     * with other <code>RoboticsController</code>s. Removing a controller
-     * that is not contained by this instance has no effect.
-     */
-    void remove(const RoboticsController& roboticsController);
 
     /**
      * gets the conglomerate roll value, normalized to [-1, 0, 1]
@@ -98,21 +85,6 @@ class CompositeRoboticsController : public RoboticsController {
      * @return the combined rate mode of all added robotics controllers
      */
     bool getCommandedRateMode() const;
-
-    /**
-     * sets the active state of this controller and all consituent controllers
-     * and notifies all registered listeners of any change. Inactive controllers
-     * output neutral or default values when polled.
-     *
-     * @param active the state to be set
-     */
-    void setActive(bool active);
-
-    protected:
-
-    /** the consituent robotics controllers */
-    std::vector<RoboticsController*> roboticsControllers;
-
 
 };
 

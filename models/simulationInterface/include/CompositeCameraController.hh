@@ -9,10 +9,14 @@
 #ifndef _COMPOSITE_CAMERA_CONTROLLER_HH_
 #define _COMPOSITE_CAMERA_CONTROLLER_HH_
 
+#include "CompositeController.hh"
 #include "CameraController.hh"
-#include <vector>
 
 namespace idf {
+
+#ifdef SWIG
+%template(CompositeControllerCameraController) CompositeController<CameraController>;
+#endif
 
 /**
  * combines multiple <code>CameraController</code>s into a single entity,
@@ -20,23 +24,9 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class CompositeCameraController : public CameraController {
+class CompositeCameraController : public CompositeController<CameraController> {
 
     public:
-
-    /**
-     * adds <code>cameraController</code>, combining its values with all other
-     * added <code>CameraController</code>s. Adding a controller that is
-     * already contained by this instance has no effect.
-     */
-    void add(CameraController& cameraController);
-
-    /**
-     * removes <code>cameraController</code>, no longer combining its values
-     * with other <code>CameraController</code>s. Removing a controller
-     * that is not contained by this instance has no effect.
-     */
-    void remove(const CameraController& cameraController);
 
     /**
      * gets the conglomerate pan value, normalized to [-1, 0, 1]
@@ -65,20 +55,6 @@ class CompositeCameraController : public CameraController {
      * @return the combined zoom of all added camera controllers
      */
     double getCommandedZoom() const;
-
-    /**
-     * sets the active state of this controller and all consituent controllers
-     * and notifies all registered listeners of any change. Inactive controllers
-     * output neutral or default values when polled.
-     *
-     * @param active the state to be set
-     */
-    void setActive(bool active);
-
-    private:
-
-    /** the consituent camera controllers */
-    std::vector<CameraController*> cameraControllers;
 
 };
 
