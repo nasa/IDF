@@ -157,6 +157,30 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const SpaceNa
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const SpaceMouse& spaceMouse) {
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+      spaceMouse.leftRightPivot,
+      spaceMouse.forwardBackwardPivot,
+      spaceMouse.twist,
+      spaceMouse.forwardBackwardTranslation,
+      spaceMouse.leftRightTranslation,
+      spaceMouse.upDownTranslation,
+      spaceMouse.buttonShift,
+      spaceMouse.buttonAlt);
+
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+    controller->roll.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    controller->rateMode.setToggle(true);
+
+    return controller;
+}
+
 SingleRoboticsController* SingleRoboticsController::createInstance(const Gravis& gravis) {
     CompositeInput* roll = new CompositeInput();
     roll->addInput(gravis.rightBumper2);

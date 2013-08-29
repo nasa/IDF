@@ -25,6 +25,9 @@ class IndustrialProducts2 {
     /** constructor */
     IndustrialProducts2();
 
+    /** destructor */
+    virtual ~IndustrialProducts2() {};
+
     /** forward-backward pivoting */
     SingleInput forwardBackwardPivot;
 

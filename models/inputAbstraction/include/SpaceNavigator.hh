@@ -26,6 +26,9 @@ class SpaceNavigator : public virtual SpaceBase {
     /** constructor */
     SpaceNavigator();
 
+    /** destructor */
+    virtual ~SpaceNavigator() {};
+
     /** the left button */
     SingleInput leftButton;
 

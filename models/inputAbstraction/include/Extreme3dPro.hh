@@ -25,6 +25,9 @@ class Extreme3dPro : public virtual WingMan {
     /** constructor */
     Extreme3dPro();
 
+    /** destructor */
+    virtual ~Extreme3dPro() {};
+
     /** the button labeled 08 */
     SingleInput button8;
 

@@ -15,7 +15,7 @@ namespace idf {
 
 /**
  * represents a six degree-of-freedom virtual input layout for use with the
- * Virtual Hand ContclockwiseCounterclockwiseRotationer application
+ * Virtual Hand Controller application
  *
  * @author Derek Bankieris
  */

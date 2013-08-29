@@ -25,6 +25,9 @@ class XBox {
     /** constructor */
     XBox();
 
+    /** destructor */
+    virtual ~XBox() {};
+
     /** upper-left analog pad left-right pivot */
     SingleInput leftAnalogLeftRightPivot;
 

@@ -25,6 +25,9 @@ class Saitek {
     /** constructor */
     Saitek();
 
+    /** destructor */
+    virtual ~Saitek() {};
+
     /** the left foot pedal */
     SingleInput leftPedal;
 

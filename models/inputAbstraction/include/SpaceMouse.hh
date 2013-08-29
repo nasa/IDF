@@ -3,11 +3,11 @@
  * ()
  *
  * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/SpaceExplorer.cpp))
+ * ((inputAbstraction/src/SpaceMouse.cpp))
  */
 
-#ifndef _SPACE_EXPLORER_HH_
-#define _SPACE_EXPLORER_HH_
+#ifndef _SPACE_MOUSE_HH_
+#define _SPACE_MOUSE_HH_
 
 #include "SpaceBase.hh"
 #include "SingleInput.hh"
@@ -15,19 +15,19 @@
 namespace idf {
 
 /**
- * represents a SpaceExplorer hand controller's input layout
+ * represents a SpaceMouse hand controller's input layout
  *
  * @author Derek Bankieris
  */
-class SpaceExplorer : public virtual SpaceBase {
+class SpaceMouse : public virtual SpaceBase {
 
     public:
 
     /** constructor */
-    SpaceExplorer();
+    SpaceMouse();
 
     /** destructor */
-    virtual ~SpaceExplorer() {};
+    virtual ~SpaceMouse() {};
 
     /** the button labeled 1 */
     SingleInput button1;
@@ -35,11 +35,11 @@ class SpaceExplorer : public virtual SpaceBase {
     /** the button labeled 2 */
     SingleInput button2;
 
-    /** the button labeled - */
-    SingleInput buttonMinus;
+    /** the button labeled 3 */
+    SingleInput button3;
 
-    /** the button labeled + */
-    SingleInput buttonPlus;
+    /** the button labeled 4 */
+    SingleInput button4;
 
     /** the button labeled ESC */
     SingleInput buttonEsc;
@@ -53,23 +53,23 @@ class SpaceExplorer : public virtual SpaceBase {
     /** the button labeled SHIFT */
     SingleInput buttonShift;
 
+    /** the button labeled with a square and arrow */
+    SingleInput buttonFlatRotation;
+
     /** the button labeled T */
     SingleInput buttonT;
-
-    /** the button labeled L */
-    SingleInput buttonL;
 
     /** the button labeled R */
     SingleInput buttonR;
 
-    /** the button labeled 2D */
-    SingleInput button2d;
-
     /** the button labeled F */
     SingleInput buttonF;
 
-    /** the button labeled PANEL */
-    SingleInput buttonPanel;
+    /** the button depicting the center mouse being twisted */
+    SingleInput buttonMouseRotation;
+
+    /** the button labeled MENU */
+    SingleInput buttonMenu;
 
     /** the button labeled FIT */
     SingleInput buttonFit;

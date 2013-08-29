@@ -22,6 +22,7 @@
 #include "inputAbstraction/include/IndustrialProducts2.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 #include "inputAbstraction/include/SpaceNavigator.hh"
+#include "inputAbstraction/include/SpaceMouse.hh"
 #include "inputAbstraction/include/ThrustMaster.hh"
 #include "inputAbstraction/include/ThrustMaster2.hh"
 #include "inputAbstraction/include/VirtualLayout.hh"
@@ -206,6 +207,16 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new SpaceNavigator-based robotics controller
      */
     static SingleRoboticsController* createInstance(const SpaceNavigator& spaceNavigator);
+
+    /**
+     * creates a new <code>SingleRoboticsController</code> mapped to
+     * <code>spaceMouse</code> using appropriate defaults
+     *
+     * @param spaceMouse the inputs to use in the default mapping
+     *
+     * @return a new SpaceMouse-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const SpaceMouse& spaceMouse);
 
     /**
      * creates a new <code>SingleRoboticsController</code> mapped to

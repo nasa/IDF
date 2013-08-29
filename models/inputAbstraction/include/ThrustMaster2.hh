@@ -23,6 +23,12 @@ class ThrustMaster2 : public virtual ThrustMasterBase {
 
     public:
 
+    /** constructor */
+    ThrustMaster2(bool isMale = false);
+
+    /** destructor */
+    virtual ~ThrustMaster2() {};
+
     /** the left button */
     SingleInput leftButton;
 
@@ -31,9 +37,6 @@ class ThrustMaster2 : public virtual ThrustMasterBase {
 
     /** the right button */
     SingleInput rightButton;
-
-    /** constructor */
-    ThrustMaster2(bool isMale = false);
 
     private:
 

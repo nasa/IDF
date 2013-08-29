@@ -23,14 +23,17 @@ class ThrustMaster : public virtual ThrustMasterBase {
 
     public:
 
+    /** constructor */
+    ThrustMaster(bool isMale = false);
+
+    /** destructor */
+    virtual ~ThrustMaster() {};
+
     /** the switch */
     SingleInput topSwitch;
 
     /** the top button */
     SingleInput topButton;
-
-    /** constructor */
-    ThrustMaster(bool isMale = false);
 
     private:
 

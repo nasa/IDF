@@ -26,6 +26,9 @@ class SerialThrustMasterBase : public SerialDevice, public virtual ThrustMasterB
     /** constructor */
     SerialThrustMasterBase(const char *path = "/dev/ttyS0", bool isMale = false);
 
+    /** destructor */
+    virtual ~SerialThrustMasterBase() {};
+
     /** opens this device for communication */
     void open();
 

@@ -20,13 +20,13 @@ namespace idf {
  */
 class ThrustMasterBase {
 
-/**
- * ICG doesn't support virtual inheritance,
- * which classes derived from this class use.
- */
-#ifndef TRICK_ICG
-
     public:
+
+    /** constructor */
+    ThrustMasterBase(bool isMale = false);
+
+    /** destructor */
+    virtual ~ThrustMasterBase() {};
 
     /**
      *  describes the pin-out of the translational hand controller.
@@ -54,11 +54,6 @@ class ThrustMasterBase {
 
     /** the trigger */
     SingleInput trigger;
-
-#endif
-
-    /** constructor */
-    ThrustMasterBase(bool isMale = false);
 
     private:
 

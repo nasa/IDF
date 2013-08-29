@@ -25,6 +25,9 @@ class ChProPedals {
     /** constructor */
     ChProPedals();
 
+    /** destructor */
+    virtual ~ChProPedals() {};
+
     /** the left foot pedal */
     SingleInput leftPedal;
 

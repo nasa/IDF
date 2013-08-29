@@ -26,6 +26,9 @@ class UsbSpaceBase : public UsbDevice, public virtual SpaceBase {
     /** constructor */
     UsbSpaceBase(int vendorID, int productID);
 
+    /** destructor */
+    virtual ~UsbSpaceBase() {};
+
     /**
      * updates this instance so that it reflects the target device's current
      * state

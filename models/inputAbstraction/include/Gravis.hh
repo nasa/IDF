@@ -25,6 +25,9 @@ class Gravis {
     /** constructor */
     Gravis();
 
+    /** destructor */
+    virtual ~Gravis() {};
+
     /** up on the directional pad */
     SingleInput directionalPadUp;
 

@@ -25,6 +25,9 @@ class WingMan {
     /** constructor */
     WingMan();
 
+    /** destructor */
+    virtual ~WingMan() {};
+
     /** forward-backward pivoting */
     SingleInput forwardBackwardPivot;
 

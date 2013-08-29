@@ -32,7 +32,7 @@ class DualShock3 {
     DualShock3();
 
     /** destructor */
-    ~DualShock3() {}
+    virtual ~DualShock3() {};
 
     /** left analog pad left-right pivot */
     SingleInput leftAnalogLeftRightPivot;

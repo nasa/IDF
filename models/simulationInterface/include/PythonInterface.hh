@@ -49,6 +49,7 @@
 #include "hardwareInterface/include/UsbIndustrialProducts.hh"
 #include "hardwareInterface/include/UsbSaitek.hh"
 #include "hardwareInterface/include/UsbSpaceExplorer.hh"
+#include "hardwareInterface/include/UsbSpaceMouse.hh"
 #include "hardwareInterface/include/UsbSpaceNavigator.hh"
 #include "hardwareInterface/include/UsbWingMan.hh"
 #include "hardwareInterface/include/UsbXBox.hh"

@@ -20,16 +20,13 @@ namespace idf {
  */
 class SpaceBase {
 
-/**
- * ICG doesn't support virtual inheritance,
- * which classes derived from this class use.
- */
-#ifndef TRICK_ICG
-
     public:
 
     /** constructor */
     SpaceBase();
+
+    /** destructor */
+    virtual ~SpaceBase() {};
 
     /** forward-backward pivoting */
     SingleInput forwardBackwardPivot;
@@ -48,8 +45,6 @@ class SpaceBase {
 
     /** up-down translation */
     SingleInput upDownTranslation;
-
-#endif
 
 };
 
