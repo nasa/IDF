@@ -1,9 +1,6 @@
 /**
  * PURPOSE:
  * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/RemoteDeviceClient.cpp))
  */
 
 #ifndef _REMOTE_DEVICE_CLIENT_HH_
