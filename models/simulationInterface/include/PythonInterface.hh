@@ -37,6 +37,10 @@
 #include "inputAbstraction/include/CompositeInput.hh"
 #include "inputAbstraction/include/Deadband.hh"
 
+// Remote Devices
+#include "hardwareInterface/include/RemoteExtreme3dPro.hh"
+#include "hardwareInterface/include/RemoteSpaceNavigator.hh"
+
 // Serial Devices
 #include "hardwareInterface/include/SerialThrustMaster.hh"
 #include "hardwareInterface/include/SerialThrustMaster2.hh"

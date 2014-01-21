@@ -49,7 +49,7 @@ class RemoteDeviceServer : public RemoteDeviceServerBase {
      * calls <code>acceptPendingConnections()</code> followed by
      * <code>readFromClients()</code>
      */
-    void update() {
+    virtual void update() {
         acceptPendingConnections();
         readFromClients();
     }

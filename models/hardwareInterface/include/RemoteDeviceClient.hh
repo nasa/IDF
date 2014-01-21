@@ -6,6 +6,7 @@
 #ifndef _REMOTE_DEVICE_CLIENT_HH_
 #define _REMOTE_DEVICE_CLIENT_HH_
 
+#include "RemoteDeviceClientBase.hh"
 #include "RemoteDeviceServerBase.hh"
 #include "inputAbstraction/include/Utils.hh"
 #include "IOException.hh"
@@ -30,7 +31,7 @@ namespace idf {
  * @author Derek Bankieris
  */
 template <class T, class U, class DerivedClass>
-class RemoteDeviceClient {
+class RemoteDeviceClient : public RemoteDeviceClientBase {
 
     public:
 
@@ -43,68 +44,37 @@ class RemoteDeviceClient {
      * listening on <code>host</code>:<code>port</code>
      *
      * @param sourceController the command source
-     * @param host the name or ip address of the server host machine
-     * @param port the port on which the server is listening
+     * @param hostName the name or ip address of the server host machine
+     * @param hostPort the port on which the server is listening
      */
-    RemoteDeviceClient(const T& sourceController, const std::string host, unsigned short port) :
-        controller(sourceController) {
-
-        std::stringstream ss;
-        ss << port;
-
-        // Get server connection information.
-        struct addrinfo hints;
-        memset(&hints, 0, sizeof(hints));
-        hints.ai_family = AF_UNSPEC;
-        hints.ai_socktype = SOCK_STREAM;
-
-        struct addrinfo *results;
-        if (getaddrinfo(host.c_str(), ss.str().c_str(), &hints, &results)) {
-            std::ostringstream oss;
-            oss << __FILE__ << ":" << __LINE__
-                << " Failed to resolve host address: " << strerror(errno);
-            throw IOException(oss.str());
-        }
-
-        // Establish first available connection.
-        struct addrinfo *currentHost;
-        for (currentHost = results; currentHost != NULL; currentHost = currentHost->ai_next) {
-            if ((socketHandle = socket(currentHost->ai_family,
-              currentHost->ai_socktype, currentHost->ai_protocol)) == -1) {
-                continue;
-            }
-
-            if (connect(socketHandle, currentHost->ai_addr, currentHost->ai_addrlen) == 0) {
-                std::cout << __FILE__ << ":" << __LINE__
-                          << " Connected to " << host << ":" << port << std::endl;
-                break;
-            }
-
-            close(socketHandle);
-        }
-
-        freeaddrinfo(results);
-
-        if (currentHost == NULL) {
-            std::ostringstream oss;
-            oss << __FILE__ << ":" << __LINE__
-                << " Failed to connect to " << host << ":" << port << ": " << strerror(errno);
-            throw IOException(oss.str());
-        }
-    }
-
+    RemoteDeviceClient(const T& sourceController, const std::string hostName, unsigned short hostPort) :
+        RemoteDeviceClientBase(hostName, hostPort),
+        controller(sourceController) {}
 
     /** destructor */
-    virtual ~RemoteDeviceClient() {
-        close(socketHandle);
+    virtual ~RemoteDeviceClient() {}
+
+    // TODO: fix this crappy interface
+    /*void setPort(unsigned short hostPort) {
+        port = hostPort;
     }
+    void setHost(std::string hostName) {
+        host = hostName;
+    }
+
+    bool isOpen() {
+        return mOpen;
+    }*/
 
     /** sends the commands to the server */
     void transmit() {
+        RemoteDeviceClientBase::transmit();
+
         U commands;
         packCommands(commands, controller);
 
         if (write(socketHandle, &commands, sizeof(commands)) == -1) {
+            mOpen = false;
             std::ostringstream oss;
             oss << __FILE__ << ":" << __LINE__
                 << " Failed to write: " << strerror(errno);
@@ -114,9 +84,6 @@ class RemoteDeviceClient {
 
 
     protected:
-
-    /** the socket */
-    int socketHandle;
 
     /**
      * packs commands from <code>controller</code> into <code>commands</code>
@@ -138,6 +105,13 @@ class RemoteDeviceClient {
     static unsigned char pack(double value) {
         return (signed char)(bound(value) * RemoteDeviceServerBase::serializationFactor);
     }
+
+    private:
+
+    // hastily added variable, rethink
+    bool mOpen;
+
+    void operator=(const RemoteDeviceClient&);
 
 };
 
