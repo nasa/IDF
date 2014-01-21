@@ -6,6 +6,7 @@
 #include <cstring>
 #include <sstream>
 #include <stdio.h>
+#include <unistd.h>
 
 using namespace idf;
 
