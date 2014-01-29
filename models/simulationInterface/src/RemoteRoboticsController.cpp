@@ -80,8 +80,8 @@ bool RemoteRoboticsController::Server::getCommandedRateMode() const {
 }
 
 RemoteRoboticsController::Client::Client(const RoboticsController& roboticsController,
-  std::string host, unsigned short port) :
-    RemoteDeviceClient<RoboticsController, Commands, Client>(roboticsController, host, port) {}
+  std::string host, unsigned short hostPort) :
+    RemoteDeviceClient<RoboticsController, Commands, Client>(roboticsController, host, hostPort) {}
 
 void RemoteRoboticsController::Client::packCommands(Commands& commands,
   const RoboticsController& roboticsController) {
