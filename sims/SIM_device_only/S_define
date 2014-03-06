@@ -1,0 +1,94 @@
+/**
+ * PURPOSE:
+ * (Demonstrates the use of IDF within a Trick simulation, using only the
+ *  hardware interface layer to read data from a physical device.)
+ */
+
+#include "sim_objects/default_trick_sys.sm"
+
+##include <sstream>
+##include <iomanip>
+
+##include "hardwareInterface/include/UsbExtreme3dPro.hh"
+
+class Example : public Trick::SimObject {
+
+    public:
+
+    /**
+     * note that the UsbExtreme3dPro's constructor takes the vendor id and
+     * product id as arguments. This allows IDF to automatically locate the
+     * device within the USB network. Default values are provided that match
+     * the device against which this example was written. If you have a
+     * different generation Logitech Extreme 3D Pro, your product id may be
+     * different, in which case you must explicitly construct this instance
+     * in this class's initialization list with the correct value.
+     */
+    idf::UsbExtreme3dPro device;
+
+    Example() {
+        /**
+         * Locates the device on the USB network and opens it for communication.
+         */
+        ("initialization") device.open();
+
+        /**
+         * Reads the raw bytes from the physical device, decodes them, and
+         * fills in the appropriate fields in the instance representing the
+         * device.
+         */
+        (0.1, "scheduled") device.update();
+
+        /**
+         * Prints the device's decoded normalized values to the console.
+         * Normalized values always fall in the range [-1, 1], with the
+         * extremes corresponing to the minimum and maximum raw values.
+         * 0 represents the "neutral" point.
+         */
+        (0.1, "scheduled") printValues();
+    }
+
+    void printValues() {
+        std::cout << std::showpos << std::fixed << std::setprecision(2)
+
+                  << device.forwardBackwardPivot.getNormalizedValue() << " "
+                  << device.leftRightPivot.getNormalizedValue()       << " "
+                  << device.twist.getNormalizedValue()                << " "
+                  << device.trigger.getNormalizedValue()              << " "
+                  << device.button2.getNormalizedValue()              << " "
+                  << device.button3.getNormalizedValue()              << " "
+                  << device.button4.getNormalizedValue()              << " "
+                  << device.button5.getNormalizedValue()              << " "
+                  << device.button6.getNormalizedValue()              << " "
+                  << device.button7.getNormalizedValue()              << " "
+                  << device.button8.getNormalizedValue()              << " "
+                  << device.button9.getNormalizedValue()              << " "
+                  << device.button10.getNormalizedValue()             << " "
+                  << device.button11.getNormalizedValue()             << " "
+                  << device.button12.getNormalizedValue()             << " "
+                  << device.hatNorth.getNormalizedValue()             << " "
+                  << device.hatNorthEast.getNormalizedValue()         << " "
+                  << device.hatEast.getNormalizedValue()              << " "
+                  << device.hatSouthEast.getNormalizedValue()         << " "
+                  << device.hatSouth.getNormalizedValue()             << " "
+                  << device.hatSouthWest.getNormalizedValue()         << " "
+                  << device.hatWest.getNormalizedValue()              << " "
+                  << device.hatNorthWest.getNormalizedValue()         << " "
+                  << device.slider.getNormalizedValue()               << " "
+
+                  << std::endl;
+    }
+
+    private:
+
+    /**
+     * It is necessary to make this function private because Extreme3dPro's
+     * assignment operator is private, and the default implementation of this
+     * function would try to assign to the variable "device", resulting in a
+     * compilation-time privacy error.
+     */
+    void operator =(const Example&);
+
+};
+
+Example example;

@@ -1,0 +1,105 @@
+/**
+ * PURPOSE:
+ * (Demonstrates the use of IDF within a Trick simulation, using only the
+ *  hardware interface layer to read data from a physical device.)
+ */
+
+#include "sim_objects/default_trick_sys.sm"
+
+##include <sstream>
+##include <iomanip>
+
+##include "hardwareInterface/include/UsbExtreme3dPro.hh"
+##include "simulationInterface/include/SingleFlightController.hh"
+##include "inputAbstraction/include/Deadband.hh"
+
+class Example : public Trick::SimObject {
+
+    public:
+
+    /**
+     * note that the UsbExtreme3dPro's constructor takes the vendor id and
+     * product id as arguments. This allows IDF to automatically locate the
+     * device within the USB network. Default values are provided that match
+     * the device against which this example was written. If you have a
+     * different generation Logitech Extreme 3D Pro, your product id may be
+     * different, in which case you must explicitly construct this instance
+     * in this class's initialization list with the correct value.
+     */
+    idf::UsbExtreme3dPro device;
+
+    /**
+     * While devices represent physical hardware, a controller represents a
+     * virtual interface into a control system. This separation allows
+     * control system developers to program against a domain-specific interface
+     * independent of any particular device that might service that
+     * interface. It further ensures that only devices that have been
+     * specifically mapped to the interface may be assigned to service it.
+     */
+    idf::SingleFlightController *controller;
+
+    Example() {
+        /**
+         * Locates the device on the USB network and opens it for communication.
+         */
+        ("initialization") device.open();
+
+        /**
+         * Reads the raw bytes from the physical device, decodes them, and
+         * fills in the appropriate fields in the instance representing the
+         * device.
+         */
+        (0.1, "scheduled") device.update();
+
+        /**
+         * Prints the device's decoded normalized values to the console.
+         * Normalized values always fall in the range [-1, 1], with the
+         * extremes corresponing to the minimum and maximum raw values.
+         * 0 represents the "neutral" point.
+         */
+        (0.1, "scheduled") printValues();
+
+        /**
+         * Controllers must be explicity constructed and passed the device inputs
+         * that represent the data the controller consumes. This configuration
+         * defines the mapping between the physical device and virtual controller.
+         * It determines what each physical input "means" to the control system.
+         * Many of the provided controllers have functions that create an instance
+         * with default mappings for several devices. Here, we use such a function.
+         */
+         controller = idf::SingleFlightController::createInstance(device);
+
+        /**
+         * Add a 10% deadband around the "at rest" state to deal with bit
+         * chatter and hysteresis.
+         */
+        idf::Deadband *deadband = new idf::Deadband(-0.1, 0.1);
+        controller->addDeadband(*deadband);
+    }
+
+    void printValues() {
+        std::cout << std::showpos << std::fixed << std::setprecision(2)
+
+                  << " Roll: "  << controller->getRoll()
+                  << " Pitch: " << controller->getPitch()
+                  << " Yaw: "   << controller->getYaw()
+                  << " X: "     << controller->getX()
+                  << " Y: "     << controller->getY()
+                  << " Z: "     << controller->getZ()
+
+                  << std::endl;
+    }
+
+    private:
+
+    /**
+     * It is necessary to make this function private because Extreme3dPro's
+     * assignment operator is private, and the default implementation of this
+     * function would try to assign to the variable "device", resulting in a
+     * compilation-time privacy error.
+     */
+    void operator =(const Example&);
+
+};
+
+Example example;

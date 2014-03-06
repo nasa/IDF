@@ -1,0 +1,13 @@
+This directory contains example Trick simulations using IDF. They start by
+demonstrating basic functionality and increase in complexity down the list.
+
+1. SIM_device_only
+Demonstrates reading normalized values from a Logitech Extreme 3D Pro USB
+Joystick. If you only need to program against a specific device, this example
+is all you need.
+
+2. SIM_device_and_controller
+Demonstrates mapping the inputs from a Logitech Extreme 3D Pro USB Joystick to a
+generalized flight controller interface. If you want to write your control code
+such that it works with many different devices, you will want to program against
+a domain-specific controller rather than a particular physical device.
