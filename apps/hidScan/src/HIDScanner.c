@@ -1,0 +1,172 @@
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <errno.h>
+#include "hidapi/hidapi.h"
+
+static unsigned getBit(unsigned char bit, unsigned value) {
+    return (value >> bit) & 1;
+}
+
+int main(int argc, char **args) {
+
+    int result = hid_init();
+    if (result < 0) {
+        printf("Failed to initialize HID library.\n");
+        return -1;
+    }
+
+    struct hid_device_info* enumerationHead = hid_enumerate(0, 0);
+    int count = 0;
+
+    printf("\nNOTE: If running as non-root, you must have udev rules in place allowing access to usb devices.\n\n");
+    printf("Index  Vendor ID  Product ID  Vendor          Product\n");
+
+    struct hid_device_info * deviceInfo;
+    for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next, ++count) {
+        printf("%-6d 0x%04hX     0x%04hX      %-15ls %ls\n", count,
+          deviceInfo->vendor_id, deviceInfo->product_id,
+          deviceInfo->manufacturer_string ? deviceInfo->manufacturer_string : L"null",
+          deviceInfo->product_string ? deviceInfo->product_string : L"null");
+    }
+
+    int selection = -1;
+    printf("\n");
+
+    while (selection < 0 || selection > count - 1) {
+        char buffer[1024];
+        printf("Select a device to listen to: ");
+        fgets(buffer, sizeof(buffer), stdin);
+        sscanf(buffer, "%d", &selection);
+    }
+
+    for (count = 0; count < selection; ++count) {
+        enumerationHead = enumerationHead->next;
+    }
+
+    hid_device* device = hid_open_path(enumerationHead->path);
+    if (!device) {
+        perror("Failed to open device");
+        return -1;
+    }
+
+    hid_free_enumeration(enumerationHead);
+
+    hid_set_nonblocking(device, 1);
+
+    unsigned char data[8];
+
+    /**
+     * Rumble Pack Bytes
+     * report number: always 1
+     * |     duration of weak (right) rumble, units = 20 ms, 0xff = infinity
+     * |     |     magnitude of weak (right) rumble
+     * |     |     |     duration of strong (left) rumble, units = 20 ms, 0xff = infinity
+     * |     |     |     |     magnitude of strong (left) rumble
+     * |     |     |     |     |
+     * 0x01, 0xfe, 0xff, 0xfe, 0xff
+     *
+     * LED Bytes - LEDs start their cycle in the off stage
+     * the total time this command is applied, after which the LED turns off, units = 20 ms, 0xff = infinity
+     * |     integer part of the cycle period
+     * |     |     fractional part of the cycle period in increments of 1 / 255. Thus, you can specify a cycle
+     * |     |     | period of 256 by entering 255 for both the integer and fractional parts
+     * |     |     |     multiplied by the cycle period to determine how long the LED is off per cycle
+     * |     |     |     |     multiplied by the cycle period to determine how long the LED is on per cycle
+     * |     |     |     |     |
+     * 0xff, 0x27, 0x10, 0x32, 0x32
+     *
+     * Command Packet Bytes
+     *   0 - 4 = rumble pack parameters
+     *   5 - 8 = unused
+     *       9 = bitwise OR of LEDs to be powered. LED1 = 2, LED2 = 4, LED3 = 8, LED4 = 16
+     * 10 - 14 = LED4 parameters
+     * 15 - 19 = LED3 parameters
+     * 20 - 24 = LED2 parameters
+     * 25 - 29 = LED1 parameters
+     *
+     * Per LED, a command different from it's current state takes effect immediately. Commands that do not
+     * change the state are ignored, and will not "reset" the LED's cycle. Cycles start in the off portion.
+     */
+
+    /*unsigned char command[] = {
+        1, 254, 255, 254, 255,
+        0, 0x00, 0x00, 0x00, 0x1E,
+        255, 32, 0, 50, 50,
+        255, 64, 0, 50, 50,
+        255, 128, 0, 50, 50,
+        255, 255, 255, 50, 50
+    };
+
+    unsigned char usbWakeup[] = {0xf2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    unsigned char bluetoothWakeup[] = {0xf4,  0x42, 0x03, 0x00, 0x00};
+
+    int length = sizeof(usbWakeup);
+    printf("Requesting feature report.\n");
+    if (hid_get_feature_report(device, usbWakeup, length) < length) {
+        #ifdef __linux__
+            perror("Failed to get feature report");
+            printf("errno = %d\n", errno);
+        #else
+            printf("Failed to get feaature report.\n");
+        #endif
+        return -1;
+    }
+
+    int i;
+    printf("Feature report returned: ");
+    for (i = 0; i < sizeof(usbWakeup); ++i) {
+        printf("%x ", (int)usbWakeup[i]);
+    }
+    printf("\n");
+
+    printf("Sending feature report.\n");
+    length = sizeof(bluetoothWakeup);
+    if (hid_send_feature_report(device, bluetoothWakeup, length) < length) {
+        #ifdef __linux__
+            perror("Failed to send wakeup command");
+            printf("errno = %d\n", errno);
+        #else
+            printf("Failed to send wakeup command.\n");
+        #endif
+        return -1;
+    }*/
+
+    /*printf("Writing command.\n");
+    if (hid_write(device, command, sizeof(command)) < sizeof(command)) {
+        #ifdef __linux__
+            perror("Failed to send command");
+            printf("errno = %d\n", errno);
+        #else
+            printf("Failed to send command.\n");
+        #endif
+        return -1;
+    }*/
+
+    while (1) {
+        int bytesRead = hid_read(device, data, sizeof(data));
+        if (bytesRead < 0) {
+            perror("Error reading from device");
+            return -1;
+        }
+        else if (bytesRead > 0 /*&& data[0] == 2*/) {
+            printf("Read %d bytes: ", bytesRead);
+            int i;
+            for (i = 0; i < bytesRead; ++i) {
+                int j = 7;
+                while(j > 3) {
+                    printf("%u", getBit(j--, data[i]));
+                }
+                printf(" ");
+                while (j >= 0) {
+                    printf("%u", getBit(j--, data[i]));
+                }
+                printf(" ");
+            }
+            printf("\n");
+        }
+    }
+
+    hid_exit();
+    return 0;
+}
