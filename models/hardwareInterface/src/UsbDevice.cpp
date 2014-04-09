@@ -31,6 +31,22 @@ UsbDevice::~UsbDevice() {
     }
 }
 
+#include <iostream>
+bool UsbDevice::isConnected() {
+    bool result = false;
+    struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
+    for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+        if (deviceInfo->vendor_id == vendorId) {
+            if (std::find(productIds.begin(), productIds.end(), deviceInfo->product_id) != productIds.end()) {
+                result = true;
+                break;
+            }
+        }
+    }
+    hid_free_enumeration(enumerationHead);
+    return result;
+}
+
 void UsbDevice::open() {
     if (!mOpen) {
         struct hid_device_info *enumerationHead = hid_enumerate(0, 0);

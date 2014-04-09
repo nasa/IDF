@@ -48,6 +48,13 @@ class UsbDevice : public InputDevice {
     /** destructs this instance */
     virtual ~UsbDevice();
 
+    /**
+     * determines whether or not this device is connected to the computer
+     *
+     * @return <code>true</code> if this device is plugged in
+     */
+    virtual bool isConnected();
+
     /** opens this device for communication */
     virtual void open();
 
