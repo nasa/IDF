@@ -40,14 +40,46 @@ int main(int argc, char **args) {
         sscanf(buffer, "%d", &selection);
     }
 
+    deviceInfo = enumerationHead;
     for (count = 0; count < selection; ++count) {
-        enumerationHead = enumerationHead->next;
+        deviceInfo = deviceInfo->next;
     }
 
-    hid_device* device = hid_open_path(enumerationHead->path);
+    hid_device* device = hid_open_path(deviceInfo->path);
     if (!device) {
         perror("Failed to open device");
         return -1;
+    }
+
+    selection = -1;
+
+    /**
+     * 3Dconnexion devices return tranlsational, rotational, and button data in
+     * seperate messages. Button data is only returned when a button changes
+     * state, but translation and rotation data are both returned whenever
+     * either one changes state, making it very difficult to tell which bytes
+     * are changing as alternate messages scroll down the screen. Thus, for
+     * these devices, we ask the user to choose which type they wish to view.
+     */
+    if (deviceInfo->vendor_id == 0x046D && (
+      deviceInfo->product_id == 0xC62B ||
+      deviceInfo->product_id == 0xC627 ||
+      deviceInfo->product_id == 0xC628)) {
+        printf("\nButton data will be shown when a button changes state.\n");
+        printf("Translational and rotational data are both sent when either\n");
+        printf("one changes, resulting in alternating messages which are\n");
+        printf("difficult to follow on-screen. Thus, this program only shows\n");
+        printf("one set at a time. Which set of data would you like to view?\n\n");
+        printf("1: translational\n");
+        printf("2: rotational\n\n");
+
+        while (selection < 1 || selection > 2) {
+            char buffer[1024];
+            printf("Select an option: ");
+            fgets(buffer, sizeof(buffer), stdin);
+            sscanf(buffer, "%d", &selection);
+        }
+        
     }
 
     hid_free_enumeration(enumerationHead);
@@ -149,21 +181,23 @@ int main(int argc, char **args) {
             perror("Error reading from device");
             return -1;
         }
-        else if (bytesRead > 0 /*&& data[0] == 2*/) {
-            printf("Read %d bytes: ", bytesRead);
-            int i;
-            for (i = 0; i < bytesRead; ++i) {
-                int j = 7;
-                while(j > 3) {
-                    printf("%u", getBit(j--, data[i]));
+        else if (bytesRead > 0) {
+            if (selection == -1 || data[0] == selection || data[0] == 3) {
+                printf("Read %d bytes: ", bytesRead);
+                int i;
+                for (i = 0; i < bytesRead; ++i) {
+                    int j = 7;
+                    while(j > 3) {
+                        printf("%u", getBit(j--, data[i]));
+                    }
+                    printf(" ");
+                    while (j >= 0) {
+                        printf("%u", getBit(j--, data[i]));
+                    }
+                    printf(" ");
                 }
-                printf(" ");
-                while (j >= 0) {
-                    printf("%u", getBit(j--, data[i]));
-                }
-                printf(" ");
+                printf("\n");
             }
-            printf("\n");
         }
     }
 
