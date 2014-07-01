@@ -16,7 +16,7 @@ class StateChangeListener {
     public:
 
     /** destructor */
-    ~StateChangeListener() {}
+    virtual ~StateChangeListener() {}
 
     /**
      * called in response to a change in state of a <code>Controller</code>
