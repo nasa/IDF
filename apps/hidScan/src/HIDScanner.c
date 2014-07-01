@@ -183,9 +183,10 @@ int main(int argc, char **args) {
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
-                printf("Read %d bytes: ", bytesRead);
+                printf("Read %d bytes:", bytesRead);
                 int i;
                 for (i = 0; i < bytesRead; ++i) {
+                    printf("  ");
                     int j = 7;
                     while(j > 3) {
                         printf("%u", getBit(j--, data[i]));
@@ -194,7 +195,6 @@ int main(int argc, char **args) {
                     while (j >= 0) {
                         printf("%u", getBit(j--, data[i]));
                     }
-                    printf(" ");
                 }
                 printf("\n");
             }
