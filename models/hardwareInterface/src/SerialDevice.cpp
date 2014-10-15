@@ -15,7 +15,16 @@ SerialDevice::SerialDevice(const char *terminalPath) :
 
 void SerialDevice::open() {
     if (!mOpen) {
-        handle = ::open(path.c_str(), O_NOCTTY | O_RDWR);
+        /**
+         * Some kernels respect the DCD (data carrier detect) control signal and
+         * block on open until the device indicates that it's ready. However,
+         * some serial devices don't use control signals anymore, resulting in an
+         * indefinite hang. Thus, open in non-blocking mode and then immediately
+         * return to blocking. This limits the maximum number of bytes read will
+         * return to one.
+         */
+        handle = ::open(path.c_str(), O_NOCTTY | O_RDWR | O_NONBLOCK);
+        fcntl(handle, F_SETFL, 0);
 
         if (handle < 0) {
             std::ostringstream oss;
