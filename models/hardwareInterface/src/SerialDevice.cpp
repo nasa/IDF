@@ -20,16 +20,31 @@ void SerialDevice::open() {
          * block on open until the device indicates that it's ready. However,
          * some serial devices don't use control signals anymore, resulting in an
          * indefinite hang. Thus, open in non-blocking mode and then immediately
-         * return to blocking. This limits the maximum number of bytes read will
-         * return to one.
+         * return to blocking.
          */
         handle = ::open(path.c_str(), O_NOCTTY | O_RDWR | O_NONBLOCK);
-        fcntl(handle, F_SETFL, 0);
 
         if (handle < 0) {
             std::ostringstream oss;
             oss << __FILE__ << ":" << __LINE__
                 << " Failed to open " << path << ".";
+            throw IOException(oss.str());
+        }
+
+        int options = fcntl(handle, F_GETFL);
+        if (options < 0) {
+            std::ostringstream oss;
+            oss << __FILE__ << ":" << __LINE__
+                << " Failed to get options for " << path << ".";
+            throw IOException(oss.str());
+        }
+
+        options &= ~O_NONBLOCK;
+        options = fcntl(handle, F_SETFL, options);
+        if (options < 0) {
+            std::ostringstream oss;
+            oss << __FILE__ << ":" << __LINE__
+                << " Failed to set options for " << path << ".";
             throw IOException(oss.str());
         }
 

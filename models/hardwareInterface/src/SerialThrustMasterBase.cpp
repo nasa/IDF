@@ -51,7 +51,7 @@ void SerialThrustMasterBase::update() {
         if (bytesRead == 0) {
             std::ostringstream oss;
             oss << __FILE__ << ":" << __LINE__
-                << " Timeout while reading: " << strerror(errno);
+                << " Timeout while reading";
             throw IOException(oss.str());
         }
         bytesRemaining -= bytesRead;
