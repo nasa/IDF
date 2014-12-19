@@ -13,7 +13,8 @@ int UsbDevice::instanceCount = 0;
 std::vector<UsbDevice::DeviceTag> UsbDevice::openDevices;
 
 UsbDevice::UsbDevice(int vendorID, int productID) :
-    vendorId(vendorID) {
+    vendorId(vendorID),
+    delay(0) {
     productIds.push_back(productID);
     if (++instanceCount == 1) {
         if (hid_init() < 0) {
@@ -31,7 +32,6 @@ UsbDevice::~UsbDevice() {
     }
 }
 
-#include <iostream>
 bool UsbDevice::isConnected() {
     bool result = false;
     struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
@@ -103,8 +103,12 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
         throw IOException(oss.str());
     }
 
-    int bytesRead = hid_read(hidDevice, buffer, length);
+    //int bytesRead = hid_read(hidDevice, buffer, length);
 
+    // HACK - remote this when long-term solution is implemented
+    Entry* entry = new Entry(length, delay);
+    int bytesRead = hid_read(hidDevice, entry->data, length);
+    
     if (bytesRead < 0) {
         close();
         std::ostringstream oss;
@@ -113,7 +117,29 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
         throw IOException(oss.str());
     }
 
-    return bytesRead;
+    if (bytesRead > 0) {
+        storage.push_back(entry);
+    }
+    else {
+        delete entry;
+    }
+
+    Entry* next = NULL;
+
+    while (!storage.empty() && storage.front()->targetTime <= exec_get_sim_time()) {
+        delete next;
+        next = storage.front();
+        storage.pop_front();
+    }
+
+    if (next) {
+        memcpy(buffer, next->data, length);
+        delete next;
+        return length;
+    }
+
+    return 0;
+    //return bytesRead;
 }
 
 void UsbDevice::close() {
@@ -127,4 +153,9 @@ void UsbDevice::close() {
         hid_close(hidDevice);
         mOpen = false;
     }
+}
+
+// HACK - remove when long-term solution is implemented
+void UsbDevice::setDelay(double seconds) {
+    delay = seconds;
 }
