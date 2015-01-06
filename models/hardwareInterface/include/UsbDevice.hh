@@ -65,14 +65,6 @@ class UsbDevice : public InputDevice {
     /** closes this device */
     virtual void close();
 
-    /**
-     * HACK
-     * This function is being temporarily added to facilate delayed
-     * communication in the NExSyS project. Remove it when the long-term
-     * solution is implemented.
-     */
-    virtual void setDelay(double seconds);
-
     protected:
 
     /** vendor ID, used to lookup this device in the USB hierarchy */
@@ -133,8 +125,6 @@ class UsbDevice : public InputDevice {
     static std::vector<DeviceTag> openDevices;
 
     /** HACK - remove when long-term solution is implemented */
-    double delay;
-
     class Entry {
         public:
         unsigned char* data;

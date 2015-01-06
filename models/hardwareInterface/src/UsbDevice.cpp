@@ -13,8 +13,7 @@ int UsbDevice::instanceCount = 0;
 std::vector<UsbDevice::DeviceTag> UsbDevice::openDevices;
 
 UsbDevice::UsbDevice(int vendorID, int productID) :
-    vendorId(vendorID),
-    delay(0) {
+    vendorId(vendorID) {
     productIds.push_back(productID);
     if (++instanceCount == 1) {
         if (hid_init() < 0) {
@@ -146,9 +145,4 @@ void UsbDevice::close() {
         hid_close(hidDevice);
         mOpen = false;
     }
-}
-
-// HACK - remove when long-term solution is implemented
-void UsbDevice::setDelay(double seconds) {
-    delay = seconds;
 }

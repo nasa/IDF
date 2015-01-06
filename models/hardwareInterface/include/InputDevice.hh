@@ -50,6 +50,9 @@ class InputDevice {
      */
     virtual void update();
 
+    /** HACK - short-term solution only */
+    double delay;
+
     protected:
 
     /** the open state of this device */
