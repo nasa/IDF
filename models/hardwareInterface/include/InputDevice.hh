@@ -52,6 +52,7 @@ class InputDevice {
 
     /** HACK - short-term solution only */
     double delay;
+    bool enabled;
 
     protected:
 

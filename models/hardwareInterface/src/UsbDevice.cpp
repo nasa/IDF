@@ -116,7 +116,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
         throw IOException(oss.str());
     }
 
-    if (bytesRead > 0) {
+    if (bytesRead > 0 && enabled) {
         storage.push_back(entry);
     }
     else {
