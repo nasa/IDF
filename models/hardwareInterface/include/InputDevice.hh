@@ -9,6 +9,10 @@
 #ifndef _INPUT_DEVICE_HH_
 #define _INPUT_DEVICE_HH_
 
+// HACK - remove when long-term solution is implemented
+#include <list>
+#include "sim_services/Executive/include/exec_proto.h"
+
 namespace idf {
 
 /**
@@ -59,6 +63,22 @@ class InputDevice {
     /** the open state of this device */
     bool mOpen;
 
+    /** HACK - short-term solution only */
+    class Entry {
+        public:
+        unsigned char* data;
+        double targetTime;
+        Entry(unsigned int size, double delay) {
+            data = new unsigned char[size]();
+            targetTime = exec_get_sim_time() + delay;
+        };
+        ~Entry() {
+            delete[] data;
+        }
+    };
+
+    std::list<Entry*> storage;
+    /** HACK  ************************************************/
 };
 
 }

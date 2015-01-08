@@ -44,7 +44,11 @@ void SerialThrustMasterBase::update() {
     write(&request, sizeof(request));
 
     int bytesRemaining = 9;
-    unsigned char buffer[bytesRemaining];
+    /** HACK - short-term solution only */
+    Entry* entry = new Entry(bytesRemaining, delay);
+    unsigned char* buffer = entry->data;
+    /** HACK ****************************/
+    //unsigned char buffer[bytesRemaining];
 
     while(bytesRemaining) {
         int bytesRead = read(buffer + (9 - bytesRemaining), bytesRemaining);
@@ -57,13 +61,25 @@ void SerialThrustMasterBase::update() {
         bytesRemaining -= bytesRead;
     }
 
-    forwardBackwardPivot.setValue(buffer[0]);
-    twist.setValue(buffer[1]);
-    leftRightPivot.setValue(buffer[2]);
-    leftRightTranslation.setValue(buffer[3]);
-    upDownTranslation.setValue(buffer[4]);
-    forwardBackwardTranslation.setValue(buffer[5]);
-    trigger.setValue(buffer[8] & 1);
+    if (enabled) {
+        storage.push_back(entry);
+    }
 
-    processButtons(buffer[8]);
+    while (!storage.empty() && storage.front()->targetTime <= exec_get_sim_time()) {
+        buffer = storage.front()->data;
+
+        forwardBackwardPivot.setValue(buffer[0]);
+        twist.setValue(buffer[1]);
+        leftRightPivot.setValue(buffer[2]);
+        leftRightTranslation.setValue(buffer[3]);
+        upDownTranslation.setValue(buffer[4]);
+        forwardBackwardTranslation.setValue(buffer[5]);
+        trigger.setValue(buffer[8] & 1);
+
+        processButtons(buffer[8]);
+
+        delete storage.front();
+        storage.pop_front();
+    }
+
 }

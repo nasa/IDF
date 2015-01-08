@@ -21,10 +21,6 @@
 #endif
 #endif
 
-// HACK - remove when long-term solution is implemented
-#include <list>
-#include "sim_services/Executive/include/exec_proto.h"
-
 namespace idf {
 
 /**
@@ -123,23 +119,6 @@ class UsbDevice : public InputDevice {
 
     /** open devices */
     static std::vector<DeviceTag> openDevices;
-
-    /** HACK - remove when long-term solution is implemented */
-    class Entry {
-        public:
-        unsigned char* data;
-        double targetTime;
-        Entry(unsigned int size, double delay) {
-            data = new unsigned char[size]();
-            targetTime = exec_get_sim_time() + delay;
-        };
-        ~Entry() {
-            delete[] data;
-        }
-    };
-
-    std::list<Entry*> storage;
-    /** HACK  ************************************************/
 
 };
 
