@@ -35,6 +35,12 @@ class ThrustMaster : public virtual ThrustMasterBase {
     /** the top button */
     SingleInput topButton;
 
+    /** the left three-state switch */
+    SingleInput leftSwitch;
+
+    /** the right three-state switch */
+    SingleInput rightSwitch;
+
     private:
 
     /** this class is not copy-assignable */

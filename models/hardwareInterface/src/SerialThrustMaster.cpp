@@ -10,4 +10,6 @@ SerialThrustMaster::SerialThrustMaster(const char *terminalPath, bool isMale) :
 void SerialThrustMaster::processButtons(unsigned char buttonByte) {
     topSwitch.setValue(buttonByte >> 2 & 1);
     topButton.setValue(buttonByte >> 3 & 1);
+    leftSwitch.setValue(buttonByte & 16 ? 1 : buttonByte &  32 ? -1 : 0);
+    rightSwitch.setValue(buttonByte & 64 ? 1 : buttonByte & 128 ? -1 : 0);
 }

@@ -10,4 +10,4 @@ ThrustMasterBase::ThrustMasterBase(bool isMale) :
     forwardBackwardTranslation(0, 255),
     leftRightTranslation(72, 200),
     upDownTranslation(72, 200),
-    trigger(0, 1) {}
+    trigger(-1, 1) {}

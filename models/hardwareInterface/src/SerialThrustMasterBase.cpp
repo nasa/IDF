@@ -50,7 +50,7 @@ void SerialThrustMasterBase::update() {
     /** HACK ****************************/
     //unsigned char buffer[bytesRemaining];
 
-    while(bytesRemaining) {
+    while (bytesRemaining) {
         int bytesRead = read(buffer + (9 - bytesRemaining), bytesRemaining);
         if (bytesRead == 0) {
             std::ostringstream oss;
@@ -74,7 +74,7 @@ void SerialThrustMasterBase::update() {
         leftRightTranslation.setValue(buffer[3]);
         upDownTranslation.setValue(buffer[4]);
         forwardBackwardTranslation.setValue(buffer[5]);
-        trigger.setValue(buffer[8] & 1);
+        trigger.setValue(buffer[8] & 1 ? 1 : buffer[8] & 2 ? -1 : 0);
 
         processButtons(buffer[8]);
 
