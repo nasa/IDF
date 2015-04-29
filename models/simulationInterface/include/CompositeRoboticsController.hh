@@ -1,13 +1,13 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/CompositeRoboticsController.cpp))
- */
+PURPOSE: ()
 
-#ifndef _COMPOSITE_ROBOTICS_CONTROLLER_HH_
-#define _COMPOSITE_ROBOTICS_CONTROLLER_HH_
+LIBRARY DEPENDENCIES:
+((simulationInterface/src/CompositeRoboticsController.cpp)
+ (inputAbstraction/src/Utils.cpp))
+*/
+
+#ifndef COMPOSITE_ROBOTICS_CONTROLLER_HH
+#define COMPOSITE_ROBOTICS_CONTROLLER_HH
 
 #include "CompositeController.hh"
 #include "RoboticsController.hh"

@@ -1,13 +1,13 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/CompositeCameraController.cpp))
- */
+PURPOSE: ()
 
-#ifndef _COMPOSITE_CAMERA_CONTROLLER_HH_
-#define _COMPOSITE_CAMERA_CONTROLLER_HH_
+LIBRARY DEPENDENCIES:
+((simulationInterface/src/CompositeCameraController.cpp)
+ (inputAbstraction/src/Utils.cpp))
+*/
+
+#ifndef COMPOSITE_CAMERA_CONTROLLER_HH
+#define COMPOSITE_CAMERA_CONTROLLER_HH
 
 #include "CompositeController.hh"
 #include "CameraController.hh"

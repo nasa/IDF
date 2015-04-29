@@ -1,13 +1,13 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/CompositeFlightController.cpp))
- */
+PURPOSE: ()
 
-#ifndef _COMPOSITE_FLIGHT_CONTROLLER_HH_
-#define _COMPOSITE_FLIGHT_CONTROLLER_HH_
+LIBRARY DEPENDENCIES:
+((simulationInterface/src/CompositeFlightController.cpp)
+ (inputAbstraction/src/Utils.cpp))
+*/
+
+#ifndef COMPOSITE_FLIGHT_CONTROLLER_HH
+#define COMPOSITE_FLIGHT_CONTROLLER_HH
 
 #include "CompositeController.hh"
 #include "FlightController.hh"
