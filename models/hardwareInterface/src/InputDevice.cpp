@@ -6,8 +6,8 @@
 using namespace idf;
 
 InputDevice::InputDevice() :
-    mOpen(false),
     delay(0),
+    mOpen(false),
     enabled(true) {}
 
 bool InputDevice::isOpen() const {
