@@ -9,7 +9,7 @@
 #ifndef _USB_SPACE_EXPLORER_HH_
 #define _USB_SPACE_EXPLORER_HH_
 
-#include "UsbSpaceBase.hh"
+#include "hardwareInterface/include/UsbSpaceBase.hh"
 #include "inputAbstraction/include/SpaceExplorer.hh"
 
 namespace idf {

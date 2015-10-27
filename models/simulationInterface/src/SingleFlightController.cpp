@@ -144,22 +144,22 @@ SingleFlightController* SingleFlightController::createInstance(const Gravis& gra
     return new SingleFlightController(*roll, *pitch, *yaw, *x, *y, *z);
 }
 
-SingleFlightController* SingleFlightController::createInstance(const DualShock3& dualShock3) {
+SingleFlightController* SingleFlightController::createInstance(const DualShock& dualShock) {
     CompositeInput* z = new CompositeInput();
-    z->addInput(dualShock3.triangleButton);
-    z->addInput(dualShock3.xButton, -1);
+    z->addInput(dualShock.triangleButton);
+    z->addInput(dualShock.xButton, -1);
 
     CompositeInput* roll = new CompositeInput();
-    roll->addInput(dualShock3.leftTrigger, -1);
-    roll->addInput(dualShock3.rightTrigger);
+    roll->addInput(dualShock.leftTrigger, -1);
+    roll->addInput(dualShock.rightTrigger);
 
     SingleFlightController *controller =
       new SingleFlightController(
       *roll,
-      dualShock3.rightAnalogUpDownPivot,
-      dualShock3.rightAnalogLeftRightPivot,
-      dualShock3.leftAnalogUpDownPivot,
-      dualShock3.leftAnalogLeftRightPivot,
+      dualShock.rightAnalogUpDownPivot,
+      dualShock.rightAnalogLeftRightPivot,
+      dualShock.leftAnalogUpDownPivot,
+      dualShock.leftAnalogLeftRightPivot,
       *z);
 
     controller->x.setInverted(true);

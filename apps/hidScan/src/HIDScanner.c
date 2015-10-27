@@ -53,40 +53,59 @@ int main(int argc, char **args) {
 
     selection = -1;
 
-    /**
-     * 3Dconnexion devices return tranlsational, rotational, and button data in
-     * seperate messages. Button data is only returned when a button changes
-     * state, but translation and rotation data are both returned whenever
-     * either one changes state, making it very difficult to tell which bytes
-     * are changing as alternate messages scroll down the screen. Thus, for
-     * these devices, we ask the user to choose which type they wish to view.
-     */
-    if (deviceInfo->vendor_id == 0x046D && (
-      deviceInfo->product_id == 0xC62B ||
-      deviceInfo->product_id == 0xC627 ||
-      deviceInfo->product_id == 0xC628)) {
-        printf("\nButton data will be shown when a button changes state.\n");
-        printf("Translational and rotational data are both sent when either\n");
-        printf("one changes, resulting in alternating messages which are\n");
-        printf("difficult to follow on-screen. Thus, this program only shows\n");
-        printf("one set at a time. Which set of data would you like to view?\n\n");
-        printf("1: translational\n");
-        printf("2: rotational\n\n");
+    int numBytes;
+    switch (deviceInfo->vendor_id) {
+        /**
+         * 3Dconnexion devices return tranlsational, rotational, and button data in
+         * seperate messages. Button data is only returned when a button changes
+         * state, but translation and rotation data are both returned whenever
+         * either one changes state, making it very difficult to tell which bytes
+         * are changing as alternate messages scroll down the screen. Thus, for
+         * these devices, we ask the user to choose which type they wish to view.
+         */
+        case 0x046D:
+            numBytes = 8;
+            printf("\nButton data will be shown when a button changes state.\n");
+            printf("Translational and rotational data are both sent when either\n");
+            printf("one changes, resulting in alternating messages which are\n");
+            printf("difficult to follow on-screen. Thus, this program only shows\n");
+            printf("one set at a time. Which set of data would you like to view?\n\n");
+            printf("1: translational\n");
+            printf("2: rotational\n\n");
 
-        while (selection < 1 || selection > 2) {
-            char buffer[1024];
-            printf("Select an option: ");
-            fgets(buffer, sizeof(buffer), stdin);
-            sscanf(buffer, "%d", &selection);
-        }
-        
+            while (selection < 1 || selection > 2) {
+                char buffer[1024];
+                printf("Select an option: ");
+                fgets(buffer, sizeof(buffer), stdin);
+                sscanf(buffer, "%d", &selection);
+            }
+            break;
+
+        // SONY
+        case 0x054C:
+            switch (deviceInfo->product_id) {
+                // DualShock3
+                case 0x0268:
+                    numBytes = 49;
+                    break;
+                // DualShock4
+                case 0x05C4:
+                    numBytes = 64;
+                    break;
+            }
+            break;
+
+        default:
+            numBytes = 8;
+            break;
+
     }
 
     hid_free_enumeration(enumerationHead);
 
     hid_set_nonblocking(device, 1);
 
-    unsigned char data[8];
+    unsigned char data[numBytes];
 
     /**
      * Rumble Pack Bytes
@@ -183,10 +202,11 @@ int main(int argc, char **args) {
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
-                printf("Read %d bytes:", bytesRead);
+                printf("\x1b[39;49mRead %d bytes:", bytesRead);
                 int i;
                 for (i = 0; i < bytesRead; ++i) {
                     printf("  ");
+                    printf("\033[0;3%dm", i % 7 + 1);
                     int j = 7;
                     while(j > 3) {
                         printf("%u", getBit(j--, data[i]));

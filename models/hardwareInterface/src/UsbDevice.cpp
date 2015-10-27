@@ -107,7 +107,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
     // HACK - remote this when long-term solution is implemented
     Entry* entry = new Entry(length, delay);
     int bytesRead = hid_read(hidDevice, entry->data, length);
-    
+
     if (bytesRead < 0) {
         close();
         std::ostringstream oss;

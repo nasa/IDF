@@ -86,7 +86,7 @@ class UsbDevice : public InputDevice {
      * @throws IOException if an error occurs while reading or if the device
      * is not open
      */
-    virtual int read(unsigned char *buffer, size_t length);
+    virtual int read(unsigned char* buffer, size_t length);
 
     private:
 

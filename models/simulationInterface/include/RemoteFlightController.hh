@@ -43,8 +43,7 @@ class RemoteFlightController {
     };
 
     /**
-     * a server which accepts and manages connections from multiple
-     * {@link Client}s
+     * a server which accepts and manages connections from multiple {@link Client}s
      *
      * @author Derek Bankieris
      */
@@ -53,8 +52,7 @@ class RemoteFlightController {
         public:
 
         /**
-         * constructs an instance which listens for connections on
-         * <code>port</code>
+         * constructs an instance which listens for connections on <code>port</code>
          *
          * @param port the port over which to listen for connections
          */
@@ -105,8 +103,7 @@ class RemoteFlightController {
     };
 
     /**
-     * transmits commands from a contained {@link FlightController} to a
-     * <code>Server</code>
+     * transmits commands from a contained {@link FlightController} to a <code>Server</code>
      *
      * @author Derek Bankieris
      */
@@ -115,26 +112,22 @@ class RemoteFlightController {
         public:
 
         /**
-         * constructs an instance that transmits commands from
-         * <code>flightController</code> to the <code>Server</code>
+         * constructs an instance that transmits commands from <code>flightController</code> to the <code>Server</code>
          * listening on <code>host</code>:<code>port</code>
          *
          * @param flightController the command source
          * @param host the name or ip address of the server host machine
          * @param port the port on which the server is listening
          */
-        Client(const FlightController& flightController,
-          const std::string host, unsigned short port);
+        Client(const FlightController& flightController, const std::string host, unsigned short port);
 
         /**
-         * packs commands from <code>flightController</code> into
-         * <code>commands</code>
+         * packs commands from <code>flightController</code> into <code>commands</code>
          *
          * @param commands the structure into which the commands are packed
          * @param flightController the controller whose commands are to be packed
          */
-        static void packCommands(Commands& commands,
-          const FlightController& flightController);
+        static void packCommands(Commands& commands, const FlightController& flightController);
 
     };
 

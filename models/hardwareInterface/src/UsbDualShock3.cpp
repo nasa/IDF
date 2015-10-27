@@ -8,11 +8,7 @@
 
 #ifdef __linux__
 #include <libusb.h>
-#endif
 
-using namespace idf;
-
-#ifdef __linux__
 /**
  * This is required to access fields within struct hid_device in the
  * sendCommand function. hid_device_ is defined in hid.c, which cannot be
@@ -25,8 +21,10 @@ struct hid_device_ {
 };
 #endif
 
+using namespace idf;
+
 UsbDualShock3::UsbDualShock3(int vendorID, int productID) :
-    UsbDevice(vendorID, productID) {}
+    UsbDualShock(vendorID, productID) {}
 
 void UsbDualShock3::update() {
     UsbDevice::update();
@@ -45,7 +43,7 @@ void UsbDualShock3::update() {
         rightAnalogIn.setValue(buffer[2] >> 2 & 1);
         startButton.setValue(buffer[2] >> 3 & 1);
 
-        playStationButton.setValue(buffer[4] & 1);
+        psButton.setValue(buffer[4] & 1);
 
         leftAnalogLeftRightPivot.setValue(buffer[6]);
         leftAnalogUpDownPivot.setValue(buffer[7]);

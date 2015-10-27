@@ -15,7 +15,7 @@
 #include "inputAbstraction/include/Input.hh"
 #include "inputAbstraction/include/CompositeInput.hh"
 
-#include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/DualShock.hh"
 #include "inputAbstraction/include/Extreme3dPro.hh"
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
@@ -183,13 +183,13 @@ class SingleFlightController : public FlightController {
 
     /*
      * creates a new <code>SingleFlightController</code> mapped to
-     * <code>dualShock3</code> using appropriate defaults
+     * <code>dualShock</code> using appropriate defaults
      *
-     * @param dualShock3 the inputs to use in the default mapping
+     * @param dualShock the inputs to use in the default mapping
      *
-     * @return a new DualShock3-based flight controller
+     * @return a new DualShock-based flight controller
      */
-    static SingleFlightController* createInstance(const DualShock3& dualShock3);
+    static SingleFlightController* createInstance(const DualShock& dualShock);
 
     /*
      * creates a new <code>SingleFlightController</code> mapped to

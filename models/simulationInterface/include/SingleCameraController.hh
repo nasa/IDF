@@ -15,7 +15,7 @@
 #include "inputAbstraction/include/Input.hh"
 #include "inputAbstraction/include/CompositeInput.hh"
 
-#include "inputAbstraction/include/DualShock3.hh"
+#include "inputAbstraction/include/DualShock.hh"
 #include "inputAbstraction/include/Extreme3dPro.hh"
 #include "inputAbstraction/include/Gravis.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
@@ -159,13 +159,13 @@ class SingleCameraController : public CameraController {
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to
-     * <code>dualShock3</code> using appropriate defaults
+     * <code>dualShock</code> using appropriate defaults
      *
-     * @param dualShock3 the inputs to use in the default mapping
+     * @param dualShock the inputs to use in the default mapping
      *
-     * @return a new DualShock3-based camera controller
+     * @return a new DualShock-based camera controller
      */
-    static SingleCameraController* createInstance(const DualShock3& dualShock3);
+    static SingleCameraController* createInstance(const DualShock& dualShock);
 
     /**
      * creates a new <code>SingleCameraController</code> mapped to
