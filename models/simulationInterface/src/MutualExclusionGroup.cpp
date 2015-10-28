@@ -1,4 +1,4 @@
-#include "MutualExclusionGroup.hh"
+#include "simulationInterface/include/MutualExclusionGroup.hh"
 
 #include <algorithm>
 

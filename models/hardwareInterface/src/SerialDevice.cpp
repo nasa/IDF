@@ -1,5 +1,5 @@
-#include "SerialDevice.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/SerialDevice.hh"
+#include "hardwareInterface/include/IOException.hh"
 
 #include <errno.h>
 #include <fcntl.h>

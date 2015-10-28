@@ -1,4 +1,4 @@
-#include "CompositeInput.hh"
+#include "inputAbstraction/include/CompositeInput.hh"
 #include <algorithm>
 #include <cmath>
 

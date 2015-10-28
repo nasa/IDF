@@ -9,7 +9,7 @@
 #ifndef _USB_XBOX_HH_
 #define _USB_XBOX_HH_
 
-#include "UsbDevice.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
 #include "inputAbstraction/include/XBox.hh"
 
 namespace idf {

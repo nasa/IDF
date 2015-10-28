@@ -9,8 +9,8 @@ LIBRARY DEPENDENCIES:
 #ifndef COMPOSITE_ROBOTICS_CONTROLLER_HH
 #define COMPOSITE_ROBOTICS_CONTROLLER_HH
 
-#include "CompositeController.hh"
-#include "RoboticsController.hh"
+#include "simulationInterface/include/CompositeController.hh"
+#include "simulationInterface/include/RoboticsController.hh"
 
 namespace idf {
 

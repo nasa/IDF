@@ -1,4 +1,4 @@
-#include "IndustrialProducts2.hh"
+#include "inputAbstraction/include/IndustrialProducts2.hh"
 
 using namespace idf;
 

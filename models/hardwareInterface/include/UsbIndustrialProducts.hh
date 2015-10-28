@@ -9,7 +9,7 @@
 #ifndef _USB_INDUSTRIAL_PRODUCTS_HH_
 #define _USB_INDUSTRIAL_PRODUCTS_HH_
 
-#include "UsbDevice.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
 #include "inputAbstraction/include/IndustrialProducts2.hh"
 
 namespace idf {

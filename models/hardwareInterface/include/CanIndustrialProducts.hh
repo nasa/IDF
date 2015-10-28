@@ -9,7 +9,7 @@
 #ifndef _CAN_INDUSTRIAL_PRODUCTS_HH_
 #define _CAN_INDUSTRIAL_PRODUCTS_HH_
 
-#include "CanDevice.hh"
+#include "hardwareInterface/include/CanDevice.hh"
 #include "inputAbstraction/include/IndustrialProducts.hh"
 
 namespace idf {

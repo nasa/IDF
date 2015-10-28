@@ -9,7 +9,7 @@
 #ifndef DUAL_SHOCK_HH
 #define DUAL_SHOCK_HH
 
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

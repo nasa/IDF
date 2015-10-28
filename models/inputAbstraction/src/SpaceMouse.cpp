@@ -1,4 +1,4 @@
-#include "SpaceMouse.hh"
+#include "inputAbstraction/include/SpaceMouse.hh"
 
 using namespace idf;
 

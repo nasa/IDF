@@ -1,4 +1,4 @@
-#include "UsbExtreme3dPro.hh"
+#include "hardwareInterface/include/UsbExtreme3dPro.hh"
 
 using namespace idf;
 

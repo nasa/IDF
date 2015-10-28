@@ -9,7 +9,7 @@
 #ifndef _SAITEK_HH_
 #define _SAITEK_HH_
 
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

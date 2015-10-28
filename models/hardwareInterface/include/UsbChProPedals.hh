@@ -9,7 +9,7 @@
 #ifndef _USB_CH_PRO_PEDALS_HH_
 #define _USB_CH_PRO_PEDALS_HH_
 
-#include "UsbDevice.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
 #include "inputAbstraction/include/ChProPedals.hh"
 
 namespace idf {

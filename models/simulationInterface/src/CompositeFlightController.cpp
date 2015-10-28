@@ -1,4 +1,4 @@
-#include "CompositeFlightController.hh"
+#include "simulationInterface/include/CompositeFlightController.hh"
 #include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 

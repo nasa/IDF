@@ -9,7 +9,7 @@
 #ifndef _INDUSTRIAL_PRODUCTS_HH_
 #define _INDUSTRIAL_PRODUCTS_HH_
 
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

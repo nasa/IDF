@@ -1,4 +1,4 @@
-#include "UsbChProPedals.hh"
+#include "hardwareInterface/include/UsbChProPedals.hh"
 
 using namespace idf;
 

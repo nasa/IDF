@@ -1,4 +1,4 @@
-#include "SpaceBase.hh"
+#include "inputAbstraction/include/SpaceBase.hh"
 
 using namespace idf;
 

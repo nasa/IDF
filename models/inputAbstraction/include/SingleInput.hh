@@ -9,7 +9,7 @@
 #ifndef _SINGLE_INPUT_HH_
 #define _SINGLE_INPUT_HH_
 
-#include "Input.hh"
+#include "inputAbstraction/include/Input.hh"
 
 namespace idf {
 

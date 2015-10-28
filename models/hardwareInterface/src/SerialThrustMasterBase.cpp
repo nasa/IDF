@@ -1,5 +1,5 @@
-#include "SerialThrustMasterBase.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/SerialThrustMasterBase.hh"
+#include "hardwareInterface/include/IOException.hh"
 #include <termios.h>
 #include <errno.h>
 #include <string.h>

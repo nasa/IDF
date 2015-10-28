@@ -9,8 +9,8 @@
 #ifndef _CAN_DEVICE_HH_
 #define _CAN_DEVICE_HH_
 
-#include "InputDevice.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/InputDevice.hh"
+#include "hardwareInterface/include/IOException.hh"
 #include "ntcan.h"
 
 namespace idf {

@@ -1,4 +1,4 @@
-#include "UsbSpaceExplorer.hh"
+#include "hardwareInterface/include/UsbSpaceExplorer.hh"
 
 using namespace idf;
 

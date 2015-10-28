@@ -9,7 +9,7 @@
 #ifndef _USB_WING_MAN_HH_
 #define _USB_WING_MAN_HH_
 
-#include "UsbDevice.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
 #include "inputAbstraction/include/WingMan.hh"
 
 namespace idf {

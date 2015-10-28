@@ -9,7 +9,7 @@
 #ifndef _REMOTE_CAMERA_CONTROLLER_HH_
 #define _REMOTE_CAMERA_CONTROLLER_HH_
 
-#include "CameraController.hh"
+#include "simulationInterface/include/CameraController.hh"
 #include "hardwareInterface/include/RemoteDeviceServer.hh"
 #include "hardwareInterface/include/RemoteDeviceClient.hh"
 

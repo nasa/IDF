@@ -9,7 +9,7 @@
 #ifndef _SERIAL_THRUST_MASTER2_HH_
 #define _SERIAL_THRUST_MASTER2_HH_
 
-#include "SerialThrustMasterBase.hh"
+#include "hardwareInterface/include/SerialThrustMasterBase.hh"
 #include "inputAbstraction/include/ThrustMaster2.hh"
 
 namespace idf {

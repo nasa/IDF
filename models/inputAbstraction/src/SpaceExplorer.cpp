@@ -1,4 +1,4 @@
-#include "SpaceExplorer.hh"
+#include "inputAbstraction/include/SpaceExplorer.hh"
 
 using namespace idf;
 

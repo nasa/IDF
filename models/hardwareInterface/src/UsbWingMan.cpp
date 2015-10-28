@@ -1,4 +1,4 @@
-#include "UsbWingMan.hh"
+#include "hardwareInterface/include/UsbWingMan.hh"
 
 using namespace idf;
 

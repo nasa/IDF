@@ -1,4 +1,4 @@
-#include "UsbIndustrialProducts.hh"
+#include "hardwareInterface/include/UsbIndustrialProducts.hh"
 
 using namespace idf;
 

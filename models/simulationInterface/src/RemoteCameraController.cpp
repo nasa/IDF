@@ -1,4 +1,4 @@
-#include "RemoteCameraController.hh"
+#include "simulationInterface/include/RemoteCameraController.hh"
 #include "inputAbstraction/include/Utils.hh"
 #include "hardwareInterface/include/RemoteDeviceClient.hh"
 #include "hardwareInterface/include/IOException.hh"

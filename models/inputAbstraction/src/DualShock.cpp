@@ -1,4 +1,4 @@
-#include "DualShock.hh"
+#include "inputAbstraction/include/DualShock.hh"
 
 using namespace idf;
 

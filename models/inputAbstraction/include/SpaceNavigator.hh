@@ -9,8 +9,8 @@
 #ifndef _SPACE_NAVIGATOR_HH_
 #define _SPACE_NAVIGATOR_HH_
 
-#include "SpaceBase.hh"
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SpaceBase.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

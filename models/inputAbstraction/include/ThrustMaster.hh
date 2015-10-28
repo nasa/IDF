@@ -9,8 +9,8 @@
 #ifndef _THRUST_MASTER_HH_
 #define _THRUST_MASTER_HH_
 
-#include "ThrustMasterBase.hh"
-#include "SingleInput.hh"
+#include "inputAbstraction/include/ThrustMasterBase.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

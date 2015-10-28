@@ -11,8 +11,8 @@
 
 #include <vector>
 
-#include "StateChangeListener.hh"
-#include "Controller.hh"
+#include "simulationInterface/include/StateChangeListener.hh"
+#include "simulationInterface/include/Controller.hh"
 
 namespace idf {
 

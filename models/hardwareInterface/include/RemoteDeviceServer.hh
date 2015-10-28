@@ -6,8 +6,8 @@
 #ifndef _REMOTE_DEVICE_SERVER_HH_
 #define _REMOTE_DEVICE_SERVER_HH_
 
-#include "RemoteDeviceServerBase.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/RemoteDeviceServerBase.hh"
+#include "hardwareInterface/include/IOException.hh"
 #include <vector>
 #include <iostream>
 #include <sstream>

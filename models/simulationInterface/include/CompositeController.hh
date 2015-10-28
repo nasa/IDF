@@ -9,7 +9,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "Controller.hh"
+#include "simulationInterface/include/Controller.hh"
 
 namespace idf {
 

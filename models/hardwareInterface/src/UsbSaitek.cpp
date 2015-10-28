@@ -1,4 +1,4 @@
-#include "UsbSaitek.hh"
+#include "hardwareInterface/include/UsbSaitek.hh"
 
 using namespace idf;
 

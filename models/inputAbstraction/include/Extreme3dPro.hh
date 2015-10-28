@@ -9,7 +9,7 @@
 #ifndef _EXTREME_3D_PRO_HH_
 #define _EXTREME_3D_PRO_HH_
 
-#include "WingMan.hh"
+#include "inputAbstraction/include/WingMan.hh"
 
 namespace idf {
 

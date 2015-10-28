@@ -9,8 +9,8 @@ LIBRARY DEPENDENCIES:
 #ifndef COMPOSITE_CAMERA_CONTROLLER_HH
 #define COMPOSITE_CAMERA_CONTROLLER_HH
 
-#include "CompositeController.hh"
-#include "CameraController.hh"
+#include "simulationInterface/include/CompositeController.hh"
+#include "simulationInterface/include/CameraController.hh"
 
 namespace idf {
 

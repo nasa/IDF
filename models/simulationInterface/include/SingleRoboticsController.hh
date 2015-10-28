@@ -9,7 +9,7 @@
 #ifndef _SINGLE_ROBOTICS_CONTROLLER_HH_
 #define _SINGLE_ROBOTICS_CONTROLLER_HH_
 
-#include "RoboticsController.hh"
+#include "simulationInterface/include/RoboticsController.hh"
 
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"

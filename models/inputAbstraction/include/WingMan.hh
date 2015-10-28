@@ -9,7 +9,7 @@
 #ifndef _WING_MAN_HH_
 #define _WING_MAN_HH_
 
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

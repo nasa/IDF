@@ -1,4 +1,4 @@
-#include "ThrustMasterBase.hh"
+#include "inputAbstraction/include/ThrustMasterBase.hh"
 
 using namespace idf;
 

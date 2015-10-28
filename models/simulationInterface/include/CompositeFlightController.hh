@@ -9,8 +9,8 @@ LIBRARY DEPENDENCIES:
 #ifndef COMPOSITE_FLIGHT_CONTROLLER_HH
 #define COMPOSITE_FLIGHT_CONTROLLER_HH
 
-#include "CompositeController.hh"
-#include "FlightController.hh"
+#include "simulationInterface/include/CompositeController.hh"
+#include "simulationInterface/include/FlightController.hh"
 
 namespace idf {
 

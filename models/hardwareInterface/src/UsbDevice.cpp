@@ -1,5 +1,5 @@
-#include "UsbDevice.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
+#include "hardwareInterface/include/IOException.hh"
 
 #include <errno.h>
 #include <sstream>

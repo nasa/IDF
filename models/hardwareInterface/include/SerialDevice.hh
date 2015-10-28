@@ -9,7 +9,7 @@
 #ifndef _SERIAL_DEVICE_HH_
 #define _SERIAL_DEVICE_HH_
 
-#include "InputDevice.hh"
+#include "hardwareInterface/include/InputDevice.hh"
 
 #include <string>
 

@@ -9,7 +9,7 @@
 #ifndef _SINGLE_FLIGHT_CONTROLLER_HH_
 #define _SINGLE_FLIGHT_CONTROLLER_HH_
 
-#include "FlightController.hh"
+#include "simulationInterface/include/FlightController.hh"
 
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"

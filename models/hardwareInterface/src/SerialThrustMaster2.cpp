@@ -1,4 +1,4 @@
-#include "SerialThrustMaster2.hh"
+#include "hardwareInterface/include/SerialThrustMaster2.hh"
 
 using namespace idf;
 

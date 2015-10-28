@@ -9,7 +9,7 @@
 #ifndef _USB_SAITEK_HH_
 #define _USB_SAITEK_HH_
 
-#include "UsbDevice.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
 #include "inputAbstraction/include/Saitek.hh"
 
 namespace idf {

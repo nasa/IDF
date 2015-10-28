@@ -9,7 +9,7 @@
 #ifndef _CAMERA_CONTROLLER_HH_
 #define _CAMERA_CONTROLLER_HH_
 
-#include "Controller.hh"
+#include "simulationInterface/include/Controller.hh"
 
 namespace idf {
 

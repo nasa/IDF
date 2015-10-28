@@ -1,4 +1,4 @@
-#include "UsbXBox.hh"
+#include "hardwareInterface/include/UsbXBox.hh"
 
 using namespace idf;
 

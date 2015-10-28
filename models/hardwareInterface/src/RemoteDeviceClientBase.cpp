@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "RemoteDeviceClientBase.hh"
+#include "hardwareInterface/include/RemoteDeviceClientBase.hh"
 
 using namespace idf;
 

@@ -1,7 +1,7 @@
 #ifndef _USB_DUAL_SHOCK_HH_
 #define _USB_DUAL_SHOCK_HH_
 
-#include "UsbDevice.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
 #include "inputAbstraction/include/DualShock.hh"
 
 namespace idf {

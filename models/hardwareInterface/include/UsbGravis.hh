@@ -9,7 +9,7 @@
 #ifndef _USB_GRAVIS_HH_
 #define _USB_GRAVIS_HH_
 
-#include "UsbDevice.hh"
+#include "hardwareInterface/include/UsbDevice.hh"
 #include "inputAbstraction/include/Gravis.hh"
 
 namespace idf {

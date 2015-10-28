@@ -1,4 +1,4 @@
-#include "RemoteSpaceNavigator.hh"
+#include "hardwareInterface/include/RemoteSpaceNavigator.hh"
 #include "inputAbstraction/include/Utils.hh"
 #include "hardwareInterface/include/IOException.hh"
 #include <exception>

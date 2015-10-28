@@ -10,7 +10,7 @@
 #define _REMOTE_DEVICE_CLIENT_BASE_HH_
 
 #include "inputAbstraction/include/Utils.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/IOException.hh"
 
 namespace idf {
 

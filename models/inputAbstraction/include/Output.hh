@@ -11,8 +11,8 @@
 
 #include <vector>
 
-#include "Input.hh"
-#include "Deadband.hh"
+#include "inputAbstraction/include/Input.hh"
+#include "inputAbstraction/include/Deadband.hh"
 
 namespace idf {
 

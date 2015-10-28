@@ -1,4 +1,4 @@
-#include "RemoteDeviceServer.hh"
+#include "hardwareInterface/include/RemoteDeviceServer.hh"
 #include "hardwareInterface/include/IOException.hh"
 #include <sstream>
 #include <cstring>

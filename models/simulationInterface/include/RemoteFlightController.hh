@@ -9,7 +9,7 @@
 #ifndef _REMOTE_FLIGHT_CONTROLLER_HH_
 #define _REMOTE_FLIGHT_CONTROLLER_HH_
 
-#include "FlightController.hh"
+#include "simulationInterface/include/FlightController.hh"
 #include "hardwareInterface/include/RemoteDeviceServer.hh"
 #include "hardwareInterface/include/RemoteDeviceClient.hh"
 

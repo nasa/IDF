@@ -1,4 +1,4 @@
-#include "UsbSpaceMouse.hh"
+#include "hardwareInterface/include/UsbSpaceMouse.hh"
 
 using namespace idf;
 

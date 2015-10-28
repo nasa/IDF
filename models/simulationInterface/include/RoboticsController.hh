@@ -9,7 +9,7 @@
 #ifndef _ROBOTICS_CONTROLLER_HH_
 #define _ROBOTICS_CONTROLLER_HH_
 
-#include "Controller.hh"
+#include "simulationInterface/include/Controller.hh"
 
 namespace idf {
 

@@ -1,4 +1,4 @@
-#include "CompositeRoboticsController.hh"
+#include "simulationInterface/include/CompositeRoboticsController.hh"
 #include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 

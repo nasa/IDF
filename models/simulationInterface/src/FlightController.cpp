@@ -1,4 +1,4 @@
-#include "FlightController.hh"
+#include "simulationInterface/include/FlightController.hh"
 
 using namespace idf;
 

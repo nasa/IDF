@@ -1,4 +1,4 @@
-#include "CameraController.hh"
+#include "simulationInterface/include/CameraController.hh"
 
 using namespace idf;
 

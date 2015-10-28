@@ -1,5 +1,5 @@
-#include "UsbDualShock4.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/UsbDualShock4.hh"
+#include "hardwareInterface/include/IOException.hh"
 
 #include <stdio.h>
 #include <errno.h>

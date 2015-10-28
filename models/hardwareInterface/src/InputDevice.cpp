@@ -1,5 +1,5 @@
-#include "InputDevice.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/InputDevice.hh"
+#include "hardwareInterface/include/IOException.hh"
 
 #include <sstream>
 

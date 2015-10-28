@@ -9,7 +9,7 @@
 #ifndef _REMOTE_ROBOTICS_CONTROLLER_HH_
 #define _REMOTE_ROBOTICS_CONTROLLER_HH_
 
-#include "RoboticsController.hh"
+#include "simulationInterface/include/RoboticsController.hh"
 #include "hardwareInterface/include/RemoteDeviceServer.hh"
 #include "hardwareInterface/include/RemoteDeviceClient.hh"
 

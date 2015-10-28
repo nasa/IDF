@@ -9,7 +9,7 @@
 #ifndef _CH_PRO_PEDALS_HH_
 #define _CH_PRO_PEDALS_HH_
 
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

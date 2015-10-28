@@ -1,4 +1,4 @@
-#include "CanDevice.hh"
+#include "hardwareInterface/include/CanDevice.hh"
 #include <sstream>
 
 using namespace idf;

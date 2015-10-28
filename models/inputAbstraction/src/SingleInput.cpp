@@ -1,4 +1,4 @@
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 #include <stdexcept>
 #include <sstream>
 

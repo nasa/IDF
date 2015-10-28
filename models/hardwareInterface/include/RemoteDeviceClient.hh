@@ -6,10 +6,10 @@
 #ifndef _REMOTE_DEVICE_CLIENT_HH_
 #define _REMOTE_DEVICE_CLIENT_HH_
 
-#include "RemoteDeviceClientBase.hh"
-#include "RemoteDeviceServerBase.hh"
+#include "hardwareInterface/include/RemoteDeviceClientBase.hh"
+#include "hardwareInterface/include/RemoteDeviceServerBase.hh"
 #include "inputAbstraction/include/Utils.hh"
-#include "IOException.hh"
+#include "hardwareInterface/include/IOException.hh"
 
 #include <iostream>
 #include <sstream>

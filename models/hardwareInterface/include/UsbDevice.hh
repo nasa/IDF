@@ -10,7 +10,7 @@
 #ifndef _USB_DEVICE_HH_
 #define _USB_DEVICE_HH_
 
-#include "InputDevice.hh"
+#include "hardwareInterface/include/InputDevice.hh"
 
 #include <vector>
 #include <string>

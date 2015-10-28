@@ -9,7 +9,7 @@
 #ifndef _SPACE_BASE_HH_
 #define _SPACE_BASE_HH_
 
-#include "SingleInput.hh"
+#include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
 

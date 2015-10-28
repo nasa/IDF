@@ -9,7 +9,7 @@
 #ifndef _SINGLE_CAMERA_CONTROLLER_HH_
 #define _SINGLE_CAMERA_CONTROLLER_HH_
 
-#include "CameraController.hh"
+#include "simulationInterface/include/CameraController.hh"
 
 #include "inputAbstraction/include/Output.hh"
 #include "inputAbstraction/include/Input.hh"

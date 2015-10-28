@@ -1,4 +1,4 @@
-#include "CompositeCameraController.hh"
+#include "simulationInterface/include/CompositeCameraController.hh"
 #include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 

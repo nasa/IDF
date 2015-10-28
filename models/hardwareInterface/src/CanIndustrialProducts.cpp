@@ -1,4 +1,4 @@
-#include "CanIndustrialProducts.hh"
+#include "hardwareInterface/include/CanIndustrialProducts.hh"
 
 #include <sstream>
 

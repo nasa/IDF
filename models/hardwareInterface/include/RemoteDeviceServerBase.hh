@@ -9,7 +9,7 @@
 #ifndef _REMOTE_DEVICE_SERVER_BASE_HH_
 #define _REMOTE_DEVICE_SERVER_BASE_HH_
 
-#include "InputDevice.hh"
+#include "hardwareInterface/include/InputDevice.hh"
 
 namespace idf {
 

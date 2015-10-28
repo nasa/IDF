@@ -9,7 +9,7 @@
 #ifndef _USB_EXTREME_3D_PRO_HH_
 #define _USB_EXTREME_3D_PRO_HH_
 
-#include "UsbWingMan.hh"
+#include "hardwareInterface/include/UsbWingMan.hh"
 #include "inputAbstraction/include/Extreme3dPro.hh"
 
 namespace idf {
