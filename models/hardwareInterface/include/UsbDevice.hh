@@ -4,7 +4,7 @@
 
  LIBRARY DEPENDENCIES:
  ((hardwareInterface/src/UsbDevice.cpp)
-  (hardwareInterface/src/hidapi.c))
+  (hardwareInterface/src/hidapi.cpp))
 */
 
 #ifndef _USB_DEVICE_HH_
