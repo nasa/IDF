@@ -65,7 +65,7 @@ void SerialThrustMasterBase::update() {
         storage.push_back(entry);
     }
 
-    while (!storage.empty() && storage.front()->targetTime <= exec_get_sim_time()) {
+    while (!storage.empty() && storage.front()->targetTime <= InputDevice::getTime()) {
         buffer = storage.front()->data;
 
         forwardBackwardPivot.setValue(buffer[0]);

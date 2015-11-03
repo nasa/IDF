@@ -6,12 +6,16 @@
  ((hardwareInterface/src/InputDevice.cpp))
 */
 
-#ifndef _INPUT_DEVICE_HH_
-#define _INPUT_DEVICE_HH_
+#ifndef INPUT_DEVICE_HH
+#define INPUT_DEVICE_HH
 
 // HACK - remove when long-term solution is implemented
 #include <list>
-#include "sim_services/Executive/include/exec_proto.h"
+#include  <time.h>
+#ifdef __APPLE__
+#include <mach/mach_time.h>
+#endif
+// HACK
 
 namespace idf {
 
@@ -57,6 +61,7 @@ class InputDevice {
     /** HACK - short-term solution only */
     double delay;
     bool enabled;
+    /** HACK  ************************************************/
 
     protected:
 
@@ -64,14 +69,27 @@ class InputDevice {
     bool mOpen;
 
     /** HACK - short-term solution only */
+    static double getTime() {
+        #ifdef __APPLE__
+        static mach_timebase_info_data_t timebase = {};
+        if (timebase.denom == 0) {
+            mach_timebase_info(&timebase);
+        }
+        return mach_absolute_time() * timebase.numer / timebase.denom / 1E9;
+        #else
+        struct timespec time = {0, 0};
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        return time.tv_sec + time.tv_sec / 1E9;
+        #endif
+    }
+
     class Entry {
         public:
         unsigned char* data;
         double targetTime;
-        Entry(unsigned int size, double delay) {
-            data = new unsigned char[size]();
-            targetTime = exec_get_sim_time() + delay;
-        };
+        Entry(unsigned int size, double delay) :
+            data(new unsigned char[size]()),
+            targetTime(InputDevice::getTime() + delay) {}
         ~Entry() {
             delete[] data;
         }

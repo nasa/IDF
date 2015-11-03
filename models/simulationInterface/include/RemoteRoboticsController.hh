@@ -19,6 +19,7 @@ class RemoteRoboticsController {
 
     public:
 
+    #ifndef SWIG
     /** structure used to serialze commands */
     struct Commands {
 
@@ -159,6 +160,7 @@ class RemoteRoboticsController {
           const RoboticsController& roboticsController);
 
     };
+    #endif
 
 };
 

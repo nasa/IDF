@@ -123,7 +123,7 @@ int UsbDevice::read(unsigned char *buffer, size_t length) {
         delete entry;
     }
 
-    if (!storage.empty() && storage.front()->targetTime <= exec_get_sim_time()) {
+    if (!storage.empty() && storage.front()->targetTime <= InputDevice::getTime()) {
         memcpy(buffer, storage.front()->data, length);
         delete storage.front();
         storage.pop_front();

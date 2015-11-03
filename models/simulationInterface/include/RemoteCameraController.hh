@@ -19,6 +19,7 @@ class RemoteCameraController {
 
     public:
 
+    #ifndef SWIG
     /** structure used to serialze commands */
     struct Commands {
 
@@ -117,6 +118,7 @@ class RemoteCameraController {
           const CameraController& cameraController);
 
     };
+    #endif
 
 };
 

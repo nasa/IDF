@@ -19,6 +19,7 @@ class RemoteFlightController {
 
     public:
 
+    #ifndef SWIG
     /** structure used to serialze commands */
     struct Commands {
 
@@ -130,6 +131,7 @@ class RemoteFlightController {
         static void packCommands(Commands& commands, const FlightController& flightController);
 
     };
+    #endif
 
 };
 
