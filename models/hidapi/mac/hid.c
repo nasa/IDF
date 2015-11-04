@@ -122,7 +122,7 @@ struct hid_device_ {
 
 static hid_device *new_hid_device(void)
 {
-	hid_device *dev = calloc(1, sizeof(hid_device));
+	hid_device *dev = (hid_device *)calloc(1, sizeof(hid_device));
 	dev->device_handle = NULL;
 	dev->blocking = 1;
 	dev->uses_numbered_reports = 0;
@@ -225,7 +225,7 @@ static int get_string_property(IOHIDDeviceRef device, CFStringRef prop, wchar_t 
 	if (!len)
 		return 0;
 
-	str = IOHIDDeviceGetProperty(device, prop);
+	str = (CFStringRef)IOHIDDeviceGetProperty(device, prop);
 
 	buf[0] = 0;
 
@@ -261,7 +261,7 @@ static int get_string_property_utf8(IOHIDDeviceRef device, CFStringRef prop, cha
 	if (!len)
 		return 0;
 
-	str = IOHIDDeviceGetProperty(device, prop);
+	str = (CFStringRef)IOHIDDeviceGetProperty(device, prop);
 
 	buf[0] = 0;
 
@@ -311,7 +311,7 @@ static int get_product_string(IOHIDDeviceRef device, wchar_t *buf, size_t len)
 static wchar_t *dup_wcs(const wchar_t *s)
 {
 	size_t len = wcslen(s);
-	wchar_t *ret = malloc((len+1)*sizeof(wchar_t));
+	wchar_t *ret = (wchar_t *)malloc((len+1)*sizeof(wchar_t));
 	wcscpy(ret, s);
 
 	return ret;
@@ -409,7 +409,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 
 	/* Convert the list into a C array so we can iterate easily. */
 	num_devices = CFSetGetCount(device_set);
-	IOHIDDeviceRef *device_array = calloc(num_devices, sizeof(IOHIDDeviceRef));
+	IOHIDDeviceRef *device_array = (IOHIDDeviceRef *)calloc(num_devices, sizeof(IOHIDDeviceRef));
 	CFSetGetValues(device_set, (const void **) device_array);
 
 	/* Iterate over each device, making an entry for it. */
@@ -435,7 +435,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 			size_t len;
 
 			/* VID/PID match. Create the record. */
-			tmp = malloc(sizeof(struct hid_device_info));
+			tmp = (struct hid_device_info *)malloc(sizeof(struct hid_device_info));
 			if (cur_dev) {
 				cur_dev->next = tmp;
 			}
@@ -536,7 +536,7 @@ static void hid_device_removal_callback(void *context, IOReturn result,
                                         void *sender)
 {
 	/* Stop the Run Loop for this device. */
-	hid_device *d = context;
+	hid_device *d = (hid_device *)context;
 
 	d->disconnected = 1;
 	CFRunLoopStop(d->run_loop);
@@ -550,11 +550,11 @@ static void hid_report_callback(void *context, IOReturn result, void *sender,
                          uint8_t *report, CFIndex report_length)
 {
 	struct input_report *rpt;
-	hid_device *dev = context;
+	hid_device *dev = (hid_device *)context;
 
 	/* Make a new Input Report object */
-	rpt = calloc(1, sizeof(struct input_report));
-	rpt->data = calloc(1, report_length);
+	rpt = (struct input_report *)calloc(1, sizeof(struct input_report));
+	rpt->data = (unsigned char *)calloc(1, report_length);
 	memcpy(rpt->data, report, report_length);
 	rpt->len = report_length;
 	rpt->next = NULL;
@@ -597,13 +597,13 @@ static void hid_report_callback(void *context, IOReturn result, void *sender,
    hid_close(), and serves to stop the read_thread's run loop. */
 static void perform_signal_callback(void *context)
 {
-	hid_device *dev = context;
+	hid_device *dev = (hid_device *)context;
 	CFRunLoopStop(dev->run_loop); //TODO: CFRunLoopGetCurrent()
 }
 
 static void *read_thread(void *param)
 {
-	hid_device *dev = param;
+	hid_device *dev = (hid_device *)param;
 
 	/* Move the device's run loop to this thread. */
 	IOHIDDeviceScheduleWithRunLoop(dev->device_handle, CFRunLoopGetCurrent(), dev->run_loop_mode);
@@ -683,7 +683,7 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 	CFSetRef device_set = IOHIDManagerCopyDevices(hid_mgr);
 
 	num_devices = CFSetGetCount(device_set);
-	IOHIDDeviceRef *device_array = calloc(num_devices, sizeof(IOHIDDeviceRef));
+	IOHIDDeviceRef *device_array = (IOHIDDeviceRef *)calloc(num_devices, sizeof(IOHIDDeviceRef));
 	CFSetGetValues(device_set, (const void **) device_array);
 	for (i = 0; i < num_devices; i++) {
 		char cbuf[BUF_LEN];
@@ -704,7 +704,7 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 
 				/* Create the buffers for receiving data */
 				dev->max_input_report_len = (CFIndex) get_max_report_length(os_dev);
-				dev->input_report_buf = calloc(dev->max_input_report_len, sizeof(uint8_t));
+				dev->input_report_buf = (unsigned char *)calloc(dev->max_input_report_len, sizeof(uint8_t));
 
 				/* Create the Run Loop Mode for this device.
 				   printing the reference seems to work. */
