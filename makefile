@@ -4,7 +4,7 @@ BUILD_DIR = build
 OBJECT_DIR = $(BUILD_DIR)/objects
 LIB = $(BUILD_DIR)/lib/libidf.a
 SRC_DIRS = $(MODEL_DIR)/simulationInterface $(MODEL_DIR)/inputAbstraction $(MODEL_DIR)/hardwareInterface
-SOURCES := $(shell find $(SRC_DIRS) -name "*.cpp")
+SOURCES := $(shell find $(SRC_DIRS) -name "*.cpp" -not -path "*/io_src/*" -not -path "*/swig/*")
 ifndef IDF_CAN
 SOURCES := $(filter-out $(shell find $(MODEL_DIR)/hardwareInterface -name "*Can*"),$(SOURCES))
 endif
