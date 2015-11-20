@@ -3,7 +3,9 @@
 using namespace idf;
 
 UsbSpaceNavigator::UsbSpaceNavigator(int vendorID, int productID) :
-    UsbSpaceBase(vendorID, productID) {}
+    UsbSpaceBase(vendorID, productID) {
+    productIds.push_back(0xC626);
+}
 
 void UsbSpaceNavigator::processButtons(unsigned char* buttonData) {
     leftButton.setValue(buttonData[0] & 1);
