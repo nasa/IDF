@@ -22,3 +22,15 @@ WingMan::WingMan() :
     hatWest(0, 1),
     hatNorthWest(0, 1),
     slider(0, 255, 127) {}
+
+const std::vector<InputLayout::Configurable>& WingMan::getConfigurables() {
+    static std::vector<Configurable> inputs;
+    if (inputs.empty()) {
+        append(InputLayout::getConfigurables(), inputs);
+        inputs.push_back(Configurable(forwardBackwardPivot, "Forward/Backward Pivot", "forwardBackwardPivot"));
+        inputs.push_back(Configurable(leftRightPivot, "Left/Right Pivot", "leftRightPivot"));
+        inputs.push_back(Configurable(twist, "Twist", "twist"));
+        inputs.push_back(Configurable(slider, "Slider", "slider"));
+    }
+    return inputs;
+}

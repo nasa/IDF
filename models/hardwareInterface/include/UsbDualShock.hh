@@ -16,8 +16,8 @@ class UsbDualShock : public UsbDevice, public virtual DualShock {
     public:
 
     /** constructor */
-    UsbDualShock(int vendorID, int productID) :
-        UsbDevice(vendorID, productID) {}
+    UsbDualShock(const std::string deviceName, int vendorID, int productID) :
+        UsbDevice(deviceName, vendorID, productID) {}
 
     /** destructor */
     virtual ~UsbDualShock() {};

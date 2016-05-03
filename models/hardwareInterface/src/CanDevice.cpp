@@ -3,9 +3,10 @@
 
 using namespace idf;
 
-CanDevice::CanDevice(int networkID, uint32_t flagz,
+CanDevice::CanDevice(const std::string& id, int networkID, uint32_t flagz,
   int32_t txQueueSize, int32_t rxQueueSize,
   int32_t txTimeout, int32_t rxTimeout) :
+    InputDevice(id),
     networkId(networkID),
     flags(flagz),
     transmitQueueSize(txQueueSize),

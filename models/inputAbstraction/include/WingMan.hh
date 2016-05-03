@@ -9,6 +9,7 @@
 #ifndef _WING_MAN_HH_
 #define _WING_MAN_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class WingMan {
+class WingMan : public virtual InputLayout {
 
     public:
 
@@ -84,6 +85,10 @@ class WingMan {
 
     /** the slider */
     SingleInput slider;
+
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 
 };
 

@@ -9,6 +9,7 @@
 #ifndef _INDUSTRIAL_PRODUCTS_HH_
 #define _INDUSTRIAL_PRODUCTS_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class IndustrialProducts {
+class IndustrialProducts : public virtual InputLayout {
 
     public:
 
@@ -64,6 +65,9 @@ class IndustrialProducts {
     /** left-right pivoting of the analog hat */
     SingleInput hatLeftRightPivot;
 
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 };
 
 }

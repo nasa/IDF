@@ -40,10 +40,11 @@ class UsbDevice : public InputDevice {
      * constructs a new instance whose <code>open()</code> will look for a USB
      * device with the <code>vendorID</code> and <code>productID</code>
      *
+     * @param name the name of this device
      * @param vendorID the target USB device's vendorID
      * @param productID the target USB device's productID
      */
-    UsbDevice(int vendorID, int productID);
+    UsbDevice(const std::string& name, int vendorID, int productID);
 
     /** destructs this instance */
     virtual ~UsbDevice();

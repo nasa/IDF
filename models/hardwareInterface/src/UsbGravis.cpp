@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbGravis::UsbGravis(int vendorID, int productID) :
-    UsbDevice(vendorID, productID) {}
+    UsbDevice("Gravis", vendorID, productID) {}
 
 void UsbGravis::update() {
     UsbDevice::update();

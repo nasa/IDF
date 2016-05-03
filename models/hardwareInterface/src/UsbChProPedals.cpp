@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbChProPedals::UsbChProPedals(int vendorID, int productID) :
-    UsbDevice(vendorID, productID) {}
+    UsbDevice("Ch Pro Pedals", vendorID, productID) {}
 
 void UsbChProPedals::update() {
     UsbDevice::update();

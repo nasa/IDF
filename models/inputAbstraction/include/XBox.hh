@@ -9,6 +9,7 @@
 #ifndef _XBOX_HH_
 #define _XBOX_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class XBox {
+class XBox : public virtual InputLayout {
 
     public:
 
@@ -90,6 +91,10 @@ class XBox {
 
     /** the button labeled RT */
     SingleInput rightTrigger;
+
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 
 };
 

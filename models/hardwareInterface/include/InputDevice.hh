@@ -9,6 +9,11 @@
 #ifndef INPUT_DEVICE_HH
 #define INPUT_DEVICE_HH
 
+#include "inputAbstraction/include/InputLayout.hh"
+#include "inputAbstraction/include/SingleInput.hh"
+#include <string>
+#include <utility>
+#include <vector>
 // HACK - remove when long-term solution is implemented
 #include <list>
 #include  <time.h>
@@ -27,12 +32,18 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class InputDevice {
+class InputDevice : public virtual InputLayout {
 
     public:
 
-    /** constructor */
-    InputDevice();
+    const std::string name;
+
+    /**
+     * constructor
+     *
+     * @param name the name of this device
+     */
+    InputDevice(const std::string& name);
 
     /** destructor */
     virtual ~InputDevice() {};
@@ -57,6 +68,9 @@ class InputDevice {
      * @throws IOException if the device is not open
      */
     virtual void update();
+
+    /** interactively configures all inputs */
+    virtual void configure();
 
     /** HACK - short-term solution only */
     double delay;
@@ -97,6 +111,14 @@ class InputDevice {
 
     std::list<Entry*> storage;
     /** HACK  ************************************************/
+
+    /**
+     * interactively configures @a inputs
+     *
+     * @param inputs the inputs to configure
+     */
+    virtual void configure(const std::vector<Configurable>& inputs);
+
 };
 
 }

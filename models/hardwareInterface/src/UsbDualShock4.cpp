@@ -10,7 +10,7 @@
 using namespace idf;
 
 UsbDualShock4::UsbDualShock4(int vendorID, int productID) :
-    UsbDualShock(vendorID, productID) {
+    UsbDualShock("Playstation 4 Controller", vendorID, productID) {
     command[2] = 0x05; // report ID
     command[3] = 0xFF; // enable motors
 }

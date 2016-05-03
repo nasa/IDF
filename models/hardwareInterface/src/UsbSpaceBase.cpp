@@ -2,8 +2,8 @@
 
 using namespace idf;
 
-UsbSpaceBase::UsbSpaceBase(int vendorID, int productID) :
-    UsbDevice(vendorID, productID) {}
+UsbSpaceBase::UsbSpaceBase(const std::string& id, int vendorID, int productID) :
+    UsbDevice(id, vendorID, productID) {}
 
 void UsbSpaceBase::update() {
     UsbDevice::update();

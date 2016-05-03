@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbSpaceMouse::UsbSpaceMouse(int vendorID, int productID) :
-    UsbSpaceBase(vendorID, productID) {}
+    UsbSpaceBase("Space Mouse", vendorID, productID) {}
 
 void UsbSpaceMouse::processButtons(unsigned char* buttonData) {
     buttonMenu.setValue(buttonData[0] & 1);

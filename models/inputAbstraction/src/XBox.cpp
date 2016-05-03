@@ -24,3 +24,15 @@ XBox::XBox() :
     rightBumper(0, 1),
     leftTrigger(0, 1),
     rightTrigger(0, 1) {}
+
+const std::vector<InputLayout::Configurable>& XBox::getConfigurables() {
+    static std::vector<Configurable> inputs;
+    if (inputs.empty()) {
+        append(InputLayout::getConfigurables(), inputs);
+        inputs.push_back(Configurable(leftAnalogLeftRightPivot, "Left Analog Left/Right Pivot", "leftAnalogLeftRightPivot"));
+        inputs.push_back(Configurable(leftAnalogUpDownPivot, "Left Analog Up/Down Pivot", "leftAnalogUpDownPivot"));
+        inputs.push_back(Configurable(rightAnalogLeftRightPivot, "Right Analog Left/Right Pivot", "rightAnalogLeftRightPivot"));
+        inputs.push_back(Configurable(rightAnalogUpDownPivot, "Right Analog Up/Down Pivot", "rightAnalogUpDownPivot"));
+    }
+    return inputs;
+}

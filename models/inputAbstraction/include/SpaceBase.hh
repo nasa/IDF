@@ -9,6 +9,7 @@
 #ifndef _SPACE_BASE_HH_
 #define _SPACE_BASE_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class SpaceBase {
+class SpaceBase : public virtual InputLayout {
 
     public:
 
@@ -45,6 +46,10 @@ class SpaceBase {
 
     /** up-down translation */
     SingleInput upDownTranslation;
+
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 
 };
 

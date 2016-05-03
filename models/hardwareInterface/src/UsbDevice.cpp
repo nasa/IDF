@@ -12,7 +12,8 @@ int UsbDevice::instanceCount = 0;
 
 std::vector<UsbDevice::DeviceTag> UsbDevice::openDevices;
 
-UsbDevice::UsbDevice(int vendorID, int productID) :
+UsbDevice::UsbDevice(const std::string& id, int vendorID, int productID) :
+    InputDevice(id),
     vendorId(vendorID) {
     productIds.push_back(productID);
     if (++instanceCount == 1) {

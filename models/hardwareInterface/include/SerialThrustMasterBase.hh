@@ -24,7 +24,7 @@ class SerialThrustMasterBase : public SerialDevice, public virtual ThrustMasterB
     public:
 
     /** constructor */
-    SerialThrustMasterBase(const char *path = "/dev/ttyS0", bool isMale = false);
+    SerialThrustMasterBase(const std::string& name, const char *path = "/dev/ttyS0", bool isMale = false);
 
     /** destructor */
     virtual ~SerialThrustMasterBase() {};
@@ -40,7 +40,6 @@ class SerialThrustMasterBase : public SerialDevice, public virtual ThrustMasterB
      */
     void update();
 
-
     protected:
 
     /**
@@ -51,7 +50,6 @@ class SerialThrustMasterBase : public SerialDevice, public virtual ThrustMasterB
      * @param buttonByte the raw button data
      */
     virtual void processButtons(unsigned char buttonByte) = 0;
-
 };
 
 }

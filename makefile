@@ -1,4 +1,4 @@
-MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+UNAME := $(shell uname)
 MODEL_DIR = models
 BUILD_DIR = build
 OBJECT_DIR = $(BUILD_DIR)/objects
@@ -9,7 +9,11 @@ ifndef IDF_CAN
 SOURCES := $(filter-out $(shell find $(MODEL_DIR)/hardwareInterface -name "*Can*"),$(SOURCES))
 endif
 OBJECTS := $(SOURCES:$(MODEL_DIR)/%.cpp=$(OBJECT_DIR)/%.o)
-CPPFLAGS += -g -Wall -Wextra -I$(MODEL_DIR) -I/usr/include/libusb-1.0
+CPPFLAGS += -g -Wall -Wextra -I$(MODEL_DIR)
+
+ifeq ($(UNAME), Linux)
+CPPFLAGS += -I/usr/include/libusb-1.0
+endif
 
 all: $(LIB)
 

@@ -32,9 +32,10 @@ class SerialDevice : public InputDevice {
      * constructs a new instance whose <code>open()</code> will open the serial
      * port at <code>path</code>
      *
+     * @param name the name of this device
      * @param system path to the terminal to which the device is attached
      */
-    SerialDevice(const char *path);
+    SerialDevice(const std::string& name, const char *path);
 
     /** destructor */
     virtual ~SerialDevice() {};

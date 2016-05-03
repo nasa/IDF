@@ -2,12 +2,12 @@
 
 using namespace idf;
 
-UsbWingMan::UsbWingMan(int vendorID, int productID) :
-    UsbDevice(vendorID, productID),
+UsbWingMan::UsbWingMan(int vendorID, int productID, const std::string& id) :
+    UsbDevice(id, vendorID, productID),
     byteCount(6) {}
 
-UsbWingMan::UsbWingMan(int vendorID, int productID, int numBytes) :
-    UsbDevice(vendorID, productID),
+UsbWingMan::UsbWingMan(int vendorID, int productID, const std::string& id, int numBytes) :
+    UsbDevice(id, vendorID, productID),
     byteCount(numBytes) {}
 
 void UsbWingMan::update() {

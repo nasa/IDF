@@ -46,3 +46,21 @@ void DualShock3::setLed(LED led, unsigned char commandDuration,
     command[++index] = onFactor;
     sendCommand();
 }
+
+const std::vector<InputLayout::Configurable>& DualShock3::getConfigurables() {
+    static std::vector<Configurable> inputs;
+    if (inputs.empty()) {
+        append(DualShock::getConfigurables(), inputs);
+        inputs.push_back(Configurable(directionalPadUp, "Directional Pad Up", "directionalPadUp"));
+        inputs.push_back(Configurable(directionalPadDown, "Directional Pad Down", "directionalPadDown"));
+        inputs.push_back(Configurable(directionalPadLeft, "Directional Pad Left", "directionalPadLeft"));
+        inputs.push_back(Configurable(directionalPadRight, "Directional Pad Right", "directionalPadRight"));
+        inputs.push_back(Configurable(squareButton, "Square Button", "squareButton"));
+        inputs.push_back(Configurable(triangleButton, "Triangle Button", "triangleButton"));
+        inputs.push_back(Configurable(xButton, "X Button", "xButton"));
+        inputs.push_back(Configurable(circleButton, "Circle Button", "circleButton"));
+        inputs.push_back(Configurable(leftBumper, "Left Bumper", "leftBumper"));
+        inputs.push_back(Configurable(rightBumper, "Right Bumper", "rightBumper"));
+    }
+    return inputs;
+}

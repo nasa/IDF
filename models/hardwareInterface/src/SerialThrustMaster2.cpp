@@ -4,7 +4,7 @@ using namespace idf;
 
 SerialThrustMaster2::SerialThrustMaster2(const char *terminalPath, bool isMale) :
     ThrustMasterBase(isMale),
-    SerialThrustMasterBase(terminalPath, isMale),
+    SerialThrustMasterBase("Orion Style Thrust Master", terminalPath, isMale),
     ThrustMaster2(isMale) {}
 
 void SerialThrustMaster2::processButtons(unsigned char buttonByte) {

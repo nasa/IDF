@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbIndustrialProducts::UsbIndustrialProducts(int vendorID, int productID) :
-    UsbDevice(vendorID, productID) {
+    UsbDevice("Industrial Products", vendorID, productID) {
     productIds.push_back(0x0019);
 }
 

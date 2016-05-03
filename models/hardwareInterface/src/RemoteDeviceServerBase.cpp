@@ -15,6 +15,7 @@ using namespace idf;
 const double RemoteDeviceServerBase::serializationFactor = 100;
 
 RemoteDeviceServerBase::RemoteDeviceServerBase(unsigned short listenPort) :
+    InputDevice("Remote Device Server"),
     port(listenPort) {}
 
 RemoteDeviceServerBase::~RemoteDeviceServerBase() {

@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbSaitek::UsbSaitek(int vendorID, int productID) :
-    UsbDevice(vendorID, productID) {}
+    UsbDevice("Saitek", vendorID, productID) {}
 
 void UsbSaitek::update() {
     UsbDevice::update();

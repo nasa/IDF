@@ -24,7 +24,7 @@ class UsbWingMan : public UsbDevice, public virtual WingMan {
     public:
 
     /** constructor */
-    UsbWingMan(int vendorID = 0x046D, int productID = 0xC212);
+    UsbWingMan(int vendorID = 0x046D, int productID = 0xC212, const std::string& name = "Wing Man");
 
     void update();
 
@@ -34,7 +34,7 @@ class UsbWingMan : public UsbDevice, public virtual WingMan {
     const int byteCount;
 
     /** constructor */
-    UsbWingMan(int vendorID, int productID, int byteCount);
+    UsbWingMan(int vendorID, int productID, const std::string& name, int byteCount);
 
     /**
      * decodes the raw data and fills in input values

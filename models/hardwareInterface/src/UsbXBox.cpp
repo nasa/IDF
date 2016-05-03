@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbXBox::UsbXBox(int vendorID, int productID) :
-    UsbDevice(vendorID, productID) {}
+    UsbDevice("X Box Controller", vendorID, productID) {}
 
 void UsbXBox::update() {
     UsbDevice::update();

@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbExtreme3dPro::UsbExtreme3dPro(int vendorID, int productID) :
-    UsbWingMan(vendorID, productID, 7) {}
+    UsbWingMan(vendorID, productID, "Extreme 3D Pro", 7) {}
 
 void UsbExtreme3dPro::processData(unsigned char *data) {
     UsbWingMan::processData(data);

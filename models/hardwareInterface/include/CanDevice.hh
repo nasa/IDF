@@ -31,6 +31,7 @@ class CanDevice : public InputDevice {
     /**
      * constructs a new instance
      *
+     * @param name the name of this device
      * @param networkId the network number
      * @param flags a bitwise OR of the following options:
      * NTCAN_MODE_OVERLAPPED - overlapped I/O only
@@ -46,7 +47,7 @@ class CanDevice : public InputDevice {
      * @param transmitTimeout transmit timeout in ms
      * @param receiveTimeout receive timeout in ms
      */
-    CanDevice(int networkId = 0, uint32_t flags = 0,
+    CanDevice(const std::string& name, int networkId = 0, uint32_t flags = 0,
       int32_t transmitQueueSize = 1024, int32_t receiveQueueSize = 1024,
       int32_t transmitTimeout = 0, int32_t receiveTimeout = 0);
 

@@ -9,6 +9,7 @@
 #ifndef DUAL_SHOCK_HH
 #define DUAL_SHOCK_HH
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class DualShock {
+class DualShock : public virtual InputLayout {
 
     public:
 
@@ -113,6 +114,8 @@ class DualShock {
      * libraries having patches to support the sixaxis's unique behavior.
      */
     virtual void sendCommand() = 0;
+
+    virtual const std::vector<Configurable>& getConfigurables();
 
 };
 

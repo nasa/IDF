@@ -10,8 +10,9 @@
 
 using namespace idf;
 
-SerialDevice::SerialDevice(const char *terminalPath) :
-  path(terminalPath) {}
+SerialDevice::SerialDevice(const std::string& id, const char *terminalPath) :
+    InputDevice(id),
+    path(terminalPath) {}
 
 void SerialDevice::open() {
     if (!mOpen) {

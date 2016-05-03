@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbSpaceNavigator::UsbSpaceNavigator(int vendorID, int productID) :
-    UsbSpaceBase(vendorID, productID) {
+    UsbSpaceBase("Space Navigator", vendorID, productID) {
     productIds.push_back(0xC626);
 }
 

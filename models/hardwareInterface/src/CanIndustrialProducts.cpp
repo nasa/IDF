@@ -9,7 +9,7 @@ const int CanIndustrialProducts::canId = 1553;
 CanIndustrialProducts::CanIndustrialProducts(int networkID, uint32_t flagz,
   int32_t txQueueSize, int32_t rxQueueSize, int32_t txTimeout,
   int32_t rxTimeout) :
-    CanDevice(networkID, flagz, txQueueSize, rxQueueSize,
+    CanDevice("Industrial Products", networkID, flagz, txQueueSize, rxQueueSize,
       txTimeout, rxTimeout) {}
 
 void CanIndustrialProducts::open() {

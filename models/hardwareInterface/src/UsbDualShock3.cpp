@@ -24,7 +24,7 @@ struct hid_device_ {
 using namespace idf;
 
 UsbDualShock3::UsbDualShock3(int vendorID, int productID) :
-    UsbDualShock(vendorID, productID) {}
+    UsbDualShock("Playstation 3 Controller", vendorID, productID) {}
 
 void UsbDualShock3::update() {
     UsbDevice::update();

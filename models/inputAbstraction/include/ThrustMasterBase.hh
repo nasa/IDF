@@ -9,6 +9,7 @@
 #ifndef _THRUST_MASTER_BASE_HH_
 #define _THRUST_MASTER_BASE_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class ThrustMasterBase {
+class ThrustMasterBase : public virtual InputLayout {
 
     public:
 
@@ -54,6 +55,10 @@ class ThrustMasterBase {
 
     /** the trigger */
     SingleInput trigger;
+
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 
     private:
 

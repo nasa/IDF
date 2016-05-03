@@ -9,6 +9,7 @@
 #ifndef _GRAVIS_HH_
 #define _GRAVIS_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class Gravis {
+class Gravis : public virtual InputLayout {
 
     public:
 

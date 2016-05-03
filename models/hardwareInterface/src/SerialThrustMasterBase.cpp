@@ -7,9 +7,9 @@
 
 using namespace idf;
 
-SerialThrustMasterBase::SerialThrustMasterBase(const char *terminalPath, bool isMale) :
+SerialThrustMasterBase::SerialThrustMasterBase(const std::string& id, const char *terminalPath, bool isMale) :
     ThrustMasterBase(isMale),
-    SerialDevice(terminalPath) {}
+    SerialDevice(id, terminalPath) {}
 
 void SerialThrustMasterBase::open() {
     SerialDevice::open();

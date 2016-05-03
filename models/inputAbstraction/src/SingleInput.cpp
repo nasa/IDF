@@ -16,8 +16,8 @@ void SingleInput::configure(double min, double  max) {
     configure(min, max, (min + max) / 2);
 }
 
-void SingleInput::configure(double min, double  max, double middle) {
-    if (min >= max) {
+void SingleInput::configure(double min, double max, double middle) {
+    if (min > max) {
         std::ostringstream oss;
         oss << __FILE__ << ":" << __LINE__
             << " Minimum (" << min << ") must be less than maximum ("

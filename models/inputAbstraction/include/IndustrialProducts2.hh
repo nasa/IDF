@@ -9,6 +9,7 @@
 #ifndef _INDUSTRIAL_PRODUCTS2_HH_
 #define _INDUSTRIAL_PRODUCTS2_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class IndustrialProducts2 {
+class IndustrialProducts2 : public virtual InputLayout {
 
     public:
 

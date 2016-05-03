@@ -3,7 +3,7 @@
 using namespace idf;
 
 UsbSpaceExplorer::UsbSpaceExplorer(int vendorID, int productID) :
-    UsbSpaceBase(vendorID, productID) {}
+    UsbSpaceBase("Space Explorer", vendorID, productID) {}
 
 void UsbSpaceExplorer::processButtons(unsigned char* buttonData) {
     button1.setValue(buttonData[0] & 1);

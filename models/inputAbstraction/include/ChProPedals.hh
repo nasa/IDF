@@ -9,6 +9,7 @@
 #ifndef _CH_PRO_PEDALS_HH_
 #define _CH_PRO_PEDALS_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class ChProPedals {
+class ChProPedals : public virtual InputLayout {
 
     public:
 
@@ -36,6 +37,10 @@ class ChProPedals {
 
     /** the movement of both foot pedals about the center circle */
     SingleInput twist;
+
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 
 };
 

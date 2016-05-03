@@ -24,7 +24,7 @@ class UsbSpaceBase : public UsbDevice, public virtual SpaceBase {
     public:
 
     /** constructor */
-    UsbSpaceBase(int vendorID, int productID);
+    UsbSpaceBase(const std::string& name, int vendorID, int productID);
 
     /** destructor */
     virtual ~UsbSpaceBase() {};

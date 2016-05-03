@@ -9,6 +9,7 @@
 #ifndef _SAITEK_HH_
 #define _SAITEK_HH_
 
+#include "inputAbstraction/include/InputLayout.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
 namespace idf {
@@ -18,7 +19,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class Saitek {
+class Saitek : public virtual InputLayout {
 
     public:
 
@@ -36,6 +37,10 @@ class Saitek {
 
     /** the movement of both foot pedals about the center circle */
     SingleInput twist;
+
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 
 };
 

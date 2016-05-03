@@ -109,6 +109,10 @@ class DualShock3 : public virtual DualShock {
      */
     unsigned char command[30];
 
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
+
 };
 
 }
