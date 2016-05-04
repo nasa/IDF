@@ -4,6 +4,9 @@
 #include <limits>
 #include <vector>
 
+#include "hardwareInterface/include/SerialDevice.hh"
+#include "hardwareInterface/include/SerialThrustMaster.hh"
+#include "hardwareInterface/include/SerialThrustMaster2.hh"
 #include "hardwareInterface/include/UsbDevice.hh"
 #include "hardwareInterface/include/UsbChProPedals.hh"
 #include "hardwareInterface/include/UsbDualShock3.hh"
@@ -28,6 +31,24 @@ bool notConnected(idf::UsbDevice* device) {
 
 void printIndex(const std::string& text) {
     std::cout << std::setw(2) << ++index << "  " << text << std::endl;
+}
+
+int getSelection() {
+    int selection = -1;
+    std::cout << std::endl;
+    while (selection < 0 || selection > index) {
+        std::cout << "Select a device to configure: ";
+        std::cin >> selection;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    return selection;
+}
+
+void configure(idf::InputDevice& device) {
+    device.open();
+    std::cout << std::endl << "Configuring: " << device.name << std::endl << std::endl;
+    device.configure();
 }
 
 void run() {
@@ -67,24 +88,23 @@ void run() {
     for (std::vector<idf::UsbDevice*>::size_type i = 0; i < devices.size(); ++i) {
         printIndex(devices[i]->name);
     }
-    std::cout << std::endl;
 
-    int selection = -1;
-    while (selection < 0 || selection > index) {
-        std::cout << "Select a device to configure: ";
-        std::cin >> selection;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-
-    if (selection > 0) {
-        idf::UsbDevice& device =  *devices[selection - 1];
-        device.open();
-        std::cout << std::endl << "Configuring: " << device.name << std::endl << std::endl;
-        device.configure();
+    int selection = getSelection();
+    if (selection == 0) {
+        std::vector<idf::SerialDevice*> devices;
+        idf::SerialThrustMaster shuttleThrustMaster;
+        idf::SerialThrustMaster2 orionThrustMaster;
+        devices.push_back(&shuttleThrustMaster);
+        devices.push_back(&orionThrustMaster);
+        index = -1;
+        std::cout << std::endl;
+        for (std::vector<idf::UsbDevice*>::size_type i = 0; i < devices.size(); ++i) {
+            printIndex(devices[i]->name);
+        }
+        configure(*devices[getSelection()]);
     }
     else {
-        std::cout << "Not yet implemented" << std::endl;
+        configure(*devices[selection - 1]);
     }
 }
 
