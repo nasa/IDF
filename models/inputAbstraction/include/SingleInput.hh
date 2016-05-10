@@ -9,6 +9,7 @@
 #ifndef _SINGLE_INPUT_HH_
 #define _SINGLE_INPUT_HH_
 
+#include "inputAbstraction/include/Deadbandable.hh"
 #include "inputAbstraction/include/Input.hh"
 
 namespace idf {
@@ -22,7 +23,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class SingleInput : public Input {
+class SingleInput : public Input, public Deadbandable {
 
     public:
 

@@ -60,7 +60,7 @@ double SingleInput::getMaximumValue() const {
 }
 
 double SingleInput::getValue() const {
-    return value;
+    return applyDeadbands(value);
 }
 
 void SingleInput::setValue(double rawValue) {

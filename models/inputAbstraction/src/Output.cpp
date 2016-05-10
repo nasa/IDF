@@ -63,9 +63,7 @@ double Output::getValue() const {
         (neutral - (inverted ? maximum : minimum)) :
         ((inverted ? minimum : maximum) - neutral));
 
-    for (std::vector<Deadband>::const_iterator i = deadbands.begin(); i != deadbands.end(); ++i) {
-        value = i->filter(value);
-    }
+    value = applyDeadbands(value);
 
     if (lastValue <= neutral && value > neutral) {
         toggleValue = toggleValue == minimum ? maximum : minimum;
@@ -86,24 +84,4 @@ double Output::getNormalizedValue() const {
 
     return (value - neutral) /
       (value < neutral ? (neutral - minimum) : (maximum - neutral));
-}
-
-void Output::addDeadband(const Deadband& deadband) {
-    // Add the deadband, if not present.
-    if(std::find(deadbands.begin(), deadbands.end(), deadband) == deadbands.end()) {
-        deadbands.push_back(deadband);
-    }
-}
-
-void Output::removeDeadband(const Deadband& deadband) {
-    // Remove the deadband, if present.
-    deadbands.erase(std::remove(deadbands.begin(), deadbands.end(), deadband), deadbands.end());
-}
-
-void Output::clearDeadbands() {
-    deadbands.clear();
-}
-
-const std::vector<Deadband>& Output::getDeadbands() const {
-    return deadbands;
 }

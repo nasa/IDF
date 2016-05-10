@@ -11,8 +11,8 @@
 
 #include <vector>
 
+#include "inputAbstraction/include/Deadbandable.hh"
 #include "inputAbstraction/include/Input.hh"
-#include "inputAbstraction/include/Deadband.hh"
 
 namespace idf {
 
@@ -26,7 +26,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class Output {
+class Output : public Deadbandable {
 
     public:
 
@@ -148,34 +148,6 @@ class Output {
      */
     double getNormalizedValue() const;
 
-    /**
-     * adds <code>deadband</code> to the list of filters. Adding a deadband
-     * that is already applied to this instance has no effect.
-     *
-     * @param deadband the deadband to add
-     */
-    void addDeadband(const Deadband& deadband);
-
-    /**
-     * remove <code>deadband</code> from the list of filters. Removing a
-     * deadband that is not applied to this instance has no effect.
-     *
-     * @param deadband the deadband to remove
-     */
-    void removeDeadband(const Deadband& deadband);
-
-    /**
-     * removes all deadbands applied to this instance
-     */
-    void clearDeadbands();
-
-    /**
-     * returns the deadbands applied to this intance
-     *
-     * @return the current deadbands
-     */
-    const std::vector<Deadband>& getDeadbands() const;
-
     private:
 
     /**
@@ -227,9 +199,6 @@ class Output {
 
     /** used to determine when to toggle, if enabled */
     mutable double lastValue;
-
-    /** deadband filters */
-    std::vector<Deadband> deadbands;
 
 };
 
