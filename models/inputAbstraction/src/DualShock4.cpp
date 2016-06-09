@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/DualShock4.hh"
 
-using namespace idf;
+namespace idf {
 
 DualShock4::DualShock4() :
     shareButton(0, 1),
@@ -39,4 +39,6 @@ void DualShock4::setLightBarCycle(unsigned char on, unsigned char off) {
     command[11] = on;
     command[12] = off;
     sendCommand();
+}
+
 }

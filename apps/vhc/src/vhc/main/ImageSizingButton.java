@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 /**
- * a {@link Repeating Button} that resizes its image whenever it is itself
+ * a RepeatingButton that resizes its image whenever it is itself
  * resized. For performance, the delay between the time the button is resized
  * and the image is resized is specifiable.
  *

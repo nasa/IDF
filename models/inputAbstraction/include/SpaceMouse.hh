@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/SpaceMouse.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/SpaceMouse.cpp}
  */
 
 #ifndef _SPACE_MOUSE_HH_

@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/ThrustMaster2.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/ThrustMaster2.cpp}
  */
 
 #ifndef _THRUST_MASTER2_HH_
@@ -40,7 +37,6 @@ class ThrustMaster2 : public virtual ThrustMasterBase {
 
     private:
 
-    /** this class is not copy-assignable */
     ThrustMaster2& operator=(const ThrustMaster2&);
 
 };

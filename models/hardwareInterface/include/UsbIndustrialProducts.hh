@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbIndustrialProducts.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbIndustrialProducts.cpp}
  */
 
 #ifndef _USB_INDUSTRIAL_PRODUCTS_HH_
@@ -23,10 +20,10 @@ class UsbIndustrialProducts : public UsbDevice, public IndustrialProducts2 {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbIndustrialProducts(int vendorID = 0x068E, int productID = 0x002E);
 
-    void update();
+    void decode(const std::vector<unsigned char>& data);
 
 };
 

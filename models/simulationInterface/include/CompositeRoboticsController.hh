@@ -1,10 +1,8 @@
 /**
-PURPOSE: ()
-
-LIBRARY DEPENDENCIES:
-((simulationInterface/src/CompositeRoboticsController.cpp)
- (inputAbstraction/src/Utils.cpp))
-*/
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/CompositeRoboticsController.cpp}
+ * @trick_link_dependency{inputAbstraction/src/Utils.cpp}
+ */
 
 #ifndef COMPOSITE_ROBOTICS_CONTROLLER_HH
 #define COMPOSITE_ROBOTICS_CONTROLLER_HH
@@ -19,7 +17,7 @@ namespace idf {
 #endif
 
 /**
- * combines multiple <code>RoboticsController</code>s into a single entity,
+ * combines multiple {@link RoboticsController}s into a single entity,
  * superimposing their values. Resulting values are restricted to [-1, 1].
  *
  * @author Derek Bankieris

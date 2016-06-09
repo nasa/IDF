@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/SerialThrustMasterBase.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/SerialThrustMasterBase.cpp}
  */
 
 #ifndef _SERIAL_THRUST_MASTER_BASE_HH_
@@ -23,28 +20,24 @@ class SerialThrustMasterBase : public SerialDevice, public virtual ThrustMasterB
 
     public:
 
-    /** constructor */
+    /**
+     * @copydoc SerialDevice::SerialDevice
+     * @param isMale @c true if the translational hand controller connector is male
+     */
     SerialThrustMasterBase(const std::string& name, const char *path = "/dev/ttyS0", bool isMale = false);
 
     /** destructor */
     virtual ~SerialThrustMasterBase() {};
 
-    /** opens this device for communication */
     void open();
-
-    /**
-     * updates this instance so that it reflects the target device's current
-     * state
-     *
-     * @throws IOException if the device is not open
-     */
-    void update();
+    std::vector<std::vector<unsigned char> > read();
+    void decode(const std::vector<unsigned char>& data);
 
     protected:
 
     /**
      * processes the byte containing button data and sets the appropriate
-     * inputs. This function is called by <code>update()</code> and is where
+     * inputs. This function is called by update() and is where
      * derived classes should address their specific button layouts.
      *
      * @param buttonByte the raw button data

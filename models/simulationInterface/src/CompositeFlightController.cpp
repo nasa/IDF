@@ -2,7 +2,7 @@
 #include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 
-using namespace idf;
+namespace idf {
 
 double CompositeFlightController::getCommandedRoll() const {
     double result = 0;
@@ -80,4 +80,6 @@ double CompositeFlightController::getCommandedZ() const {
 
     // Restrict the result to [-1, 1]
     return bound(result);
+}
+
 }

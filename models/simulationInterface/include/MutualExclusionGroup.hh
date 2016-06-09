@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/MutualExclusionGroup.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/MutualExclusionGroup.cpp}
  */
 
 #ifndef _MUTUAL_EXCLUSION_GROUP_HH_
@@ -17,9 +14,8 @@
 namespace idf {
 
 /**
- * manages the states of a collection of {@link Controller}s, enforcing
- * mutual exclusivity of their operation by ensuring that at most one is active
- * at any time
+ * manages the states of a collection of {@link Controller}s, enforcing mutual exclusivity
+ * of their operation by ensuring that at most one is active at any time
  *
  * @author Derek Bankieris
  */
@@ -28,29 +24,21 @@ class MutualExclusionGroup : public StateChangeListener {
     public:
 
     /**
-     * causes <code>controller</code>'s operation to be mutually exclusive with
-     * all other controllers managed by this instance. Adding a controller that
-     * is already being managed has no effect.
+     * causes @a controller's operation to be mutually exclusive with all other controllers
+     * managed by this instance. Adding a controller that is already being managed has no effect.
      *
      * @param controller the controller to manage
      */
     void add(Controller& controller);
 
     /**
-     * causes <code>controller</code>'s operation to no longer be mutually
-     * exclusive with all other controllers managed by this instance. Removing
-     * a controller that is not being managed has no effect.
+     * causes @a controller's operation to no longer be mutually exclusive with all other controllers
+     * managed by this instance. Removing a controller that is not being managed has no effect.
      *
      * @param controller the controller to stop managing
      */
     void remove(const Controller& controller);
 
-    /**
-     * called in response to a change in state of a <code>Controller</code>
-     * for which this instance is registered
-     *
-     * @param controller the controller whose state has changed
-     */
     void stateChanged(Controller& controller);
 
     protected:
@@ -59,8 +47,7 @@ class MutualExclusionGroup : public StateChangeListener {
     std::vector<Controller*> controllers;
 
     /**
-     * disables all controllers being managed by this instance other than
-     * <code>activeController</code>
+     * disables all controllers being managed by this instance other than @a activeController
      *
      * @param activeController the only controller not to disable
      */

@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/Gravis.hh"
 
-using namespace idf;
+namespace idf {
 
 Gravis::Gravis() :
     directionalPadUp(0, 1),
@@ -17,3 +17,5 @@ Gravis::Gravis() :
     leftBumper2(0, 1),
     rightBumper1(0, 1),
     rightBumper2(0, 1) {}
+
+}

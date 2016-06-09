@@ -1,3 +1,8 @@
+/**
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbDualShock.cpp}
+ */
+
 #ifndef _USB_DUAL_SHOCK_HH_
 #define _USB_DUAL_SHOCK_HH_
 
@@ -15,12 +20,15 @@ class UsbDualShock : public UsbDevice, public virtual DualShock {
 
     public:
 
-    /** constructor */
-    UsbDualShock(const std::string deviceName, int vendorID, int productID) :
-        UsbDevice(deviceName, vendorID, productID) {}
+    /** @copydoc UsbDevice::UsbDevice */
+    UsbDualShock(const std::string name, int vendorID, int productID, unsigned packetLength);
 
     /** destructor */
     virtual ~UsbDualShock() {};
+
+    private:
+
+    void operator=(const UsbDualShock&);
 
 };
 

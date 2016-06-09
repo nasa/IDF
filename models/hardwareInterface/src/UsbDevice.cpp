@@ -6,22 +6,20 @@
 #include <cstring>
 #include <algorithm>
 
-using namespace idf;
+namespace idf {
 
 int UsbDevice::instanceCount = 0;
 
 std::vector<UsbDevice::DeviceTag> UsbDevice::openDevices;
 
-UsbDevice::UsbDevice(const std::string& id, int vendorID, int productID) :
+UsbDevice::UsbDevice(const std::string& id, int vendorID, int productID, unsigned length) :
     InputDevice(id),
-    vendorId(vendorID) {
+    vendorId(vendorID),
+    packetLength(length) {
     productIds.push_back(productID);
     if (++instanceCount == 1) {
         if (hid_init() < 0) {
-            std::ostringstream oss;
-            oss << __FILE__ << ":" << __LINE__
-                << " Failed to initialize HID library.";
-            throw IOException(oss.str());
+            throw IOException("Failed to initialize HID library.");
         }
     }
 }
@@ -76,11 +74,8 @@ void UsbDevice::open() {
                     }
                     else {
                         hid_free_enumeration(enumerationHead);
-                        std::ostringstream oss;
-                        oss << __FILE__ << ":" << __LINE__
-                            << " Failed to open device: " << strerror(errno)
-                            << ". See the IDF README for troubleshooting.";
-                        throw IOException(oss.str());
+                        throw IOException("Failed to open " + name + ": " + strerror(errno) +
+                          ". See the IDF README for troubleshooting.");
                     }
                 }
             }
@@ -88,51 +83,33 @@ void UsbDevice::open() {
 
         hid_free_enumeration(enumerationHead);
 
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Failed to find device.";
-        throw IOException(oss.str());
+        throw IOException("Failed to find " + name + ".");
     }
 }
 
-int UsbDevice::read(unsigned char *buffer, size_t length) {
-    if (!mOpen) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Error while reading: device is not open.";
-        throw IOException(oss.str());
+std::vector<std::vector<unsigned char> > UsbDevice::read() {
+    std::vector<std::vector<unsigned char> > results;
+    std::vector<unsigned char> buffer(packetLength);
+
+    while (read(&buffer[0], buffer.size())) {
+        results.push_back(buffer);
     }
 
-    //int bytesRead = hid_read(hidDevice, buffer, length);
+    return results;
+}
 
-    // HACK - remote this when long-term solution is implemented
-    Entry* entry = new Entry(length, delay);
-    int bytesRead = hid_read(hidDevice, entry->data, length);
 
+unsigned UsbDevice::read(unsigned char *buffer, size_t length) {
+    if (!mOpen) {
+        open();
+    }
+
+    int bytesRead = hid_read(hidDevice, buffer, length);
     if (bytesRead < 0) {
         close();
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Error while reading: " << strerror(errno);
-        throw IOException(oss.str());
+        throw IOException("Error while reading " + name + ": " + strerror(errno));
     }
-
-    if (bytesRead > 0 && enabled) {
-        storage.push_back(entry);
-    }
-    else {
-        delete entry;
-    }
-
-    if (!storage.empty() && storage.front()->targetTime <= InputDevice::getTime()) {
-        memcpy(buffer, storage.front()->data, length);
-        delete storage.front();
-        storage.pop_front();
-        return length;
-    }
-
-    return 0;
-    //return bytesRead;
+    return bytesRead;
 }
 
 void UsbDevice::close() {
@@ -146,4 +123,6 @@ void UsbDevice::close() {
         hid_close(hidDevice);
         mOpen = false;
     }
+}
+
 }

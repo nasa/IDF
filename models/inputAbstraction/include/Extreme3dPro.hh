@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/Extreme3dPro.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/Extreme3dPro.cpp}
  */
 
 #ifndef _EXTREME_3D_PRO_HH_

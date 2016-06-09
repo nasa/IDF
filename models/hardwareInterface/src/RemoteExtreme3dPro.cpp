@@ -10,7 +10,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 
-using namespace idf;
+namespace idf {
 
 RemoteExtreme3dProServer::RemoteExtreme3dProServer(unsigned short listenPort) :
     RemoteDeviceServer<RemoteExtreme3dProCommands>(listenPort) {}
@@ -77,7 +77,7 @@ void RemoteExtreme3dProServer::update() {
 
 RemoteExtreme3dProClient::RemoteExtreme3dProClient(const Extreme3dPro& extreme3dPro,
   std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands, RemoteExtreme3dProClient>(extreme3dPro, hostName, hostPort) {}
+    RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands>(extreme3dPro, hostName, hostPort) {}
 
 void RemoteExtreme3dProClient::packCommands(RemoteExtreme3dProCommands& commands,
   const Extreme3dPro& extreme3dPro) {
@@ -105,4 +105,6 @@ void RemoteExtreme3dProClient::packCommands(RemoteExtreme3dProCommands& commands
     commands.hatWest = extreme3dPro.hatWest.getValue();
     commands.hatNorthWest = extreme3dPro.hatNorthWest.getValue();
     commands.slider = extreme3dPro.slider.getValue();
+}
+
 }

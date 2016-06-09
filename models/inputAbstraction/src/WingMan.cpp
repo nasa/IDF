@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/WingMan.hh"
 
-using namespace idf;
+namespace idf {
 
 WingMan::WingMan() :
     forwardBackwardPivot(0, 1023, 512),
@@ -33,4 +33,6 @@ const std::vector<InputLayout::Configurable>& WingMan::getConfigurables() {
         inputs.push_back(Configurable(slider, "Slider", "slider"));
     }
     return inputs;
+}
+
 }

@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/IndustrialProducts2.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/IndustrialProducts2.cpp}
  */
 
 #ifndef _INDUSTRIAL_PRODUCTS2_HH_

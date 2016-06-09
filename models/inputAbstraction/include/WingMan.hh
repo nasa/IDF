@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/WingMan.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/WingMan.cpp}
  */
 
 #ifndef _WING_MAN_HH_

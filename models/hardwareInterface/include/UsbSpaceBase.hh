@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbSpaceBase.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbSpaceBase.cpp}
  */
 
 #ifndef _USB_SPACE_BASE_HH_
@@ -23,30 +20,29 @@ class UsbSpaceBase : public UsbDevice, public virtual SpaceBase {
 
     public:
 
-    /** constructor */
+    /**
+     * constructs a new instance whose open() will look for a USB device with the @a vendorID and @a productID
+     *
+     * @param name the name of this device
+     * @param vendorID the target USB device's vendorID
+     * @param productID the target USB device's productID
+     */
     UsbSpaceBase(const std::string& name, int vendorID, int productID);
 
     /** destructor */
     virtual ~UsbSpaceBase() {};
 
-    /**
-     * updates this instance so that it reflects the target device's current
-     * state
-     *
-     * @throws IOException if the device is not open
-     */
-    void update();
+    void decode(const std::vector<unsigned char>& data);
 
     protected:
 
     /**
-     * processes the button data and sets the appropriate inputs. This function
-     * is called by <code>update()</code> and is where derived classes should
-     * address their specific button layouts.
+     * processes the button data and sets the appropriate inputs. This function is called by
+     * update() and is where derived classes should address their specific button layouts.
      *
      * @param buttonData the raw button data
      */
-    virtual void processButtons(unsigned char* buttonData) = 0;
+    virtual void processButtons(const unsigned char* buttonData) = 0;
 
 };
 

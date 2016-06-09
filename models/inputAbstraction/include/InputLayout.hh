@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/InputLayout.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/InputLayout.cpp}
  */
 
 #ifndef _INPUT_LAYOUT_HH_
@@ -65,7 +62,6 @@ class InputLayout {
      *
      * @param data the data to be appended
      * @param destination the destination to which to append
-     * @param T the type of the vector elements
      */
     template <class T>
     void append(const std::vector<T>& data, std::vector<T>& destination) {

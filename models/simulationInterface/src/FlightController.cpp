@@ -1,6 +1,6 @@
 #include "simulationInterface/include/FlightController.hh"
 
-using namespace idf;
+namespace idf {
 
 double FlightController::getRoll() const {
     return active ? getCommandedRoll() : 0;
@@ -24,4 +24,6 @@ double FlightController::getY() const {
 
 double FlightController::getZ() const {
     return active ? getCommandedZ() : 0;
+}
+
 }

@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-using namespace idf;
+namespace idf {
 
 void MutualExclusionGroup::add(Controller& controller) {
     // Add the controller, if not present, and begin listening for state changes.
@@ -43,4 +43,6 @@ void MutualExclusionGroup::disableOtherControllers(const Controller& activeContr
             (*i)->setActive(false);
         }
     }
+}
+
 }

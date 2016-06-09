@@ -1,7 +1,4 @@
-/**
- * PURPOSE:
- * ()
- */
+/** @trick_parse{everything} */
 
 #ifndef _REMOTE_DEVICE_CLIENT_HH_
 #define _REMOTE_DEVICE_CLIENT_HH_
@@ -25,12 +22,14 @@
 namespace idf {
 
 /**
- * transmits commands from a contained <code>T</code> to a corresponding
- * <code>RemoteDeviceServer<T></code>
+ * transmits commands from a contained @a T to a corresponding {@link RemoteDeviceServer}\<T\>
+ *
+ * @param T @copydoc controller
+ * @param U the structure into which commands are packed
  *
  * @author Derek Bankieris
  */
-template <class T, class U, class DerivedClass>
+template <class T, class U>
 class RemoteDeviceClient : public RemoteDeviceClientBase {
 
     public:
@@ -39,9 +38,8 @@ class RemoteDeviceClient : public RemoteDeviceClientBase {
     const T& controller;
 
     /**
-     * constructs an instance that transmits commands from
-     * <code>sourceController</code> to the <code>RemoteDeviceServer<T></code>
-     * listening on <code>host</code>:<code>port</code>
+     * constructs an instance that transmits commands from @a sourceController
+     * to the RemoteDeviceServer \<T\> listening on <em>hostname</em>:<em>hostPort</em>
      *
      * @param sourceController the command source
      * @param hostName the name or ip address of the server host machine
@@ -71,14 +69,11 @@ class RemoteDeviceClient : public RemoteDeviceClientBase {
         RemoteDeviceClientBase::transmit();
 
         U commands;
-        packCommands(commands, controller);
+        packCommands(commands);
 
         if (write(socketHandle, &commands, sizeof(commands)) == -1) {
             mOpen = false;
-            std::ostringstream oss;
-            oss << __FILE__ << ":" << __LINE__
-                << " Failed to write: " << strerror(errno);
-            throw IOException(oss.str());
+            throw IOException("Failed to write: " + std::string(strerror(errno)));
         }
     }
 
@@ -86,17 +81,14 @@ class RemoteDeviceClient : public RemoteDeviceClientBase {
     protected:
 
     /**
-     * packs commands from <code>controller</code> into <code>commands</code>
+     * packs commands from @a controller into @a commands
      *
      * @param commands the structure into which the commands are packed
-     * @param controller the controller whose commands are to be packed
      */
-    static void packCommands(U& commands, const T& controller) {
-        DerivedClass::packCommands(commands, controller);
-    };
+    virtual void packCommands(U& commands) = 0;
 
     /**
-     * packs the normalized <code>value</code> into a short
+     * packs the normalized @a value into a @c char
      *
      * @param value the normalized value
      *

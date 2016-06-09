@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/Gravis.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/Gravis.cpp}
  */
 
 #ifndef _GRAVIS_HH_

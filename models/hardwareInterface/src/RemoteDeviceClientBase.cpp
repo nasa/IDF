@@ -12,7 +12,7 @@
 
 #include "hardwareInterface/include/RemoteDeviceClientBase.hh"
 
-using namespace idf;
+namespace idf {
 
 RemoteDeviceClientBase::RemoteDeviceClientBase(const std::string hostName, unsigned short hostPort) :
     host(hostName),
@@ -36,8 +36,8 @@ bool RemoteDeviceClientBase::isOpen() {
 }
 
 void RemoteDeviceClientBase::open() {
-    std::stringstream ss;
-    ss << port;
+    std::ostringstream stream;
+    stream << port;
 
     // Get server connection information.
     struct addrinfo hints;
@@ -46,15 +46,11 @@ void RemoteDeviceClientBase::open() {
     hints.ai_socktype = SOCK_STREAM;
 
     struct addrinfo *results;
-    if (getaddrinfo(host.c_str(), ss.str().c_str(), &hints, &results)) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Failed to resolve host address \"" << host << "\": " << strerror(errno);
-        throw IOException(oss.str());
+    if (getaddrinfo(host.c_str(), stream.str().c_str(), &hints, &results)) {
+        throw IOException("Failed to resolve host address \"" + host + "\": " + strerror(errno));
     }
 
-    std::cout << __FILE__ << ":" << __LINE__
-              << " Connecting to " << host << ":" << port << std::endl;
+    std::cout << "[RemoteDeviceClient] Connecting to " << host << ":" << port << std::endl;
 
     // Establish first available connection.
     struct addrinfo *currentHost;
@@ -65,8 +61,7 @@ void RemoteDeviceClientBase::open() {
         }
 
         if (connect(socketHandle, currentHost->ai_addr, currentHost->ai_addrlen) == 0) {
-            std::cout << __FILE__ << ":" << __LINE__
-                      << " Connected  to " << host << ":" << port << std::endl;
+            std::cout << "[Remote Device Client] Connected  to " << host << ":" << port << std::endl;
             break;
         }
 
@@ -76,10 +71,9 @@ void RemoteDeviceClientBase::open() {
     freeaddrinfo(results);
 
     if (currentHost == NULL) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Failed to connect to " << host << ":" << port;
-        throw IOException(oss.str());
+        stream.clear();
+        stream << " Failed to connect to " << host << ":" << port;
+        throw IOException(stream.str());
     }
 
     mOpen = true;
@@ -92,9 +86,8 @@ void RemoteDeviceClientBase::close() {
 
 void RemoteDeviceClientBase::transmit() {
     if (!mOpen) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Connection is not open.";
-        throw IOException(oss.str());
+        throw IOException("Connection is not open.");
     }
+}
+
 }

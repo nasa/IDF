@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbExtreme3dPro.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbExtreme3dPro.cpp}
  */
 
 #ifndef _USB_EXTREME_3D_PRO_HH_
@@ -23,17 +20,10 @@ class UsbExtreme3dPro : public UsbWingMan, public Extreme3dPro {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbExtreme3dPro(int vendorID = 0x046D, int productID = 0xC215);
 
-    protected:
-
-    /**
-     * decodes the raw data and fills in input values
-     *
-     * @param data the raw data from the device
-     */
-    void processData(unsigned char *data);
+    void decode(const std::vector<unsigned char>& data);
 
 };
 

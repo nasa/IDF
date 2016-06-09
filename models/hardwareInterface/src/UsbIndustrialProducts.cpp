@@ -1,38 +1,28 @@
 #include "hardwareInterface/include/UsbIndustrialProducts.hh"
 
-using namespace idf;
+namespace idf {
 
 UsbIndustrialProducts::UsbIndustrialProducts(int vendorID, int productID) :
-    UsbDevice("Industrial Products", vendorID, productID) {
+    UsbDevice("Industrial Products", vendorID, productID, 8) {
     productIds.push_back(0x0019);
 }
 
-void UsbIndustrialProducts::update() {
-    UsbDevice::update();
+void UsbIndustrialProducts::decode(const std::vector<unsigned char>& data) {
+    leftRightPivot.setValue(((unsigned)data[1]) << 8 | data[0]);
+    forwardBackwardPivot.setValue(((unsigned)data[3]) << 8 | data[2]);
+    twist.setValue(((unsigned)data[5]) << 8 | data[4]);
 
-    unsigned char buffer[8];
-    int bytesRead;
-    bool dataReceived = false;
+    trigger.setValue(data[6] & 1);
 
-    do {
-        dataReceived |= bytesRead = read(buffer, sizeof(buffer));
-    } while (bytesRead > 0);
+    southWestButton.setValue(data[6] >> 1 & 1);
+    northWestButton.setValue(data[6] >> 2 & 1);
+    northEastButton.setValue(data[6] >> 3 & 1);
+    southEastButton.setValue(data[7] & 1);
 
-    if (dataReceived) {
-        leftRightPivot.setValue(((unsigned)buffer[1]) << 8 | buffer[0]);
-        forwardBackwardPivot.setValue(((unsigned)buffer[3]) << 8 | buffer[2]);
-        twist.setValue(((unsigned)buffer[5]) << 8 | buffer[4]);
+    hatNorth.setValue(data[6] >> 4 & 1);
+    hatEast.setValue(data[6] >> 5 & 1);
+    hatSouth.setValue(data[6] >> 6 & 1);
+    hatWest.setValue(data[6] >> 7 & 1);
+}
 
-        trigger.setValue(buffer[6] & 1);
-
-        southWestButton.setValue(buffer[6] >> 1 & 1);
-        northWestButton.setValue(buffer[6] >> 2 & 1);
-        northEastButton.setValue(buffer[6] >> 3 & 1);
-        southEastButton.setValue(buffer[7] & 1);
-
-        hatNorth.setValue(buffer[6] >> 4 & 1);
-        hatEast.setValue(buffer[6] >> 5 & 1);
-        hatSouth.setValue(buffer[6] >> 6 & 1);
-        hatWest.setValue(buffer[6] >> 7 & 1);
-    }
 }

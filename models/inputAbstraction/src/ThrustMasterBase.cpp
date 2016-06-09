@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/ThrustMasterBase.hh"
 
-using namespace idf;
+namespace idf {
 
 ThrustMasterBase::ThrustMasterBase(bool isMale) :
     male(isMale),
@@ -24,4 +24,6 @@ const std::vector<InputLayout::Configurable>& ThrustMasterBase::getConfigurables
         inputs.push_back(Configurable(upDownTranslation, "Up/Down Translation", "upDownTranslation"));
     }
     return inputs;
+}
+
 }

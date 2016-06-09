@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbWingMan.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbWingMan.cpp}
  */
 
 #ifndef _USB_WING_MAN_HH_
@@ -23,25 +20,15 @@ class UsbWingMan : public UsbDevice, public virtual WingMan {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbSpaceBase::UsbSpaceBase */
     UsbWingMan(int vendorID = 0x046D, int productID = 0xC212, const std::string& name = "Wing Man");
 
-    void update();
+    virtual void decode(const std::vector<unsigned char>& data);
 
     protected:
 
-    /** number of bytes per status message */
-    const int byteCount;
-
-    /** constructor */
-    UsbWingMan(int vendorID, int productID, const std::string& name, int byteCount);
-
-    /**
-     * decodes the raw data and fills in input values
-     *
-     * @param data the raw data from the device
-     */
-    virtual void processData(unsigned char *data);
+    /** @copydoc UsbDevice::UsbDevice */
+    UsbWingMan(int vendorID, int productID, const std::string& name, unsigned packetLength);
 
     private:
 

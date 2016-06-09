@@ -2,7 +2,7 @@
 #include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 
-using namespace idf;
+namespace idf {
 
 double CompositeRoboticsController::getCommandedRoll() const {
     double result = 0;
@@ -104,4 +104,6 @@ bool CompositeRoboticsController::getCommandedRateMode() const {
     }
 
     return result;
+}
+
 }

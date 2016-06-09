@@ -1,6 +1,6 @@
 #include "simulationInterface/include/SingleFlightController.hh"
 
-using namespace idf;
+namespace idf {
 
 SingleFlightController::SingleFlightController(
   const Input& rollInput, const Input& pitchInput, const Input& yawInput,
@@ -245,4 +245,6 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
     controller->yaw.setInverted(true);
 
     return controller;
+}
+
 }

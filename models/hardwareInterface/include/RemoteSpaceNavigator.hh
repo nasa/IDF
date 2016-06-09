@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/RemoteSpaceNavigator.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/RemoteSpaceNavigator.cpp}
  */
 
 #ifndef _REMOTE_SPACE_NAVIGATOR_HH_
@@ -40,8 +37,7 @@ namespace idf {
 %template (RemoteDeviceServer_RemoteSpaceNavigator) RemoteDeviceServer<RemoteSpaceNavigatorCommands>;
 #endif
     /**
-     * a server which accepts and manages connections from multiple
-     * {@link Client}s
+     * a server which accepts and manages connections from multiple clients
      *
      * @author Derek Bankieris
      */
@@ -49,13 +45,8 @@ namespace idf {
 
         public:
 
-        /**
-         * constructs an instance which listens for connections on
-         * <code>port</code>
-         *
-         * @param port the port over which to listen for connections
-         */
-        RemoteSpaceNavigatorServer(unsigned short port = 0);
+        /** @copydoc RemoteDeviceServer::RemoteDeviceServer */
+        RemoteSpaceNavigatorServer(unsigned short listenPort = 0);
 
         void update();
 
@@ -63,41 +54,24 @@ namespace idf {
 
 #ifdef SWIG
 class RemoteSpaceNavigatorClient;
-%template (RemoteDeviceClient_RemoteSpaceNavigator) RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands, RemoteSpaceNavigatorClient>;
+%template (RemoteDeviceClient_RemoteSpaceNavigator) RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands>;
 #endif
     /**
-     * transmits commands from a contained {@link SpaceNavigator} to a
-     * <code>RemoteSpaceNavigatorServer</code>
+     * transmits commands from a contained SpaceNavigator to a RemoteSpaceNavigatorServer
      *
      * @author Derek Bankieris
      */
-    class RemoteSpaceNavigatorClient : public RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands, RemoteSpaceNavigatorClient> {
+    class RemoteSpaceNavigatorClient : public RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands> {
 
         public:
 
-        /**
-         * constructs an instance that transmits commands from
-         * <code>spaceNavigator</code> to the <code>RemoteSpaceNavigatorServer</code>
-         * listening on <code>host</code>:<code>port</code>
-         *
-         * @param spaceNavigator the command source
-         * @param host the name or ip address of the server host machine
-         * @param port the port on which the server is listening
-         */
-        RemoteSpaceNavigatorClient(const SpaceNavigator& spaceNavigator,
-          const std::string host, unsigned short port);
+        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
+        RemoteSpaceNavigatorClient(const SpaceNavigator& sourceController, const std::string hostName, unsigned short hostPort);
 
-        /**
-         * packs commands from <code>spaceNavigator</code> into
-         * <code>commands</code>
-         *
-         * @param commands the structure into which the commands are packed
-         * @param spaceNavigator the controller whose commands are to be packed
-         */
-        static void packCommands(RemoteSpaceNavigatorCommands& commands,
-          const SpaceNavigator& spaceNavigator);
+        void packCommands(RemoteSpaceNavigatorCommands& commands, const SpaceNavigator& controller);
 
         private:
+
         void operator=(const RemoteSpaceNavigatorClient&);
 
     };

@@ -21,8 +21,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXFormattedTextField;
 
 /**
- * a <code>JSlider</code> paired with a {@link LabeledTextField}, whose
- * location is specifiable
+ * a <code>JSlider</code> paired with a LabeledTextField, whose location is specifiable
  *
  * @author Derek Bankieris
  */

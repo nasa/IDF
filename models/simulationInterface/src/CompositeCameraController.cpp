@@ -2,7 +2,7 @@
 #include "inputAbstraction/include/Utils.hh"
 #include <algorithm>
 
-using namespace idf;
+namespace idf {
 
 double CompositeCameraController::getCommandedPan() const {
     double result = 0;
@@ -54,4 +54,6 @@ double CompositeCameraController::getCommandedZoom() const {
 
     // Restrict the result to [-1, 1]
     return bound(result);
+}
+
 }

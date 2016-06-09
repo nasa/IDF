@@ -12,7 +12,7 @@
  * Support for various device types here is modular. Serial and USB devices are
  * included by default. Support for other device classes must be explicitly
  * requested via definition of preprocessor symbols found below. This should
- * typically done with -D options in your TRICK_CFLAGS or TRICK_CXXFLAGS.
+ * typically be done with -D options in your TRICK_CFLAGS or TRICK_CXXFLAGS.
  *
  * @author Derek Bankieris
  */

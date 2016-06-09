@@ -1,7 +1,9 @@
 #include "inputAbstraction/include/SpaceNavigator.hh"
 
-using namespace idf;
+namespace idf {
 
 SpaceNavigator::SpaceNavigator() :
     leftButton(0, 1),
     rightButton(0, 1) {}
+
+}

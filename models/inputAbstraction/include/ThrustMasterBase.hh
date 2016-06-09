@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/ThrustMasterBase.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/ThrustMasterBase.cpp}
  */
 
 #ifndef _THRUST_MASTER_BASE_HH_
@@ -30,9 +27,9 @@ class ThrustMasterBase : public virtual InputLayout {
     virtual ~ThrustMasterBase() {};
 
     /**
-     *  describes the pin-out of the translational hand controller.
-     *  Male upDownTranslation is inverted with respect to female.
-     *  */
+     * describes the pin-out of the translational hand controller.
+     * Male #upDownTranslation is inverted with respect to female.
+     */
     const bool male;
 
     /** forward-backward pivoting */
@@ -62,7 +59,6 @@ class ThrustMasterBase : public virtual InputLayout {
 
     private:
 
-    /** this class is not copy-assignable */
     ThrustMasterBase& operator=(const ThrustMasterBase&);
 
 };

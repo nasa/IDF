@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/RemoteDeviceClientBase.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/RemoteDeviceClientBase.cpp}
  */
 
 #ifndef _REMOTE_DEVICE_CLIENT_BASE_HH_
@@ -26,11 +23,9 @@ class RemoteDeviceClientBase {
     unsigned short port;
 
     /**
-     * constructs an instance that transmits commands from
-     * <code>sourceController</code> to the <code>RemoteDeviceServer<T></code>
-     * listening on <code>host</code>:<code>port</code>
+     * constructs an instance that transmits commands from @a sourceController
+     * to the RemoteDeviceServer \<T\> listening on <em>host</em>:<em>port</em>
      *
-     * @param sourceController the command source
      * @param host the name or ip address of the server host machine
      * @param port the port on which the server is listening
      */
@@ -44,10 +39,6 @@ class RemoteDeviceClientBase {
     void setHost(std::string host);
     bool isOpen();
 
-    /**
-     * attempts to connect to the host returned by <code>getHost<code> on the port
-     * returned by <code>getPort()</code>
-     */
     void open();
     void close();
 

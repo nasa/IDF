@@ -1,6 +1,6 @@
 #include "simulationInterface/include/RoboticsController.hh"
 
-using namespace idf;
+namespace idf {
 
 void RoboticsController::setActive(bool activate) {
     Controller::setActive(activate);
@@ -37,4 +37,6 @@ bool RoboticsController::getTrigger() const {
 
 bool RoboticsController::getRateMode() const {
     return active ? getCommandedRateMode() : inactiveRateMode;
+}
+
 }

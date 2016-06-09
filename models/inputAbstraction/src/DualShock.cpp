@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/DualShock.hh"
 
-using namespace idf;
+namespace idf {
 
 DualShock::DualShock() :
     leftAnalogLeftRightPivot(0, 255),
@@ -40,4 +40,6 @@ const std::vector<InputLayout::Configurable>& DualShock::getConfigurables() {
 void DualShock::silenceRumblers() {
     rumble(Weak, 0);
     rumble(Strong, 0);
+}
+
 }

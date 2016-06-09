@@ -5,7 +5,7 @@
 #include <string.h>
 #include <sstream>
 
-using namespace idf;
+namespace idf {
 
 SerialThrustMasterBase::SerialThrustMasterBase(const std::string& id, const char *terminalPath, bool isMale) :
     ThrustMasterBase(isMale),
@@ -29,57 +29,40 @@ void SerialThrustMasterBase::open() {
     settings.c_cc[VMIN] = 0;
 
     if (tcsetattr(handle, TCSANOW, &settings) == -1) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Failed to set serial port attributes: " << strerror(errno);
-        throw IOException(oss.str());
+        throw IOException("Failed to set serial port attributes: " + std::string(strerror(errno)));
     }
 }
 
-void SerialThrustMasterBase::update() {
-    SerialDevice::update();
-
-    char request = 'r';
-
+std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
+    const char request = 'r';
     write(&request, sizeof(request));
 
     int bytesRemaining = 9;
-    /** HACK - short-term solution only */
-    Entry* entry = new Entry(bytesRemaining, delay);
-    unsigned char* buffer = entry->data;
-    /** HACK ****************************/
-    //unsigned char buffer[bytesRemaining];
+    std::vector<unsigned char> buffer(bytesRemaining);
 
     while (bytesRemaining) {
-        int bytesRead = read(buffer + (9 - bytesRemaining), bytesRemaining);
+        int bytesRead = SerialDevice::read(&buffer[0] + (9 - bytesRemaining), bytesRemaining);
         if (bytesRead == 0) {
-            std::ostringstream oss;
-            oss << __FILE__ << ":" << __LINE__
-                << " Timeout while reading";
-            throw IOException(oss.str());
+            throw IOException("Timeout while reading " + name + ".");
         }
         bytesRemaining -= bytesRead;
     }
 
-    if (enabled) {
-        storage.push_back(entry);
-    }
+    std::vector<std::vector<unsigned char> > results(1);
+    results.push_back(buffer);
+    return results;
+}
 
-    while (!storage.empty() && storage.front()->targetTime <= InputDevice::getTime()) {
-        buffer = storage.front()->data;
+void SerialThrustMasterBase::decode(const std::vector<unsigned char>& data) {
+    forwardBackwardPivot.setValue(data[0]);
+    twist.setValue(data[1]);
+    leftRightPivot.setValue(data[2]);
+    leftRightTranslation.setValue(data[3]);
+    upDownTranslation.setValue(data[4]);
+    forwardBackwardTranslation.setValue(data[5]);
+    trigger.setValue(data[8] & 1 ? 1 : data[8] & 2 ? -1 : 0);
 
-        forwardBackwardPivot.setValue(buffer[0]);
-        twist.setValue(buffer[1]);
-        leftRightPivot.setValue(buffer[2]);
-        leftRightTranslation.setValue(buffer[3]);
-        upDownTranslation.setValue(buffer[4]);
-        forwardBackwardTranslation.setValue(buffer[5]);
-        trigger.setValue(buffer[8] & 1 ? 1 : buffer[8] & 2 ? -1 : 0);
-
-        processButtons(buffer[8]);
-
-        delete storage.front();
-        storage.pop_front();
-    }
+    processButtons(data[8]);
+}
 
 }

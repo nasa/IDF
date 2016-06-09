@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/RemoteCameraController.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/RemoteCameraController.cpp}
  */
 
 #ifndef _REMOTE_CAMERA_CONTROLLER_HH_
@@ -38,8 +35,7 @@ class RemoteCameraController {
     };
 
     /**
-     * a server which accepts and manages connections from multiple
-     * {@link Client}s
+     * a server which accepts and manages connections from multiple {@link Client}s
      *
      * @author Derek Bankieris
      */
@@ -48,8 +44,7 @@ class RemoteCameraController {
         public:
 
         /**
-         * constructs an instance which listens for connections on
-         * <code>port</code>
+         * constructs an instance which listens for connections on @a port
          *
          * @param port the port over which to listen for connections
          */
@@ -86,36 +81,26 @@ class RemoteCameraController {
     };
 
     /**
-     * transmits commands from a contained {@link CameraController} to a
-     * <code>Server</code>
+     * transmits commands from a contained CameraController to a Server
      *
      * @author Derek Bankieris
      */
-    class Client : public RemoteDeviceClient<CameraController, Commands, Client> {
+    class Client : public RemoteDeviceClient<CameraController, Commands> {
 
         public:
 
-        /**
-         * constructs an instance that transmits commands from
-         * <code>cameraController</code> to the <code>Server</code>
-         * listening on <code>host</code>:<code>port</code>
-         *
-         * @param cameraController the command source
-         * @param host the name or ip address of the server host machine
-         * @param port the port on which the server is listening
-         */
-        Client(const CameraController& cameraController,
-          const std::string host, unsigned short port);
+        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
+        Client(const CameraController& sourceController, const std::string hostName, unsigned short hostPort);
 
         /**
-         * packs commands from <code>cameraController</code> into
-         * <code>commands</code>
+         * packs commands from @a controller into @a commands
          *
          * @param commands the structure into which the commands are packed
-         * @param cameraController the controller whose commands are to be packed
+         * @param controller the controller whose commands are to be packed
          */
-        static void packCommands(Commands& commands,
-          const CameraController& cameraController);
+        void static packCommands(Commands& commands, const CameraController& controller);
+
+        void packCommands(Commands& commands);
 
     };
     #endif

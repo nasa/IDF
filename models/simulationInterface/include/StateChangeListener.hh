@@ -6,8 +6,8 @@ namespace idf {
 class Controller;
 
 /**
- * abstract base class representing an interface for receiving notification
- * of state changes of {@link Controller}s
+ * abstract base class representing an interface for receiving
+ * notification of state changes of {@link Controller}s
  *
  * @author Derek Bankieris
  */
@@ -19,8 +19,7 @@ class StateChangeListener {
     virtual ~StateChangeListener() {}
 
     /**
-     * called in response to a change in state of a <code>Controller</code>
-     * for which this instance is registered
+     * called in response to a change in state of a Controller for which this instance is registered
      *
      * @param controller the controller whose state has changed
      */

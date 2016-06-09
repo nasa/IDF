@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/IndustrialProducts2.hh"
 
-using namespace idf;
+namespace idf {
 
 IndustrialProducts2::IndustrialProducts2() :
     forwardBackwardPivot(0, 1023, 512),
@@ -15,3 +15,5 @@ IndustrialProducts2::IndustrialProducts2() :
     southWestButton(0, 1),
     northEastButton(0, 1),
     southEastButton(0, 1) {}
+
+}

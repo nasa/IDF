@@ -10,7 +10,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 
-using namespace idf;
+namespace idf {
 
 RemoteRoboticsController::Server::Server(unsigned short listenPort) :
     RemoteDeviceServer<Commands>(listenPort) {}
@@ -81,7 +81,11 @@ bool RemoteRoboticsController::Server::getCommandedRateMode() const {
 
 RemoteRoboticsController::Client::Client(const RoboticsController& roboticsController,
   std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<RoboticsController, Commands, Client>(roboticsController, hostName, hostPort) {}
+    RemoteDeviceClient<RoboticsController, Commands>(roboticsController, hostName, hostPort) {}
+
+void RemoteRoboticsController::Client::packCommands(Commands& commands) {
+    packCommands(commands, controller);
+}
 
 void RemoteRoboticsController::Client::packCommands(Commands& commands,
   const RoboticsController& roboticsController) {
@@ -93,4 +97,6 @@ void RemoteRoboticsController::Client::packCommands(Commands& commands,
     commands.z = pack(roboticsController.getZ());
     commands.trigger = roboticsController.getTrigger();
     commands.rateMode = roboticsController.getRateMode();
+}
+
 }

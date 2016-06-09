@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbSaitek.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbSaitek.cpp}
  */
 
 #ifndef _USB_SAITEK_HH_
@@ -23,10 +20,10 @@ class UsbSaitek : public UsbDevice, public Saitek {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbSaitek(int vendorID = 0x06A3, int productID = 0x0763);
 
-    void update();
+    void decode(const std::vector<unsigned char>& data);
 
 };
 

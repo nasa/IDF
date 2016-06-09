@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/ChProPedals.hh"
 
-using namespace idf;
+namespace idf {
 
 ChProPedals::ChProPedals() :
     leftPedal(0, 255),
@@ -16,4 +16,6 @@ const std::vector<InputLayout::Configurable>& ChProPedals::getConfigurables() {
         inputs.push_back(Configurable(twist, "Twist", "twist"));
     }
     return inputs;
+}
+
 }

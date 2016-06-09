@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/ChProPedals.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/ChProPedals.cpp}
  */
 
 #ifndef _CH_PRO_PEDALS_HH_

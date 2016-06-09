@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbSpaceExplorer.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbSpaceExplorer.cpp}
  */
 
 #ifndef _USB_SPACE_EXPLORER_HH_
@@ -23,17 +20,12 @@ class UsbSpaceExplorer : public UsbSpaceBase, public SpaceExplorer {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbSpaceExplorer(int vendorID = 0x46D, int productID = 0xC627);
 
     protected:
 
-    /**
-     * processes the button data and sets the appropriate inputs
-     *
-     * @param buttonData the raw button data
-     */
-    void processButtons(unsigned char* buttonData);
+    void processButtons(const unsigned char* buttonData);
 
 };
 

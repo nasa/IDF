@@ -1,10 +1,8 @@
 /**
-PURPOSE: ()
-
-LIBRARY DEPENDENCIES:
-((simulationInterface/src/CompositeCameraController.cpp)
- (inputAbstraction/src/Utils.cpp))
-*/
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/CompositeCameraController.cpp}
+ * @trick_link_dependency{inputAbstraction/src/Utils.cpp}
+ */
 
 #ifndef COMPOSITE_CAMERA_CONTROLLER_HH
 #define COMPOSITE_CAMERA_CONTROLLER_HH
@@ -19,7 +17,7 @@ namespace idf {
 #endif
 
 /**
- * combines multiple <code>CameraController</code>s into a single entity,
+ * combines multiple {@link CameraController}s into a single entity,
  * superimposing their values. Resulting values are restricted to [-1, 1].
  *
  * @author Derek Bankieris

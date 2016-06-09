@@ -1,39 +1,29 @@
 #include "hardwareInterface/include/UsbGravis.hh"
 
-using namespace idf;
+namespace idf {
 
 UsbGravis::UsbGravis(int vendorID, int productID) :
-    UsbDevice("Gravis", vendorID, productID) {}
+    UsbDevice("Gravis", vendorID, productID, 4) {}
 
-void UsbGravis::update() {
-    UsbDevice::update();
+void UsbGravis::decode(const std::vector<unsigned char>& data) {
+    directionalPadLeft.setValue(~data[0] & 1);
+    directionalPadRight.setValue(data[0] >> 7);
 
-    unsigned char buffer[4];
-    int bytesRead;
-    bool dataReceived = false;
+    directionalPadUp.setValue(~data[1] & 1);
+    directionalPadDown.setValue(data[1] >> 7);
 
-    do {
-        dataReceived |= bytesRead = read(buffer, sizeof(buffer));
-    } while (bytesRead > 0);
+    westButton.setValue(data[2] & 1);
+    southButton.setValue(data[2] >> 1 & 1);
+    eastButton.setValue(data[2] >> 2 & 1);
+    northButton.setValue(data[2] >> 3 & 1);
 
-    if (dataReceived) {
-        directionalPadLeft.setValue(~buffer[0] & 1);
-        directionalPadRight.setValue(buffer[0] >> 7);
+    leftBumper1.setValue(data[2] >> 4 & 1);
+    rightBumper1.setValue(data[2] >> 5 & 1);
+    leftBumper2.setValue(data[2] >> 6 & 1);
+    rightBumper2.setValue(data[2] >> 7 & 1);
 
-        directionalPadUp.setValue(~buffer[1] & 1);
-        directionalPadDown.setValue(buffer[1] >> 7);
+    selectButton.setValue(data[3] & 1);
+    startButton.setValue(data[3] >> 1 & 1);
+}
 
-        westButton.setValue(buffer[2] & 1);
-        southButton.setValue(buffer[2] >> 1 & 1);
-        eastButton.setValue(buffer[2] >> 2 & 1);
-        northButton.setValue(buffer[2] >> 3 & 1);
-
-        leftBumper1.setValue(buffer[2] >> 4 & 1);
-        rightBumper1.setValue(buffer[2] >> 5 & 1);
-        leftBumper2.setValue(buffer[2] >> 6 & 1);
-        rightBumper2.setValue(buffer[2] >> 7 & 1);
-
-        selectButton.setValue(buffer[3] & 1);
-        startButton.setValue(buffer[3] >> 1 & 1);
-    }
 }

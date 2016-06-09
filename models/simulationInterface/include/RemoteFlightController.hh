@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/RemoteFlightController.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/RemoteFlightController.cpp}
  */
 
 #ifndef _REMOTE_FLIGHT_CONTROLLER_HH_
@@ -53,7 +50,7 @@ class RemoteFlightController {
         public:
 
         /**
-         * constructs an instance which listens for connections on <code>port</code>
+         * constructs an instance which listens for connections on @a port
          *
          * @param port the port over which to listen for connections
          */
@@ -104,31 +101,21 @@ class RemoteFlightController {
     };
 
     /**
-     * transmits commands from a contained {@link FlightController} to a <code>Server</code>
+     * transmits commands from a contained FlightController to a Server
      *
      * @author Derek Bankieris
      */
-    class Client : public RemoteDeviceClient<FlightController, Commands, Client> {
+    class Client : public RemoteDeviceClient<FlightController, Commands> {
 
         public:
 
-        /**
-         * constructs an instance that transmits commands from <code>flightController</code> to the <code>Server</code>
-         * listening on <code>host</code>:<code>port</code>
-         *
-         * @param flightController the command source
-         * @param host the name or ip address of the server host machine
-         * @param port the port on which the server is listening
-         */
-        Client(const FlightController& flightController, const std::string host, unsigned short port);
+        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
+        Client(const FlightController& sourceController, const std::string hostName, unsigned short hostPort);
 
-        /**
-         * packs commands from <code>flightController</code> into <code>commands</code>
-         *
-         * @param commands the structure into which the commands are packed
-         * @param flightController the controller whose commands are to be packed
-         */
-        static void packCommands(Commands& commands, const FlightController& flightController);
+        /** @copydoc RemoteCameraController::packCommands(Commands&, const CameraController&) */
+        void static packCommands(Commands& commands, const FlightController& controller);
+
+        void packCommands(Commands& commands);
 
     };
     #endif

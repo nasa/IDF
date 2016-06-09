@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/VirtualLayout.hh"
 
-using namespace idf;
+namespace idf {
 
 VirtualLayout::VirtualLayout() :
     leftRightRotation(-100, 100),
@@ -9,3 +9,5 @@ VirtualLayout::VirtualLayout() :
     leftRightTranslation(-100, 100),
     upDownTranslation(-100, 100),
     inOutTranslation(-100, 100) {}
+
+}

@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbXBox.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbXBox.cpp}
  */
 
 #ifndef _USB_XBOX_HH_
@@ -23,10 +20,10 @@ class UsbXBox : public UsbDevice, public XBox {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbXBox(int vendorID = 0x045E, int productID = 0x028E);
 
-    void update();
+    void decode(const std::vector<unsigned char>& data);
 
 };
 

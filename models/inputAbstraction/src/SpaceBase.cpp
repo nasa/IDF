@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/SpaceBase.hh"
 
-using namespace idf;
+namespace idf {
 
 SpaceBase::SpaceBase() :
     forwardBackwardPivot(-350, 350, 0),
@@ -22,4 +22,6 @@ const std::vector<InputLayout::Configurable>& SpaceBase::getConfigurables() {
         inputs.push_back(Configurable(upDownTranslation, "Up/Down Translation", "upDownTranslation"));
     }
     return inputs;
+}
+
 }

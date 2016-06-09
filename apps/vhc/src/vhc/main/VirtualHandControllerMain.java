@@ -767,8 +767,8 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                 setText(simObjectName);
               }};
 
-            final JComboBox translationOrientationComboBox = new JComboBox(Translation.values());
-            final JComboBox rotationOrientationComboBox = new JComboBox(Rotation.values());
+            final JComboBox<Translation> translationOrientationComboBox = new JComboBox<>(Translation.values());
+            final JComboBox<Rotation> rotationOrientationComboBox = new JComboBox<>(Rotation.values());
 
             final JCheckBox xCheckBox = new JCheckBox("Invert X", xSlider.slider.getInverted()) {{
                 setMnemonic(KeyEvent.VK_X);
@@ -1096,6 +1096,12 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                         }
                         simObjectTextField.setText(simObjectName);
                     }
+
+                    @Override
+                    public boolean canCommitChanges() {
+                        return true;
+                    }
+
                 });
 
                 /*if (System.getProperty("os.name").contains("Mac")) {
@@ -1108,7 +1114,9 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
 
             }
 
-        });
+        }, new GridBagConstraints() {{
+            fill = BOTH;
+        }});
 
         aboutDialog = new JDialog(getMainFrame(), "About " + resourceMap.getString("Application.title"), true) {
 

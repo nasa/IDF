@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/Deadbandable.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/Deadbandable.cpp}
  */
 
 #ifndef _DEADBANDABLE_HH_

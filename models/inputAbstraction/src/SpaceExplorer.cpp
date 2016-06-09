@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/SpaceExplorer.hh"
 
-using namespace idf;
+namespace idf {
 
 SpaceExplorer::SpaceExplorer() :
     button1(0, 1),
@@ -18,3 +18,5 @@ SpaceExplorer::SpaceExplorer() :
     buttonF(0, 1),
     buttonPanel(0, 1),
     buttonFit(0, 1) {}
+
+}

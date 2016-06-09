@@ -1,6 +1,6 @@
 #include "simulationInterface/include/SingleRoboticsController.hh"
 
-using namespace idf;
+namespace idf {
 
 SingleRoboticsController::SingleRoboticsController(
   const Input& rollInput, const Input& pitchInput, const Input& yawInput,
@@ -356,4 +356,6 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Industr
     controller->rateMode.setToggle(true);
 
     return controller;
+}
+
 }

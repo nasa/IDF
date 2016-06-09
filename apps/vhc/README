@@ -5,7 +5,7 @@ derek.r.bankieris@nasa.gov
 
 Requirements:
 
-Sun/Oracle Java SE6 (NOT OpenJDK)
+Java SE8
 
 
 Running:
@@ -29,7 +29,7 @@ open build/Virtual\ Hand\ Controller.app
 Compiling:
 
 This application comes precompiled. All the other files are only useful if you
-would like to make changes and recompile, in which case you will need Trick 10
+would like to make changes and recompile, in which case you will need Trick 16
 and Apache Ant. Otherwise, you can delete them from your local storage. For
 build options:
 ant -p

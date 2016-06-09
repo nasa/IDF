@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/IndustrialProducts.hh"
 
-using namespace idf;
+namespace idf {
 
 IndustrialProducts::IndustrialProducts() :
     forwardBackwardPivot(0, 1023, 512),
@@ -27,4 +27,6 @@ const std::vector<InputLayout::Configurable>& IndustrialProducts::getConfigurabl
         inputs.push_back(Configurable(hatLeftRightPivot, "Hat Left/Right Pivot", "hatLeftRightPivot"));
     }
     return inputs;
+}
+
 }

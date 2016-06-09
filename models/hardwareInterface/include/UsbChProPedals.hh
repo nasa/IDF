@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbChProPedals.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbChProPedals.cpp}
  */
 
 #ifndef _USB_CH_PRO_PEDALS_HH_
@@ -23,10 +20,16 @@ class UsbChProPedals : public UsbDevice, public ChProPedals {
 
     public:
 
-    /** constructor */
+    /**
+     * constructs a new instance whose open() will look for a USB
+     * device with the @a vendorID and @a productID
+     *
+     * @param vendorID the target USB device's vendorID
+     * @param productID the target USB device's productID
+     */
     UsbChProPedals(int vendorID = 0x068E, int productID = 0x00F2);
 
-    void update();
+    void decode(const std::vector<unsigned char>& data);
 
 };
 

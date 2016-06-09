@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/FlightController.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/FlightController.cpp}
  */
 
 #ifndef _FLIGHT_CONTROLLER_HH_
@@ -14,8 +11,7 @@
 namespace idf {
 
 /**
- * represents the interface that an input device must satisfy to qualify as a
- * flight controller
+ * represents the interface that an input device must satisfy to qualify as a flight controller
  *
  * @author Derek Bankieris
  */
@@ -27,48 +23,42 @@ class FlightController : public Controller {
     virtual ~FlightController() {};
 
     /**
-     * when active, returns the commanded roll normalized to [-1, 0, 1].
-     * When inactive, returns <code>0</code>.
+     * when active, returns the commanded roll normalized to [-1, 0, 1]. When inactive, returns 0.
      *
      * @return the roll command
      */
     double getRoll() const;
 
     /**
-     * when active, returns the commanded pitch normalized to [-1, 0, 1].
-     * When inactive, returns <code>0</code>.
+     * when active, returns the commanded pitch normalized to [-1, 0, 1]. When inactive, returns 0.
      *
      * @return the pitch command
      */
     double getPitch() const;
 
     /**
-     * when active, returns the commanded yaw normalized to [-1, 0, 1].
-     * When inactive, returns <code>0</code>.
+     * when active, returns the commanded yaw normalized to [-1, 0, 1]. When inactive, returns 0.
      *
      * @return the yaw command
      */
     double getYaw() const;
 
     /**
-     * when active, returns the commanded x normalized to [-1, 0, 1].
-     * When inactive, returns <code>0</code>.
+     * when active, returns the commanded x normalized to [-1, 0, 1]. When inactive, returns 0.
      *
      * @return the x command
      */
     double getX() const;
 
     /**
-     * when active, returns the commanded y normalized to [-1, 0, 1].
-     * When inactive, returns <code>0</code>.
+     * when active, returns the commanded y normalized to [-1, 0, 1]. When inactive, returns 0.
      *
      * @return the y command
      */
     double getY() const;
 
     /**
-     * when active, returns the commanded z normalized to [-1, 0, 1].
-     * When inactive, returns <code>0</code>.
+     * when active, returns the commanded z normalized to [-1, 0, 1]. When inactive, returns 0.
      *
      * @return the z command
      */

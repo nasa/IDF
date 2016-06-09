@@ -1,6 +1,6 @@
 #include "simulationInterface/include/SingleCameraController.hh"
 
-using namespace idf;
+namespace idf {
 
 SingleCameraController::SingleCameraController(
   const Input& panInput, const Input& tiltInput, const Input& spinInput, const Input& zoomInput) :
@@ -175,4 +175,6 @@ SingleCameraController* SingleCameraController::createInstance(const IndustrialP
     controller->tilt.setInverted(true);
 
     return controller;
+}
+
 }

@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbGravis.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbGravis.cpp}
  */
 
 #ifndef _USB_GRAVIS_HH_
@@ -23,10 +20,10 @@ class UsbGravis : public UsbDevice, public Gravis {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbGravis(int vendorID = 0x0428, int productID = 0x4001);
 
-    void update();
+    void decode(const std::vector<unsigned char>& data);
 
 };
 

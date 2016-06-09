@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/DualShock3.hh"
 
-using namespace idf;
+namespace idf {
 
 DualShock3::DualShock3() :
     selectButton(0, 1),
@@ -63,4 +63,6 @@ const std::vector<InputLayout::Configurable>& DualShock3::getConfigurables() {
         inputs.push_back(Configurable(rightBumper, "Right Bumper", "rightBumper"));
     }
     return inputs;
+}
+
 }

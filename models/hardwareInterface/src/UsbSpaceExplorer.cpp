@@ -1,11 +1,11 @@
 #include "hardwareInterface/include/UsbSpaceExplorer.hh"
 
-using namespace idf;
+namespace idf {
 
 UsbSpaceExplorer::UsbSpaceExplorer(int vendorID, int productID) :
     UsbSpaceBase("Space Explorer", vendorID, productID) {}
 
-void UsbSpaceExplorer::processButtons(unsigned char* buttonData) {
+void UsbSpaceExplorer::processButtons(const unsigned char* buttonData) {
     button1.setValue(buttonData[0] & 1);
     button2.setValue(buttonData[0] >> 1 & 1);
     buttonT.setValue(buttonData[0] >> 2 & 1);
@@ -21,4 +21,6 @@ void UsbSpaceExplorer::processButtons(unsigned char* buttonData) {
     buttonPlus.setValue(buttonData[1] >> 4 & 1);
     buttonMinus.setValue(buttonData[1] >> 5 & 1);
     button2d.setValue(buttonData[1] >> 6 & 1);
+}
+
 }

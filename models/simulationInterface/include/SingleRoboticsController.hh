@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/SingleRoboticsController.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/SingleRoboticsController.cpp}
  */
 
 #ifndef _SINGLE_ROBOTICS_CONTROLLER_HH_
@@ -33,11 +30,9 @@ namespace idf {
 /**
  * represents a single robotics controller.
  *
- * Note: All <code>createInstance</code> functions return a controller whose
- * outputs are mapped to the inputs of the specified device following
- * conventional spatial mapping relationships when avaiable and reasonable
- * choices otherwise. The axes follow the right-handed convention and are
- * oriented as follows:
+ * Note: All @c createInstance functions return a controller whose outputs are mapped to the inputs
+ * of the specified device following conventional spatial mapping relationships when avaiable and
+ * reasonable choices otherwise. The axes follow the right-handed convention and are oriented as follows:
  *
  * +x points forward
  * +y points to the left
@@ -47,10 +42,9 @@ namespace idf {
  * positive pitch is measured from the +y axis towards the -z axis
  * positive yaw is measured from the +y axis towards the +x axis
  *
- * You may alter the polarity of any axis by inverting the appropriate output.
- * If this orientation is not appropriate for your application, you should
- * use the constructor instead, which allows you to fully customize the
- * mapping.
+ * You may alter the polarity of any axis by inverting the appropriate output. If this orientation is
+ * not appropriate for your application, you should use the constructor instead, which allows you to
+ * fully customize the mapping.
  *
  * @author Derek Bankieris
  */
@@ -100,16 +94,13 @@ class SingleRoboticsController : public RoboticsController {
       const Input& trigger, const Input& rateMode);
 
     /**
-     * adds <code>deadband</code> to all outputs except <code>trigger</code>
-     * and <code>rateMode</code>
+     * adds @a deadband to all outputs except #trigger  and #rateMode
      *
      * @param deadband the deadband to add
      */
     void addDeadband(const Deadband& deadband);
 
-    /**
-     * removes all deadbands from all outputs
-     */
+    /** removes all deadbands from all outputs */
     void clearDeadbands();
 
     /**
@@ -169,8 +160,7 @@ class SingleRoboticsController : public RoboticsController {
     bool getCommandedRateMode() const;
 
     /**
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>wingMan</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a wingMan using appropriate defaults
      *
      * @param wingMan the inputs to use in the default mapping
      *
@@ -179,8 +169,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const WingMan& wingMan);
 
     /**
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>extreme3dPro</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a extreme3dPro using appropriate defaults
      *
      * @param extreme3dPro the inputs to use in the default mapping
      *
@@ -189,8 +178,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const Extreme3dPro& extreme3dPro);
 
     /**
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>spaceExplorer</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a spaceExplorer using appropriate defaults
      *
      * @param spaceExplorer the inputs to use in the default mapping
      *
@@ -199,8 +187,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const SpaceExplorer& spaceExplorer);
 
     /**
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>spaceNavigator</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a spaceNavigator using appropriate defaults
      *
      * @param spaceNavigator the inputs to use in the default mapping
      *
@@ -209,8 +196,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const SpaceNavigator& spaceNavigator);
 
     /**
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>spaceMouse</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a spaceMouse using appropriate defaults
      *
      * @param spaceMouse the inputs to use in the default mapping
      *
@@ -219,8 +205,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const SpaceMouse& spaceMouse);
 
     /**
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>gravis</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a gravis using appropriate defaults
      *
      * @param gravis the inputs to use in the default mapping
      *
@@ -229,8 +214,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const Gravis& gravis);
 
     /*
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>dualShock</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a dualShock using appropriate defaults
      *
      * @param dualShock the inputs to use in the default mapping
      *
@@ -239,8 +223,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const DualShock& dualShock);
 
     /*
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>virtualLayout</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a virtualLayout using appropriate defaults
      *
      * @param virtualLayout the inputs to use in the default mapping
      *
@@ -249,8 +232,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const VirtualLayout& virtualLayout);
 
     /*
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>thrustMaster</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a thrustMaster using appropriate defaults
      *
      * @param thrustMaster the inputs to use in the default mapping
      *
@@ -259,8 +241,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const ThrustMaster& thrustMaster);
 
     /*
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>thrustMaster2</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a thrustMaster2 using appropriate defaults
      *
      * @param thrustMaster2 the inputs to use in the default mapping
      *
@@ -269,8 +250,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const ThrustMaster2& thrustMaster2);
 
     /*
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>industrialProducts</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a industrialProducts using appropriate defaults
      *
      * @param industrialProducts the inputs to use in the default mapping
      *
@@ -279,8 +259,7 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const IndustrialProducts& industrialProducts);
 
     /*
-     * creates a new <code>SingleRoboticsController</code> mapped to
-     * <code>industrialProducts2</code> using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a industrialProducts2 using appropriate defaults
      *
      * @param industrialProducts2 the inputs to use in the default mapping
      *

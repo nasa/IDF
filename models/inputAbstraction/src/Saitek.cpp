@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/Saitek.hh"
 
-using namespace idf;
+namespace idf {
 
 Saitek::Saitek() :
     leftPedal(0, 127),
@@ -16,4 +16,6 @@ const std::vector<InputLayout::Configurable>& Saitek::getConfigurables() {
         inputs.push_back(Configurable(twist, "Twist", "twist"));
     }
     return inputs;
+}
+
 }

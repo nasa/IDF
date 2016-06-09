@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbDualShock3.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbDualShock3.cpp}
  */
 
 #ifndef _USB_DUAL_SHOCK_3_HH_
@@ -19,14 +16,14 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class UsbDualShock3 : public idf::UsbDualShock, public DualShock3 {
+class UsbDualShock3 : public UsbDualShock, public DualShock3 {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbDualShock3(int vendorID = 0x054C, int productID = 0x0268);
 
-    void update();
+    void decode(const std::vector<unsigned char>& data);
     void sendCommand();
 
 };

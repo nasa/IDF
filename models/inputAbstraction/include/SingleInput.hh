@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/SingleInput.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/SingleInput.cpp}
  */
 
 #ifndef _SINGLE_INPUT_HH_
@@ -15,11 +12,9 @@
 namespace idf {
 
 /**
- * represents a single degree of freedom or a single dimension of a device's
- * set of controls. For example, a <code>SingleInput<code> could be used to
- * represent a single button, one axis of a joystick, a slider, or a trigger.
- * To combine multiple controls into one {@link Input}, see
- * {@link CompositeInput}.
+ * represents a single degree of freedom or a single dimension of a device's set of controls.
+ * For example, a %SingleInput could be used to represent a single button, one axis of a joystick,
+ * a slider, or a trigger. To combine multiple controls into one Input, see CompositeInput.
  *
  * @author Derek Bankieris
  */
@@ -28,8 +23,7 @@ class SingleInput : public Input, public Deadbandable {
     public:
 
     /**
-     * constructs a new instance with a neutral value of
-     * <code>(min + max) / 2</code>
+     * constructs a new instance with a neutral value of <code>(min + max) / 2</code>
      *
      * @param minimum the minimum value
      * @param maximum the maximum value
@@ -46,20 +40,23 @@ class SingleInput : public Input, public Deadbandable {
     SingleInput(double minimum, double maximum, double neutral);
 
     /**
-     * configures this instance's values, using a neutral value of
-     * <code>(min + max) / 2</code>
+     * configures this instance's values, using a neutral value of <code>(minimum + maximum) / 2</code>
      *
-     * @param min the minimum value
-     * @param max the maximum value
+     * @param minimum the minimum value
+     * @param maximum the maximum value
+     *
+     * @throws std::logic_error if <code>minimum > maximum</code>
      */
     void configure(double minimum, double maximum);
 
     /**
      * configures this instance's values
      *
-     * @param min the minimum value
-     * @param max the maximum value
+     * @param minimum the minimum value
+     * @param maximum the maximum value
      * @param neutral the neutral value
+     *
+     * @throws std::logic_error if <code>minimum <= neutral <= maximum</code> is not @c true
      */
     void configure(double minimum, double maximum, double neutral);
 
@@ -92,8 +89,7 @@ class SingleInput : public Input, public Deadbandable {
     double getValue() const;
 
     /**
-     * sets the value, which should be a raw input value from the device
-     * driving this input
+     * sets the value, which should be a raw input value from the device driving this input
      *
      * @param value the input value
      */

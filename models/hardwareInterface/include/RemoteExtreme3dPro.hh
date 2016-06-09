@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/RemoteExtreme3dPro.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/RemoteExtreme3dPro.cpp}
  */
 
 #ifndef _REMOTE_EXTREME_3D_PRO_HH_
@@ -56,8 +53,7 @@ namespace idf {
 %template (RemoteDeviceServer_RemoteExtreme3dPro) RemoteDeviceServer<RemoteExtreme3dProCommands>;
 #endif
     /**
-     * a server which accepts and manages connections from multiple
-     * {@link Client}s
+     * a server which accepts and manages connections from multiple clients
      *
      * @author Derek Bankieris
      */
@@ -65,13 +61,8 @@ namespace idf {
 
         public:
 
-        /**
-         * constructs an instance which listens for connections on
-         * <code>port</code>
-         *
-         * @param port the port over which to listen for connections
-         */
-        RemoteExtreme3dProServer(unsigned short port = 0);
+        /** @copydoc RemoteDeviceServer */
+        RemoteExtreme3dProServer(unsigned short listenPort = 0);
 
         void update();
 
@@ -79,41 +70,24 @@ namespace idf {
 
 #ifdef SWIG
 class RemoteExtreme3dProClient;
-%template (RemoteDeviceClient_RemoteExtreme3dPro) RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands, RemoteExtreme3dProClient>;
+%template (RemoteDeviceClient_RemoteExtreme3dPro) RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands>;
 #endif
     /**
-     * transmits commands from a contained {@link Extreme3dPro} to a
-     * <code>RemoteExtreme3dProServer</code>
+     * transmits commands from a contained Extreme3dPro to a RemoteExtreme3dProServer
      *
      * @author Derek Bankieris
      */
-    class RemoteExtreme3dProClient : public RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands, RemoteExtreme3dProClient> {
+    class RemoteExtreme3dProClient : public RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands> {
 
         public:
 
-        /**
-         * constructs an instance that transmits commands from
-         * <code>extreme3dPro</code> to the <code>RemoteExtreme3dProServer</code>
-         * listening on <code>host</code>:<code>port</code>
-         *
-         * @param extreme3dPro the command source
-         * @param host the name or ip address of the server host machine
-         * @param port the port on which the server is listening
-         */
-        RemoteExtreme3dProClient(const Extreme3dPro& extreme3dPro,
-          const std::string host, unsigned short port);
+        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
+        RemoteExtreme3dProClient(const Extreme3dPro& sourceController, const std::string hostName, unsigned short hostPort);
 
-        /**
-         * packs commands from <code>extreme3dPro</code> into
-         * <code>commands</code>
-         *
-         * @param commands the structure into which the commands are packed
-         * @param extreme3dPro the controller whose commands are to be packed
-         */
-        static void packCommands(RemoteExtreme3dProCommands& commands,
-          const Extreme3dPro& extreme3dPro);
+        void packCommands(RemoteExtreme3dProCommands& commands, const Extreme3dPro& controller);
 
         private:
+
         void operator=(const RemoteExtreme3dProClient&);
 
     };

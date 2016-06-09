@@ -1,7 +1,7 @@
 #include "hardwareInterface/include/CanDevice.hh"
 #include <sstream>
 
-using namespace idf;
+namespace idf {
 
 CanDevice::CanDevice(const std::string& id, int networkID, uint32_t flagz,
   int32_t txQueueSize, int32_t rxQueueSize,
@@ -20,10 +20,9 @@ void CanDevice::open() {
       receiveQueueSize, transmitTimeout, receiveTimeout, &ntCanHandle);
 
     if (result != NTCAN_SUCCESS) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Failed to open device: NTCAN_ERRNO = " << result;
-        throw IOException(oss.str());
+        std::ostringstream stream;
+        stream << "Failed to open " + name + ": NTCAN_ERRNO = " << result;
+        throw IOException(stream.str());
     }
 
     mOpen = true;
@@ -34,4 +33,6 @@ void CanDevice::close() {
         canClose(ntCanHandle);
         mOpen = false;
     }
+}
+
 }

@@ -1,11 +1,11 @@
 #include "hardwareInterface/include/UsbSpaceMouse.hh"
 
-using namespace idf;
+namespace idf {
 
 UsbSpaceMouse::UsbSpaceMouse(int vendorID, int productID) :
     UsbSpaceBase("Space Mouse", vendorID, productID) {}
 
-void UsbSpaceMouse::processButtons(unsigned char* buttonData) {
+void UsbSpaceMouse::processButtons(const unsigned char* buttonData) {
     buttonMenu.setValue(buttonData[0] & 1);
     buttonFit.setValue(buttonData[0] >> 1 & 1);
     buttonT.setValue(buttonData[0] >> 2 & 1);
@@ -24,4 +24,6 @@ void UsbSpaceMouse::processButtons(unsigned char* buttonData) {
     buttonShift.setValue(buttonData[3] & 1);
     buttonCtrl.setValue(buttonData[3] >> 1 & 1);
     buttonMouseRotation.setValue(buttonData[3] >> 2 & 1);
+}
+
 }

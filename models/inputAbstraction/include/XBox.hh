@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/XBox.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/XBox.cpp}
  */
 
 #ifndef _XBOX_HH_

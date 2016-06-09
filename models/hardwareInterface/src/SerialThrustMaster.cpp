@@ -1,6 +1,6 @@
 #include "hardwareInterface/include/SerialThrustMaster.hh"
 
-using namespace idf;
+namespace idf {
 
 SerialThrustMaster::SerialThrustMaster(const char *terminalPath, bool isMale) :
     ThrustMasterBase(isMale),
@@ -12,4 +12,6 @@ void SerialThrustMaster::processButtons(unsigned char buttonByte) {
     topButton.setValue(buttonByte >> 3 & 1);
     leftSwitch.setValue(buttonByte & 16 ? 1 : buttonByte &  32 ? -1 : 0);
     rightSwitch.setValue(buttonByte & 64 ? 1 : buttonByte & 128 ? -1 : 0);
+}
+
 }

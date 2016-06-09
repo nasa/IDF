@@ -1,0 +1,196 @@
+#ifndef IDF_INPUT_DEVICE_MANAGER_SM
+#define IDF_INPUT_DEVICE_MANAGER_SM
+
+##include <algorithm>
+##include <vector>
+##include "hardwareInterface/include/InputDevice.hh"
+##include "hardwareInterface/include/IOException.hh"
+##include "hardwareInterface/include/UsbDualShock.hh"
+##include "simulationInterface/include/PythonInterface.hh"
+
+/**
+ * handles the common overhead of managing {@link idf::InputDevice}s.
+ * This SimObject declares three jobs:
+ * - an initialiation job to open all devices
+ * - a shutdown job to close all devices
+ * - a job, whose phase, period, and class can be speicified by the developer, to update all devices
+ *
+ * All of these jobs may throw idf::IOException, which will either be propagated up the call stack or
+ * caught and printed, depending on the values of #catchOpenExceptions, #catchUpdateExceptions, and #catchCloseExceptions.
+ *
+ * @author Derek Bankieris
+ */
+class IdfInputDeviceManager : public Trick::SimObject {
+
+    public:
+
+    /** @c true to catch and print {@link idf::IOException}s that occur during #openDevices. Defaults to @c false. */
+    bool catchOpenExceptions;
+
+    /** @c true to catch and print {@link idf::IOException}s that occur during #updateDevices and #rumble. Defaults to @c true. */
+    bool catchUpdateExceptions;
+
+    /** @c true to catch and print {@link idf::IOException}s that occur during #closeDevices. Defaults to @c true. */
+    bool catchCloseExceptions;
+
+    /**
+     * constructor
+     *
+     * @param period the period (in seconds) at which to update the input devices
+     * @param phase the phase for the update job
+     * @param jobClass the class for the update job
+     */
+    IdfInputDeviceManager(double period, unsigned short phase = 60000, const char* jobClass = "scheduled") :
+        catchOpenExceptions(false),
+        catchUpdateExceptions(true),
+        catchCloseExceptions(true) {
+        ("initialization") openDevices();
+        Pphase (period, jobClass) updateDevices();
+        ("shutdown") closeDevices();
+    }
+
+    /** destructor */
+    virtual ~IdfInputDeviceManager() {}
+
+    /**
+     * adds @a inputDevice for managing. Adding an input device which is already being managed has no effect.
+     *
+     * @param inputDevice the device to manage
+     */
+    virtual void add(idf::InputDevice& inputDevice) {
+        if (std::find(inputDevices.begin(), inputDevices.end(), &inputDevice) == inputDevices.end()) {
+            inputDevices.push_back(&inputDevice);
+        }
+    }
+
+    /**
+     * adds @a rumbleDevice for managing. Adding a rumble device which is already being managed has no effect.
+     *
+     * @param rumbleDevice the device to manage
+     */
+    virtual void add(idf::UsbDualShock& rumbleDevice) {
+        if (std::find(rumbleDevices.begin(), rumbleDevices.end(), &rumbleDevice) == rumbleDevices.end()) {
+            inputDevices.push_back(&rumbleDevice);
+            rumbleDevices.push_back(&rumbleDevice);
+        }
+    }
+
+    /**
+     * commands all rumble-enabled devices
+     *
+     * @param shouldRumble whether or not to rumble
+     *
+     * @throws idf::IOException if an error occurs and #catchUpdateExceptions is @c false
+     */
+    virtual void rumble(bool shouldRumble) {
+        for (std::vector<idf::UsbDualShock*>::iterator i = rumbleDevices.begin(); i != rumbleDevices.end(); ++i) {
+            if (catchUpdateExceptions) {
+                try {
+                    (*i)->rumble(idf::DualShock::Strong, shouldRumble ? 0xFF : 0);
+                }
+                catch (idf::IOException& ioException) {
+                    std::cout << "[IDF] " << ioException.what() << std::endl;
+                }
+            }
+            else {
+                (*i)->rumble(idf::DualShock::Strong, shouldRumble ? 0xFF : 0);
+            }
+        }
+    }
+
+    /**
+     * sets the delay (in seconds) of all devices
+     *
+     * @param delay the delay in seconds
+     */
+    void setDelay(double delay) {
+        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+            (*i)->delay = delay;
+        }
+    }
+
+    /**
+     * enables/disables all devices
+     *
+     * @param enabled @c true to enable
+     */
+    void setEnabled(bool enabled) {
+        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+            (*i)->enabled = enabled;
+        }
+    }
+
+    protected:
+
+    /** the devices being managed */
+    std::vector<idf::InputDevice*> inputDevices;
+
+    /** rumble-enabled devices */
+    std::vector<idf::UsbDualShock*> rumbleDevices;
+
+    /**
+     * opens all devices
+     *
+     * @throws idf::IOException if an error occurs and #catchOpenExceptions is @c false
+     */
+    virtual void openDevices() {
+        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+            if (catchOpenExceptions) {
+                try {
+                    (*i)->open();
+                }
+                catch (idf::IOException& ioException) {
+                    std::cout << "[IDF] " << ioException.what() << std::endl;
+                }
+            }
+            else {
+                (*i)->open();
+            }
+        }
+    }
+
+    /**
+     * updates all devices
+     *
+     * @throws idf::IOException if an error occurs and #catchUpdateExceptions is @c false
+     */
+    virtual void updateDevices() {
+        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+            if (catchUpdateExceptions) {
+                try {
+                    (*i)->update();
+                }
+                catch (idf::IOException& ioException) {
+                    std::cout << "[IDF] " << ioException.what() << std::endl;
+                }
+            }
+            else {
+                (*i)->update();
+            }
+        }
+    }
+
+    /**
+     * closes all devices
+     *
+     * @throws idf::IOException if an error occurs and #catchCloseExceptions is @c false
+     */
+    virtual void closeDevices() {
+        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+            if (catchCloseExceptions) {
+                try {
+                    (*i)->close();
+                }
+                catch (idf::IOException& ioException) {
+                    std::cout << "[IDF] " << ioException.what() << std::endl;
+                }
+            }
+            else {
+                (*i)->close();
+            }
+        }
+    }
+
+};
+
+#endif

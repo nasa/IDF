@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/Deadband.hh"
 
-using namespace idf;
+namespace idf {
 
 Deadband::Deadband(double lower, double upper) {
     setRange(lower, upper);
@@ -40,4 +40,6 @@ bool Deadband::operator ==(const Deadband& other) const {
     return lowerBound == other.lowerBound &&
       upperBound == other.upperBound &&
       value == other.value;
+}
+
 }

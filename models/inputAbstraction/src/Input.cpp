@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/Input.hh"
 
-using namespace idf;
+namespace idf {
 
 double Input::getNormalizedValue() const {
     double value = getValue();
@@ -8,4 +8,6 @@ double Input::getNormalizedValue() const {
 
     return (value - neutral) /
       (value < neutral ? (neutral - getMinimumValue()) : (getMaximumValue() - neutral));
+}
+
 }

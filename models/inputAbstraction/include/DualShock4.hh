@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/DualShock4.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/DualShock4.cpp}
  */
 
 #ifndef DUAL_SHOCK_4_HH
@@ -79,7 +76,6 @@ class DualShock4 : public virtual DualShock {
     Trackpad trackpad;
     #endif
 
-    // DualShock overrides
     void rumble(Rumbler rumbler, unsigned char data);
 
     /**

@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-using namespace idf;
+namespace idf {
 
 Output::Output(const Input& in) :
     input(&in),
@@ -84,4 +84,6 @@ double Output::getNormalizedValue() const {
 
     return (value - neutral) /
       (value < neutral ? (neutral - minimum) : (maximum - neutral));
+}
+
 }

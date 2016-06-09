@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/XBox.hh"
 
-using namespace idf;
+namespace idf {
 
 XBox::XBox() :
     leftAnalogLeftRightPivot(-0x7FFF, 0x7FFF),
@@ -35,4 +35,6 @@ const std::vector<InputLayout::Configurable>& XBox::getConfigurables() {
         inputs.push_back(Configurable(rightAnalogUpDownPivot, "Right Analog Up/Down Pivot", "rightAnalogUpDownPivot"));
     }
     return inputs;
+}
+
 }

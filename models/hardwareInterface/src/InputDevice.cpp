@@ -1,18 +1,19 @@
 #include "hardwareInterface/include/InputDevice.hh"
+#ifdef __APPLE__
+#include <mach/mach_time.h>
+#endif
+#include <sys/select.h>
+#include <unistd.h>
+#include <cerrno>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <sstream>
 #include "hardwareInterface/include/IOException.hh"
 #include "inputAbstraction/include/SingleInput.hh"
 
-#include <cerrno>
-#include <cstring>
-#include <limits>
-#include <sys/select.h>
-#include <unistd.h>
-
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-
-using namespace idf;
+namespace idf {
 
 InputDevice::InputDevice(const std::string& id) :
     name(id),
@@ -25,13 +26,47 @@ bool InputDevice::isOpen() const {
 }
 
 void InputDevice::update() {
-    if (!mOpen) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Device is not open.";
-        throw IOException(oss.str());
+
+    // open the device if necessary
+    if (!isOpen()) {
+        open();
+    }
+
+    // get all available packets
+    std::vector<std::vector<unsigned char> > data = read();
+
+    // store them
+    if (!data.empty() && enabled) {
+        for (std::vector<std::vector<unsigned char> >::iterator i = data.begin(); i != data.end(); ++i) {
+            storage.push_back(new Entry(*i, delay));
+        }
+    }
+
+    // process all packets whose time has arrived
+    while (!storage.empty() && storage.front()->targetTime <= getTime()) {
+        decode(storage.front()->data);
+        delete storage.front();
+        storage.pop_front();
     }
 }
+
+double InputDevice::getTime() {
+    #ifdef __APPLE__
+        static mach_timebase_info_data_t timebase = {};
+        if (timebase.denom == 0) {
+            mach_timebase_info(&timebase);
+        }
+        return mach_absolute_time() * timebase.numer / timebase.denom / 1E9;
+    #else
+        struct timespec time = {0, 0};
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        return time.tv_sec + time.tv_nsec / 1E9;
+    #endif
+}
+
+InputDevice::Entry::Entry(std::vector<unsigned char> bytes, double delay) :
+    data(bytes),
+    targetTime(InputDevice::getTime() + delay) {}
 
 void InputDevice::configure() {
     configure(getConfigurables());
@@ -68,7 +103,7 @@ void InputDevice::configure(const std::vector<Configurable>& inputs) {
         FD_SET(STDIN_FILENO, &set);
         struct timeval timeout = {0, 0};
         if (select(STDIN_FILENO + 1, &set, NULL, NULL, &timeout) == -1) {
-            throw IOException("Error while configuring: " + std::string(strerror(errno)));
+            throw IOException("Error while configuring " + name + ": " + std::string(strerror(errno)));
         }
         else if (FD_ISSET(STDIN_FILENO, &set)) {
             std::cin.clear();
@@ -89,4 +124,6 @@ void InputDevice::configure(const std::vector<Configurable>& inputs) {
             std::cout << "\x1b[A";
         }
     }
+}
+
 }

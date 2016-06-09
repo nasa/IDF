@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <sstream>
 
-using namespace idf;
+namespace idf {
 
 SingleInput::SingleInput(double min, double max) {
     configure(min, max);
@@ -18,27 +18,21 @@ void SingleInput::configure(double min, double  max) {
 
 void SingleInput::configure(double min, double max, double middle) {
     if (min > max) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Minimum (" << min << ") must be less than maximum ("
-            << max << ").";
-        throw std::logic_error(oss.str());
+        std::ostringstream stream;
+        stream << " Minimum (" << min << ") must not be greater than maximum (" << max << ").";
+        throw std::logic_error(stream.str());
     }
 
     if (middle < min) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Neutral (" << middle << ") must not be less than minimum ("
-            << min << ").";
-        throw std::logic_error(oss.str());
+        std::ostringstream stream;
+        stream << " Neutral (" << middle << ") must not be less than minimum (" << min << ").";
+        throw std::logic_error(stream.str());
     }
 
     if (middle > max) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Neutral (" << middle << ") must not be greater than maximum ("
-            << max << ").";
-        throw std::logic_error(oss.str());
+        std::ostringstream stream;
+        stream << " Neutral (" << middle << ") must not be greater than maximum (" << max << ").";
+        throw std::logic_error(stream.str());
     }
 
     minimum = min;
@@ -65,4 +59,6 @@ double SingleInput::getValue() const {
 
 void SingleInput::setValue(double rawValue) {
     value = rawValue;
+}
+
 }

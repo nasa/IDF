@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/VirtualLayout.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/VirtualLayout.cpp}
  */
 
 #ifndef _VIRTUAL_LAYOUT_HH_
@@ -14,8 +11,7 @@
 namespace idf {
 
 /**
- * represents a six degree-of-freedom virtual input layout for use with the
- * Virtual Hand Controller application
+ * represents a six degree-of-freedom virtual input layout for use with the Virtual Hand Controller application
  *
  * @author Derek Bankieris
  */

@@ -10,7 +10,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 
-using namespace idf;
+namespace idf {
 
 RemoteFlightController::Server::Server(unsigned short listenPort) :
     RemoteDeviceServer<Commands>(listenPort) {}
@@ -65,7 +65,11 @@ double RemoteFlightController::Server::getCommandedZ() const {
 
 RemoteFlightController::Client::Client(const FlightController& flightController,
   std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<FlightController, Commands, Client>(flightController, hostName, hostPort) {}
+    RemoteDeviceClient<FlightController, Commands>(flightController, hostName, hostPort) {}
+
+void RemoteFlightController::Client::packCommands(Commands& commands) {
+    packCommands(commands, controller);
+}
 
 void RemoteFlightController::Client::packCommands(Commands& commands,
   const FlightController& flightController) {
@@ -75,4 +79,6 @@ void RemoteFlightController::Client::packCommands(Commands& commands,
     commands.x = pack(flightController.getX());
     commands.y = pack(flightController.getY());
     commands.z = pack(flightController.getZ());
+}
+
 }

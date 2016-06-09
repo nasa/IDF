@@ -1,2 +1,2 @@
-#real_time.rt_sync.enable()
-#trick_sys.sched.set_software_frame(0.1)
+trick.real_time_enable()
+trick.exec_set_software_frame(0.1)

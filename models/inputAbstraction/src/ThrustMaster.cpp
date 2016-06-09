@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/ThrustMaster.hh"
 
-using namespace idf;
+namespace idf {
 
 ThrustMaster::ThrustMaster(bool isMale) :
     ThrustMasterBase(isMale),
@@ -8,3 +8,5 @@ ThrustMaster::ThrustMaster(bool isMale) :
     topButton(0, 1),
     leftSwitch(-1, 1),
     rightSwitch(-1, 1) {}
+
+}

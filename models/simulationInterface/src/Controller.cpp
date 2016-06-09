@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-using namespace idf;
+namespace idf {
 
 Controller::Controller() :
     active(true) {}
@@ -37,4 +37,6 @@ void Controller::removeStateChangeListener(const StateChangeListener& stateChang
     // Remove the listener, if present.
     stateChangeListeners.erase(std::remove(stateChangeListeners.begin(),
       stateChangeListeners.end(), &stateChangeListener), stateChangeListeners.end());
+}
+
 }

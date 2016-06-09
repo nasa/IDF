@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbDualShock4.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbDualShock4.cpp}
  */
 
 #ifndef _USB_DUAL_SHOCK_4_HH_
@@ -23,10 +20,10 @@ class UsbDualShock4 : public UsbDualShock, public DualShock4 {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbDualShock4(int vendorID = 0x054C, int productID = 0x05C4);
 
-    void update();
+    void decode(const std::vector<unsigned char>& data);
     void sendCommand();
 
 };

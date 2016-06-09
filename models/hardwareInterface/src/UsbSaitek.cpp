@@ -1,24 +1,14 @@
 #include "hardwareInterface/include/UsbSaitek.hh"
 
-using namespace idf;
+namespace idf {
 
 UsbSaitek::UsbSaitek(int vendorID, int productID) :
-    UsbDevice("Saitek", vendorID, productID) {}
+    UsbDevice("Saitek", vendorID, productID, 3) {}
 
-void UsbSaitek::update() {
-    UsbDevice::update();
+void UsbSaitek::decode(const std::vector<unsigned char>& data) {
+    leftPedal.setValue(data[0] & 0x7F);
+    rightPedal.setValue(((data[1] << 1) & 0x7F) | (data[0] >> 7));
+    twist.setValue((int)(char)data[2] << 2 | (data[1] >> 6));
+}
 
-    unsigned char buffer[3];
-    int bytesRead;
-    bool dataReceived = false;
-
-    do {
-        dataReceived |= bytesRead = read(buffer, sizeof(buffer));
-    } while (bytesRead > 0);
-
-    if (dataReceived) {
-        leftPedal.setValue(buffer[0] & 0x7F);
-        rightPedal.setValue(((buffer[1] << 1) & 0x7F) | (buffer[0] >> 7));
-        twist.setValue((int)(char)buffer[2] << 2 | (buffer[1] >> 6));
-    }
 }

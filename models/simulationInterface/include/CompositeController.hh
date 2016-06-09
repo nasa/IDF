@@ -1,7 +1,4 @@
-/**
- * PURPOSE:
- * ()
- */
+/** @trick_parse{everything} */
 
 #ifndef _COMPOSITE_CONTROLLER_HH_
 #define _COMPOSITE_CONTROLLER_HH_
@@ -14,9 +11,10 @@
 namespace idf {
 
 /**
- * combines multiple <code>T</code>s into a single entity, implementing the
- * composite design pattern. <code>T</code> must derive from
- * <code>Controller</code>.
+ * combines multiple @a T's into a single entity, implementing the composite design pattern.
+ * @a T must derive from Controller.
+ *
+ * @param T the constituent type
  *
  * @author Derek Bankieris
  */
@@ -29,8 +27,7 @@ class CompositeController : public T {
     virtual ~CompositeController() {}
 
     /**
-     * adds <code>component</code>. Adding a component that is
-     * already contained by this instance has no effect.
+     * adds @a component. Adding a component that is already contained by this instance has no effect.
      *
      * @param component the component to be added
      */
@@ -42,30 +39,26 @@ class CompositeController : public T {
     }
 
     /**
-     * removes <code>component</code>. Removing a component
-     * that is not contained by this instance has no effect.
+     * removes @a component. Removing a component that is not contained by this instance has no effect.
      *
      * @param component the componnet to be removed
      */
     virtual void remove(const T& component) {
         // Remove the component, if present.
-        components.erase(std::remove(components.begin(),
-          components.end(), &component), components.end());
+        components.erase(std::remove(components.begin(), components.end(), &component), components.end());
     }
 
-    /** 
-     * sets the active state of this controller and all consituent controllers
-     * and notifies all registered listeners of any change. Inactive controllers
-     * output neutral or default values when polled.
+    /**
+     * sets the active state of this controller and all consituent controllers and notifies all registered
+     * listeners of any change. Inactive controllers output neutral or default values when polled.
      *
-     * @param active the state to be set
+     * @param activate the state to be set
      */
     virtual void setActive(bool activate) {
         // Set all constituent controller's states.
-        for (typename std::vector<T*>::iterator i = components.begin();
-          i != components.end(); ++i) {
+        for (typename std::vector<T*>::iterator i = components.begin(); i != components.end(); ++i) {
             (*i)->setActive(activate);
-        }   
+        }
 
         // Call the parent method to set this instance's state.
         Controller::setActive(activate);

@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/SpaceMouse.hh"
 
-using namespace idf;
+namespace idf {
 
 SpaceMouse::SpaceMouse() :
     button1(0, 1),
@@ -18,3 +18,5 @@ SpaceMouse::SpaceMouse() :
     buttonMouseRotation(0, 1),
     buttonMenu(0, 1),
     buttonFit(0, 1) {}
+
+}

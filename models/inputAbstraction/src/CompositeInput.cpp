@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <cmath>
 
-using namespace idf;
+namespace idf {
 
 CompositeInput::CompositeInput(bool simple) :
     simpleCombination(simple) {}
@@ -66,3 +66,5 @@ void CompositeInput::removeInput(const Input& input) {
 CompositeInput::Component::Component(const Input& in, double wght) :
     input(&in),
     weight(wght) {}
+
+}

@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/UsbSpaceMouse.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/UsbSpaceMouse.cpp}
  */
 
 #ifndef _USB_SPACE_MOUSE_HH_
@@ -23,17 +20,12 @@ class UsbSpaceMouse : public UsbSpaceBase, public SpaceMouse {
 
     public:
 
-    /** constructor */
+    /** @copydoc UsbChProPedals::UsbChProPedals */
     UsbSpaceMouse(int vendorID = 0x46D, int productID = 0xC62B);
 
     protected:
 
-    /**
-     * processes the button data and sets the appropriate inputs
-     *
-     * @param buttonData the raw button data
-     */
-    void processButtons(unsigned char* buttonData);
+    void processButtons(const unsigned char* buttonData);
 
 };
 

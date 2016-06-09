@@ -14,8 +14,8 @@
     <property name="temp.dir" value="temp"/>
     <path id="libraries">
         <fileset dir="lib" includes="*.jar"/>
-        <fileset dir="${env.TRICK_HOME}/bin/java/lib" includes="*.jar"/>
-        <fileset dir="${env.TRICK_HOME}/bin/java/dist" includes="*.jar"/>
+        <fileset dir="${env.TRICK_HOME}/libexec/trick/java/lib" includes="*.jar"/>
+        <fileset dir="${env.TRICK_HOME}/libexec/trick/java/dist" includes="*.jar"/>
     </path>
 
     <target name="mkdirs">
@@ -38,7 +38,8 @@
             <classpath refid="one-jar.libraries"/>
             <classpath path="${one-jar.ant.jar}"/>
             <compilerarg value="-Xlint:unchecked"/>
-            <compilerarg value="-Xlint:deprecation"/>
+            <compilerarg value="-Xlint:unchecked"/>
+            <compilerarg value="-Xdiags:verbose"/>
         </javac>
     </target>
 
@@ -57,8 +58,8 @@
             </main>
             <lib>
                 <fileset dir="lib" includes="*.jar"/>
-                <fileset dir="${env.TRICK_HOME}/bin/java/lib" includes="*.jar"/>
-                <fileset dir="${env.TRICK_HOME}/bin/java/dist" includes="*.jar"/>
+                <fileset dir="${env.TRICK_HOME}/libexec/trick/java/lib" includes="*.jar"/>
+                <fileset dir="${env.TRICK_HOME}/libexec/trick/java/dist" includes="*.jar"/>
             </lib>
         </one-jar>
         <jar destfile="build/VirtualHandController.jar" update="true" basedir="src/vhc/main/resources" includes="splashScreen.png"/>

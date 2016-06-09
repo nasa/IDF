@@ -21,58 +21,43 @@ struct hid_device_ {
 };
 #endif
 
-using namespace idf;
+namespace idf {
 
 UsbDualShock3::UsbDualShock3(int vendorID, int productID) :
-    UsbDualShock("Playstation 3 Controller", vendorID, productID) {}
+    UsbDualShock("Playstation 3 Controller", vendorID, productID, 49) {}
 
-void UsbDualShock3::update() {
-    UsbDevice::update();
+void UsbDualShock3::decode(const std::vector<unsigned char>& data) {
+    selectButton.setValue(data[2] & 1);
+    leftAnalogIn.setValue(data[2] >> 1 & 1);
+    rightAnalogIn.setValue(data[2] >> 2 & 1);
+    startButton.setValue(data[2] >> 3 & 1);
 
-    unsigned char buffer[49];
-    int bytesRead;
-    bool dataReceived = false;
+    psButton.setValue(data[4] & 1);
 
-    do {
-        dataReceived |= bytesRead = read(buffer, sizeof(buffer));
-    } while (bytesRead > 0);
+    leftAnalogLeftRightPivot.setValue(data[6]);
+    leftAnalogUpDownPivot.setValue(data[7]);
+    rightAnalogLeftRightPivot.setValue(data[8]);
+    rightAnalogUpDownPivot.setValue(data[9]);
 
-    if (dataReceived) {
-        selectButton.setValue(buffer[2] & 1);
-        leftAnalogIn.setValue(buffer[2] >> 1 & 1);
-        rightAnalogIn.setValue(buffer[2] >> 2 & 1);
-        startButton.setValue(buffer[2] >> 3 & 1);
+    directionalPadUp.setValue(data[14]);
+    directionalPadRight.setValue(data[15]);
+    directionalPadDown.setValue(data[16]);
+    directionalPadLeft.setValue(data[17]);
 
-        psButton.setValue(buffer[4] & 1);
+    leftTrigger.setValue(data[18]);
+    rightTrigger.setValue(data[19]);
+    leftBumper.setValue(data[20]);
+    rightBumper.setValue(data[21]);
 
-        leftAnalogLeftRightPivot.setValue(buffer[6]);
-        leftAnalogUpDownPivot.setValue(buffer[7]);
-        rightAnalogLeftRightPivot.setValue(buffer[8]);
-        rightAnalogUpDownPivot.setValue(buffer[9]);
-
-        directionalPadUp.setValue(buffer[14]);
-        directionalPadRight.setValue(buffer[15]);
-        directionalPadDown.setValue(buffer[16]);
-        directionalPadLeft.setValue(buffer[17]);
-
-        leftTrigger.setValue(buffer[18]);
-        rightTrigger.setValue(buffer[19]);
-        leftBumper.setValue(buffer[20]);
-        rightBumper.setValue(buffer[21]);
-
-        triangleButton.setValue(buffer[22]);
-        circleButton.setValue(buffer[23]);
-        xButton.setValue(buffer[24]);
-        squareButton.setValue(buffer[25]);
-    }
+    triangleButton.setValue(data[22]);
+    circleButton.setValue(data[23]);
+    xButton.setValue(data[24]);
+    squareButton.setValue(data[25]);
 }
 
 void UsbDualShock3::sendCommand() {
     if (!mOpen) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Device is not open.";
-        throw IOException(oss.str());
+        UsbDevice::open();
     }
 
 #ifdef __linux__
@@ -87,10 +72,11 @@ void UsbDualShock3::sendCommand() {
       hidDevice->interface, command, sizeof(command), 1000);
 
     if (result < 0) {
-        std::ostringstream oss;
-        oss << __FILE__ << ":" << __LINE__
-            << " Transfer failed with LIBUSB_ERROR code " << result;
-        throw IOException(oss.str());
+        std::ostringstream stream;
+        stream << name << ": Transfer failed with LIBUSB_ERROR code " << result;
+        throw IOException(stream.str());
     }
 #endif
+}
+
 }

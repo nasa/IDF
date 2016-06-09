@@ -12,7 +12,7 @@
 #include <iomanip>
 #include <iomanip>
 
-using namespace idf;
+namespace idf {
 
 RemoteSpaceNavigatorServer::RemoteSpaceNavigatorServer(unsigned short listenPort) :
     RemoteDeviceServer<RemoteSpaceNavigatorCommands>(listenPort) {}
@@ -47,7 +47,7 @@ void RemoteSpaceNavigatorServer::update() {
 
 RemoteSpaceNavigatorClient::RemoteSpaceNavigatorClient(const SpaceNavigator& spaceNavigator,
   std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands, RemoteSpaceNavigatorClient>(spaceNavigator, hostName, hostPort) {}
+    RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands>(spaceNavigator, hostName, hostPort) {}
 
 void RemoteSpaceNavigatorClient::packCommands(RemoteSpaceNavigatorCommands& commands,
   const SpaceNavigator& spaceNavigator) {
@@ -59,4 +59,6 @@ void RemoteSpaceNavigatorClient::packCommands(RemoteSpaceNavigatorCommands& comm
     commands.upDownTranslation = spaceNavigator.upDownTranslation.getValue();
     commands.leftButton = spaceNavigator.leftButton.getValue();
     commands.rightButton = spaceNavigator.rightButton.getValue();
+}
+
 }

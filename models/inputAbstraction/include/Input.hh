@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/Input.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/Input.cpp}
  */
 
 #ifndef _INPUT_HH_
@@ -12,9 +9,8 @@
 namespace idf {
 
 /**
- * represents an input source from a device. An <code>Input</code>'s value is
- * one-dimensional and falls in the range
- * [<code>getMinimumValue()</code>, <code>getMaximumValue()</code>].
+ * represents an input source from a device. An %Input's value is one-dimensional
+ * and falls in the range [getMinimumValue(), getMaximumValue()].
  *
  * @author Derek Bankieris
  */
@@ -54,8 +50,7 @@ class Input {
     virtual double getValue() const = 0;
 
     /**
-     * returns the value such that
-     * <code>[getMinimumValue(), getNeutralValue(), getMaximumValue()]</code>
+     * returns the value such that [getMinimumValue(), getNeutralValue(), getMaximumValue()]
      * is normalized to <code>[-1, 0, 1]</code>
      *
      * @return the normalized value

@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/DualShock.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/DualShock.cpp}
  */
 
 #ifndef DUAL_SHOCK_HH
@@ -90,7 +87,7 @@ class DualShock : public virtual InputLayout {
     SingleInput rightTrigger;
 
     /**
-     * rumbles the specified <code>rumbler</code>
+     * rumbles the specified @a rumbler
      *
      * @param rumbler the rumbler to rumble
      * @param intensity the intensity of the rumble. 0 = off, 255 = maximum
@@ -105,7 +102,7 @@ class DualShock : public virtual InputLayout {
     /**
      * sends the rumble and LED command packet
      *
-     * Quirks
+     * Quirks<br>
      * The sixaxis has both a control endpoint and an interrupt out endpoint.
      * In such a case, output reports would normally be sent over the interrupt
      * out endpoint. However, the sixaxis accepts output reports ONLY on the

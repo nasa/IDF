@@ -11,7 +11,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 
-using namespace idf;
+namespace idf {
 
 RemoteCameraController::Server::Server(unsigned short listenPort) :
     RemoteDeviceServer<Commands>(listenPort) {}
@@ -50,7 +50,11 @@ double RemoteCameraController::Server::getCommandedZoom() const {
 
 RemoteCameraController::Client::Client(const CameraController& cameraController,
   std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<CameraController, Commands, Client>(cameraController, hostName, hostPort) {}
+    RemoteDeviceClient<CameraController, Commands>(cameraController, hostName, hostPort) {}
+
+void RemoteCameraController::Client::packCommands(Commands& commands) {
+    packCommands(commands, controller);
+}
 
 void RemoteCameraController::Client::packCommands(Commands& commands,
   const CameraController& cameraController) {
@@ -58,4 +62,6 @@ void RemoteCameraController::Client::packCommands(Commands& commands,
     commands.tilt = pack(cameraController.getTilt());
     commands.spin = pack(cameraController.getSpin());
     commands.zoom = pack(cameraController.getZoom());
+}
+
 }

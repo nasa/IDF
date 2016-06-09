@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((hardwareInterface/src/SerialThrustMaster2.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{hardwareInterface/src/SerialThrustMaster2.cpp}
  */
 
 #ifndef _SERIAL_THRUST_MASTER2_HH_
@@ -23,14 +20,13 @@ class SerialThrustMaster2 : public SerialThrustMasterBase, public ThrustMaster2 
 
     public:
 
-    /** constructor */
+    /** @copydoc SerialThrustMaster::SerialThrustMaster */
     SerialThrustMaster2(const char *path = "/dev/ttyS0", bool isMale = false);
 
     protected:
 
     /**
-     * processes the byte containing button data and sets the appropriate
-     * inputs
+     * processes the byte containing button data and sets the appropriate inputs
      *
      * @param buttonByte the raw button data
      */

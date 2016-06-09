@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/SpaceNavigator.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/SpaceNavigator.cpp}
  */
 
 #ifndef _SPACE_NAVIGATOR_HH_

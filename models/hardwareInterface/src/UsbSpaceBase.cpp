@@ -1,35 +1,26 @@
 #include "hardwareInterface/include/UsbSpaceBase.hh"
 
-using namespace idf;
+namespace idf {
 
 UsbSpaceBase::UsbSpaceBase(const std::string& id, int vendorID, int productID) :
-    UsbDevice(id, vendorID, productID) {}
+    UsbDevice(id, vendorID, productID, 7) {}
 
-void UsbSpaceBase::update() {
-    UsbDevice::update();
+void UsbSpaceBase::decode(const std::vector<unsigned char>& data) {
+    switch (data[0]) {
+        case 1:
+            leftRightTranslation.setValue((int)(char)data[2] << 8 | data[1]);
+            forwardBackwardTranslation.setValue((int)(char)data[4] << 8 | data[3]);
+            upDownTranslation.setValue((int)(char)data[6] << 8 | data[5]);
+            break;
+        case 2:
+            forwardBackwardPivot.setValue((int)(char)data[2] << 8 | data[1]);
+            leftRightPivot.setValue((int)(char)data[4] << 8 | data[3]);
+            twist.setValue((int)(char)data[6] << 8 | data[5]);
+            break;
+        case 3:
+            processButtons(&data[1]);
+            break;
+    }
+}
 
-    int bytesRead;
-    do {
-        unsigned char buffer[7];
-        bytesRead = read(buffer, sizeof(buffer));
-
-        if (bytesRead) {
-            switch (buffer[0]) {
-                case 1:
-                    leftRightTranslation.setValue((int)(char)buffer[2] << 8 | buffer[1]);
-                    forwardBackwardTranslation.setValue((int)(char)buffer[4] << 8 | buffer[3]);
-                    upDownTranslation.setValue((int)(char)buffer[6] << 8 | buffer[5]);
-                    break;
-                case 2:
-                    forwardBackwardPivot.setValue((int)(char)buffer[2] << 8 | buffer[1]);
-                    leftRightPivot.setValue((int)(char)buffer[4] << 8 | buffer[3]);
-                    twist.setValue((int)(char)buffer[6] << 8 | buffer[5]);
-                    break;
-                case 3:
-                    processButtons(&buffer[1]);
-                    break;
-            }
-        }
-
-    } while (bytesRead > 0);
 }

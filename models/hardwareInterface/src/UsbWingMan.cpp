@@ -1,32 +1,14 @@
 #include "hardwareInterface/include/UsbWingMan.hh"
 
-using namespace idf;
+namespace idf {
 
 UsbWingMan::UsbWingMan(int vendorID, int productID, const std::string& id) :
-    UsbDevice(id, vendorID, productID),
-    byteCount(6) {}
+    UsbDevice(id, vendorID, productID, 6) {}
 
-UsbWingMan::UsbWingMan(int vendorID, int productID, const std::string& id, int numBytes) :
-    UsbDevice(id, vendorID, productID),
-    byteCount(numBytes) {}
+UsbWingMan::UsbWingMan(int vendorID, int productID, const std::string& id, unsigned length) :
+    UsbDevice(id, vendorID, productID, length) {}
 
-void UsbWingMan::update() {
-    UsbDevice::update();
-
-    unsigned char buffer[byteCount];
-    int bytesRead;
-    bool dataReceived = false;
-
-    do {
-        dataReceived |= bytesRead = read(buffer, sizeof(buffer));
-    } while (bytesRead > 0);
-
-    if (dataReceived) {
-        processData(buffer);
-    }
-}
-
-void UsbWingMan::processData(unsigned char *data) {
+void UsbWingMan::decode(const std::vector<unsigned char>& data) {
     leftRightPivot.setValue(((unsigned)data[1] & 3) << 8 | data[0]);
     forwardBackwardPivot.setValue(((unsigned)data[2] & 0xF) << 6 | data[1] >> 2);
     twist.setValue(data[3]);
@@ -51,4 +33,6 @@ void UsbWingMan::processData(unsigned char *data) {
     hatNorthWest.setValue(hat == 7);
 
     slider.setValue(data[5]);
+}
+
 }

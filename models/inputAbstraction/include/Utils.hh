@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/Utils.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/Utils.cpp}
  */
 
 #ifndef _IDF_UTILS_HH_
@@ -12,7 +9,7 @@
 namespace idf {
 
 /**
- * bounds <code>value</code> to [-1, 1]
+ * bounds @a value to [-1, 1]
  *
  * @param value the value to bound
  *

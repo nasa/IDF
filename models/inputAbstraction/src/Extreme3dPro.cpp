@@ -1,6 +1,6 @@
 #include "inputAbstraction/include/Extreme3dPro.hh"
 
-using namespace idf;
+namespace idf {
 
 Extreme3dPro::Extreme3dPro() :
     button8(0, 1),
@@ -8,3 +8,5 @@ Extreme3dPro::Extreme3dPro() :
     button10(0, 1),
     button11(0, 1),
     button12(0, 1) {}
+
+}

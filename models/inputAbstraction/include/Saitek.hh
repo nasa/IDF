@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/Saitek.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/Saitek.cpp}
  */
 
 #ifndef _SAITEK_HH_

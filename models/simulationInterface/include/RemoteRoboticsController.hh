@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((simulationInterface/src/RemoteRoboticsController.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{simulationInterface/src/RemoteRoboticsController.cpp}
  */
 
 #ifndef _REMOTE_ROBOTICS_CONTROLLER_HH_
@@ -50,8 +47,7 @@ class RemoteRoboticsController {
     };
 
     /**
-     * a server which accepts and manages connections from multiple
-     * {@link Client}s
+     * a server which accepts and manages connections from multiple {@link Client}s
      *
      * @author Derek Bankieris
      */
@@ -60,8 +56,7 @@ class RemoteRoboticsController {
         public:
 
         /**
-         * constructs an instance which listens for connections on
-         * <code>port</code>
+         * constructs an instance which listens for connections on @a port
          *
          * @param port the port over which to listen for connections
          */
@@ -110,16 +105,14 @@ class RemoteRoboticsController {
         double getCommandedZ() const;
 
         /**
-         * gets the trigger value, which is the logical OR of all added
-         * controllers' trigger values
+         * gets the trigger value, which is the logical OR of all added controllers' trigger values
          *
          * @return the trigger of all added robotics controllers
          */
         bool getCommandedTrigger() const;
 
         /**
-         * gets the rate mode value, which is the logical OR of all added
-         * controllers' rate mode values
+         * gets the rate mode value, which is the logical OR of all added controllers' rate mode values
          *
          * @return the rate mode of all added robotics controllers
          */
@@ -128,36 +121,21 @@ class RemoteRoboticsController {
     };
 
     /**
-     * transmits commands from a contained {@link RoboticsController} to a
-     * <code>Server</code>
+     * transmits commands from a contained RoboticsController to a Server
      *
      * @author Derek Bankieris
      */
-    class Client : public RemoteDeviceClient<RoboticsController, Commands, Client> {
+    class Client : public RemoteDeviceClient<RoboticsController, Commands> {
 
         public:
 
-        /**
-         * constructs an instance that transmits commands from
-         * <code>roboticsController</code> to the <code>Server</code>
-         * listening on <code>host</code>:<code>port</code>
-         *
-         * @param roboticsController the command source
-         * @param host the name or ip address of the server host machine
-         * @param port the port on which the server is listening
-         */
-        Client(const RoboticsController& roboticsController,
-          const std::string host, unsigned short port);
+        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
+        Client(const RoboticsController& sourceController, const std::string hostName, unsigned short hostPort);
 
-        /**
-         * packs commands from <code>roboticsController</code> into
-         * <code>commands</code>
-         *
-         * @param commands the structure into which the commands are packed
-         * @param roboticsController the controller whose commands are to be packed
-         */
-        static void packCommands(Commands& commands,
-          const RoboticsController& roboticsController);
+        /** @copydoc RemoteCameraController::packCommands */
+        void static packCommands(Commands& commands, const RoboticsController& controller);
+
+        void packCommands(Commands& commands);
 
     };
     #endif

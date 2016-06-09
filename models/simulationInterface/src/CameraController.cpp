@@ -1,6 +1,6 @@
 #include "simulationInterface/include/CameraController.hh"
 
-using namespace idf;
+namespace idf {
 
 double CameraController::getPan() const {
     return active ? getCommandedPan() : 0;
@@ -16,4 +16,6 @@ double CameraController::getSpin() const {
 
 double CameraController::getZoom() const {
     return active ? getCommandedZoom() : 0;
+}
+
 }

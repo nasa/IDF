@@ -1,9 +1,6 @@
 /**
- * PURPOSE:
- * ()
- *
- * LIBRARY DEPENDENCIES:
- * ((inputAbstraction/src/Deadband.cpp))
+ * @trick_parse{everything}
+ * @trick_link_dependency{inputAbstraction/src/Deadband.cpp}
  */
 
 #ifndef _DEADBAND_HH_
@@ -22,8 +19,7 @@ class Deadband {
     public:
 
     /**
-     * constructs an instance with a deadband value of
-     * <code>(lowerBound + upperBound) / 2</code>
+     * constructs an instance with a deadband value of <code>(lowerBound + upperBound) / 2</code>
      *
      * @param lowerBound the lower value
      * @param upperBound the upper value
@@ -49,8 +45,7 @@ class Deadband {
     void setRange(double lowerBound, double upperBound);
 
     /**
-     * sets the range over which this deadband will filter and the value to be
-     * returned
+     * sets the range over which this deadband will filter and the value to be returned
      *
      * @param lowerBound the lower value
      * @param upperBound the upper value
@@ -80,9 +75,8 @@ class Deadband {
     double getDeadbandValue() const;
 
     /**
-     * filters <code>value</code>, returning the deadband value if
-     * <code>value</code> falls within this deadband's range and
-     * <code>value</code> unchanged otherwise
+     * filters @a value, returning the deadband value if @a value falls within this
+     * deadband's range, and @a value, unchanged, otherwise
      *
      * @param value the value to filter
      *
@@ -90,10 +84,8 @@ class Deadband {
      */
     double filter(double value) const;
 
-    /**
-     * performs a shallow comparison of all member values
-     */
-    bool operator ==(const Deadband& other) const;
+    /** performs a shallow comparison of all member values */
+    bool operator==(const Deadband& other) const;
 
     protected:
 
