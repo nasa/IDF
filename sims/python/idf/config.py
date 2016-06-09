@@ -51,13 +51,10 @@ class Configurator:
           trick.UsbWingMan,
           trick.UsbXBox]:
             device = device()
-            try:
-                # if the device is connected to the computer, add it and return
-                if int(device.isConnected()):
-                    self.addMasterDevice(device)
-                    return device
-            except:
-                pass
+            # if the device is connected to the computer, add it and return
+            if int(device.isConnected()):
+                self.addMasterDevice(device)
+                return device
 
         # No device was found. Launch the Virtual Hand Controller.
         launchVirtualController(self.vhcVariable)
