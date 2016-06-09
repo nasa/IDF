@@ -132,7 +132,7 @@ class RemoteRoboticsController {
         /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
         Client(const RoboticsController& sourceController, const std::string hostName, unsigned short hostPort);
 
-        /** @copydoc RemoteCameraController::packCommands */
+        /** @copydoc RemoteCameraController::Client::packCommands */
         void static packCommands(Commands& commands, const RoboticsController& controller);
 
         void packCommands(Commands& commands);

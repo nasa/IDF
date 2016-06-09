@@ -112,7 +112,7 @@ class RemoteFlightController {
         /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
         Client(const FlightController& sourceController, const std::string hostName, unsigned short hostPort);
 
-        /** @copydoc RemoteCameraController::packCommands(Commands&, const CameraController&) */
+        /** @copydoc RemoteCameraController::Client::packCommands */
         void static packCommands(Commands& commands, const FlightController& controller);
 
         void packCommands(Commands& commands);
