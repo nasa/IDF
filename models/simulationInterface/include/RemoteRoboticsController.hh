@@ -12,6 +12,7 @@
 
 namespace idf {
 
+/** provides the infrastructure for establishing a remote RoboticsController */
 class RemoteRoboticsController {
 
     public:
@@ -47,7 +48,7 @@ class RemoteRoboticsController {
     };
 
     /**
-     * a server which accepts and manages connections from multiple {@link Client}s
+     * accepts and manages connections from multiple {@link Client}s
      *
      * @author Derek Bankieris
      */

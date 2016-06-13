@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a Gravis hand controller's input layout
+ * %Gravis hand controller's input layout
  *
  * @author Derek Bankieris
  */

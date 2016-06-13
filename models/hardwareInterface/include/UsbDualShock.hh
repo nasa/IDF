@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents the common aspects of all Sony PlayStation DUALSHOCK controllers
+ * common aspects of all Sony PlayStation DUALSHOCK controllers
  *
  * @author Derek Bankieris
  */

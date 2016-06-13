@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a SpaceExplorer hand controller's input layout
+ * %SpaceExplorer hand controller's input layout
  *
  * @author Derek Bankieris
  */

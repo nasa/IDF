@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a SpaceMouse hand controller's input layout
+ * %SpaceMouse hand controller's input layout
  *
  * @author Derek Bankieris
  */

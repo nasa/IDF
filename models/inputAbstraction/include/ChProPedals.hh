@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a ChProPedals Pro Flight Rudder Pedals input layout
+ * %ChProPedals Pro Flight Rudder Pedals input layout
  *
  * @author Derek Bankieris
  */

@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB SpaceMouse hand controller
+ * USB SpaceMouse hand controller
  *
  * @author Derek Bankieris
  */

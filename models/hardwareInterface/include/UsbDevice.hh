@@ -73,6 +73,7 @@ class UsbDevice : public InputDevice {
 
     private:
 
+    /** device path and handle information */
     class DeviceTag {
 
         public:

@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a Saitek Pro Flight Rudder Pedals input layout
+ * %Saitek Pro Flight Rudder Pedals input layout
  *
  * @author Derek Bankieris
  */

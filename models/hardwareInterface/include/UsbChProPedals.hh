@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB Ch Pro Pedals input device
+ * USB Ch Pro Pedals input device
  *
  * @author Derek Bankieris
  */

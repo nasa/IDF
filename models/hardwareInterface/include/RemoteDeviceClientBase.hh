@@ -12,6 +12,8 @@
 namespace idf {
 
 /**
+ * base class for remote device clients
+ *
  * @author Derek Bankieris
  */
 class RemoteDeviceClientBase {
@@ -52,7 +54,7 @@ class RemoteDeviceClientBase {
 
     private:
 
-    // hastily added variable, rethink
+    // TODO: hastily added variable, rethink
     bool mOpen;
 
     void operator=(const RemoteDeviceClientBase&);

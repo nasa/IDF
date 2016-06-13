@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a shuttle-style ThrustMaster hand controller's input layout
+ * shuttle-style %ThrustMaster hand controller's input layout
  *
  * @author Derek Bankieris
  */

@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents an Orion-style ThrustMaster hand controller's input layout
+ * Orion-style %ThrustMaster hand controller's input layout
  *
  * @author Derek Bankieris
  */

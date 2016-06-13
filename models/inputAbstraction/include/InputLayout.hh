@@ -26,6 +26,7 @@ class InputLayout {
 
     protected:
 
+    /** contains an Input for which configuration is meaningful */
     class Configurable {
 
         public:

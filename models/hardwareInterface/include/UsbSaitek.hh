@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB Saitek Pro Flight Rudder Pedals input device
+ * USB Saitek Pro Flight Rudder Pedals input device
  *
  * @author Derek Bankieris
  */

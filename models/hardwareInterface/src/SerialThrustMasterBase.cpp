@@ -48,7 +48,7 @@ std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
         bytesRemaining -= bytesRead;
     }
 
-    std::vector<std::vector<unsigned char> > results(1);
+    std::vector<std::vector<unsigned char> > results;
     results.push_back(buffer);
     return results;
 }

@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a Sony DUALSHOCK3 SIXAXIS game controller's input layout
+ * Sony DUALSHOCK3 SIXAXIS game controller's input layout
  *
  * @author Derek Bankieris
  */

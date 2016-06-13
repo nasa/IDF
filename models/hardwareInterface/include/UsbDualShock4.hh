@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB Sony PlayStation DUALSHOCK4 SIXAXIS controller
+ * USB Sony PlayStation DUALSHOCK4 SIXAXIS controller
  *
  * @author Derek Bankieris
  */

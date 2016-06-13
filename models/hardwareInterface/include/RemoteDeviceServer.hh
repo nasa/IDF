@@ -125,6 +125,7 @@ class RemoteDeviceServer : public RemoteDeviceServerBase {
 
     protected:
 
+    /** server-managed client information */
     class Client {
 
         public:

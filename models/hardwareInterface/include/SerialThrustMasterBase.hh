@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents the common aspects of all ThrustMaster hand controllers
+ * common aspects of all %ThrustMaster hand controllers
  *
  * @author Derek Bankieris
  */

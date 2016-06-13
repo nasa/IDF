@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB IndustrialProducts hand controller
+ * USB IndustrialProducts hand controller
  *
  * @author Derek Bankieris
  */

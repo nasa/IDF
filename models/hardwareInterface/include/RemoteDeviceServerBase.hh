@@ -10,6 +10,11 @@
 
 namespace idf {
 
+/**
+ * base class for remote device servers
+ *
+ * @author Derek Bankieris
+ */
 class RemoteDeviceServerBase : public InputDevice {
 
     public:

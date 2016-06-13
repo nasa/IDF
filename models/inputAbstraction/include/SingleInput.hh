@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a single degree of freedom or a single dimension of a device's set of controls.
+ * a single degree of freedom or a single dimension of a device's set of controls.
  * For example, a %SingleInput could be used to represent a single button, one axis of a joystick,
  * a slider, or a trigger. To combine multiple controls into one Input, see CompositeInput.
  *

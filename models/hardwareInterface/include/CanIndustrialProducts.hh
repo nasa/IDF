@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a CAN IndustrialProducts hand controller
+ * CAN IndustrialProducts hand controller
  *
  * @author Derek Bankieris
  */

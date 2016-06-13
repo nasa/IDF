@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB XBox hand controller
+ * USB XBox hand controller
  *
  * @author Derek Bankieris
  */

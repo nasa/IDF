@@ -11,7 +11,7 @@
 namespace idf {
 
 /**
- * represents the interface that an input device must satisfy to qualify as a flight controller
+ * interface that an input device must satisfy to qualify as a flight controller
  *
  * @author Derek Bankieris
  */

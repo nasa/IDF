@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB WingMan hand controller
+ * USB WingMan hand controller
  *
  * @author Derek Bankieris
  */

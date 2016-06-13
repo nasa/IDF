@@ -28,7 +28,7 @@
 namespace idf {
 
 /**
- * represents a single robotics controller.
+ * a single robotics controller.
  *
  * Note: All @c createInstance functions return a controller whose outputs are mapped to the inputs
  * of the specified device following conventional spatial mapping relationships when avaiable and

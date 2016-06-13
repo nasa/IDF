@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a shuttle-style serial ThrustMaster hand controller
+ * shuttle-style serial %ThrustMaster hand controller
  *
  * @author Derek Bankieris
  */

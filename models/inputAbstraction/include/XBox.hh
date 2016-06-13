@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a Microsoft XBox360 hand controller's input layout
+ * Microsoft XBox360 hand controller's input layout
  *
  * @author Derek Bankieris
  */

@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a Orion-style serial ThrustMaster hand controller
+ * Orion-style serial %ThrustMaster hand controller
  *
  * @author Derek Bankieris
  */

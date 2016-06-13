@@ -9,8 +9,7 @@
 namespace idf {
 
 /**
- * represents an input source from a device. An %Input's value is one-dimensional
- * and falls in the range [getMinimumValue(), getMaximumValue()].
+ * %input source from a device. An %Input's value is one-dimensional and falls in the range [getMinimumValue(), getMaximumValue()].
  *
  * @author Derek Bankieris
  */

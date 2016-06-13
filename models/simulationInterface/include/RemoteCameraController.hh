@@ -12,6 +12,7 @@
 
 namespace idf {
 
+/** provides the infrastructure for establishing a remote CameraController */
 class RemoteCameraController {
 
     public:
@@ -35,7 +36,7 @@ class RemoteCameraController {
     };
 
     /**
-     * a server which accepts and manages connections from multiple {@link Client}s
+     * accepts and manages connections from multiple {@link Client}s
      *
      * @author Derek Bankieris
      */

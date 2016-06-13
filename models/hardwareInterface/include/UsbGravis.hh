@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB Gravis hand controller
+ * USB Gravis hand controller
  *
  * @author Derek Bankieris
  */

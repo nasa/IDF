@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a Sony DUALSHOCK4 SIXAXIS game controller's input layout
+ * Sony DUALSHOCK4 SIXAXIS game controller's input layout
  *
  * @author Derek Bankieris
  */
@@ -21,11 +21,12 @@ class DualShock4 : public virtual DualShock {
     public:
 
     #ifndef SWIG
-    /** a trackpad */
+    /** the %trackpad */
     class Trackpad {
 
         public:
 
+        /** position on the trackpad */
         class Finger {
 
             public:

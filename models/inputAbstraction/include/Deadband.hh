@@ -9,8 +9,7 @@
 namespace idf {
 
 /**
- * represents a filter that returns the specified output value when an input
- * value falls within its bounds, exclusive
+ * a filter that returns the specified output value when an input value falls within its bounds, exclusive
  *
  * @author Derek Bankieris
  */

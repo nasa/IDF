@@ -7,7 +7,7 @@
 namespace idf {
 
 /**
- * represents an input/output exception
+ * input/output exception
  *
  * @author Derek Bankieris
  */

@@ -11,7 +11,7 @@
 namespace idf {
 
 /**
- * represents a six degree-of-freedom virtual input layout for use with the Virtual Hand Controller application
+ * six degree-of-freedom virtual input layout for use with the Virtual Hand %Controller application
  *
  * @author Derek Bankieris
  */

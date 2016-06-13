@@ -25,7 +25,7 @@ namespace idf {
  * transmits commands from a contained @a T to a corresponding {@link RemoteDeviceServer}\<T\>
  *
  * @param T @copydoc controller
- * @param U the structure into which commands are packed
+ * @param U structure into which commands are packed
  *
  * @author Derek Bankieris
  */
@@ -34,7 +34,7 @@ class RemoteDeviceClient : public RemoteDeviceClientBase {
 
     public:
 
-    /** the controller whose commands are to be transmitted */
+    /** controller whose commands are to be transmitted */
     const T& controller;
 
     /**

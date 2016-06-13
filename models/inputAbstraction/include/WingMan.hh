@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a WingMan hand controller's input layout
+ * %WingMan hand controller's input layout
  *
  * @author Derek Bankieris
  */

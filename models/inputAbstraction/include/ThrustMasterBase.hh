@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents the base input layout of a ThrustMaster hand controller
+ * base input layout of a %ThrustMaster hand controller
  *
  * @author Derek Bankieris
  */

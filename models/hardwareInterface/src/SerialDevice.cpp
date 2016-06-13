@@ -61,7 +61,7 @@ int SerialDevice::read(unsigned char *buffer, size_t length) {
 
 int SerialDevice::write(const void *buffer, size_t length) {
     if (!mOpen) {
-        throw IOException("Error while writing " + name + ": device is not open.");
+        open();
     }
 
     int bytesWritten = ::write(handle, buffer, length);

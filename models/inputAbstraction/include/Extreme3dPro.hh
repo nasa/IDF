@@ -11,7 +11,7 @@
 namespace idf {
 
 /**
- * represents a Extreme3dPro hand controller's input layout
+ * %Extreme3dPro hand controller's input layout
  *
  * @author Derek Bankieris
  */

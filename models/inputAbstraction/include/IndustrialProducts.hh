@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents an IndustrialProducts hand controller's input layout
+ * %IndustrialProducts hand controller's input layout
  *
  * @author Derek Bankieris
  */

@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents a USB Extreme3dPro hand controller
+ * USB Extreme3dPro hand controller
  *
  * @author Derek Bankieris
  */

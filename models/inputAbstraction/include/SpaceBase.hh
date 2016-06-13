@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents the base layout of a 3dconnexion controller
+ * base layout of a 3dconnexion controller
  *
  * @author Derek Bankieris
  */

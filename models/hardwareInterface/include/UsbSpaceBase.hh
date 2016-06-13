@@ -12,7 +12,7 @@
 namespace idf {
 
 /**
- * represents the common aspects of all 3dconnexion controllers
+ * common aspects of all 3dconnexion controllers
  *
  * @author Derek Bankieris
  */

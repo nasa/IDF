@@ -12,6 +12,7 @@
 
 namespace idf {
 
+/** provides the infrastructure for establishing a remote FlightController */
 class RemoteFlightController {
 
     public:
@@ -41,7 +42,7 @@ class RemoteFlightController {
     };
 
     /**
-     * a server which accepts and manages connections from multiple {@link Client}s
+     * accepts and manages connections from multiple {@link Client}s
      *
      * @author Derek Bankieris
      */
