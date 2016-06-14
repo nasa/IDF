@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <string.h>
 #include <sstream>
+#include <sys/ioctl.h>
 
 namespace idf {
 
@@ -22,34 +23,32 @@ void SerialThrustMasterBase::open() {
     settings.c_cflag &= ~CSTOPB;
     settings.c_cflag &= ~CSIZE;
     settings.c_cflag |= CS8;
-
-    // Set a timeout of 0.1 seconds
-    settings.c_lflag &= ~ICANON;
-    settings.c_cc[VTIME] = 1;
-    settings.c_cc[VMIN] = 0;
-
-    if (tcsetattr(handle, TCSANOW, &settings) == -1) {
-        throw IOException("Failed to set serial port attributes: " + std::string(strerror(errno)));
-    }
 }
 
 std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
     const char request = 'r';
     write(&request, sizeof(request));
 
-    int bytesRemaining = 9;
-    std::vector<unsigned char> buffer(bytesRemaining);
+    std::vector<std::vector<unsigned char> > results;
+    while (true) {
 
-    while (bytesRemaining) {
-        int bytesRead = SerialDevice::read(&buffer[0] + (9 - bytesRemaining), bytesRemaining);
-        if (bytesRead == 0) {
-            throw IOException("Timeout while reading " + name + ".");
+        int availableBytes;
+        if (ioctl(handle, FIONREAD, &availableBytes) == -1) {
+            throw IOException("Failed to get number of bytes available for " + name + ".");
         }
-        bytesRemaining -= bytesRead;
+        if (availableBytes < 9) {
+            break;
+        }
+
+        int bytesRemaining = 9;
+        std::vector<unsigned char> buffer(bytesRemaining);
+        while (bytesRemaining) {
+            bytesRemaining -= SerialDevice::read(&buffer[0] + (9 - bytesRemaining), bytesRemaining);
+        }
+
+        results.push_back(buffer);
     }
 
-    std::vector<std::vector<unsigned char> > results;
-    results.push_back(buffer);
     return results;
 }
 
