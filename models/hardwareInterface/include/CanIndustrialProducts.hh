@@ -1,3 +1,10 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(hardwareInterface/src/CanIndustrialProducts.cpp)
+)
+*/
+
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{hardwareInterface/src/CanIndustrialProducts.cpp}

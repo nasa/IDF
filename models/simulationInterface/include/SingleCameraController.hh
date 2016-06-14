@@ -1,3 +1,10 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(simulationInterface/src/SingleCameraController.cpp)
+)
+*/
+
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{simulationInterface/src/SingleCameraController.cpp}

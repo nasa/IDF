@@ -1,3 +1,10 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(hardwareInterface/src/UsbSpaceNavigator.cpp)
+)
+*/
+
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{hardwareInterface/src/UsbSpaceNavigator.cpp}

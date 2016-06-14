@@ -1,3 +1,7 @@
+/*
+PURPOSE:
+*/
+
 /** @trick_parse{everything} */
 
 #ifndef _COMPOSITE_CONTROLLER_HH_

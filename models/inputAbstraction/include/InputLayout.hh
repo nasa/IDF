@@ -1,3 +1,10 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(inputAbstraction/src/InputLayout.cpp)
+)
+*/
+
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{inputAbstraction/src/InputLayout.cpp}

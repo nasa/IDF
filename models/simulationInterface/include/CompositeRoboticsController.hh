@@ -1,3 +1,11 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(simulationInterface/src/CompositeRoboticsController.cpp)
+(inputAbstraction/src/Utils.cpp)
+)
+*/
+
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{simulationInterface/src/CompositeRoboticsController.cpp}

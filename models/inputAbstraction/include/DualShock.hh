@@ -1,3 +1,10 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(inputAbstraction/src/DualShock.cpp)
+)
+*/
+
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{inputAbstraction/src/DualShock.cpp}

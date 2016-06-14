@@ -1,3 +1,7 @@
+/*
+PURPOSE:
+*/
+
 /** @trick_parse{everything} */
 
 #ifndef _REMOTE_DEVICE_SERVER_HH_

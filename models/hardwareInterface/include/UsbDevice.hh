@@ -1,3 +1,11 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(hardwareInterface/src/UsbDevice.cpp)
+(hardwareInterface/src/hidapi.cpp)
+)
+*/
+
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{hardwareInterface/src/UsbDevice.cpp}
