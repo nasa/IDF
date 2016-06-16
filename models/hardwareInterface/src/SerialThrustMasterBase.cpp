@@ -3,8 +3,9 @@
 #include <termios.h>
 #include <errno.h>
 #include <string.h>
-#include <sstream>
 #include <sys/ioctl.h>
+#include <cstring>
+#include <sstream>
 
 namespace idf {
 
@@ -16,13 +17,28 @@ void SerialThrustMasterBase::open() {
     SerialDevice::open();
 
     struct termios settings;
-    tcgetattr(handle, &settings);
-    cfsetspeed(&settings, B9600);
-    settings.c_cflag |= (CLOCAL | CREAD);
-    settings.c_cflag &= ~PARENB;
-    settings.c_cflag &= ~CSTOPB;
-    settings.c_cflag &= ~CSIZE;
-    settings.c_cflag |= CS8;
+    if (tcgetattr(handle, &settings) == -1) {
+        throw IOException(name + " failed to get termios attributes: " + std::strerror(errno));
+    }
+
+    if (cfsetspeed(&settings, B9600) == -1) {
+        throw IOException(name + " failed to set baud speed: " + std::strerror(errno));
+    }
+
+    // no parity, 1 stop bit, clear the bits per byte fields
+    settings.c_cflag &= ~(PARENB | CSTOPB | CSIZE);
+
+    // ignore modem status lines, enable input, 8 bits per byte
+    settings.c_cflag |= (CLOCAL | CREAD | CS8);
+
+    // enable noncanonical mode (which does not require line delimiters), use polling reads
+    settings.c_lflag &= ~ICANON;
+    settings.c_cc[VTIME] = 0;
+    settings.c_cc[VMIN] = 0;
+
+    if (tcsetattr(handle, TCSANOW, &settings) == -1) {
+        throw IOException(name + " failed to set termios attributes: " + std::strerror(errno));
+    }
 }
 
 std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
@@ -34,7 +50,7 @@ std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
 
         int availableBytes;
         if (ioctl(handle, FIONREAD, &availableBytes) == -1) {
-            throw IOException("Failed to get number of bytes available for " + name + ".");
+            throw IOException("Failed to get number of bytes available for " + name + ": " + std::strerror(errno));
         }
         if (availableBytes < 9) {
             break;

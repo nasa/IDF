@@ -4,7 +4,7 @@ IDF_HOME := $(abspath $(MAKEFILE_DIR)/../..)
 MODEL_DIR := $(IDF_HOME)/models
 CFLAGS = -g -Wall -I$(MODEL_DIR)
 LIB_IDF := $(IDF_HOME)/build/lib/libidf.a
-LIBS = $(LIB_IDF)
+LIBS = $(LIB_IDF) -pthread
 
 ifeq ($(UNAME), Linux)
     LIBS += -lusb-1.0 -lrt
