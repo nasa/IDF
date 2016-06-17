@@ -25,44 +25,53 @@ void SerialThrustMasterBase::open() {
         throw IOException(name + " failed to set baud speed: " + std::strerror(errno));
     }
 
-    // no parity, 1 stop bit, clear the bits per byte fields
-    settings.c_cflag &= ~(PARENB | CSTOPB | CSIZE);
-
-    // ignore modem status lines, enable input, 8 bits per byte
-    settings.c_cflag |= (CLOCAL | CREAD | CS8);
-
-    // enable noncanonical mode (which does not require line delimiters), use polling reads
-    settings.c_lflag &= ~ICANON;
+    // set the terminal to "raw" mode, see TERMIOS(3)
+    settings.c_iflag &= ~(IGNBRK | BRKINT | IGNPAR | PARMRK | INPCK | ISTRIP | INLCR | IGNCR | ICRNL | IXON | IXOFF);
+    settings.c_oflag &= ~OPOST;
+    settings.c_cflag &= ~(CSIZE | PARENB | CSTOPB | HUPCL);
+    settings.c_cflag |= CS8 | CLOCAL | CREAD;
+    settings.c_lflag &= ~(ISIG | ICANON | ECHO | ECHOE | ECHOK | ECHONL | IEXTEN);
     settings.c_cc[VTIME] = 0;
     settings.c_cc[VMIN] = 0;
 
     if (tcsetattr(handle, TCSANOW, &settings) == -1) {
         throw IOException(name + " failed to set termios attributes: " + std::strerror(errno));
     }
+
+    // start getting data
+    requestData();
 }
 
 std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
-    const char request = 'r';
-    write(&request, sizeof(request));
-
     std::vector<std::vector<unsigned char> > results;
-    while (true) {
 
-        int availableBytes;
-        if (ioctl(handle, FIONREAD, &availableBytes) == -1) {
-            throw IOException("Failed to get number of bytes available for " + name + ": " + std::strerror(errno));
-        }
-        if (availableBytes < 9) {
-            break;
-        }
+    /**
+     * The device can take over 10 ms to return data, which is too long to block for, so see if all
+     * of the data has arrived before we start reading.
+     * */
+    int availableBytes;
+    if (ioctl(handle, FIONREAD, &availableBytes) == -1) {
+        throw IOException("Failed to get number of bytes available for " + name + ": " + std::strerror(errno));
+    }
 
-        int bytesRemaining = 9;
-        std::vector<unsigned char> buffer(bytesRemaining);
-        while (bytesRemaining) {
-            bytesRemaining -= SerialDevice::read(&buffer[0] + (9 - bytesRemaining), bytesRemaining);
-        }
+    if (availableBytes >= 9) {
+        int remainingBytes = availableBytes;
+        std::vector<unsigned char> buffer(remainingBytes);
 
+        /**
+         * While we know a full packet has been received, read can still be interrupted by signals,
+         * so call it in a loop.
+         */
+        while (remainingBytes) {
+            remainingBytes -= SerialDevice::read(&buffer[0] + (availableBytes - remainingBytes), remainingBytes);
+        }
         results.push_back(buffer);
+
+        /**
+         * Sending requests too quickly can corrupt the device's output, so we only allow at most
+         * one pending request. Since we just received a full packet, send a new request now.
+         */
+        requestData();
     }
 
     return results;
@@ -78,6 +87,11 @@ void SerialThrustMasterBase::decode(const std::vector<unsigned char>& data) {
     trigger.setValue(data[8] & 1 ? 1 : data[8] & 2 ? -1 : 0);
 
     processButtons(data[8]);
+}
+
+void SerialThrustMasterBase::requestData() {
+    static const char request = 'r';
+    write(&request, sizeof(request));
 }
 
 }

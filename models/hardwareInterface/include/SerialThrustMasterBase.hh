@@ -50,6 +50,12 @@ class SerialThrustMasterBase : public SerialDevice, public virtual ThrustMasterB
      * @param buttonByte the raw button data
      */
     virtual void processButtons(unsigned char buttonByte) = 0;
+
+    private:
+
+    /** sends a request to the device for data */
+    void requestData();
+
 };
 
 }

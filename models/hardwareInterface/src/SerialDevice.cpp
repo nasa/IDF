@@ -25,19 +25,19 @@ void SerialDevice::open() {
          */
         handle = ::open(path.c_str(), O_NOCTTY | O_RDWR | O_NONBLOCK);
 
-        if (handle < 0) {
-            throw IOException("Failed to open " + path);
+        if (handle == -1) {
+            throw IOException("Failed to open " + path + ": " + std::strerror(errno));
         }
 
         int options = fcntl(handle, F_GETFL);
-        if (options < 0) {
-            throw IOException("Failed to get options for " + path);
+        if (options == -1) {
+            throw IOException("Failed to get options for " + path + ": " + std::strerror(errno));
         }
 
         options &= ~O_NONBLOCK;
         options = fcntl(handle, F_SETFL, options);
-        if (options < 0) {
-            throw IOException("Failed to set options for " + path);
+        if (options == -1) {
+            throw IOException("Failed to set options for " + path + ": " + std::strerror(errno));
         }
 
         mOpen = true;
