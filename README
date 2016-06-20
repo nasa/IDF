@@ -2,13 +2,11 @@ Input Device Framework
 
 Library Dependencies:
 
-    1. libusb-1.0 (Linux only)
-       Required for usb device support. Your package installer should provide
-       it. Ensure you include the path to libusb.h in your compiler
-       flags and the path to libusb-1.0.so and the option to include the library
-       in your linker flags.
+    Linux: libudev, librt
 
-    2. libntcan (only if CAN device support is required)
+    Mac: IOKit, CoreFoundation
+
+    Both: libntcan (only if CAN device support is required)
        Required for CAN bus device support. Avaiable for a fee at
        www.esd.eu. Follow the installation instructions to install the drivers
        and create the device nodes. Ensure you include the path to ntcan.h in
@@ -19,12 +17,4 @@ Permissions:
 
     On Linux, USB devices usually default to root-only access. To use these
     devices within IDF, you will need to add a udev rule that changes the
-    permissions. Below is an example of such:
-
-    # /etc/udev/rules.d/99-idf.rules
-    SUBSYSTEMS=="usb",MODE="666"
-
-Contact:
-
-    Derek Bankieris
-    derek.r.bankieris@nasa.gov
+    permissions. See models/hidapi/udev/99-hid.rules.
