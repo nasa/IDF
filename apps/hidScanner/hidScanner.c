@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
-#include "hidapi/hidapi.h"
+#include "hidapi/hidapi/hidapi.h"
 
 static unsigned getBit(unsigned char bit, unsigned value) {
     return (value >> bit) & 1;
