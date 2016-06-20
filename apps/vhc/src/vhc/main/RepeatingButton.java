@@ -18,7 +18,7 @@ import org.jdesktop.swingx.JXButton;
  * changed while the timer is active, it will be stopped.
  *
  * NOTE: The normal button behavior is that the action event is fired after
- * the button is released. It may be important to konw then that this is
+ * the button is released. It may be important to know then that this is
  * still the case. So in effect, listeners will get 1 more event then what
  * the internal timer fires. It's not a "bug", per se, just something to be
  * aware of. There seems to be no way to suppress the final event from
