@@ -3,7 +3,7 @@
 
 namespace idf {
 
-class Controller;
+//class Controller;
 
 /**
  * abstract base class representing an interface for receiving
@@ -23,7 +23,7 @@ class StateChangeListener {
      *
      * @param controller the controller whose state has changed
      */
-    virtual void stateChanged(Controller& controller) = 0;
+    //virtual void stateChanged(Controller& controller) = 0;
 
 };
 
