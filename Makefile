@@ -11,10 +11,6 @@ endif
 OBJECTS := $(SOURCES:$(MODEL_DIR)/%.cpp=$(OBJECT_DIR)/%.o)
 CPPFLAGS += -g -Wall -Wextra -I$(MODEL_DIR)
 
-ifeq ($(UNAME), Linux)
-CPPFLAGS += -I/usr/include/libusb-1.0
-endif
-
 all: $(LIB)
 
 clean:

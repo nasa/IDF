@@ -6,8 +6,10 @@
 #include <sstream>
 #include <cstring>
 
-#ifdef __linux__
-#include <libusb.h>
+// TODO: add an option to build with libusb
+
+//#ifdef __linux__
+//#include <libusb.h>
 
 /**
  * This is required to access fields within struct hid_device in the
@@ -15,11 +17,11 @@
  * included here, so we have to replicate some of its definition. It's an ugly
  * hack, but it's the best I have for now.
  */
-struct hid_device_ {
+/*struct hid_device_ {
     libusb_device_handle *device_handle;
     int a, b, c, interface;
 };
-#endif
+#endif*/
 
 namespace idf {
 
@@ -60,23 +62,23 @@ void UsbDualShock3::sendCommand() {
         UsbDevice::open();
     }
 
-#ifdef __linux__
+//#ifdef __linux__
     /**
      * This devices incorrectly requires that commands be sent over the control
      * endpoint, so we have to call libusb directly rather than use hidapi,
      * which would use the interrupt out endpoint.
      */
-    int result = libusb_control_transfer(hidDevice->device_handle,
-      LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE | LIBUSB_ENDPOINT_OUT,
-      0x09 /* HID set report */, (2 /* HID output */ << 8) | command[0],
-      hidDevice->interface, command, sizeof(command), 1000);
+    //int result = libusb_control_transfer(hidDevice->device_handle,
+    //  LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE | LIBUSB_ENDPOINT_OUT,
+    //  0x09 /* HID set report */, (2 /* HID output */ << 8) | command[0],
+    //  hidDevice->interface, command, sizeof(command), 1000);
 
-    if (result < 0) {
+    /*if (result < 0) {
         std::ostringstream stream;
         stream << name << ": Transfer failed with LIBUSB_ERROR code " << result;
         throw IOException(stream.str());
     }
-#endif
+#endif*/
 }
 
 }

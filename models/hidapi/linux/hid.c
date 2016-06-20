@@ -82,7 +82,7 @@ static __u32 kernel_version = 0;
 
 static hid_device *new_hid_device(void)
 {
-	hid_device *dev = calloc(1, sizeof(hid_device));
+	hid_device *dev = (hid_device*)calloc(1, sizeof(hid_device));
 	dev->device_handle = -1;
 	dev->blocking = 1;
 	dev->uses_numbered_reports = 0;
@@ -101,7 +101,7 @@ static wchar_t *utf8_to_wchar_t(const char *utf8)
 		if ((size_t) -1 == wlen) {
 			return wcsdup(L"");
 		}
-		ret = calloc(wlen+1, sizeof(wchar_t));
+		ret = (wchar_t*)calloc(wlen+1, sizeof(wchar_t));
 		mbstowcs(ret, utf8, wlen+1);
 		ret[wlen] = 0x0000;
 	}
@@ -119,7 +119,7 @@ static wchar_t *copy_udev_string(struct udev_device *dev, const char *udev_name)
 /* uses_numbered_reports() returns 1 if report_descriptor describes a device
    which contains numbered reports. */
 static int uses_numbered_reports(__u8 *report_descriptor, __u32 size) {
-	int i = 0;
+	unsigned i = 0;
 	int size_code;
 	int data_len, key_size;
 
@@ -436,7 +436,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 			struct hid_device_info *tmp;
 
 			/* VID/PID match. Create the record. */
-			tmp = malloc(sizeof(struct hid_device_info));
+			tmp = (struct hid_device_info*)malloc(sizeof(struct hid_device_info));
 			if (cur_dev) {
 				cur_dev->next = tmp;
 			}
@@ -785,11 +785,16 @@ int HID_API_EXPORT_CALL hid_get_serial_number_string(hid_device *dev, wchar_t *s
 
 int HID_API_EXPORT_CALL hid_get_indexed_string(hid_device *dev, int string_index, wchar_t *string, size_t maxlen)
 {
+        (void)dev;
+        (void)string_index;
+        (void)string;
+        (void)maxlen;
 	return -1;
 }
 
 
 HID_API_EXPORT const wchar_t * HID_API_CALL  hid_error(hid_device *dev)
 {
+        (void)dev;
 	return NULL;
 }
