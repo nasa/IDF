@@ -93,6 +93,8 @@ class RemoteExtreme3dProClient;
 
         void packCommands(RemoteExtreme3dProCommands& commands, const Extreme3dPro& controller);
 
+        using RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands>::packCommands;
+
         private:
 
         void operator=(const RemoteExtreme3dProClient&);

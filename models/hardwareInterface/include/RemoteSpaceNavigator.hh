@@ -77,6 +77,8 @@ class RemoteSpaceNavigatorClient;
 
         void packCommands(RemoteSpaceNavigatorCommands& commands, const SpaceNavigator& controller);
 
+        using RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands>::packCommands;
+
         private:
 
         void operator=(const RemoteSpaceNavigatorClient&);

@@ -9,7 +9,7 @@ ifndef IDF_CAN
 SOURCES := $(filter-out $(shell find $(MODEL_DIR)/hardwareInterface -name "*Can*"),$(SOURCES))
 endif
 OBJECTS := $(SOURCES:$(MODEL_DIR)/%.cpp=$(OBJECT_DIR)/%.o)
-CPPFLAGS += -g -Wall -Wextra -I$(MODEL_DIR)
+CPPFLAGS += -g -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -fno-strict-aliasing -Wno-invalid-offsetof -Wno-missing-field-initializers -Wshadow -Woverloaded-virtual -I$(MODEL_DIR)
 
 all: $(LIB)
 
