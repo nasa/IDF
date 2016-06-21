@@ -46,6 +46,8 @@ class SerialDevice : public InputDevice {
     virtual void open();
     virtual void close();
 
+    using InputDevice::read;
+
     protected:
 
     /** handle to the device */

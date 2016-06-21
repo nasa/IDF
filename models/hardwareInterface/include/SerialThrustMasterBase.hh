@@ -40,6 +40,8 @@ class SerialThrustMasterBase : public SerialDevice, public virtual ThrustMasterB
     std::vector<std::vector<unsigned char> > read();
     void decode(const std::vector<unsigned char>& data);
 
+    using SerialDevice::read;
+
     protected:
 
     /**
