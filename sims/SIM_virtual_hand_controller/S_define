@@ -1,0 +1,83 @@
+#include "sim_objects/default_trick_sys.sm"
+
+##include <cstdlib>
+##include "inputAbstraction/include/VirtualLayout.hh"
+##include "sim_services/ExternalApplications/include/ExternalApplication.hh"
+##include "sim_services/ExternalApplications/include/ExternalApplicationManager.hh"
+
+/**
+ * Demonstrates the use of IDF within a Trick simulation, reading directly from
+ * the Virtual Hand Controller.
+ *
+ * Normally, your input device manager class should derive from
+ * IdfInputDeviceManager since it handles much of the overhead of managing
+ * input devices. However, this example does not use physical devices, so we
+ * don't need it.
+ */
+class Example : public Trick::SimObject {
+
+    public:
+
+    /**
+     * VirtualLayout is a simple class containing only six fields whose sole
+     * purpose is to be written to by the Virtual Hand Controller via Trick's
+     * Variable Server. The name of this variable must be passed to the
+     * Virtual Hand Controller when launched so that it knows what variable
+     * name to use when sending its values over the Variable Server.
+     */
+    idf::VirtualLayout virtualLayout;
+
+    /**
+     * In this example, we'll simply declare a job to periodically print the
+     * values of the VirtualLayout. There's no need to call any update function,
+     * as values are written directly into the instance by the Virtual Hand
+     * Controller via Trick's Variable Server.
+     */
+    Example() {
+        ("initialization") launchVirtualHandController();
+        (0.1, "scheduled") printValues();
+    }
+
+    /**
+     * You could optionally launch the Virtual Hand Controller directly from the
+     * command line, but doing it from the sim allows you to automatically pass
+     * it the correct host and port.
+     */
+    void launchVirtualHandController() {
+         Trick::ExternalApplication virtualHandController;
+
+         /**
+          * Make sure you set and export IDF_HOME and TRICK_GTE_EXT in your
+          * S_overrides.mk if you take this approach. This makes IDF_HOME
+          * available to the S_main executable. See this sim's
+          * S_overrides.mk for an example.
+          */
+         virtualHandController.set_startup_command(std::string("java -jar ") +
+           std::getenv("IDF_HOME") + "/apps/vhc/build/VirtualHandController.jar");
+
+         /**
+          * The Virtual Hand Controller needs to know the name of the variable
+          * into which to write its values. This is the full path from the
+          * top-level SimObject. In this case, we create an instance of this
+          * class at the bottom of this file and call it "example".
+          */
+         virtualHandController.add_arguments("--simObjectName example.virtualLayout");
+
+         // launch it!
+         virtualHandController.launch();
+    }
+
+    /** prints the values */
+    void printValues() {
+        std::cout << virtualLayout.leftRightRotation.getValue() << " "
+                  << virtualLayout.upDownRotation.getValue() << " "
+                  << virtualLayout.clockwiseCounterclockwiseRotation.getValue() << " "
+                  << virtualLayout.leftRightTranslation.getValue() << " "
+                  << virtualLayout.upDownTranslation.getValue() << " "
+                  << virtualLayout.inOutTranslation.getValue()
+                  << std::endl;
+    }
+
+};
+
+Example example;

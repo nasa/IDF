@@ -1,9 +1,3 @@
-/**
- * PURPOSE:
- * (Demonstrates the use of IDF within a Trick simulation, using only the
- *  hardware interface layer to read data from a physical device.)
- */
-
 #include "sim_objects/default_trick_sys.sm"
 
 ##include <sstream>
@@ -13,6 +7,11 @@
 ##include "simulationInterface/include/SingleFlightController.hh"
 ##include "inputAbstraction/include/Deadband.hh"
 
+/**
+ * Demonstrates the use of IDF within a Trick simulation, using both the
+ * hardware interface layer and simulation interface layer to read data from a
+ * physical device and map it to a virtual controller.
+ */
 class Example : public Trick::SimObject {
 
     public:
