@@ -2,9 +2,14 @@ Input Device Framework
 
 Library Dependencies:
 
-    Linux: libudev, librt
+    Linux: libudev, libudev-devel, librt
+        libudev and librt are commonly preinstalled on most distributions.
+        However, you might need to install libudev-devel via your package
+        manager. Be sure to include them in your linker flags when building
+        against IDF. For instance: -ludev -lrt
 
     Mac: IOKit, CoreFoundation
+        These should be preinstalled.
 
     Both: libntcan (only if CAN device support is required)
        Required for CAN bus device support. Avaiable for a fee at

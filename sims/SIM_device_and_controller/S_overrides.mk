@@ -4,7 +4,7 @@ TRICK_CFLAGS += ${common}
 TRICK_CXXFLAGS += ${common}
 
 ifeq (${TRICK_HOST_TYPE}, Linux)
-    TRICK_USER_LINK_LIBS += -ludev
+    TRICK_USER_LINK_LIBS += -ludev -lrt
 else ifeq (${TRICK_HOST_TYPE}, Darwin)
     TRICK_USER_LINK_LIBS += -framework IOKit -framework CoreFoundation
 endif
