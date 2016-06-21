@@ -64,9 +64,9 @@ double InputDevice::getTime() {
     #endif
 }
 
-InputDevice::Entry::Entry(std::vector<unsigned char> bytes, double delay) :
+InputDevice::Entry::Entry(std::vector<unsigned char> bytes, double lag) :
     data(bytes),
-    targetTime(InputDevice::getTime() + delay) {}
+    targetTime(InputDevice::getTime() + lag) {}
 
 void InputDevice::configure() {
     configure(getConfigurables());
