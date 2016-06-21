@@ -1,17 +1,16 @@
-/**
- * PURPOSE:
- * (Demonstrates the use of IDF within a Trick simulation, using only the
- *  hardware interface layer to read data from a physical device.)
- */
-
 #include "sim_objects/default_trick_sys.sm"
+#include "IdfInputDeviceManager.sm"
 
 ##include <sstream>
 ##include <iomanip>
 
 ##include "hardwareInterface/include/UsbExtreme3dPro.hh"
 
-class Example : public Trick::SimObject {
+/**
+ * Demonstrates the use of IDF within a Trick simulation, using only the
+ * hardware interface layer to read data from a physical device.
+ */
+class Example : public IdfInputDeviceManager {
 
     public:
 
@@ -26,29 +25,45 @@ class Example : public Trick::SimObject {
      */
     idf::UsbExtreme3dPro device;
 
-    Example() {
+    Example() :
         /**
-         * Locates the device on the USB network and opens it for communication.
+         * Call the base class constructor, specifying the period at which the
+         * updateDevices() job will be called. You can optionally specify the
+         * phase and class for this job as well. See IdfInputDeviceManager.sm
+         * for details.
          */
-        ("initialization") device.open();
+        IdfInputDeviceManager(0.1) {
 
         /**
-         * Reads the raw bytes from the physical device, decodes them, and
-         * fills in the appropriate fields in the instance representing the
-         * device.
+         * Adding a device causes the IdfInputDeviceManager to automatically:
+         * 1. Open the device during sim initialization.
+         * 2. Update the device when the sim is running.
+         * 3. Close the device when the sim shuts down.
          */
-        (0.1, "scheduled") device.update();
-
-        /**
-         * Prints the device's decoded normalized values to the console.
-         * Normalized values always fall in the range [-1, 1], with the
-         * extremes corresponing to the minimum and maximum raw values.
-         * 0 represents the "neutral" point.
-         */
-        (0.1, "scheduled") printValues();
+        add(device);
     }
 
-    void printValues() {
+    /**
+     * If you want to perform some action after all devices have been updated,
+     * one possibility is overriding IdfInputDeviceManager's updateDevices()
+     * function. In this example, we just want to print the device's decoded
+     * normalized values to the console. Normalized values always fall in the
+     * range [-1, 1], with the extremes corresponing to the minimum and maximum
+     * raw values. 0 represents the "neutral" point. If you choose this method,
+     * be sure to call the base class version of the function or the devices
+     * will never be updated!
+     *
+     * Another option is to just declare another scheduled job and do your post-
+     * update logic there. This can be useful if you want the updateDevices()
+     * job and your post-update logic to run at different rates or have
+     * different phases or job classes.
+     */
+    void updateDevices() {
+
+        // Don't forget to call the base class version!
+        IdfInputDeviceManager::updateDevices();
+
+        // Print the values.
         std::cout << std::showpos << std::fixed << std::setprecision(2)
 
                   << device.forwardBackwardPivot.getNormalizedValue() << " "
@@ -85,7 +100,7 @@ class Example : public Trick::SimObject {
      * It is necessary to make this function private because Extreme3dPro's
      * assignment operator is private, and the default implementation of this
      * function would try to assign to the variable "device", resulting in a
-     * compilation-time privacy error.
+     * compilation-time privacy error when SWIG tries to wrap this class.
      */
     void operator =(const Example&);
 

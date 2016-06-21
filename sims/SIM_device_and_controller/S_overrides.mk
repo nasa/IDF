@@ -1,7 +1,9 @@
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-common = -I$(abspath $(MAKEFILE_DIR)/../..)/models
+IDF_HOME := $(abspath $(MAKEFILE_DIR)/../..)
+common = -I${IDF_HOME}/models
 TRICK_CFLAGS += ${common}
 TRICK_CXXFLAGS += ${common}
+TRICK_SFLAGS += -I${IDF_HOME}/sims/sim_objects
 
 ifeq (${TRICK_HOST_TYPE}, Linux)
     TRICK_USER_LINK_LIBS += -ludev -lrt
