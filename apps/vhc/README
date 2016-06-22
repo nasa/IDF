@@ -4,7 +4,7 @@ by Derek Bankieris
 
 Requirements:
 
-Java SE8
+Java SE7
 
 
 Running:
@@ -28,7 +28,7 @@ open build/Virtual\ Hand\ Controller.app
 Compiling:
 
 This application comes precompiled. All the other files are only useful if you
-would like to make changes and recompile, in which case you will need Trick 16
+would like to make changes and recompile, in which case you will need Trick 13
 and Apache Ant. Otherwise, you can delete them from your local storage. For
 build options:
 ant -p
