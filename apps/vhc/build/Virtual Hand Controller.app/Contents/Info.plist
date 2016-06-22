@@ -26,11 +26,13 @@
       <key>MainClass</key>
       <string>com.simontuffs.onejar.Boot</string>
       <key>JVMVersion</key>
-      <string>1.6+</string>
+      <string>1.7+</string>
       <key>ClassPath</key>
       <array>
         <string>$JAVAROOT/VirtualHandController.jar</string>
       </array>
+      <key>VMOptions</key>
+      <string>-Djava.net.preferIPv4Stack=true</string>
       <key>SplashFile</key>
       <string>$JAVAROOT/../splashScreen.png</string>
     </dict>

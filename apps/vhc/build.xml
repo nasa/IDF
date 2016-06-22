@@ -63,8 +63,9 @@
         </one-jar>
         <jar destfile="build/VirtualHandController.jar" update="true" basedir="src/vhc/main/resources" includes="splashScreen.png"/>
         <jarbundler dir="build" name="Virtual Hand Controller" mainclass="com.simontuffs.onejar.Boot"
-          jar="build/VirtualHandController.jar" icon="src/vhc/main/resources/vhc.icns" jvmversion="1.6+"
-          stubfile="lib/JavaApplicationStub" shortname="VHC" splashfile="$JAVAROOT/../splashScreen.png">
+          jar="build/VirtualHandController.jar" icon="src/vhc/main/resources/vhc.icns" jvmversion="1.7+"
+          stubfile="lib/JavaApplicationStub" shortname="VHC" splashfile="$JAVAROOT/../splashScreen.png"
+          vmoptions="-Djava.net.preferIPv4Stack=true">
             <resourcefilelist dir="src/vhc/main/resources/" files="splashScreen.png"/>
         </jarbundler>
         <delete dir="${temp.dir}"/>
