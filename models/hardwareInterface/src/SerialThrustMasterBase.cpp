@@ -45,31 +45,35 @@ void SerialThrustMasterBase::open() {
 std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
     std::vector<std::vector<unsigned char> > results;
 
-    /**
-     * The device can take over 10 ms to return data, which is too long to block for, so see if all
-     * of the data has arrived before we start reading.
-     * */
     int availableBytes;
     if (ioctl(handle, FIONREAD, &availableBytes) == -1) {
         throw IOException("Failed to get number of bytes available for " + name + ": " + std::strerror(errno));
     }
 
-    if (availableBytes >= 9) {
+    // If a full packet is available or a timeout has occurred, process all available data.
+    if (availableBytes >= 9 || getTime() > timeout) {
         int remainingBytes = availableBytes;
         std::vector<unsigned char> buffer(remainingBytes);
 
         /**
-         * While we know a full packet has been received, read can still be interrupted by signals,
+         * While we know how many bytes are avialable, read can still be interrupted by signals,
          * so call it in a loop.
          */
         while (remainingBytes) {
             remainingBytes -= SerialDevice::read(&buffer[0] + (availableBytes - remainingBytes), remainingBytes);
         }
-        results.push_back(buffer);
 
         /**
-         * Sending requests too quickly can corrupt the device's output, so we only allow at most
-         * one pending request. Since we just received a full packet, send a new request now.
+         * Only return the data to the caller if a full packet has arrived. If a timeout has occurred,
+         * simply discard the data.
+         */
+        if (availableBytes >= 9) {
+            results.push_back(buffer);
+        }
+
+        /**
+         * Sending requests too quickly can corrupt the device's output, so only send a new
+         * request when a full packet has arrived or a timeout has occurred.
          */
         requestData();
     }
@@ -92,6 +96,7 @@ void SerialThrustMasterBase::decode(const std::vector<unsigned char>& data) {
 void SerialThrustMasterBase::requestData() {
     static const char request = 'r';
     write(&request, sizeof(request));
+    timeout = getTime() + 0.1;
 }
 
 }

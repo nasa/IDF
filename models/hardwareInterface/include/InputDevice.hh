@@ -95,6 +95,13 @@ class InputDevice : public virtual InputLayout {
      */
     virtual void decode(const std::vector<unsigned char>& data) = 0;
 
+    /**
+     * gets the time in seconds since some arbitrary but fixed point in the past
+     *
+     * @return the time
+     */
+    static double getTime();
+
     private:
 
     /** a time-stamped byte array, used to implement delays */
@@ -119,13 +126,6 @@ class InputDevice : public virtual InputLayout {
 
     /** the queue of data entries waiting to be processed */
     std::list<Entry*> storage;
-
-    /**
-     * gets the time in seconds since some arbitrary but fixed point in the past
-     *
-     * @return the time
-     */
-    static double getTime();
 
     /**
      * interactively configures @a inputs
