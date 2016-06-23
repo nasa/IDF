@@ -64,16 +64,17 @@ std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
         }
 
         /**
-         * Only return the data to the caller if a full packet has arrived. If a timeout has occurred,
-         * simply discard the data.
+         * Only return the data to the caller if exactly one full packet arrived. If a timeout
+         * occurred or extra bytes arrived, discard all of the data.
          */
-        if (availableBytes >= 9) {
+        if (availableBytes == 9) {
             results.push_back(buffer);
         }
 
         /**
-         * Sending requests too quickly can corrupt the device's output, so only send a new
-         * request when a full packet has arrived or a timeout has occurred.
+         * Request the next state update from the device. Sending requests too quickly can corrupt
+         * the device's output, so we only send a new request when at least a full packet has
+         * arrived or a timeout occured.
          */
         requestData();
     }
