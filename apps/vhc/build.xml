@@ -63,14 +63,15 @@
         <jar destfile="build/VirtualHandController.jar" update="true" basedir="src/vhc/main/resources" includes="splashScreen.png"/>
         <bundleapp
             outputdirectory="build"
-            name="VirtualHandController"
-            displayname="VHC"
+            name="VHC"
+            displayname="Virtual Hand Controller"
             identifier="VHC"
             icon="src/vhc/main/resources/vhc.icns"
             mainclassname="com.simontuffs.onejar.Boot">
             <classpath file="build/VirtualHandController.jar"/>
+            <classpath file="src/vhc/main/resources/splashScreen.png"/>
             <option value="-Djava.net.preferIPv4Stack=true"/>
-            <option value="-splash:$APP_ROOT/Contents/Resources/splashScreen.png"/>
+            <option value="-splash:$APP_ROOT/Contents/Java/splashScreen.png"/>
         </bundleapp>
         <delete dir="${temp.dir}"/>
     </target>
