@@ -133,7 +133,7 @@ def launchVirtualController(vhcVariable):
 
     executable = os.path.abspath(os.path.dirname(inspect.getsourcefile(lambda:0)) + '/../../../apps/vhc/build') + '/'
     if sys.platform == 'darwin':
-        vhc.set_startup_command('open ' + executable + 'Virtual\ Hand\ Controller.app --args')
+        vhc.set_startup_command('open ' + executable + 'VHC.app --args')
     else:
         vhc.set_startup_command('java -jar ' + executable + 'VirtualHandController.jar')
 
