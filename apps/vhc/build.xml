@@ -2,8 +2,7 @@
 <project name="VirtualHandController" basedir="." default="build">
 
     <property environment="env"/>
-
-    <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="lib/jarbundler-2.2.0.jar"/>
+    <taskdef name="bundleapp"  classname="com.oracle.appbundler.AppBundlerTask" classpath="lib/appbundler-1.0.jar" />
 
     <!-- Hook into One-Jar project -->
     <available property="one-jar.dir" file="../one-jar/build.onejar.xml" value="../one-jar"/>
@@ -62,12 +61,17 @@
             </lib>
         </one-jar>
         <jar destfile="build/VirtualHandController.jar" update="true" basedir="src/vhc/main/resources" includes="splashScreen.png"/>
-        <jarbundler dir="build" name="Virtual Hand Controller" mainclass="com.simontuffs.onejar.Boot"
-          jar="build/VirtualHandController.jar" icon="src/vhc/main/resources/vhc.icns" jvmversion="1.7+"
-          stubfile="lib/JavaApplicationStub" shortname="VHC" splashfile="$JAVAROOT/../splashScreen.png"
-          vmoptions="-Djava.net.preferIPv4Stack=true">
-            <resourcefilelist dir="src/vhc/main/resources/" files="splashScreen.png"/>
-        </jarbundler>
+        <bundleapp
+            outputdirectory="build"
+            name="VirtualHandController"
+            displayname="VHC"
+            identifier="VHC"
+            icon="src/vhc/main/resources/vhc.icns"
+            mainclassname="com.simontuffs.onejar.Boot">
+            <classpath file="build/VirtualHandController.jar"/>
+            <option value="-Djava.net.preferIPv4Stack=true"/>
+            <option value="-splash:$APP_ROOT/Contents/Resources/splashScreen.png"/>
+        </bundleapp>
         <delete dir="${temp.dir}"/>
     </target>
 
