@@ -32,7 +32,7 @@
       <key>VMOptions</key>
       <string>-Djava.net.preferIPv4Stack=true</string>
       <key>SplashFile</key>
-      <string>$splashScreen.png</string>
+      <string>splashScreen.png</string>
     </dict>
   </dict>
 </plist>
