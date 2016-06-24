@@ -14,15 +14,14 @@ any OS from the command line as:
 
 java -jar build/VirtualHandController.jar [options]
 
-Pass -help for a list of options. Windows users can optionally double-click the
+Pass --help for a list of options. Windows users can optionally double-click the
 file to open it.
 
 
-"build/Virtual Hand Controller.app" is a Mac application bundle that provides
-users with a more native look and feel. It can be launched via double-click or
-the command line as:
+build/VHC.app is a Mac application bundle that provides users with a more native
+look and feel. It can be launched via double-click or the command line as:
 
-open build/Virtual\ Hand\ Controller.app
+open build/VHC.app [--args options]
 
 
 Compiling:
