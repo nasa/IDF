@@ -68,7 +68,7 @@
             jvmversion="1.7+"
             stubfile="lib/universalJavaApplicationStub"
             shortname="VHC"
-            splashfile="$splashScreen.png"
+            splashfile="splashScreen.png"
             useJavaXKey="true"
             vmoptions="-Djava.net.preferIPv4Stack=true">
             <resourcefilelist dir="src/vhc/main/resources/" files="splashScreen.png"/>
