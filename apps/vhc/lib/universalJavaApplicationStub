@@ -383,7 +383,7 @@ elif [ -f "$JAVACMD" ] && [ -x "$JAVACMD" ] ; then
                         ${JVMDefaultOptions:+$JVMDefaultOptions }\
                         ${JVMMainClass}\
                         ${JVMArguments:+ $JVMArguments}\
-                        $@
+                        "$@"
 
 
 else

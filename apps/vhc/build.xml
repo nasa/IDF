@@ -12,8 +12,8 @@
 
     <path id="libraries">
         <fileset dir="lib" includes="*.jar"/>
-        <fileset dir="${env.TRICK_HOME}/bin/java/lib" includes="*.jar"/>
-        <fileset dir="${env.TRICK_HOME}/bin/java/dist" includes="*.jar"/>
+        <fileset dir="${env.TRICK_HOME}/libexec/trick/java/lib" includes="*.jar"/>
+        <fileset dir="${env.TRICK_HOME}/libexec/trick/java/dist" includes="*.jar"/>
     </path>
 
     <target name="mkdirs">
@@ -54,8 +54,8 @@
             </main>
             <lib>
                 <fileset dir="lib" includes="*.jar"/>
-                <fileset dir="${env.TRICK_HOME}/bin/java/lib" includes="*.jar"/>
-                <fileset dir="${env.TRICK_HOME}/bin/java/dist" includes="*.jar"/>
+                <fileset dir="${env.TRICK_HOME}/libexec/trick/java/lib" includes="*.jar"/>
+                <fileset dir="${env.TRICK_HOME}/libexec/trick/java/dist" includes="*.jar"/>
             </lib>
         </one-jar>
         <jar destfile="build/VirtualHandController.jar" update="true" basedir="src/vhc/main/resources" includes="splashScreen.png"/>

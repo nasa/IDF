@@ -79,8 +79,7 @@ import org.jdesktop.swingx.JXTextField;
 import trick.common.RunTimeTrickApplication;
 
 /**
- * virtual hand controller for interfacing with Trick simulations that support
- * a hand controller simulation object
+ * virtual hand controller for interfacing with Trick simulations that support a hand controller simulation object
  *
  * @author Derek Bankieris
  */
@@ -148,24 +147,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
     /** orientation for the rotation panel */
     Rotation rotationOrientation;
 
-    /** radio group for the grannularity controls */
-    JXRadioGroup<JRadioButton> grannularityRadioGroup;
-
-    /** radio group for the trigger controls */
-    JXRadioGroup<JRadioButton> triggerRadioGroup;
-
-    /** the rate hold button */
-    JToggleButton rateHoldToggleButton;
-
-    /** the rate hold button listener */
-    ButtonListener rateHoldButtonListener;
-
-    /** the trigger up button listener */
-    ButtonListener triggerUpButtonListener;
-
-    /** the trigger down button listener */
-    ButtonListener triggerDownButtonListener;
-
     /** name of the hand controller simulation object */
     String simObjectName = "simulationPathTo.idfInputLayout";
 
@@ -188,17 +169,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
     static final String lightHeightKey = "lightHeight";
 
     static final String simObjectNameKey = "simObjectName";
-
-    static final String grannularityKey = "grannularity";
-    static final String grannularityVisibleKey = "grannularityVisible";
-
-    static final String toggleRateHoldKey = "toggleRateHold";
-    static final String rateHoldKey = "rateHold";
-    static final String rateHoldVisibleKey = "rateHoldVisible";
-
-    static final String stickyTriggerKey = "stickyTrigger";
-    static final String triggerKey = "trigger";
-    static final String triggerVisibleKey = "triggerVisible";
 
     static final String translationOrientationKey = "translationOrientation";
     static final String rotationOrientationKey = "rotationOrientation";
@@ -235,12 +205,12 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
     static final String rollStepKey = "rollStep";
 
     @Override
-    protected void parseArguments(String[] arguments, OptionParser optionParser) {
+    protected OptionSet parseArguments(String[] arguments, OptionParser optionParser) {
         OptionSpec<String> layoutSpec = optionParser.accepts(layoutKey, "[full, light]").withRequiredArg();
 
-        OptionSpec<Boolean> fullMaximizedSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add("fullMaximized"); add("fm");}},
-          "Whether or not the window is maximized in the Full layout.").withRequiredArg().ofType(Boolean.class);
+        OptionSpec<Boolean> fullMaximizedSpec = optionParser.acceptsAll(new ArrayList<String>() {{add("fullMaximized"); add("fm");}},
+          "Whether or not the window is maximized in the Full layout.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Integer> fullXSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(fullXKey); add("fx");}},
           "X position of the window when in the unmaximized Full layout.")
@@ -258,9 +228,9 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
           "Height of the window when in the unmaximized Full layout.")
           .withRequiredArg().ofType(Integer.class);
 
-        OptionSpec<Boolean> lightMaximizedSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add("lightMaximized"); add("lm");}},
-          "Whether or not the window is maximized in the Light layout.").withRequiredArg().ofType(Boolean.class);
+        OptionSpec<Boolean> lightMaximizedSpec = optionParser.acceptsAll(new ArrayList<String>() {{add("lightMaximized"); add("lm");}},
+          "Whether or not the window is maximized in the Light layout.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Integer> lightXSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(lightXKey); add("lx");}},
           "X position of the window when in the unmaximized Light layout.")
@@ -278,205 +248,120 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
           "Height of the window when in the unmaximized Light layout.")
           .withRequiredArg().ofType(Integer.class);
 
-        OptionSpec<String> simObjectNameSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(simObjectNameKey); add("name");}},
-          "Simulation variable name of the Input Layout that this application will manipulate.").withRequiredArg();
+        OptionSpec<String> simObjectNameSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(simObjectNameKey); add("name");}},
+          "Simulation variable name of the Input Layout that this application will manipulate.")
+          .withRequiredArg();
 
-        /*OptionSpec<String> grannularitySpec =
-          optionParser.accepts(grannularityKey, "[corase, fine] Grannularity of the controls.").withRequiredArg();
+        OptionSpec<String> translationOrientationSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(translationOrientationKey); add("to");}},
+          "[xyz, xzy, yxz, yzx, zxy, zyx] The orientation of the translation panel.")
+          .withRequiredArg();
 
-        OptionSpec<Boolean> grannularityVisibleSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(grannularityVisibleKey); add("gv");}},
-          "Visibility of the Grannularity controls.").withRequiredArg().ofType(Boolean.class);
-
-        OptionSpec<Boolean> toggleRateHoldSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(toggleRateHoldKey); add("trh");}},
-          "If true, the Rate Hold button will toggle when clicked.").withRequiredArg().ofType(Boolean.class);
-
-        OptionSpec<Boolean> rateHoldSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(rateHoldKey); add("rh");}},
-          "If true, the Rate Hold button will initialize as active. Use of this option sets --" +
-          toggleRateHoldKey + "=true").withRequiredArg().ofType(Boolean.class);
-
-        OptionSpec<Boolean> rateHoldVisibleSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(rateHoldVisibleKey); add("rhv");}},
-          "Visibility of the Rate Hold button.").withRequiredArg().ofType(Boolean.class);
-
-        OptionSpec<Boolean> stickyTriggerSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(stickyTriggerKey); add("st");}},
-          "If true, the trigger buttons will stick when clicked.").withRequiredArg().ofType(Boolean.class);
-
-        OptionSpec<String> triggerSpec = optionParser.accepts(triggerKey,
-          "[up, neutral, down] Specifies the trigger's initial position. Use of this option sets --" +
-          stickyTriggerKey + "=true").withRequiredArg();
-
-        OptionSpec<Boolean> triggerVisibleSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(triggerVisibleKey); add("tv");}},
-          "Visibility of the Trigger controls.").withRequiredArg().ofType(Boolean.class);*/
-
-        OptionSpec<String> translationOrientationSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(translationOrientationKey); add("to");}},
-          "[xyz, xzy, yxz, yzx, zxy, zyx] The orientation of the translation panel.").withRequiredArg();
-
-        OptionSpec<String> rotationOrientationSpec =
-          optionParser.acceptsAll(new ArrayList<String>() {{add(rotationOrientationKey); add("ro");}},
-          "[pyr, pry, ypr, yrp, rpy, ryp] The orientation of the rotation panel.").withRequiredArg();
+        OptionSpec<String> rotationOrientationSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(rotationOrientationKey); add("ro");}},
+          "[pyr, pry, ypr, yrp, rpy, ryp] The orientation of the rotation panel.")
+          .withRequiredArg();
 
         OptionSpec<Boolean> invertXSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(invertXKey); add("xi");}},
-          "Inversion of the x slider.").withRequiredArg().ofType(Boolean.class);
+          "Inversion of the x slider.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Boolean> invertYSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(invertYKey);add("yi");}},
-          "Inversion of the y slider.").withRequiredArg().ofType(Boolean.class);
+          "Inversion of the y slider.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Boolean> invertZSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(invertZKey); add("zi");}},
-          "Inversion of the z slider.").withRequiredArg().ofType(Boolean.class);
+          "Inversion of the z slider.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Boolean> invertPitchSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(invertPitchKey); add("pi");}},
-          "Inversion of the pitch slider.").withRequiredArg().ofType(Boolean.class);
+          "Inversion of the pitch slider.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Boolean> invertYawSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(invertYawKey); add("wi");}},
-          "Inversion of the yaw slider.").withRequiredArg().ofType(Boolean.class);
+          "Inversion of the yaw slider.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Boolean> invertRollSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(invertRollKey); add("ri");}},
-          "Inversion of the roll slider.").withRequiredArg().ofType(Boolean.class);
+          "Inversion of the roll slider.")
+          .withRequiredArg().ofType(Boolean.class);
 
         OptionSpec<Integer> xMinSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(xMinKey); add("xm");}},
-          "The minimum value that the x slider may take.").withRequiredArg().ofType(Integer.class);
+          "The minimum value that the x slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> xMaxSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(xMaxKey); add("xM");}},
-          "The maximum value that the x slider may take.").withRequiredArg().ofType(Integer.class);
+          "The maximum value that the x slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> xStepSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(xStepKey); add("xs");}},
           "The step size by which the x slider is incremented/decremented when a button is clicked.")
           .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> yMinSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(yMinKey); add("ym");}},
-          "The minimum value that the y slider may take.").withRequiredArg().ofType(Integer.class);
+          "The minimum value that the y slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> yMaxSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(yMaxKey); add("yM");}},
-          "The maximum value that the y slider may take.").withRequiredArg().ofType(Integer.class);
+          "The maximum value that the y slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> yStepSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(yStepKey); add("ys");}},
           "The step size by which the y slider is incremented/decremented when a button is clicked.")
           .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> zMinSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(zMinKey); add("zm");}},
-          "The minimum value that the z slider may take.").withRequiredArg().ofType(Integer.class);
+          "The minimum value that the z slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> zMaxSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(zMaxKey); add("zM");}},
-          "The maximum value that the z slider may take.").withRequiredArg().ofType(Integer.class);
+          "The maximum value that the z slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> zStepSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(zStepKey); add("zs");}},
           "The step size by which the z slider is incremented/decremented when a button is clicked.")
           .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> pitchMinSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(pitchMinKey); add("pm");}},
-          "The minimum value that the pitch slider may take.").withRequiredArg().ofType(Integer.class);
+          "The minimum value that the pitch slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> pitchMaxSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(pitchMaxKey); add("pM");}},
-          "The maximum value that the pitch slider may take.").withRequiredArg().ofType(Integer.class);
+          "The maximum value that the pitch slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> pitchStepSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(pitchStepKey); add("ps");}},
           "The step size by which the pitch slider is incremented/decremented when a button is clicked.")
           .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> yawMinSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(yawMinKey); add("wm");}},
-          "The minimum value that the yaw slider may take.").withRequiredArg().ofType(Integer.class);
+          "The minimum value that the yaw slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> yawMaxSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(yawMaxKey); add("wM");}},
-          "The maximum value that the yaw slider may take.").withRequiredArg().ofType(Integer.class);
+          "The maximum value that the yaw slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> yawStepSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(yawStepKey); add("ws");}},
           "The step size by which the yaw slider is incremented/decremented when a button is clicked.")
           .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> rollMinSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(rollMinKey);add("rm");}},
-          "The minimum value that the roll slider may take.").withRequiredArg().ofType(Integer.class);
+          "The minimum value that the roll slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> rollMaxSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(rollMaxKey); add("rM");}},
-          "The maximum value that the roll slider may take.").withRequiredArg().ofType(Integer.class);
+          "The maximum value that the roll slider may take.")
+          .withRequiredArg().ofType(Integer.class);
 
         OptionSpec<Integer> rollStepSpec = optionParser.acceptsAll(new ArrayList<String>() {{add(rollStepKey); add("rs");}},
           "The step size by which the roll slider is incremented/decremented when a button is clicked.")
           .withRequiredArg().ofType(Integer.class);
 
         // The superclass handles all malformed arguments.
-        super.parseArguments(arguments, optionParser);
-
-        // This repeats some of the parsing done by the superclass, but there's
-        // not a clean way of passing the results down, so live with it for now.
-        OptionSet options = optionParser.parse(arguments);
+        OptionSet options = super.parseArguments(arguments, optionParser);
 
         if (options.has(simObjectNameKey)) {
             trickProperties.setProperty(simObjectNameKey, options.valueOf(simObjectNameSpec));
         }
-
-        /*if (options.has(grannularityKey)) {
-            String grannularity = options.valueOf(grannularitySpec);
-            if (grannularity.equalsIgnoreCase("coarse")) {
-                trickProperties.setProperty(grannularityKey, "0");
-            }
-            else if (grannularity.equalsIgnoreCase("fine")) {
-                trickProperties.setProperty(grannularityKey, "1");
-            }
-            else {
-                System.out.println("Option ['grannularity'] argument must be one of ['coarse', 'fine']");
-                System.exit(0);
-            }
-        }
-
-        if (options.has(grannularityVisibleKey)) {
-            trickProperties.setProperty(grannularityVisibleKey,
-              Boolean.toString(options.valueOf(grannularityVisibleSpec)));
-        }
-
-        if (options.has(toggleRateHoldKey)) {
-            boolean toggle = options.valueOf(toggleRateHoldSpec);
-            trickProperties.setProperty(toggleRateHoldKey, Boolean.toString(toggle));
-            // If toggling is disabled, start in the non-pressed state.
-            if (!toggle) {
-                trickProperties.setProperty(rateHoldKey, Boolean.toString(false));
-            }
-        }
-
-        if (options.has(rateHoldKey)) {
-            trickProperties.setProperty(toggleRateHoldKey, Boolean.toString(true));
-            trickProperties.setProperty(rateHoldKey, Boolean.toString(options.valueOf(rateHoldSpec)));
-        }
-
-        if (options.has(rateHoldVisibleKey)) {
-            trickProperties.setProperty(rateHoldVisibleKey, Boolean.toString(options.valueOf(rateHoldVisibleSpec)));
-        }
-
-        if (options.has(stickyTriggerKey)) {
-            boolean sticky = options.valueOf(stickyTriggerSpec);
-            trickProperties.setProperty(stickyTriggerKey, Boolean.toString(sticky));
-            // If sticking is disabled, start in the neutral state.
-            if (!sticky) {
-                trickProperties.setProperty(triggerKey, "1");
-            }
-        }
-
-        if (options.has(triggerKey)) {
-            trickProperties.setProperty(stickyTriggerKey, Boolean.toString(true));
-            String trigger = options.valueOf(triggerSpec);
-            if (trigger.equalsIgnoreCase("up")) {
-                trickProperties.setProperty(triggerKey, "0");
-            }
-            else if (trigger.equalsIgnoreCase("neutral")) {
-                trickProperties.setProperty(triggerKey, "1");
-            }
-            else if (trigger.equalsIgnoreCase("down")) {
-                trickProperties.setProperty(triggerKey, "2");
-            }
-            else {
-                System.out.println("Option ['trigger'] argument must be one of ['up', 'neutral', 'down']");
-                System.exit(0);
-            }
-        }
-
-        if (options.has(triggerVisibleKey)) {
-            trickProperties.setProperty(triggerVisibleKey, Boolean.toString(options.valueOf(triggerVisibleSpec)));
-        }*/
 
         if (options.has(translationOrientationKey)) {
             String translation = options.valueOf(translationOrientationSpec);
@@ -499,8 +384,7 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                 trickProperties.setProperty(translationOrientationKey, Translation.ZYX.toString());
             }
             else {
-                System.out.println("Option ['translationOrientation'] argument must be one of" + 
-                 " ['xyz', 'xzy', 'yxz', 'yzx', 'zxy', 'zyx']");
+                System.out.println("Option ['translationOrientation'] argument must be one of ['xyz', 'xzy', 'yxz', 'yzx', 'zxy', 'zyx']");
                 System.exit(0);
             }
         }
@@ -526,8 +410,7 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                 trickProperties.setProperty(rotationOrientationKey, Rotation.RYP.toString());
             }
             else {
-                System.out.println("Option ['rotationOrientation'] argument must be one of" + 
-                 " ['pyr', 'pry', 'ypr', 'yrp', 'rpy', 'ryp']");
+                System.out.println("Option ['rotationOrientation'] argument must be one of ['pyr', 'pry', 'ypr', 'yrp', 'rpy', 'ryp']");
                 System.exit(0);
             }
         }
@@ -691,6 +574,8 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
         if (options.has(lightHeightKey)) {
             trickProperties.setProperty(lightHeightKey, Integer.toString(options.valueOf(lightHeightSpec)));
         }
+
+        return options;
     }
 
     @Override
@@ -721,8 +606,7 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
             });
         }
 
-        Layout.FULL.extendedState =
-          Integer.parseInt(trickProperties.getProperty(fullStateKey, Integer.toString(JFrame.NORMAL)));
+        Layout.FULL.extendedState = Integer.parseInt(trickProperties.getProperty(fullStateKey, Integer.toString(JFrame.NORMAL)));
 
         if (trickProperties.getProperty(fullXKey) != null || trickProperties.getProperty(fullYKey) != null ||
           trickProperties.getProperty(fullWidthKey) != null || trickProperties.getProperty(fullHeightKey) != null) {
@@ -733,8 +617,7 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
               Integer.parseInt(trickProperties.getProperty(fullHeightKey, "600")));
         }
 
-        Layout.LIGHT.extendedState =
-          Integer.parseInt(trickProperties.getProperty(lightStateKey, Integer.toString(JFrame.NORMAL)));
+        Layout.LIGHT.extendedState = Integer.parseInt(trickProperties.getProperty(lightStateKey, Integer.toString(JFrame.NORMAL)));
 
         if (trickProperties.getProperty(lightXKey) != null || trickProperties.getProperty(lightYKey) != null ||
           trickProperties.getProperty(lightWidthKey) != null || trickProperties.getProperty(lightHeightKey) != null) {
@@ -991,14 +874,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                             add(new JXLabel("Roll"), constraints);
                         }});
                     }});
-
-                    /*add(new JXPanel(new GridLayout(1, 2)) {{
-                        setBorder(new TitledBorder("Button Behavior") {{
-                            setTitleJustification(CENTER);
-                        }});
-                        add(toggleRateHoldCheckBox);
-                        add(stickyTriggerCheckBox);
-                    }});*/
                 }}, BorderLayout.CENTER);
 
                 settingsDialog.addBecomingVisibleListener(new BecomingVisibleListener() {
@@ -1038,9 +913,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                         rollMinTextField.setValue(new Integer(rollSlider.slider.getMinimum()));
                         rollMaxTextField.setValue(new Integer(rollSlider.slider.getMaximum()));
                         rollStepTextField.setValue(new Integer(rollSlider.step));
-
-                        toggleRateHoldCheckBox.setSelected(!rateHoldButtonListener.isEnabled());
-                        stickyTriggerCheckBox.setSelected(!triggerUpButtonListener.isEnabled());
                     }
                 });
 
@@ -1074,21 +946,7 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                         setTranslationOrientation((Translation)translationOrientationComboBox.getSelectedItem());
                         setRotationOrientation((Rotation)rotationOrientationComboBox.getSelectedItem());
 
-                        rateHoldButtonListener.setEnabled(!toggleRateHoldCheckBox.isSelected());
-                        // If toggling is disabled, set to the non-pressed state.
-                        if (!toggleRateHoldCheckBox.isSelected()) {
-                            rateHoldToggleButton.setSelected(false);
-                        }
-
-                        triggerUpButtonListener.setEnabled(!stickyTriggerCheckBox.isSelected());
-                        triggerDownButtonListener.setEnabled(!stickyTriggerCheckBox.isSelected());
-                        // If sticking is disabled, set to the neutral state.
-                        if (!stickyTriggerCheckBox.isSelected()) {
-                            setSelection(triggerRadioGroup, 1);
-                        }
-
-                        // If the sim object name was changed, we need to send the full state to the sim
-                        // to ensure the sim matches the GUI.
+                        // If the sim object name was changed, we need to send the full state to the sim to ensure the sim matches the GUI.
                         String name = simObjectTextField.getText().trim();
                         if (!name.equals(simObjectName)) {
                             setSimObjectName(name);
@@ -1103,15 +961,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                     }
 
                 });
-
-                /*if (System.getProperty("os.name").contains("Mac")) {
-                    Application.getApplication().setPreferencesHandler(new PreferencesHandler() {
-                        public void handlePreferences(PreferencesEvent e) {
-                            setVisible(true);
-                        }
-                    });
-                }*/
-
             }
 
         }, new GridBagConstraints() {{
@@ -1135,14 +984,13 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
               new ImageIcon(VirtualHandControllerMain.class.getResource("resources/handControllers.png"))) {{
                 setBorder(new EmptyBorder(5, 0, 5, 0));
             }}, constraints);
-            add(new JXLabel("Derek Bankieris") {{
-                setFont(new Font(getFont().getFontName(), Font.BOLD, getFont().getSize() + 5));
-            }}, constraints);
-            add(new JXLabel("<html><b><a href=\"inactive\">derek.r.bankieris@nasa.gov</a></b></html>") {{
+
+            final String uri = "https://github.com/nasa/IDF";
+            add(new JXLabel("<html><b><a href=\"" + uri + "\">" + uri + "</a></b></html>") {{
                 addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         try {
-                            Desktop.getDesktop().mail(new URI("mailto", "derek.r.bankieris", null));
+                            Desktop.getDesktop().browse(new URI(uri));
                         }
                         catch (Exception ex) {}
                     }
@@ -1162,8 +1010,8 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
 
         show(view);
 
-        // SingleFrameApplication's session state restoring code (which includes geometry) is run in show(), so we must
-        // configure our layout after calling show().
+        // SingleFrameApplication's session state restoring code (which includes geometry) is run in show(),
+        // so we must configure our layout after calling show().
         setSimObjectName(trickProperties.getProperty(simObjectNameKey, simObjectName));
         configureLayout(Layout.valueOf(trickProperties.getProperty(layoutKey,
           Layout.FULL.toString())));
@@ -1229,17 +1077,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
         trickProperties.setProperty(rollMaxKey, Integer.toString(rollSlider.slider.getMaximum()));
         trickProperties.setProperty(rollStepKey, Integer.toString(rollSlider.step));
 
-        /*trickProperties.setProperty(grannularityKey, Integer.toString(getSelectedIndex(grannularityRadioGroup)));
-        trickProperties.setProperty(grannularityVisibleKey, Boolean.toString(grannularityRadioGroup.isVisible()));
-
-        trickProperties.setProperty(toggleRateHoldKey, Boolean.toString(!rateHoldButtonListener.isEnabled()));
-        trickProperties.setProperty(rateHoldKey, Boolean.toString(rateHoldToggleButton.isSelected()));
-        trickProperties.setProperty(rateHoldVisibleKey, Boolean.toString(rateHoldToggleButton.isVisible()));
-
-        trickProperties.setProperty(stickyTriggerKey, Boolean.toString(!triggerUpButtonListener.isEnabled()));
-        trickProperties.setProperty(triggerKey, Integer.toString(getSelectedIndex(triggerRadioGroup)));
-        trickProperties.setProperty(triggerVisibleKey, Boolean.toString(triggerRadioGroup.isVisible()));*/
-
         super.shutdown();
     }
 
@@ -1253,20 +1090,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                 addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
                         configureLayout(layout);
-                    }
-                });
-            }
-        };
-
-        // check box that sets the target component's visibility when clicked
-        class ViewCheckBoxMenuItem extends JCheckBoxMenuItem {
-            public ViewCheckBoxMenuItem(String text, int mnemonic, final JComponent targetComponent) {
-                super(text);
-                setMnemonic(mnemonic);
-                setSelected(targetComponent.isVisible());
-                addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent event) {
-                        targetComponent.setVisible(isSelected());
                     }
                 });
             }
@@ -1311,10 +1134,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
 
             add(fullView);
             add(lightView);
-            /*add(new JSeparator());
-            add(new ViewCheckBoxMenuItem("Grannularity", KeyEvent.VK_G, grannularityRadioGroup));
-            add(new ViewCheckBoxMenuItem("Rate Hold", KeyEvent.VK_R, rateHoldToggleButton));
-            add(new ViewCheckBoxMenuItem("Trigger", KeyEvent.VK_T, triggerRadioGroup));*/
         }}, 1);
 
         return menuBar;
@@ -1419,54 +1238,46 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
             rollSlider = thirdSlider;
         }};
 
-        setTranslationOrientation(Enum.valueOf(Translation.class,
-          trickProperties.getProperty(translationOrientationKey, Translation.XYZ.toString())));
+        setTranslationOrientation(Enum.valueOf(Translation.class, trickProperties.getProperty(translationOrientationKey, Translation.XYZ.toString())));
 
-        setRotationOrientation(Enum.valueOf(Rotation.class,
-          trickProperties.getProperty(rotationOrientationKey, Rotation.RPY.toString())));
+        setRotationOrientation(Enum.valueOf(Rotation.class, trickProperties.getProperty(rotationOrientationKey, Rotation.RPY.toString())));
 
-        xSlider.slider.setInverted(Boolean.parseBoolean(
-          trickProperties.getProperty(invertXKey, Boolean.toString(false))));
+        xSlider.slider.setInverted(Boolean.parseBoolean( trickProperties.getProperty(invertXKey, Boolean.toString(false))));
         xSlider.step = Integer.parseInt(trickProperties.getProperty(xStepKey, "10"));
         int xMin = Integer.parseInt(trickProperties.getProperty(xMinKey, "-100"));
         int xMax = Integer.parseInt(trickProperties.getProperty(xMaxKey, "100"));
         xSlider.setRange(xMin, xMax);
         xSlider.slider.setValue(0);
 
-        ySlider.slider.setInverted(Boolean.parseBoolean(
-          trickProperties.getProperty(invertYKey, Boolean.toString(false))));
+        ySlider.slider.setInverted(Boolean.parseBoolean(trickProperties.getProperty(invertYKey, Boolean.toString(false))));
         ySlider.step = Integer.parseInt(trickProperties.getProperty(yStepKey, "10"));
         int yMin = Integer.parseInt(trickProperties.getProperty(yMinKey, "-100"));
         int yMax = Integer.parseInt(trickProperties.getProperty(yMaxKey, "100"));
         ySlider.setRange(yMin, yMax);
         ySlider.slider.setValue(0);
 
-        zSlider.slider.setInverted(Boolean.parseBoolean(
-          trickProperties.getProperty(invertZKey, Boolean.toString(false))));
+        zSlider.slider.setInverted(Boolean.parseBoolean(trickProperties.getProperty(invertZKey, Boolean.toString(false))));
         zSlider.step = Integer.parseInt(trickProperties.getProperty(zStepKey, "10"));
         int zMin = Integer.parseInt(trickProperties.getProperty(zMinKey, "-100"));
         int zMax = Integer.parseInt(trickProperties.getProperty(zMaxKey, "100"));
         zSlider.setRange(zMin, zMax);
         zSlider.slider.setValue(0);
 
-        pitchSlider.slider.setInverted(Boolean.parseBoolean(
-          trickProperties.getProperty(invertPitchKey, Boolean.toString(false))));
+        pitchSlider.slider.setInverted(Boolean.parseBoolean(trickProperties.getProperty(invertPitchKey, Boolean.toString(false))));
         pitchSlider.step = Integer.parseInt(trickProperties.getProperty(pitchStepKey, "10"));
         int pitchMin = Integer.parseInt(trickProperties.getProperty(pitchMinKey, "-100"));
         int pitchMax = Integer.parseInt(trickProperties.getProperty(pitchMaxKey, "100"));
         pitchSlider.setRange(pitchMin, pitchMax);
         pitchSlider.slider.setValue(0);
 
-        yawSlider.slider.setInverted(Boolean.parseBoolean(
-          trickProperties.getProperty(invertYawKey, Boolean.toString(false))));
+        yawSlider.slider.setInverted(Boolean.parseBoolean(trickProperties.getProperty(invertYawKey, Boolean.toString(false))));
         yawSlider.step = Integer.parseInt(trickProperties.getProperty(yawStepKey, "10"));
         int yawMin = Integer.parseInt(trickProperties.getProperty(yawMinKey, "-100"));
         int yawMax = Integer.parseInt(trickProperties.getProperty(yawMaxKey, "100"));
         yawSlider.setRange(yawMin, yawMax);
         yawSlider.slider.setValue(0);
 
-        rollSlider.slider.setInverted(Boolean.parseBoolean(
-          trickProperties.getProperty(invertRollKey, Boolean.toString(false))));
+        rollSlider.slider.setInverted(Boolean.parseBoolean(trickProperties.getProperty(invertRollKey, Boolean.toString(false))));
         rollSlider.step = Integer.parseInt(trickProperties.getProperty(rollStepKey, "10"));
         int rollMin = Integer.parseInt(trickProperties.getProperty(rollMinKey, "-100"));
         int rollMax = Integer.parseInt(trickProperties.getProperty(rollMaxKey, "100"));
@@ -1486,186 +1297,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
         pitchSlider.slider.addChangeListener(changeListener);
         yawSlider.slider.addChangeListener(changeListener);
         rollSlider.slider.addChangeListener(changeListener);
-
-        rateHoldToggleButton = new JToggleButton("Rate Hold") {{
-            setToolTipText("<html>When active, the simulation will<br>maintain its current rates.</html>");
-            setMnemonic(KeyEvent.VK_H);
-            setSelected(Boolean.parseBoolean(trickProperties.getProperty(rateHoldKey, Boolean.toString(false))));
-            setVisible(Boolean.parseBoolean(trickProperties.getProperty(rateHoldVisibleKey, Boolean.toString(true))));
-
-            // sends the rate hold command to the Variable Server when clicked
-            addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    sendRateHold();
-                }
-            });
-
-            // Since this is a toggle button, it will stay depressed when clicked. This listener will release it if toggling
-            // is disabled.
-            addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (rateHoldButtonListener.isEnabled()) {
-                        setSelected(false);
-                    }
-                }
-            });
-
-            // In click-and-hold mode, we must depress the button whenever the mouse is pressed over it.
-            rateHoldButtonListener = new ButtonListener(this) {
-                {
-                setEnabled(!Boolean.parseBoolean(trickProperties.getProperty(toggleRateHoldKey, Boolean.toString(true))));
-                }
-                void activeChanged(boolean active) {
-                    setSelected(active);
-                }
-            };
-        }};
-
-        grannularityRadioGroup = new JXRadioGroup<JRadioButton>() {
-
-            final JRadioButton coarseRadioButton = new JRadioButton("Coarse") {{
-                setMnemonic(KeyEvent.VK_R);
-            }};
-
-            final JRadioButton fineRadioButton = new JRadioButton("Fine") {{
-                setMnemonic(KeyEvent.VK_I);
-            }};
-
-            final GridBagConstraints constraints = new GridBagConstraints() {{
-                gridx = 0;
-                fill = BOTH;
-                weightx = 1;
-                weighty = 1;
-            }};
-
-            {
-            setBorder(new TitledBorder("Grannularity") {{
-                setTitleJustification(CENTER);
-            }});
-
-            setLayout(new GridBagLayout());
-            add(coarseRadioButton);
-            add(fineRadioButton);
-
-            setSelection(this, Integer.parseInt(trickProperties.getProperty(grannularityKey, "0")));
-
-            setVisible(Boolean.parseBoolean(trickProperties.getProperty(grannularityVisibleKey, Boolean.toString(true))));
-
-            // sends the grannularity command to the Variable Server when changed
-            addActionListener(new ActionListener() {
-                JRadioButton previousSelection = getSelectedValue();
-                public void actionPerformed(ActionEvent event) {
-                    if (getSelectedValue() != previousSelection) {
-                        previousSelection = getSelectedValue();
-                        sendGrannularity();
-                    }
-                }
-            });
-            }
-
-            public void add(JRadioButton radioButton) {
-                super.add(radioButton);
-                remove(radioButton);
-                add(radioButton, constraints);
-            }
-        };
-
-        triggerRadioGroup = new JXRadioGroup<JRadioButton>() {
-
-            final JRadioButton triggerNeutralRadioButton = new JRadioButton("Neutral") {{
-                setMnemonic(KeyEvent.VK_T);
-            }};
-
-            final JRadioButton triggerUpRadioButton = new JRadioButton("Up") {{
-                setMnemonic(KeyEvent.VK_U);
-
-                // Radio buttons stay selected when clicked by default. This listener will "release" the trigger if sticking
-                // is disabled.
-                addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (triggerUpButtonListener.isEnabled()) {
-                            triggerNeutralRadioButton.setSelected(true);
-                        }
-                    }
-                });
-
-                // In click-and-hold mode, we must select the radio button whenever the mouse is pressed over it.
-                triggerUpButtonListener = new ButtonListener(this) {
-                    {
-                    setEnabled(!Boolean.parseBoolean(trickProperties.getProperty(
-                      stickyTriggerKey, Boolean.toString(false))));
-                    }
-                    void activeChanged(boolean active) {
-                        if (active) {
-                            setSelected(true);
-                        }
-                        else {
-                            triggerNeutralRadioButton.setSelected(true);
-                        }
-                    }
-                };
-            }};
-
-            final JRadioButton triggerDownRadioButton = new JRadioButton("Down") {{
-                setMnemonic(KeyEvent.VK_N);
-
-                // Radio buttons stay selected when clicked by default. This listener will "release" the trigger if sticking
-                // is disabled.
-                addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (triggerDownButtonListener.isEnabled()) {
-                            triggerNeutralRadioButton.setSelected(true);
-                        }
-                    }
-                });
-
-                // In click-and-hold mode, we must select the radio button whenever the mouse is pressed over it.
-                triggerDownButtonListener = new ButtonListener(this) {
-                    {
-                    setEnabled(!Boolean.parseBoolean(trickProperties.getProperty(
-                      stickyTriggerKey, Boolean.toString(false))));
-                    }
-                    void activeChanged(boolean active) {
-                        if (active) {
-                            setSelected(true);
-                        }
-                        else {
-                            triggerNeutralRadioButton.setSelected(true);
-                        }
-                    }
-                };
-            }};
-
-            {
-            setLayoutAxis(BoxLayout.Y_AXIS);
-            setBorder(new TitledBorder("Trigger") {{
-                setTitleJustification(CENTER);
-            }});
-
-            add(triggerUpRadioButton);
-            add(triggerNeutralRadioButton);
-            add(triggerDownRadioButton);
-
-            setSelection(this, Integer.parseInt(trickProperties.getProperty(triggerKey, "1")));
-
-            setVisible(Boolean.parseBoolean(trickProperties.getProperty(triggerVisibleKey, Boolean.toString(true))));
-
-            // Send the trigger command to the Variable Server when changed.
-            ItemListener itemListener = new ItemListener() {
-                public void itemStateChanged(ItemEvent event) {
-                    if (event.getStateChange() == ItemEvent.SELECTED) {
-                        sendTrigger();
-                    }
-                }
-            };
-
-            triggerUpRadioButton.addItemListener(itemListener);
-            triggerNeutralRadioButton.addItemListener(itemListener);
-            triggerDownRadioButton.addItemListener(itemListener);
-            }
-
-        };
-
 
         mainPanel = new JXPanel(new BorderLayout());
         return mainPanel;
@@ -1698,16 +1329,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
                     }}, BorderLayout.CENTER);
                     break;
             }
-
-            /*mainPanel.add(new JXPanel(new GridBagLayout()) {{
-                GridBagConstraints constraints = new GridBagConstraints() {{
-                    fill = VERTICAL;
-                    weighty = 1;
-                }};
-                add(grannularityRadioGroup, constraints);
-                add(rateHoldToggleButton, constraints);
-                add(triggerRadioGroup, constraints);
-            }}, BorderLayout.SOUTH);*/
 
             if (this.layout != null) {
                 saveLayout();
@@ -1937,20 +1558,7 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
 
     /** sends the full control state of the GUI to the simulation */
     void sendFullState() {
-        //sendRateHold();
-        //sendTrigger();
-        //sendGrannularity();
         sendAllSliderValues();
-    }
-
-    /** sends the grannularity command to the simulation */
-    void sendGrannularity() {
-        if (grannularityRadioGroup.getSelectedValue().getText().equals("Coarse")) {
-            sendToVariableServer(simObjectName + ".hc_data.Button_2 = 1");
-        }
-        else {
-            sendToVariableServer(simObjectName + ".hc_data.Button_2 = 0");
-        }
     }
 
     /** sends all of the slider values to the simulation */
@@ -1987,16 +1595,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
         else {
             sendToVariableServer(simObjectName + ".clockwiseCounterclockwiseRotation.setValue(" + rollSlider.slider.getValue() + ")");
         }
-    }
-
-    /** sends the rate hold command to the simulation */
-    void sendRateHold() {
-        sendToVariableServer(simObjectName + ".hc_data.Button_1 = " + (rateHoldToggleButton.isSelected() ? "1" : "0"));
-    }
-
-    /** sends the trigger command to the simulation */
-    void sendTrigger() {
-        sendToVariableServer(simObjectName + ".hc_data.Trigger = " + ((4 - getSelectedIndex(triggerRadioGroup)) % 3));
     }
 
     /**
