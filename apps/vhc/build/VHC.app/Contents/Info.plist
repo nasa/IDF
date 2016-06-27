@@ -24,7 +24,7 @@
       <key>MainClass</key>
       <string>com.simontuffs.onejar.Boot</string>
       <key>JVMVersion</key>
-      <string>1.7+</string>
+      <string>1.8+</string>
       <key>ClassPath</key>
       <array>
         <string>$JAVAROOT/VirtualHandController.jar</string>

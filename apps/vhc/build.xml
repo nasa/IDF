@@ -65,7 +65,7 @@
             mainclass="com.simontuffs.onejar.Boot"
             jar="build/VirtualHandController.jar"
             icon="src/vhc/main/resources/vhc.icns"
-            jvmversion="1.7+"
+            jvmversion="1.8+"
             stubfile="lib/universalJavaApplicationStub"
             shortname="VHC"
             splashfile="splashScreen.png"
