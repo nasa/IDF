@@ -1,0 +1,16 @@
+.icg_no_found
+*S_*
+build
+CP_out
+DP_Product
+gmon.out
+io_src
+lib_*
+MAKE_out
+makefile
+Makefile_*
+object_*
+send_hs
+swig
+trick
+varserver_log
