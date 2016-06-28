@@ -4,7 +4,7 @@ by Derek Bankieris
 
 Requirements:
 
-Java SE7
+Java SE8
 
 
 Running:
@@ -27,7 +27,7 @@ open build/VHC.app [--args options]
 Compiling:
 
 This application comes precompiled. All the other files are only useful if you
-would like to make changes and recompile, in which case you will need Trick 13
+would like to make changes and recompile, in which case you will need Trick 16
 and Apache Ant. Otherwise, you can delete them from your local storage. For
 build options:
 ant -p
