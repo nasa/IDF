@@ -1,1 +1,1 @@
-include ../../../trick/makefiles/idf.mk
+include ../../../trick/makefiles/core.mk
