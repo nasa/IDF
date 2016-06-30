@@ -13,7 +13,7 @@
  * This SimObject declares three jobs:
  * - an initialiation job to open all devices
  * - a shutdown job to close all devices
- * - a job, whose phase, period, and class can be speicified by the developer, to update all devices
+ * - a job, whose phase, period, and class can be specified by the developer, to update all devices
  *
  * All of these jobs may throw idf::IOException, which will either be propagated up the call stack or
  * caught and printed, depending on the values of #catchOpenExceptions, #catchUpdateExceptions, and #catchCloseExceptions.
