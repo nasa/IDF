@@ -12,5 +12,4 @@ Makefile_*
 object_*
 send_hs
 swig
-trick
 varserver_log
