@@ -49,8 +49,9 @@ class Example : public Trick::SimObject {
          /**
           * Make sure you set and export IDF_HOME and TRICK_GTE_EXT in your
           * S_overrides.mk if you take this approach. This makes IDF_HOME
-          * available to the S_main executable. See this sim's
-          * S_overrides.mk for an example.
+          * available to the S_main executable. You can get this automatically
+          * if you #include IDF's core makefile from your S_overrides.mk, as
+          * this sim does.
           */
          virtualHandController.set_startup_command(std::string("java -jar ") +
            std::getenv("IDF_HOME") + "/apps/vhc/build/VirtualHandController.jar");
