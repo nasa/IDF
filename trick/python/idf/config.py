@@ -142,9 +142,11 @@ def launchVirtualController(vhcVariable):
 ## creates a MutualExclusionGroup and adds all @a controllers
 #
 # @param controllers an iterable of {@link Controller}s
+#
+# @return the newly-created MutualExclusionGroup
 def makeMutuallyExclusive(controllers):
     mutualExclusionGroup = trick.MutualExclusionGroup()
     mutualExclusionGroup.thisown = 0
     for controller in controllers:
         mutualExclusionGroup.add(controller)
-    return
+    return mutualExclusionGroup
