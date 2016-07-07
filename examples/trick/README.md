@@ -18,3 +18,7 @@ that can serve as a basic six degree of freedom device. The VHC is often
 useful when you don't have any physical devices handy. Like the SIM_device_only,
 this example illustrates directly reading from the device without regard for any
 controller interface.
+
+4. SIM_python1
+Demonstrates using the Python class idf.config.Configurator to automatically
+select the first available device and create a Controller from it.
