@@ -56,8 +56,10 @@ class Configurator:
                 self.addMasterDevice(device)
                 return device
 
-        # No device was found. Launch the Virtual Hand Controller.
-        launchVirtualController(self.vhcVariable)
+        # No device was found. If the Launch the Virtual Hand Controller if supported.
+        if (self.vhcVariable is not None):
+            launchVirtualController(self.vhcVariable)
+
         return None
 
     ## adds @a inputDevice to #inputDeviceManager
