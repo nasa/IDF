@@ -22,4 +22,4 @@ device without regard for any controller interface.
 
 ### SIM_python1
 Demonstrates using the Python class `idf.config.Configurator` to automatically
-select the first available device and create a Controller from it.
+select the first available device and create a `Controller` from it.
