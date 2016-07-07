@@ -19,7 +19,7 @@ which is a Java application that can serve as a basic six degree of freedom
 device. The VHC is often useful when you don't have any physical devices handy.
 Like the `SIM_device_only`, this example illustrates directly reading from the
 device without regard for any controller interface. This example launches the
-VHC from the S_define.
+VHC from the `S_define`.
 
 ### SIM_virtual_hand_controller_python
 Demonstrates using the
