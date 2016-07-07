@@ -7,7 +7,9 @@
 
 /**
  * Demonstrates the use of IDF within a Trick simulation, reading directly from
- * the Virtual Hand Controller.
+ * the Virtual Hand Controller. This example launches the VHC itself, but you
+ * can also configure IDF to do so automatically using its Python module. See
+ * SIM_virtual_hand_controller_python.
  *
  * Normally, your input device manager class should derive from
  * IdfInputDeviceManager since it handles much of the overhead of managing
