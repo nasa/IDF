@@ -13,3 +13,4 @@ object_*
 send_hs
 swig
 varserver_log
+*.swp
