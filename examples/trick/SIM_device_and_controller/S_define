@@ -76,7 +76,7 @@ class Example : public IdfInputDeviceManager {
     /**
      * If you want to perform some action after all devices have been updated,
      * one possibility is overriding IdfInputDeviceManager's updateDevices()
-     * function. In this example, we just want to print the device's decoded
+     * function. In this example, we just want to print the controller's
      * normalized values to the console. Normalized values always fall in the
      * range [-1, 1], with the extremes corresponing to the minimum and maximum
      * raw values. 0 represents the "neutral" point. If you choose this method,
