@@ -75,7 +75,7 @@ void UsbDevice::open() {
                     else {
                         hid_free_enumeration(enumerationHead);
                         throw IOException("Failed to open " + name + ": " + strerror(errno) +
-                          ". See the IDF README for troubleshooting.");
+                          ". See the IDF wiki for troubleshooting: https://github.com/nasa/IDF/wiki");
                     }
                 }
             }
