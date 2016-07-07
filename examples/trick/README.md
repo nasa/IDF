@@ -18,7 +18,17 @@ Demonstrates using the
 which is a Java application that can serve as a basic six degree of freedom
 device. The VHC is often useful when you don't have any physical devices handy.
 Like the `SIM_device_only`, this example illustrates directly reading from the
-device without regard for any controller interface.
+device without regard for any controller interface. This example launches the
+VHC from the S_define.
+
+### SIM_virtual_hand_controller_python
+Demonstrates using the
+[Virtual Hand Controller](https://github.com/nasa/IDF/wiki/Virtual-Hand-Controller),
+which is a Java application that can serve as a basic six degree of freedom
+device. The VHC is often useful when you don't have any physical devices handy.
+Like the `SIM_device_only`, this example illustrates directly reading from the
+device without regard for any controller interface. This example uses IDF's
+Python file to launch the VHC from the input file.
 
 ### SIM_python1
 Demonstrates using the Python class `idf.config.Configurator` to automatically

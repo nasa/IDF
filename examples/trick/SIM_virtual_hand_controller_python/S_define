@@ -1,0 +1,51 @@
+#include "sim_objects/default_trick_sys.sm"
+
+##include "inputAbstraction/include/VirtualLayout.hh"
+
+/**
+ * Demonstrates the use of IDF within a Trick simulation, reading directly from
+ * the Virtual Hand Controller. This example uses IDF's Python module to
+ * launch the VHC. See RUN_test/input.py.
+ *
+ * Normally, your input device manager class should derive from
+ * IdfInputDeviceManager since it handles much of the overhead of managing
+ * input devices. However, this example does not use physical devices, so we
+ * don't need it.
+ */
+class Example : public Trick::SimObject {
+
+    public:
+
+    /**
+     * VirtualLayout is a simple class containing only six fields whose sole
+     * purpose is to be written to by the Virtual Hand Controller via Trick's
+     * Variable Server. The name of this variable must be passed to the
+     * Virtual Hand Controller when launched so that it knows what variable
+     * name to use when sending its values over the Variable Server.
+     */
+    idf::VirtualLayout virtualLayout;
+
+    /**
+     * In this example, we'll simply declare a job to periodically print the
+     * values of the VirtualLayout. There's no need to call any update function,
+     * as values are written directly into the instance by the Virtual Hand
+     * Controller via Trick's Variable Server.
+     */
+    Example() {
+        (0.1, "scheduled") printValues();
+    }
+
+    /** prints the values */
+    void printValues() {
+        std::cout << virtualLayout.leftRightRotation.getValue() << " "
+                  << virtualLayout.upDownRotation.getValue() << " "
+                  << virtualLayout.clockwiseCounterclockwiseRotation.getValue() << " "
+                  << virtualLayout.leftRightTranslation.getValue() << " "
+                  << virtualLayout.upDownTranslation.getValue() << " "
+                  << virtualLayout.inOutTranslation.getValue()
+                  << std::endl;
+    }
+
+};
+
+Example example;
