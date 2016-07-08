@@ -43,7 +43,7 @@ the application.
 
 ### Architectural Summary
 
-Conceptually, IDF consist of three layers:
+Conceptually, IDF consists of three layers:
 
 **Simulation Interface Layer**  
 This layer defines the point at which external inputs enter the application's
