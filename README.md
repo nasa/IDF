@@ -1,17 +1,18 @@
-The Input Device Framework (IDF) is a software library that provides an
-infrastructure for interfacing software with physical input devices. Examples
-of common devices include hand controllers, joysticks, foot pedals, computer
-mice, game controllers, etc. Conceptually, the framework can be extended to
-support any device that produces digital output. IDF additionally presents, and
-is itself an implementation of, a design methodology that encourages
-application developers to program against domain-specific interfaces rather
-than particular hardware devices. This abstraction frees the application from
-the details of communicating with the underlying devices, resulting in robust
-and flexible code that is device-agnostic. IDF ensures that devices meet
-application interface requirements, supports many-to-many relationships between
-application interfaces and devices, allows for flexible and dynamic
-interpretation of device inputs, and provides methods for transforming and
-combining inputs.
+# Input Device Framework
+
+IDF is a software library that provides an infrastructure for interfacing
+software with physical input devices. Examples of common devices include hand
+controllers, joysticks, foot pedals, computer mice, game controllers, etc.
+Conceptually, the framework can be extended to support any device that produces
+digital output. IDF additionally presents, and is itself an implementation of, a
+design methodology that encourages application developers to program against
+domain-specific interfaces rather than particular hardware devices. This
+abstraction frees the application from the details of communicating with the
+underlying devices, resulting in robust and flexible code that is
+device-agnostic. IDF ensures that devices meet application interface
+requirements, supports many-to-many relationships between application interfaces
+and devices, allows for flexible and dynamic interpretation of device inputs,
+and provides methods for transforming and combining inputs.
 
 # The Problem
 
