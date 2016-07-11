@@ -42,9 +42,7 @@ application developers to write robust, flexible code with clearly delineated
 interface points which are defined in a domain and context most meaningful to
 the application.
 
-# Architectural Summary
-
-Conceptually, IDF consists of three layers:
+# Architecture
 
 ### Simulation Interface Layer
 
