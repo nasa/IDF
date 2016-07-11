@@ -74,7 +74,7 @@ contract.
 # Wiki
 
 See the [wiki](https://github.com/nasa/IDF/wiki) for installation instructions
-and additional topics.
+and lots of additional information.
 
 # License
 IDF is released under the [NASA Open Source Agreement, Version 1.3](LICENSE).
