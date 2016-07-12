@@ -110,7 +110,7 @@ class Output : public Deadbandable {
 
     /**
      * returns the value getValue() will return when this instance's Input's value is at its maximum
-     * (or minimum), as determined by Input::getMaximumValue() (or Input::getMinimumValue(),
+     * (or minimum), as determined by Input::getMaximumValue() (or Input::getMinimumValue()),
      * as specified by isInverted()
      *
      * returns the maximum value that this output can return
