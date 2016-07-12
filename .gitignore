@@ -1,4 +1,5 @@
 .icg_no_found
+.nfs*
 *S_*
 build
 CP_out
