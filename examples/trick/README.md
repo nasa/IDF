@@ -33,3 +33,9 @@ Python module to launch the VHC from the input file.
 ### SIM_python1
 Demonstrates using the Python class `idf.config.Configurator` to automatically
 select the first available device and create a `Controller` from it.
+
+### SIM_composite_controller
+Demonstrates using a CompositeController to allow multiple controllers to
+service the same interface. Controllers can be dynamically added and removed,
+and all inputs are combined. In general, you should prefer CompositeControllers
+over single Controllers as it offers increased flexibility.
