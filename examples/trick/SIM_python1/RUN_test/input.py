@@ -2,7 +2,7 @@ trick.real_time_enable()
 trick.exec_set_software_frame(0.1)
 
 # import IDF's modules
-sys.path.append(os.environ['IDF_HOME'] + "/trick/python")
+sys.path.append(os.environ['IDF_HOME'] + "/3rdParty/trick/python")
 import idf.config
 
 # inherit from IDF's Configurator

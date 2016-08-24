@@ -1,11 +1,11 @@
 # Make IDF_HOME available to the sim at run time
-export IDF_HOME ?= $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+export IDF_HOME ?= $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../..)
 export TRICK_GTE_EXT += IDF_HOME
 
 # Header include paths
 TRICK_CFLAGS   += -I${IDF_HOME}/models
 TRICK_CXXFLAGS += -I${IDF_HOME}/models
-TRICK_SFLAGS   += -I${IDF_HOME}/trick/sim_objects
+TRICK_SFLAGS   += -I${IDF_HOME}/3rdParty/trick/sim_objects
 
 # Library includes
 ifeq (${TRICK_HOST_TYPE}, Linux)
