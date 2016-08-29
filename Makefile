@@ -1,4 +1,4 @@
-UNAME := $(shell uname)
+INCLUDE_DIR = include
 SOURCE_DIR = source
 BUILD_DIR = build
 OBJECT_DIR = $(BUILD_DIR)/objects
@@ -13,15 +13,17 @@ CPPFLAGS += -g -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -fno-st
 all: $(LIB)
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)
 
 $(sort $(dir $(OBJECTS))) $(dir $(LIB)):
-	mkdir -p $@
+	@mkdir -p $@
 
 $(LIB): $(OBJECTS) | $(dir $(LIB))
-	ar rs $(LIB) $(OBJECTS)
+	$(info Building  $@)
+	@ar rsc $@ $?
 
 .SECONDEXPANSION:
 
-$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp | $$(dir $$@)
-	$(CXX) -c $(CPPFLAGS) -o $@ $^
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp $(INCLUDE_DIR)/%.hh | $$(dir $$@)
+	$(info Compiling $<)
+	@$(CXX) -c $(CPPFLAGS) -o $@ $<
