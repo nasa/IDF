@@ -1,9 +1,9 @@
 #include "sim_objects/default_trick_sys.sm"
 
 ##include <cstdlib>
-##include "inputAbstraction/include/VirtualLayout.hh"
-##include "sim_services/ExternalApplications/include/ExternalApplication.hh"
-##include "sim_services/ExternalApplications/include/ExternalApplicationManager.hh"
+##include "idf/VirtualLayout.hh"
+##include "trick/ExternalApplication.hh"
+##include "trick/ExternalApplicationManager.hh"
 
 /**
  * Demonstrates the use of IDF within a Trick simulation, reading directly from

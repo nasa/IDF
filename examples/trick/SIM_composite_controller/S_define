@@ -1,13 +1,13 @@
 #include "sim_objects/default_trick_sys.sm"
-#include "IdfInputDeviceManager.sm"
+#include "idf/IdfInputDeviceManager.sm"
 
 ##include <sstream>
 ##include <iomanip>
 
-##include "simulationInterface/include/CompositeFlightController.hh"
-##include "simulationInterface/include/CompositeCameraController.hh"
-##include "simulationInterface/include/CompositeRoboticsController.hh"
-##include "simulationInterface/include/MutualExclusionGroup.hh"
+##include "idf/CompositeFlightController.hh"
+##include "idf/CompositeCameraController.hh"
+##include "idf/CompositeRoboticsController.hh"
+##include "idf/MutualExclusionGroup.hh"
 
 /**
  * Demonstrates the use of IDF within a Trick simulation, using a

@@ -1,0 +1,67 @@
+#include "idf/RemoteCameraController.hh"
+#include "idf/Utils.hh"
+#include "idf/RemoteDeviceClient.hh"
+#include "idf/IOException.hh"
+#include <exception>
+#include <cstring>
+#include <cerrno>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <fcntl.h>
+
+namespace idf {
+
+RemoteCameraController::Server::Server(unsigned short listenPort) :
+    RemoteDeviceServer<Commands>(listenPort) {}
+
+double RemoteCameraController::Server::getCommandedPan() const {
+    double result = 0;
+    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+        result += unpack(i->commands.pan);
+    }
+    return bound(result);
+}
+
+double RemoteCameraController::Server::getCommandedTilt() const {
+    double result = 0;
+    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+        result += unpack(i->commands.tilt);
+    }
+    return bound(result);
+}
+
+double RemoteCameraController::Server::getCommandedSpin() const {
+    double result = 0;
+    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+        result += unpack(i->commands.spin);
+    }
+    return bound(result);
+}
+
+double RemoteCameraController::Server::getCommandedZoom() const {
+    double result = 0;
+    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+        result += unpack(i->commands.zoom);
+    }
+    return bound(result);
+}
+
+RemoteCameraController::Client::Client(const CameraController& cameraController,
+  std::string hostName, unsigned short hostPort) :
+    RemoteDeviceClient<CameraController, Commands>(cameraController, hostName, hostPort) {}
+
+void RemoteCameraController::Client::packCommands(Commands& commands) {
+    packCommands(commands, controller);
+}
+
+void RemoteCameraController::Client::packCommands(Commands& commands,
+  const CameraController& cameraController) {
+    commands.pan = pack(cameraController.getPan());
+    commands.tilt = pack(cameraController.getTilt());
+    commands.spin = pack(cameraController.getSpin());
+    commands.zoom = pack(cameraController.getZoom());
+}
+
+}

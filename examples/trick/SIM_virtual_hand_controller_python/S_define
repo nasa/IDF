@@ -1,6 +1,6 @@
 #include "sim_objects/default_trick_sys.sm"
 
-##include "inputAbstraction/include/VirtualLayout.hh"
+##include "idf/VirtualLayout.hh"
 
 /**
  * Demonstrates the use of IDF within a Trick simulation, reading directly from

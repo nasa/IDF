@@ -1,12 +1,12 @@
 #include "sim_objects/default_trick_sys.sm"
-#include "IdfInputDeviceManager.sm"
+#include "idf/IdfInputDeviceManager.sm"
 
 ##include <sstream>
 ##include <iomanip>
 
 ##include "sim_services/Executive/include/exec_proto.h"
-##include "simulationInterface/include/SingleFlightController.hh"
-##include "inputAbstraction/include/Deadband.hh"
+##include "idf/SingleFlightController.hh"
+##include "idf/Deadband.hh"
 
 /**
  * Demonstrates the use of IDF within a Trick simulation, using the Python

@@ -1,0 +1,44 @@
+/*
+PURPOSE:
+LIBRARY DEPENDENCIES: (
+(idf/UsbDualShock.cpp)
+)
+*/
+
+/**
+ * @trick_parse{everything}
+ * @trick_link_dependency{idf/UsbDualShock.cpp}
+ */
+
+#ifndef _USB_DUAL_SHOCK_HH_
+#define _USB_DUAL_SHOCK_HH_
+
+#include "idf/UsbDevice.hh"
+#include "idf/DualShock.hh"
+
+namespace idf {
+
+/**
+ * common aspects of all Sony PlayStation DUALSHOCK controllers
+ *
+ * @author Derek Bankieris
+ */
+class UsbDualShock : public UsbDevice, public virtual DualShock {
+
+    public:
+
+    /** @copydoc UsbDevice::UsbDevice */
+    UsbDualShock(const std::string name, int vendorID, int productID, unsigned packetLength);
+
+    /** destructor */
+    virtual ~UsbDualShock() {};
+
+    private:
+
+    void operator=(const UsbDualShock&);
+
+};
+
+}
+
+#endif
