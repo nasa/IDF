@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbChProPedals.cpp}
  */
 
-#ifndef _USB_CH_PRO_PEDALS_HH_
-#define _USB_CH_PRO_PEDALS_HH_
+#ifndef USB_CH_PRO_PEDALS_HH
+#define USB_CH_PRO_PEDALS_HH
 
 #include "idf/UsbDevice.hh"
 #include "idf/ChProPedals.hh"

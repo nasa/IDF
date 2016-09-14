@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Output.cpp}
  */
 
-#ifndef _OUTPUT_HH_
-#define _OUTPUT_HH_
+#ifndef OUTPUT_HH
+#define OUTPUT_HH
 
 #include <vector>
 

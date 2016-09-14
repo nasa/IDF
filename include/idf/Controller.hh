@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Controller.cpp}
  */
 
-#ifndef _CONTROLLER_HH_
-#define _CONTROLLER_HH_
+#ifndef CONTROLLER_HH
+#define CONTROLLER_HH
 
 #include <vector>
 #include "idf/StateChangeListener.hh"

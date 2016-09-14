@@ -4,8 +4,8 @@ PURPOSE:
 
 /* @trick_parse{everything} */
 
-#ifndef _IO_EXCEPTION_HH_
-#define _IO_EXCEPTION_HH_
+#ifndef IO_EXCEPTION_HH
+#define IO_EXCEPTION_HH
 
 #include <stdexcept>
 #include <string>

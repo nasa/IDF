@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/RemoteRoboticsController.cpp}
  */
 
-#ifndef _REMOTE_ROBOTICS_CONTROLLER_HH_
-#define _REMOTE_ROBOTICS_CONTROLLER_HH_
+#ifndef REMOTE_ROBOTICS_CONTROLLER_HH
+#define REMOTE_ROBOTICS_CONTROLLER_HH
 
 #include "idf/RoboticsController.hh"
 #include "idf/RemoteDeviceServer.hh"

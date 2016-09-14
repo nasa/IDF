@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/ThrustMasterBase.cpp}
  */
 
-#ifndef _THRUST_MASTER_BASE_HH_
-#define _THRUST_MASTER_BASE_HH_
+#ifndef THRUST_MASTER_BASE_HH
+#define THRUST_MASTER_BASE_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

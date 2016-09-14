@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Deadband.cpp}
  */
 
-#ifndef _DEADBAND_HH_
-#define _DEADBAND_HH_
+#ifndef DEADBAND_HH
+#define DEADBAND_HH
 
 namespace idf {
 

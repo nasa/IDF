@@ -1,5 +1,5 @@
-#ifndef _PYTHON_HEADERS_HH_
-#define _PYTHON_HEADERS_HH_
+#ifndef PYTHON_INTERFACE_HH
+#define PYTHON_INTERFACE_HH
 
 /**
  * this file provides support for Python-instantiation of Input Device
@@ -18,22 +18,22 @@
  */
 
 // FlightController
-#include "SingleFlightController.hh"
-#include "CompositeFlightController.hh"
-#include "RemoteFlightController.hh"
+#include "idf/SingleFlightController.hh"
+#include "idf/CompositeFlightController.hh"
+#include "idf/RemoteFlightController.hh"
 
 // CameraController
-#include "SingleCameraController.hh"
-#include "CompositeCameraController.hh"
-#include "RemoteCameraController.hh"
+#include "idf/SingleCameraController.hh"
+#include "idf/CompositeCameraController.hh"
+#include "idf/RemoteCameraController.hh"
 
 // RoboticsController
-#include "SingleRoboticsController.hh"
-#include "CompositeRoboticsController.hh"
-#include "RemoteRoboticsController.hh"
+#include "idf/SingleRoboticsController.hh"
+#include "idf/CompositeRoboticsController.hh"
+#include "idf/RemoteRoboticsController.hh"
 
 // Miscellaneous
-#include "MutualExclusionGroup.hh"
+#include "idf/MutualExclusionGroup.hh"
 #include "idf/CompositeInput.hh"
 #include "idf/Deadband.hh"
 

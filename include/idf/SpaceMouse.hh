@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SpaceMouse.cpp}
  */
 
-#ifndef _SPACE_MOUSE_HH_
-#define _SPACE_MOUSE_HH_
+#ifndef SPACE_MOUSE_HH
+#define SPACE_MOUSE_HH
 
 #include "idf/SpaceBase.hh"
 #include "idf/SingleInput.hh"

@@ -4,8 +4,8 @@ PURPOSE:
 
 /** @trick_parse{everything} */
 
-#ifndef _REMOTE_DEVICE_SERVER_HH_
-#define _REMOTE_DEVICE_SERVER_HH_
+#ifndef REMOTE_DEVICE_SERVER_HH
+#define REMOTE_DEVICE_SERVER_HH
 
 #include "idf/RemoteDeviceServerBase.hh"
 #include "idf/IOException.hh"

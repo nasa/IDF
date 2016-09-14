@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/CanIndustrialProducts.cpp}
  */
 
-#ifndef _CAN_INDUSTRIAL_PRODUCTS_HH_
-#define _CAN_INDUSTRIAL_PRODUCTS_HH_
+#ifndef CAN_INDUSTRIAL_PRODUCTS_HH
+#define CAN_INDUSTRIAL_PRODUCTS_HH
 
 #include "idf/CanDevice.hh"
 #include "idf/IndustrialProducts.hh"

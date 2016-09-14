@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/RemoteSpaceNavigator.cpp}
  */
 
-#ifndef _REMOTE_SPACE_NAVIGATOR_HH_
-#define _REMOTE_SPACE_NAVIGATOR_HH_
+#ifndef REMOTE_SPACE_NAVIGATOR_HH
+#define REMOTE_SPACE_NAVIGATOR_HH
 
 #include "idf/SpaceNavigator.hh"
 #include "idf/RemoteDeviceServer.hh"

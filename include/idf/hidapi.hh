@@ -1,1 +1,1 @@
-// This file only exists to satify the make rule.
+// This file only exists to satisfy the make rule.

@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/CanDevice.cpp}
  */
 
-#ifndef _CAN_DEVICE_HH_
-#define _CAN_DEVICE_HH_
+#ifndef CAN_DEVICE_HH
+#define CAN_DEVICE_HH
 
 #include "idf/InputDevice.hh"
 #include "idf/IOException.hh"

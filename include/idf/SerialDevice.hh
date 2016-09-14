@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SerialDevice.cpp}
  */
 
-#ifndef _SERIAL_DEVICE_HH_
-#define _SERIAL_DEVICE_HH_
+#ifndef SERIAL_DEVICE_HH
+#define SERIAL_DEVICE_HH
 
 #include "idf/InputDevice.hh"
 

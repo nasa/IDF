@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/RemoteCameraController.cpp}
  */
 
-#ifndef _REMOTE_CAMERA_CONTROLLER_HH_
-#define _REMOTE_CAMERA_CONTROLLER_HH_
+#ifndef REMOTE_CAMERA_CONTROLLER_HH
+#define REMOTE_CAMERA_CONTROLLER_HH
 
 #include "idf/CameraController.hh"
 #include "idf/RemoteDeviceServer.hh"

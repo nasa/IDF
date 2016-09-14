@@ -4,8 +4,8 @@ PURPOSE:
 
 /* @trick_parse{everything} */
 
-#ifndef _STATE_CHANGE_LISTENER_HH_
-#define _STATE_CHANGE_LISTENER_HH_
+#ifndef STATE_CHANGE_LISTENER_HH
+#define STATE_CHANGE_LISTENER_HH
 
 namespace idf {
 

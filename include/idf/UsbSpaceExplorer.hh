@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbSpaceExplorer.cpp}
  */
 
-#ifndef _USB_SPACE_EXPLORER_HH_
-#define _USB_SPACE_EXPLORER_HH_
+#ifndef USB_SPACE_EXPLORER_HH
+#define USB_SPACE_EXPLORER_HH
 
 #include "idf/UsbSpaceBase.hh"
 #include "idf/SpaceExplorer.hh"

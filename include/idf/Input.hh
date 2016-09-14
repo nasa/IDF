@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Input.cpp}
  */
 
-#ifndef _INPUT_HH_
-#define _INPUT_HH_
+#ifndef INPUT_HH
+#define INPUT_HH
 
 namespace idf {
 

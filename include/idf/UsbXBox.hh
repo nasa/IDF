@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbXBox.cpp}
  */
 
-#ifndef _USB_XBOX_HH_
-#define _USB_XBOX_HH_
+#ifndef USB_XBOX_HH
+#define USB_XBOX_HH
 
 #include "idf/UsbDevice.hh"
 #include "idf/XBox.hh"

@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbExtreme3dPro.cpp}
  */
 
-#ifndef _USB_EXTREME_3D_PRO_HH_
-#define _USB_EXTREME_3D_PRO_HH_
+#ifndef USB_EXTREME_3D_PRO_HH
+#define USB_EXTREME_3D_PRO_HH
 
 #include "idf/UsbWingMan.hh"
 #include "idf/Extreme3dPro.hh"

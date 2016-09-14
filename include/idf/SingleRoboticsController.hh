@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SingleRoboticsController.cpp}
  */
 
-#ifndef _SINGLE_ROBOTICS_CONTROLLER_HH_
-#define _SINGLE_ROBOTICS_CONTROLLER_HH_
+#ifndef SINGLE_ROBOTICS_CONTROLLER_HH
+#define SINGLE_ROBOTICS_CONTROLLER_HH
 
 #include "idf/RoboticsController.hh"
 

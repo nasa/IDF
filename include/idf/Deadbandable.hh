@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Deadbandable.cpp}
  */
 
-#ifndef _DEADBANDABLE_HH_
-#define _DEADBANDABLE_HH_
+#ifndef DEADBANDABLE_HH
+#define DEADBANDABLE_HH
 
 #include <vector>
 #include "idf/Deadband.hh"

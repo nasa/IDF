@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/RemoteDeviceServerBase.cpp}
  */
 
-#ifndef _REMOTE_DEVICE_SERVER_BASE_HH_
-#define _REMOTE_DEVICE_SERVER_BASE_HH_
+#ifndef REMOTE_DEVICE_SERVER_BASE_HH
+#define REMOTE_DEVICE_SERVER_BASE_HH
 
 #include "idf/InputDevice.hh"
 

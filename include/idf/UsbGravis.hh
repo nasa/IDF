@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbGravis.cpp}
  */
 
-#ifndef _USB_GRAVIS_HH_
-#define _USB_GRAVIS_HH_
+#ifndef USB_GRAVIS_HH
+#define USB_GRAVIS_HH
 
 #include "idf/UsbDevice.hh"
 #include "idf/Gravis.hh"

@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/ChProPedals.cpp}
  */
 
-#ifndef _CH_PRO_PEDALS_HH_
-#define _CH_PRO_PEDALS_HH_
+#ifndef CH_PRO_PEDALS_HH
+#define CH_PRO_PEDALS_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

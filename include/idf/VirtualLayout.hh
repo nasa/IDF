@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/VirtualLayout.cpp}
  */
 
-#ifndef _VIRTUAL_LAYOUT_HH_
-#define _VIRTUAL_LAYOUT_HH_
+#ifndef VIRTUAL_LAYOUT_HH
+#define VIRTUAL_LAYOUT_HH
 
 #include "idf/SingleInput.hh"
 

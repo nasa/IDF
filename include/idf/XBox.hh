@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/XBox.cpp}
  */
 
-#ifndef _XBOX_HH_
-#define _XBOX_HH_
+#ifndef XBOX_HH
+#define XBOX_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

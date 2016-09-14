@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SpaceBase.cpp}
  */
 
-#ifndef _SPACE_BASE_HH_
-#define _SPACE_BASE_HH_
+#ifndef SPACE_BASE_HH
+#define SPACE_BASE_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

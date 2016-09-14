@@ -12,8 +12,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/hidapi.cpp}
  */
 
-#ifndef _USB_DEVICE_HH_
-#define _USB_DEVICE_HH_
+#ifndef USB_DEVICE_HH
+#define USB_DEVICE_HH
 
 #include "idf/InputDevice.hh"
 

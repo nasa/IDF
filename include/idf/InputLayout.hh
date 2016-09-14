@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/InputLayout.cpp}
  */
 
-#ifndef _INPUT_LAYOUT_HH_
-#define _INPUT_LAYOUT_HH_
+#ifndef INPUT_LAYOUT_HH
+#define INPUT_LAYOUT_HH
 
 #include "idf/SingleInput.hh"
 #include <string>

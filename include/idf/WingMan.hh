@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/WingMan.cpp}
  */
 
-#ifndef _WING_MAN_HH_
-#define _WING_MAN_HH_
+#ifndef WING_MAN_HH
+#define WING_MAN_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

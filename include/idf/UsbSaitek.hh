@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbSaitek.cpp}
  */
 
-#ifndef _USB_SAITEK_HH_
-#define _USB_SAITEK_HH_
+#ifndef USB_SAITEK_HH
+#define USB_SAITEK_HH
 
 #include "idf/UsbDevice.hh"
 #include "idf/Saitek.hh"

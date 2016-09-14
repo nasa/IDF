@@ -4,8 +4,8 @@ PURPOSE:
 
 /** @trick_parse{everything} */
 
-#ifndef _COMPOSITE_CONTROLLER_HH_
-#define _COMPOSITE_CONTROLLER_HH_
+#ifndef COMPOSITE_CONTROLLER_HH
+#define COMPOSITE_CONTROLLER_HH
 
 #include <vector>
 #include <algorithm>

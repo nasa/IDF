@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SerialThrustMasterBase.cpp}
  */
 
-#ifndef _SERIAL_THRUST_MASTER_BASE_HH_
-#define _SERIAL_THRUST_MASTER_BASE_HH_
+#ifndef SERIAL_THRUST_MASTER_BASE_HH
+#define SERIAL_THRUST_MASTER_BASE_HH
 
 #include "idf/SerialDevice.hh"
 #include "idf/ThrustMasterBase.hh"

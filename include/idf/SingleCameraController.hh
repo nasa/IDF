@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SingleCameraController.cpp}
  */
 
-#ifndef _SINGLE_CAMERA_CONTROLLER_HH_
-#define _SINGLE_CAMERA_CONTROLLER_HH_
+#ifndef SINGLE_CAMERA_CONTROLLER_HH
+#define SINGLE_CAMERA_CONTROLLER_HH
 
 #include "idf/CameraController.hh"
 

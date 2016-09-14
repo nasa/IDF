@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/IndustrialProducts2.cpp}
  */
 
-#ifndef _INDUSTRIAL_PRODUCTS2_HH_
-#define _INDUSTRIAL_PRODUCTS2_HH_
+#ifndef INDUSTRIAL_PRODUCTS2_HH
+#define INDUSTRIAL_PRODUCTS2_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

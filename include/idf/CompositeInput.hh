@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/CompositeInput.cpp}
  */
 
-#ifndef _COMPOSITE_INPUT_HH_
-#define _COMPOSITE_INPUT_HH_
+#ifndef COMPOSITE_INPUT_HH
+#define COMPOSITE_INPUT_HH
 
 #include <vector>
 

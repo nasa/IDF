@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbWingMan.cpp}
  */
 
-#ifndef _USB_WING_MAN_HH_
-#define _USB_WING_MAN_HH_
+#ifndef USB_WING_MAN_HH
+#define USB_WING_MAN_HH
 
 #include "idf/UsbDevice.hh"
 #include "idf/WingMan.hh"

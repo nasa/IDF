@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbSpaceMouse.cpp}
  */
 
-#ifndef _USB_SPACE_MOUSE_HH_
-#define _USB_SPACE_MOUSE_HH_
+#ifndef USB_SPACE_MOUSE_HH
+#define USB_SPACE_MOUSE_HH
 
 #include "idf/UsbSpaceBase.hh"
 #include "idf/SpaceMouse.hh"

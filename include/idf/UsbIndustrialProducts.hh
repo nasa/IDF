@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbIndustrialProducts.cpp}
  */
 
-#ifndef _USB_INDUSTRIAL_PRODUCTS_HH_
-#define _USB_INDUSTRIAL_PRODUCTS_HH_
+#ifndef USB_INDUSTRIAL_PRODUCTS_HH
+#define USB_INDUSTRIAL_PRODUCTS_HH
 
 #include "idf/UsbDevice.hh"
 #include "idf/IndustrialProducts2.hh"

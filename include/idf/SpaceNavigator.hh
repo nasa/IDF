@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SpaceNavigator.cpp}
  */
 
-#ifndef _SPACE_NAVIGATOR_HH_
-#define _SPACE_NAVIGATOR_HH_
+#ifndef SPACE_NAVIGATOR_HH
+#define SPACE_NAVIGATOR_HH
 
 #include "idf/SpaceBase.hh"
 #include "idf/SingleInput.hh"

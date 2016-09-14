@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/MutualExclusionGroup.cpp}
  */
 
-#ifndef _MUTUAL_EXCLUSION_GROUP_HH_
-#define _MUTUAL_EXCLUSION_GROUP_HH_
+#ifndef MUTUAL_EXCLUSION_GROUP_HH
+#define MUTUAL_EXCLUSION_GROUP_HH
 
 #include <vector>
 

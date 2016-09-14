@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/RemoteExtreme3dPro.cpp}
  */
 
-#ifndef _REMOTE_EXTREME_3D_PRO_HH_
-#define _REMOTE_EXTREME_3D_PRO_HH_
+#ifndef REMOTE_EXTREME_3D_PRO_HH
+#define REMOTE_EXTREME_3D_PRO_HH
 
 #include "idf/Extreme3dPro.hh"
 #include "idf/RemoteDeviceServer.hh"

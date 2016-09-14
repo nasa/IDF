@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/FlightController.cpp}
  */
 
-#ifndef _FLIGHT_CONTROLLER_HH_
-#define _FLIGHT_CONTROLLER_HH_
+#ifndef FLIGHT_CONTROLLER_HH
+#define FLIGHT_CONTROLLER_HH
 
 #include "idf/Controller.hh"
 

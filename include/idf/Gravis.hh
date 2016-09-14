@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Gravis.cpp}
  */
 
-#ifndef _GRAVIS_HH_
-#define _GRAVIS_HH_
+#ifndef GRAVIS_HH
+#define GRAVIS_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

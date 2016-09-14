@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Saitek.cpp}
  */
 
-#ifndef _SAITEK_HH_
-#define _SAITEK_HH_
+#ifndef SAITEK_HH
+#define SAITEK_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"

@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/SingleInput.cpp}
  */
 
-#ifndef _SINGLE_INPUT_HH_
-#define _SINGLE_INPUT_HH_
+#ifndef SINGLE_INPUT_HH
+#define SINGLE_INPUT_HH
 
 #include "idf/Deadbandable.hh"
 #include "idf/Input.hh"

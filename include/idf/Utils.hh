@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/Utils.cpp}
  */
 
-#ifndef _IDF_UTILS_HH_
-#define _IDF_UTILS_HH_
+#ifndef IDF_UTILS_HH
+#define IDF_UTILS_HH
 
 namespace idf {
 

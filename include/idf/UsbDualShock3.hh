@@ -10,8 +10,8 @@ LIBRARY DEPENDENCIES: (
  * @trick_link_dependency{idf/UsbDualShock3.cpp}
  */
 
-#ifndef _USB_DUAL_SHOCK_3_HH_
-#define _USB_DUAL_SHOCK_3_HH_
+#ifndef USB_DUAL_SHOCK_3_HH
+#define USB_DUAL_SHOCK_3_HH
 
 #include "idf/UsbDualShock.hh"
 #include "idf/DualShock3.hh"
