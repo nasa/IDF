@@ -1,1 +1,1 @@
-include ../../../3rdParty/trick/makefiles/core.mk
+include ../../makefiles/core.mk
