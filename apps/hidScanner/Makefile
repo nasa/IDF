@@ -8,7 +8,7 @@ ifeq ($(UNAME), Linux)
     HID_C := $(INCLUDE_DIR)/hidapi/linux/hid.c
     LIBS += -ludev
 else ifeq ($(UNAME), Darwin)
-    HID_C := $(INCLUDE_DIR)/hidapi/max/hid.c
+    HID_C := $(INCLUDE_DIR)/hidapi/mac/hid.c
     LIBS += -framework IOKit -framework CoreFoundation
 endif
 
