@@ -33,7 +33,12 @@ ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
 
     # Link in the libraries. We must use -whole-archive to ensure that io_* and py_* code not
     # needed at link time is nevertheless available at run time.
-    TRICK_USER_LINK_LIBS += -Wl,-whole-archive $(THIRD_PARTY)/lib/libidf_trick.a -Wl,-no-whole-archive $(IDF_HOME)/build/lib/libidf.a
+    ifeq ($(TRICK_HOST_TYPE), Linux)
+        TRICK_USER_LINK_LIBS += -Wl,-whole-archive $(THIRD_PARTY)/lib/libidf_trick.a -Wl,-no-whole-archive
+    else ifeq ($(TRICK_HOST_TYPE), Darwin)
+        TRICK_USER_LINK_LIBS += -Wl,-force_load $(THIRD_PARTY)/lib/libidf_trick.a
+    endif
+    TRICK_USER_LINK_LIBS += $(IDF_HOME)/build/lib/libidf.a
 
     # Append prerequisites to the all target, causing the libraries to be built along with the sim
     all: libidf libidf_trick
