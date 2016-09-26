@@ -16,3 +16,4 @@ swig
 varserver_log
 *.swp
 *.a
+*.dSYM
