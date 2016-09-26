@@ -2,8 +2,8 @@
 
 ##include <cstdlib>
 ##include "idf/VirtualLayout.hh"
-##include "trick/ExternalApplication.hh"
-##include "trick/ExternalApplicationManager.hh"
+##include "sim_services/ExternalApplications/include/ExternalApplication.hh"
+##include "sim_services/ExternalApplications/include/ExternalApplicationManager.hh"
 
 /**
  * Demonstrates the use of IDF within a Trick simulation, reading directly from

@@ -15,3 +15,4 @@ send_hs
 swig
 varserver_log
 *.swp
+*.a
