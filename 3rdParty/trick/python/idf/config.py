@@ -1,9 +1,9 @@
 import abc
 import inspect
 import os
-import trick
 import socket
 import sys
+import trick
 
 ## provides convenience functions for setting up an IDF infrastructure via Python
 #
@@ -89,8 +89,9 @@ class Configurator:
     #
     # @param self the object pointer
     # @param inputDevice the input device to map
+    # @param kwargs a dictionary of keyword arguments for use by subclasses. This class ignores it.
     @abc.abstractmethod
-    def addMasterDevice(self, inputDevice):
+    def addMasterDevice(self, inputDevice, **kwargs):
         self.addInputDevice(inputDevice)
         return
 
