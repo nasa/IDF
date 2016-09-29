@@ -11,6 +11,9 @@ TRICK_CXXFLAGS    += -I$(INCLUDE)
 TRICK_SFLAGS      += -I$(THIRD_PARTY)/sim_objects
 TRICK_PYTHON_PATH += :$(EXTERNALS)/3rdParty/trick/python:$(THIRD_PARTY)/python
 
+# Links to be built by build_externals
+LINKS := $(EXTERNALS)/apps/vhc/build $(EXTERNALS)/3rdParty/trick/python
+
 # Libraries
 ifeq ($(TRICK_HOST_TYPE), Linux)
     TRICK_USER_LINK_LIBS += -ludev -lrt
@@ -20,6 +23,9 @@ endif
 
 # Enable library support if Trick >= 17.1
 ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
+
+    # Additional links to be built by build_externals
+    LINKS += $(EXTERNALS)/3rdParty/trick/lib/python
 
     # Tell SWIG where to find *.i files
     SWIG_FLAGS += -I$(THIRD_PARTY)/lib
@@ -55,9 +61,6 @@ ifdef NTCAN_HOME
     TRICK_CXXFLAGS       += -I$(NTCAN_HOME) -DIDF_CAN
     TRICK_USER_LINK_LIBS += -L$(NTCAN_HOME) -lntcan
 endif
-
-# Links to be built by build_externals
-LINKS := $(EXTERNALS)/apps/vhc/build $(EXTERNALS)/3rdParty/trick/python $(EXTERNALS)/3rdParty/trick/lib/python
 
 libidf:
 	@$(MAKE) -s -C $(IDF_HOME)
