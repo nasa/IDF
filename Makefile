@@ -23,6 +23,8 @@ clean:
 $(sort $(dir $(OBJECTS))) $(sort $(dir $(DEPENDENCIES))) $(dir $(LIB)):
 	@mkdir -p $@
 
+build/objects/idf/hidapi.o: CPPFLAGS += -Wno-sign-compare
+
 .SECONDEXPANSION:
 
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp $(DEPENDENCY_DIR)/%.d | $$(dir $$@)
