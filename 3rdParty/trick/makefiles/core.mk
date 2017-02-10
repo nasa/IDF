@@ -46,8 +46,8 @@ ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
     endif
     $(S_MAIN): TRICK_USER_LINK_LIBS += $(IDF_HOME)/build/lib/libidf.a
 
-    # Append prerequisites to the all target, causing the libraries to be built along with the sim
-    all: libidf libidf_trick
+    # Append prerequisites to the $(S_MAIN) target, causing the libraries to be built along with the sim
+    $(S_MAIN): libidf libidf_trick
 else
     # Trick will be building all of IDF, so we need to add the path for use with LIBRARY_DEPENDENCY
     SOURCE := $(IDF_HOME)/source
