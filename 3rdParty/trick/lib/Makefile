@@ -15,4 +15,4 @@ all:
 	@$(MAKE) -s -f $(TRICKIFY)
 
 clean:
-	@rm -rf build python $(TRICKIFY_LIB_NAME)
+	@rm -rf build python $(TRICKIFY_OBJECT_NAME)
