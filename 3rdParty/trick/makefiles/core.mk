@@ -42,6 +42,32 @@ ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
 
     # Append prerequisites to the $(S_MAIN) target, causing the libraries to be built along with the sim
     $(S_MAIN): libidf $(THIRD_PARTY)/lib/trickified_idf.o
+
+    # Ultimately, we need the Trickified object to link against. So if it doesn't
+    # exist, we need to build it. However, we also need to rebuild it if any of
+    # its dependencies change. S_source.d automatically maintains these
+    # dependencies in a rule for which S_source.d itself is the target. For our
+    # purposes, the Trickified object depends on S_source.d.
+    # We avoid using variables in the recipe because:
+    # - Their resolution is deferred until the recipe runs.
+    # - This file is meant to be included by the user's S_overrides.mk.
+    # - If a variable (such as THIRD_PARTY) is set any time after this file is
+    #   included, it will have that value when this recipe runs.
+    $(THIRD_PARTY)/lib/trickified_idf.o: $(THIRD_PARTY)/lib/build/S_source.d
+	    $(MAKE) -s -C $(dir $@)
+
+    # Because S_source.d specifies the target as itself rather than the Trickified
+    # library (the reason for this is explained in trickify.mk), we need to declare
+    # a rule for S_source.d and flesh out its dependencies by including S_source.d
+    # (which is done at the bottom).
+    # We use a target-specific variable with simple expansion to ensure the
+    # desired value is used in the recipe. The use of override prevents
+    # command-line overriding.
+    $(THIRD_PARTY)/lib/build/S_source.d: override DIR := $(THIRD_PARTY)/lib
+    $(THIRD_PARTY)/lib/build/S_source.d:
+	    @$(MAKE) -s -C $(DIR)
+
+    -include $(THIRD_PARTY)/lib/build/S_source.d
 else
     # Trick will be building all of IDF, so we need to add the path for use with LIBRARY_DEPENDENCY
     SOURCE := $(IDF_HOME)/source
@@ -59,21 +85,6 @@ endif
 libidf:
 	@$(MAKE) -s -C $(IDF_HOME)
 
-# Ultimately, we need the Trickified object to link against. So if it doesn't
-# exist, we need to build it. However, we also need to rebuild it if any of
-# its dependencies change. S_source.d automatically maintains these
-# dependencies in a rule for which S_source.d itself is the target. For our
-# purposes, the Trickified object depends on S_source.d.
-$(THIRD_PARTY)/lib/trickified_idf.o: $(THIRD_PARTY)/lib/build/S_source.d
-	@$(MAKE) -s -C $(THIRD_PARTY)/lib
-
-# Because S_source.d specifies the target as itself rather than the Trickified
-# library (the reason for this is explained in trickify.mk), we need to declare
-# a rule for S_source.d and flesh out its dependencies by including S_source.d
-# (which is done at the bottom).
-$(THIRD_PARTY)/lib/build/S_source.d:
-	@$(MAKE) -s -C $(THIRD_PARTY)/lib
-
 build_externals: $(LINKS)
 
 $(dir $(LINKS)):
@@ -88,5 +99,3 @@ clean_idf:
 
 $(LINKS): $(EXTERNALS)% : $(IDF_HOME)% | $$(dir $$@)
 	@ln -s $< $@
-
--include $(THIRD_PARTY)/lib/build/S_source.d
