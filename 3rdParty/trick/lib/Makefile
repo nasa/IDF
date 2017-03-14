@@ -15,4 +15,4 @@ all:
 	@$(MAKE) -s -f $(TRICKIFY)
 
 clean:
-	@rm -rf build python $(TRICKIFY_OBJECT_NAME)
+	@rm -rf build python trick $(TRICKIFY_OBJECT_NAME)
