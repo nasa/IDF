@@ -49,7 +49,7 @@ the application.
 This layer defines the point at which external inputs enter the application's
 primary functional logic. It is here that a developer decides what kind of
 inputs his system will accept, and in what format it will accept them. Once this
-interface is established, the developer encodes it as it a "controller" by
+interface is established, the developer encodes it as a "controller" by
 extending IDF and specializing it for this particular application. Devices that
 wish to service this interface must meet this controller's contract. This layer
 is the only one with which the primary functional logic should interact.
