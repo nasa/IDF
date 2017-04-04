@@ -20,11 +20,7 @@ LIBRARY DEPENDENCIES: (
 #include <vector>
 #include <string>
 
-#ifndef TRICK_ICG
-#ifndef SWIG
 #include "hidapi/hidapi/hidapi.h"
-#endif
-#endif
 
 namespace idf {
 
@@ -72,10 +68,8 @@ class UsbDevice : public InputDevice {
     /** product IDs, used to lookup this device in the USB hierarchy */
     std::vector<int> productIds;
 
-    #ifndef TRICK_ICG
     /** handle to the device */
     hid_device* hidDevice;
-    #endif
 
     virtual std::vector<std::vector<unsigned char> > read();
 
@@ -89,7 +83,6 @@ class UsbDevice : public InputDevice {
         /** path to the device */
         std::string path;
 
-        #ifndef TRICK_ICG
         /** handle to the device */
         hid_device* handle;
 
@@ -102,7 +95,6 @@ class UsbDevice : public InputDevice {
         DeviceTag(hid_device* deviceHandle, std::string& devicePath) :
             path(devicePath),
             handle(deviceHandle) {}
-        #endif
 
     };
 

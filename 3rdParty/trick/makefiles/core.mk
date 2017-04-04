@@ -10,6 +10,7 @@ TRICK_CFLAGS      += -I$(INCLUDE)
 TRICK_CXXFLAGS    += -I$(INCLUDE)
 TRICK_SFLAGS      += -I$(THIRD_PARTY)/sim_objects
 TRICK_PYTHON_PATH += :$(EXTERNALS)/3rdParty/trick/python:$(THIRD_PARTY)/python
+TRICK_EXCLUDE     += :$(INCLUDE)/hidapi
 
 # Links to be built by build_externals
 LINKS := $(EXTERNALS)/apps/vhc/build $(EXTERNALS)/3rdParty/trick/python
