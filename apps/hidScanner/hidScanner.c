@@ -106,6 +106,11 @@ int main(int argc, char **args) {
             }
             break;
 
+        // Industrial Products
+        case 0x068E:
+            numBytes = 12;
+            break;
+
     }
 
     hid_free_enumeration(enumerationHead);
@@ -113,93 +118,6 @@ int main(int argc, char **args) {
     hid_set_nonblocking(device, 1);
 
     unsigned char data[numBytes];
-
-    /**
-     * Rumble Pack Bytes
-     * report number: always 1
-     * |     duration of weak (right) rumble, units = 20 ms, 0xff = infinity
-     * |     |     magnitude of weak (right) rumble
-     * |     |     |     duration of strong (left) rumble, units = 20 ms, 0xff = infinity
-     * |     |     |     |     magnitude of strong (left) rumble
-     * |     |     |     |     |
-     * 0x01, 0xfe, 0xff, 0xfe, 0xff
-     *
-     * LED Bytes - LEDs start their cycle in the off stage
-     * the total time this command is applied, after which the LED turns off, units = 20 ms, 0xff = infinity
-     * |     integer part of the cycle period
-     * |     |     fractional part of the cycle period in increments of 1 / 255. Thus, you can specify a cycle
-     * |     |     | period of 256 by entering 255 for both the integer and fractional parts
-     * |     |     |     multiplied by the cycle period to determine how long the LED is off per cycle
-     * |     |     |     |     multiplied by the cycle period to determine how long the LED is on per cycle
-     * |     |     |     |     |
-     * 0xff, 0x27, 0x10, 0x32, 0x32
-     *
-     * Command Packet Bytes
-     *   0 - 4 = rumble pack parameters
-     *   5 - 8 = unused
-     *       9 = bitwise OR of LEDs to be powered. LED1 = 2, LED2 = 4, LED3 = 8, LED4 = 16
-     * 10 - 14 = LED4 parameters
-     * 15 - 19 = LED3 parameters
-     * 20 - 24 = LED2 parameters
-     * 25 - 29 = LED1 parameters
-     *
-     * Per LED, a command different from it's current state takes effect immediately. Commands that do not
-     * change the state are ignored, and will not "reset" the LED's cycle. Cycles start in the off portion.
-     */
-
-    /*unsigned char command[] = {
-        1, 254, 255, 254, 255,
-        0, 0x00, 0x00, 0x00, 0x1E,
-        255, 32, 0, 50, 50,
-        255, 64, 0, 50, 50,
-        255, 128, 0, 50, 50,
-        255, 255, 255, 50, 50
-    };
-
-    unsigned char usbWakeup[] = {0xf2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    unsigned char bluetoothWakeup[] = {0xf4,  0x42, 0x03, 0x00, 0x00};
-
-    int length = sizeof(usbWakeup);
-    printf("Requesting feature report.\n");
-    if (hid_get_feature_report(device, usbWakeup, length) < length) {
-        #ifdef __linux__
-            perror("Failed to get feature report");
-            printf("errno = %d\n", errno);
-        #else
-            printf("Failed to get feaature report.\n");
-        #endif
-        return -1;
-    }
-
-    int i;
-    printf("Feature report returned: ");
-    for (i = 0; i < sizeof(usbWakeup); ++i) {
-        printf("%x ", (int)usbWakeup[i]);
-    }
-    printf("\n");
-
-    printf("Sending feature report.\n");
-    length = sizeof(bluetoothWakeup);
-    if (hid_send_feature_report(device, bluetoothWakeup, length) < length) {
-        #ifdef __linux__
-            perror("Failed to send wakeup command");
-            printf("errno = %d\n", errno);
-        #else
-            printf("Failed to send wakeup command.\n");
-        #endif
-        return -1;
-    }*/
-
-    /*printf("Writing command.\n");
-    if (hid_write(device, command, sizeof(command)) < sizeof(command)) {
-        #ifdef __linux__
-            perror("Failed to send command");
-            printf("errno = %d\n", errno);
-        #else
-            printf("Failed to send command.\n");
-        #endif
-        return -1;
-    }*/
 
     while (1) {
         int bytesRead = hid_read(device, data, sizeof(data));
