@@ -253,8 +253,8 @@ class Server : public Manageable {
      * @return the accumulated value
      */
     template<class U, class BinaryOperation>
-    U accumulateClientValues(const U T::*field, const BinaryOperation& function) const {
-        U result = U();
+    double accumulateClientValues(const U T::*field, const BinaryOperation& function) const {
+        double result = U();
         for (typename std::vector<Client*>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
             result = function(result, unpack((*i)->getCommands().*field));
         }

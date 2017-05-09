@@ -167,7 +167,7 @@ class Client : public Manageable {
      * @return the packed value
      */
     static unsigned char pack(double value) {
-        return (signed char)(bound(value) * 100.0);
+        return static_cast<signed char>(bound(value) * 100);
     }
 
     private:
