@@ -7,8 +7,9 @@ PURPOSE:
 #ifndef COMPOSITE_CONTROLLER_HH
 #define COMPOSITE_CONTROLLER_HH
 
-#include <vector>
 #include <algorithm>
+#include <functional>
+#include <vector>
 
 #include "idf/Controller.hh"
 
@@ -72,6 +73,27 @@ class CompositeController : public T {
 
     /** the consituent components */
     std::vector<T*> components;
+
+    /**
+     * accumates a field across all consituents
+     *
+     * @param accessor the accessor returning the field to be accumulated
+     * @param BinaryOperation a functor or function pointer that takes two
+     *   arguments and returns one value, all of accessor's type, used to
+     *   sequentially accumulate the fields
+     *
+     * @return the accumulated value
+     */
+    #ifndef SWIG
+    template<class U, class BinaryOperation>
+    U accumulate(U (T::*accessor)() const, const BinaryOperation& function) const {
+        U result = U();
+        for (typename std::vector<T*>::const_iterator i = components.begin(); i != components.end(); ++i) {
+            result = function(result, ((*i)->*accessor)());
+        }
+        return result;
+    }
+    #endif
 
 };
 

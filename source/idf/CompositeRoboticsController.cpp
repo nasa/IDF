@@ -5,105 +5,35 @@
 namespace idf {
 
 double CompositeRoboticsController::getCommandedRoll() const {
-    double result = 0;
-
-    // Sum all constituent controller's roll commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result += (*i)->getRoll();
-    }
-
-    // Restrict the result to [-1, 1]
-    return bound(result);
+    return bound(accumulate(&CompositeRoboticsController::getRoll, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedPitch() const {
-    double result = 0;
-
-    // Sum all constituent controller's pitch commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result += (*i)->getPitch();
-    }
-
-    // Restrict the result to [-1, 1]
-    return bound(result);
+    return bound(accumulate(&CompositeRoboticsController::getPitch, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedYaw() const {
-    double result = 0;
-
-    // Sum all constituent controller's yaw commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result += (*i)->getYaw();
-    }
-
-    // Restrict the result to [-1, 1]
-    return bound(result);
+    return bound(accumulate(&CompositeRoboticsController::getYaw, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedX() const {
-    double result = 0;
-
-    // Sum all constituent controller's x commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result += (*i)->getX();
-    }
-
-    // Restrict the result to [-1, 1]
-    return bound(result);
+    return bound(accumulate(&CompositeRoboticsController::getX, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedY() const {
-    double result = 0;
-
-    // Sum all constituent controller's y commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result += (*i)->getY();
-    }
-
-    // Restrict the result to [-1, 1]
-    return bound(result);
+    return bound(accumulate(&CompositeRoboticsController::getY, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedZ() const {
-    double result = 0;
-
-    // Sum all constituent controller's z commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result += (*i)->getZ();
-    }
-
-    // Restrict the result to [-1, 1]
-    return bound(result);
+    return bound(accumulate(&CompositeRoboticsController::getZ, std::plus<double>()));
 }
 
 bool CompositeRoboticsController::getCommandedTrigger() const {
-    bool result = false;
-
-    // Perform a logical OR on all constituent controller's trigger commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result = result || (*i)->getTrigger();
-    }
-
-    return result;
+    return accumulate(&CompositeRoboticsController::getTrigger, std::logical_or<bool>());
 }
 
 bool CompositeRoboticsController::getCommandedRateMode() const {
-    bool result = false;
-
-    // Perform a logical OR on all constituent controller's rate mode commands.
-    for (std::vector<RoboticsController*>::const_iterator i = components.begin();
-      i != components.end(); ++i) {
-        result = result || (*i)->getRateMode();
-    }
-
-    return result;
+    return accumulate(&CompositeRoboticsController::getRateMode, std::logical_or<bool>());
 }
 
 }
