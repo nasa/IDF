@@ -5,23 +5,23 @@
 namespace idf {
 
 double CompositeRoboticsController::getCommandedRoll() const {
-    return bound(accumulate(&CompositeRoboticsController::getRoll, std::plus<double>()));
+    return bound(accumulate(&RoboticsController::getRoll, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedPitch() const {
-    return bound(accumulate(&CompositeRoboticsController::getPitch, std::plus<double>()));
+    return bound(accumulate(&RoboticsController::getPitch, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedYaw() const {
-    return bound(accumulate(&CompositeRoboticsController::getYaw, std::plus<double>()));
+    return bound(accumulate(&RoboticsController::getYaw, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedX() const {
-    return bound(accumulate(&CompositeRoboticsController::getX, std::plus<double>()));
+    return bound(accumulate(&RoboticsController::getX, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedY() const {
-    return bound(accumulate(&CompositeRoboticsController::getY, std::plus<double>()));
+    return bound(accumulate(&RoboticsController::getY, std::plus<double>()));
 }
 
 double CompositeRoboticsController::getCommandedZ() const {
