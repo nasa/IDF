@@ -246,16 +246,16 @@ class Server : public Manageable {
      * accumate a field across all clients
      *
      * @param field the field that will be accumulated
-     * @param InitialValue the initial value
-     * @param BinaryOperation a functor or function pointer that takes two arguments and
-     *                        returns one value, all of field's type
+     * @param BinaryOperation a functor or function pointer that takes two
+     *   arguments and returns one value, all of accessor's type, used to
+     *   sequentially accumulate the fields
      *
      * @return the accumulated value
      */
     template<class U, class BinaryOperation>
-    U accumulateClientValues(const U T::*field, BinaryOperation function) const {
+    U accumulateClientValues(const U T::*field, const BinaryOperation& function) const {
         U result = U();
-        for (typename std::vector<class Client*>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+        for (typename std::vector<Client*>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
             result = function(result, unpack((*i)->getCommands().*field));
         }
         return result;

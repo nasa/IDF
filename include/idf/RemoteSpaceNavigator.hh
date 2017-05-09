@@ -1,7 +1,7 @@
 /*
 PURPOSE:
 LIBRARY DEPENDENCIES: (
-(idf/SpaceNavigator.cpp)
+(idf/RemoteSpaceNavigator.cpp)
 )
 */
 
