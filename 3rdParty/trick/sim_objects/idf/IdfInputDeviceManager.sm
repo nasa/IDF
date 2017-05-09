@@ -5,6 +5,7 @@
 ##include <vector>
 ##include "idf/InputDevice.hh"
 ##include "idf/IOException.hh"
+##include "idf/Manageable.hh"
 ##include "idf/UsbDualShock.hh"
 ##include "idf/PythonInterface.hh"
 
@@ -53,12 +54,24 @@ class IdfInputDeviceManager : public Trick::SimObject {
     virtual ~IdfInputDeviceManager() {}
 
     /**
+     * adds @a manageable for managing. Adding an input device which is already being managed has no effect.
+     *
+     * @param manageable the device to manage
+     */
+    virtual void add(idf::Manageable& manageable) {
+        if (std::find(manageables.begin(), manageables.end(), &manageable) == manageables.end()) {
+            manageables.push_back(&manageable);
+        }
+    }
+
+    /**
      * adds @a inputDevice for managing. Adding an input device which is already being managed has no effect.
      *
      * @param inputDevice the device to manage
      */
     virtual void add(idf::InputDevice& inputDevice) {
         if (std::find(inputDevices.begin(), inputDevices.end(), &inputDevice) == inputDevices.end()) {
+            manageables.push_back(&inputDevice);
             inputDevices.push_back(&inputDevice);
         }
     }
@@ -70,6 +83,7 @@ class IdfInputDeviceManager : public Trick::SimObject {
      */
     virtual void add(idf::UsbDualShock& rumbleDevice) {
         if (std::find(rumbleDevices.begin(), rumbleDevices.end(), &rumbleDevice) == rumbleDevices.end()) {
+            manageables.push_back(&rumbleDevice);
             inputDevices.push_back(&rumbleDevice);
             rumbleDevices.push_back(&rumbleDevice);
         }
@@ -122,6 +136,9 @@ class IdfInputDeviceManager : public Trick::SimObject {
 
     protected:
 
+    /** the manageables being managed */
+    std::vector<idf::Manageable*> manageables;
+
     /** the devices being managed */
     std::vector<idf::InputDevice*> inputDevices;
 
@@ -134,7 +151,7 @@ class IdfInputDeviceManager : public Trick::SimObject {
      * @throws idf::IOException if an error occurs and #catchOpenExceptions is @c false
      */
     virtual void openDevices() {
-        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+        for (std::vector<idf::Manageable*>::iterator i = manageables.begin(); i != manageables.end(); ++i) {
             if (catchOpenExceptions) {
                 try {
                     (*i)->open();
@@ -155,7 +172,7 @@ class IdfInputDeviceManager : public Trick::SimObject {
      * @throws idf::IOException if an error occurs and #catchUpdateExceptions is @c false
      */
     virtual void updateDevices() {
-        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+        for (std::vector<idf::Manageable*>::iterator i = manageables.begin(); i != manageables.end(); ++i) {
             if (catchUpdateExceptions) {
                 try {
                     (*i)->update();
@@ -176,7 +193,7 @@ class IdfInputDeviceManager : public Trick::SimObject {
      * @throws idf::IOException if an error occurs and #catchCloseExceptions is @c false
      */
     virtual void closeDevices() {
-        for (std::vector<idf::InputDevice*>::iterator i = inputDevices.begin(); i != inputDevices.end(); ++i) {
+        for (std::vector<idf::Manageable*>::iterator i = manageables.begin(); i != manageables.end(); ++i) {
             if (catchCloseExceptions) {
                 try {
                     (*i)->close();

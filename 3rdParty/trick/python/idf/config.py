@@ -44,6 +44,7 @@ class Configurator:
           trick.UsbExtreme3dPro,
           trick.UsbGravis,
           trick.UsbIndustrialProducts,
+          trick.UsbIndustrialProducts3,
           trick.UsbSaitek,
           trick.UsbSpaceExplorer,
           trick.UsbSpaceMouse,

@@ -14,104 +14,60 @@ LIBRARY DEPENDENCIES: (
 #define REMOTE_CAMERA_CONTROLLER_HH
 
 #include "idf/CameraController.hh"
-#include "idf/RemoteDeviceServer.hh"
-#include "idf/RemoteDeviceClient.hh"
+#include "idf/Server.hh"
+#include "idf/Client.hh"
 
 namespace idf {
 
-/** provides the infrastructure for establishing a remote CameraController */
-class RemoteCameraController {
+/** structure used to serialze commands */
+struct CameraControllerCommands {
+
+    /** serialized commanded pan */
+    signed char pan;
+
+    /** serialized commanded tilt */
+    signed char tilt;
+
+    /** serialized commanded spin */
+    signed char spin;
+
+    /** serialized commanded zoom */
+    signed char zoom;
+
+};
+
+/**
+ * accepts and manages connections from multiple {@link CameraControllerClient}s
+ *
+ * @author Derek Bankieris
+ */
+class CameraControllerServer : public CameraController, public Server<CameraControllerCommands> {
 
     public:
 
-    #ifndef SWIG
-    /** structure used to serialze commands */
-    struct Commands {
+    /** @copydoc Server::Server */
+    CameraControllerServer(unsigned short port = 0);
 
-        /** serialized commanded pan */
-        signed char pan;
+    double getCommandedPan() const;
+    double getCommandedTilt() const;
+    double getCommandedSpin() const;
+    double getCommandedZoom() const;
 
-        /** serialized commanded tilt */
-        signed char tilt;
+};
 
-        /** serialized commanded spin */
-        signed char spin;
+/**
+ * transmits commands from a contained CameraController to a Server
+ *
+ * @author Derek Bankieris
+ */
+class CameraControllerClient : public Client<CameraController, CameraControllerCommands> {
 
-        /** serialized commanded zoom */
-        signed char zoom;
+    public:
 
-    };
+    /** @copydoc Client::Client */
+    CameraControllerClient(const CameraController& commandSource, const std::string& host, unsigned short port);
 
-    /**
-     * accepts and manages connections from multiple {@link Client}s
-     *
-     * @author Derek Bankieris
-     */
-    class Server : public CameraController, public RemoteDeviceServer<Commands> {
-
-        public:
-
-        /**
-         * constructs an instance which listens for connections on @a port
-         *
-         * @param port the port over which to listen for connections
-         */
-        Server(unsigned short port = 0);
-
-        /**
-         * gets the pan value, normalized to [-1, 0, 1]
-         *
-         * @return the pan of all added camera controllers
-         */
-        double getCommandedPan() const;
-
-        /**
-         * gets the tilt value, normalized to [-1, 0, 1]
-         *
-         * @return the tilt of all added camera controllers
-         */
-        double getCommandedTilt() const;
-
-        /**
-         * gets the spin value, normalized to [-1, 0, 1]
-         *
-         * @return the spin of all added camera controllers
-         */
-        double getCommandedSpin() const;
-
-        /**
-         * gets the zoom value, normalized to [-1, 0, 1]
-         *
-         * @return the zoom of all added camera controllers
-         */
-        double getCommandedZoom() const;
-
-    };
-
-    /**
-     * transmits commands from a contained CameraController to a Server
-     *
-     * @author Derek Bankieris
-     */
-    class Client : public RemoteDeviceClient<CameraController, Commands> {
-
-        public:
-
-        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
-        Client(const CameraController& sourceController, const std::string hostName, unsigned short hostPort);
-
-        /**
-         * packs commands from @a controller into @a commands
-         *
-         * @param commands the structure into which the commands are packed
-         * @param controller the controller whose commands are to be packed
-         */
-        void static packCommands(Commands& commands, const CameraController& controller);
-
-        void packCommands(Commands& commands);
-
-    };
-    #endif
+    void packCommands(CameraControllerCommands& commands);
 
 };
 

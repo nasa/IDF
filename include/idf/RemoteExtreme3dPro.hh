@@ -14,94 +14,69 @@ LIBRARY DEPENDENCIES: (
 #define REMOTE_EXTREME_3D_PRO_HH
 
 #include "idf/Extreme3dPro.hh"
-#include "idf/RemoteDeviceServer.hh"
-#include "idf/RemoteDeviceClient.hh"
+#include "idf/Server.hh"
+#include "idf/Client.hh"
 
 namespace idf {
 
-//class RemoteExtreme3dPro {
+struct Extreme3dProCommands {
+    signed char forwardBackwardPivot;
+    signed char leftRightPivot;
+    signed char twist;
+    signed char trigger;
+    signed char button2;
+    signed char button3;
+    signed char button4;
+    signed char button5;
+    signed char button6;
+    signed char button7;
+    signed char button8;
+    signed char button9;
+    signed char button10;
+    signed char button11;
+    signed char button12;
+    signed char hatNorth;
+    signed char hatNorthEast;
+    signed char hatEast;
+    signed char hatSouthEast;
+    signed char hatSouth;
+    signed char hatSouthWest;
+    signed char hatWest;
+    signed char hatNorthWest;
+    signed char slider;
+};
 
-//    public:
+/**
+ * accepts and manages connections from multiple {@link Extreme3dProClient}s
+ *
+ * @author Derek Bankieris
+ */
+class Extreme3dProServer : public Extreme3dPro, public Server<Extreme3dProCommands> {
 
-    /** structure used to serialze commands */
-    /** TODO: fix
-     * WARNING: This is, in general, a TERRIBLE approach. Doubles are not safe for
-     * network transmission. They're used here because this class is part of an
-     * emergency (limited-time) development effort.
-     */
-    struct RemoteExtreme3dProCommands {
-        double forwardBackwardPivot;
-        double leftRightPivot;
-        double twist;
-        double trigger;
-        double button2;
-        double button3;
-        double button4;
-        double button5;
-        double button6;
-        double button7;
-        double button8;
-        double button9;
-        double button10;
-        double button11;
-        double button12;
-        double hatNorth;
-        double hatNorthEast;
-        double hatEast;
-        double hatSouthEast;
-        double hatSouth;
-        double hatSouthWest;
-        double hatWest;
-        double hatNorthWest;
-        double slider;
-    };
+    public:
 
-#ifdef SWIG
-%template (RemoteDeviceServer_RemoteExtreme3dPro) RemoteDeviceServer<RemoteExtreme3dProCommands>;
-#endif
-    /**
-     * a server which accepts and manages connections from multiple clients
-     *
-     * @author Derek Bankieris
-     */
-    class RemoteExtreme3dProServer : public Extreme3dPro, public RemoteDeviceServer<RemoteExtreme3dProCommands> {
+    /** @copydoc Server::Server */
+    Extreme3dProServer(unsigned short listenPort = 0);
 
-        public:
+    void update();
 
-        /** @copydoc RemoteDeviceServer */
-        RemoteExtreme3dProServer(unsigned short listenPort = 0);
+};
 
-        void update();
+/**
+ * transmits commands from a contained Extreme3dPro to a Server
+ *
+ * @author Derek Bankieris
+ */
+class Extreme3dProClient : public Client<Extreme3dPro, Extreme3dProCommands> {
 
-    };
+    public:
 
-#ifdef SWIG
-class RemoteExtreme3dProClient;
-%template (RemoteDeviceClient_RemoteExtreme3dPro) RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands>;
-#endif
-    /**
-     * transmits commands from a contained Extreme3dPro to a RemoteExtreme3dProServer
-     *
-     * @author Derek Bankieris
-     */
-    class RemoteExtreme3dProClient : public RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands> {
+    /** @copydoc Client::Client */
+    Extreme3dProClient(const Extreme3dPro& comamndSource, const std::string& host, unsigned short port);
 
-        public:
+    void packCommands(Extreme3dProCommands& commands);
 
-        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
-        RemoteExtreme3dProClient(const Extreme3dPro& sourceController, const std::string hostName, unsigned short hostPort);
-
-        void packCommands(RemoteExtreme3dProCommands& commands, const Extreme3dPro& controller);
-
-        using RemoteDeviceClient<Extreme3dPro, RemoteExtreme3dProCommands>::packCommands;
-
-        private:
-
-        void operator=(const RemoteExtreme3dProClient&);
-
-    };
-
-//};
+};
 
 }
 

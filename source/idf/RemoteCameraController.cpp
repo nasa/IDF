@@ -1,67 +1,35 @@
 #include "idf/RemoteCameraController.hh"
-#include "idf/Utils.hh"
-#include "idf/RemoteDeviceClient.hh"
-#include "idf/IOException.hh"
-#include <exception>
-#include <cstring>
-#include <cerrno>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <fcntl.h>
 
 namespace idf {
 
-RemoteCameraController::Server::Server(unsigned short listenPort) :
-    RemoteDeviceServer<Commands>(listenPort) {}
+CameraControllerServer::CameraControllerServer(unsigned short port) :
+    Server<CameraControllerCommands>(port) {}
 
-double RemoteCameraController::Server::getCommandedPan() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.pan);
-    }
-    return bound(result);
+double CameraControllerServer::getCommandedPan() const {
+    return accumulateClientValues(&CameraControllerCommands::pan, std::plus<double>());
 }
 
-double RemoteCameraController::Server::getCommandedTilt() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.tilt);
-    }
-    return bound(result);
+double CameraControllerServer::getCommandedTilt() const {
+    return accumulateClientValues(&CameraControllerCommands::tilt, std::plus<double>());
 }
 
-double RemoteCameraController::Server::getCommandedSpin() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.spin);
-    }
-    return bound(result);
+double CameraControllerServer::getCommandedSpin() const {
+    return accumulateClientValues(&CameraControllerCommands::spin, std::plus<double>());
 }
 
-double RemoteCameraController::Server::getCommandedZoom() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.zoom);
-    }
-    return bound(result);
+double CameraControllerServer::getCommandedZoom() const {
+    return accumulateClientValues(&CameraControllerCommands::zoom, std::plus<double>());
 }
 
-RemoteCameraController::Client::Client(const CameraController& cameraController,
-  std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<CameraController, Commands>(cameraController, hostName, hostPort) {}
+CameraControllerClient::CameraControllerClient(const CameraController& flightController,
+  const std::string& hostName, unsigned short hostPort) :
+    Client<CameraController, CameraControllerCommands>(flightController, hostName, hostPort) {}
 
-void RemoteCameraController::Client::packCommands(Commands& commands) {
-    packCommands(commands, controller);
-}
-
-void RemoteCameraController::Client::packCommands(Commands& commands,
-  const CameraController& cameraController) {
-    commands.pan = pack(cameraController.getPan());
-    commands.tilt = pack(cameraController.getTilt());
-    commands.spin = pack(cameraController.getSpin());
-    commands.zoom = pack(cameraController.getZoom());
+void CameraControllerClient::packCommands(CameraControllerCommands& commands) {
+    commands.pan = pack(source.getPan());
+    commands.tilt = pack(source.getTilt());
+    commands.spin = pack(source.getSpin());
+    commands.zoom = pack(source.getZoom());
 }
 
 }

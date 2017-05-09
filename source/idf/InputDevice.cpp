@@ -18,19 +18,11 @@ namespace idf {
 InputDevice::InputDevice(const std::string& id) :
     name(id),
     delay(0),
-    enabled(true),
-    mOpen(false) {}
-
-bool InputDevice::isOpen() const {
-    return mOpen;
-}
+    enabled(true) {}
 
 void InputDevice::update() {
 
-    // open the device if necessary
-    if (!isOpen()) {
-        open();
-    }
+    Manageable::update();
 
     // get all available packets
     std::vector<std::vector<unsigned char> > data = read();

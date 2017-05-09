@@ -1,91 +1,70 @@
 /*
 PURPOSE:
 LIBRARY DEPENDENCIES: (
-(idf/RemoteSpaceNavigator.cpp)
+(idf/SpaceNavigator.cpp)
 )
 */
 
 /**
  * @trick_parse{everything}
- * @trick_link_dependency{idf/RemoteSpaceNavigator.cpp}
+ * @trick_link_dependency{idf/SpaceNavigator.cpp}
  */
 
 #ifndef REMOTE_SPACE_NAVIGATOR_HH
 #define REMOTE_SPACE_NAVIGATOR_HH
 
 #include "idf/SpaceNavigator.hh"
-#include "idf/RemoteDeviceServer.hh"
-#include "idf/RemoteDeviceClient.hh"
+#include "idf/Server.hh"
+#include "idf/Client.hh"
 
 namespace idf {
 
-//class RemoteSpaceNavigator {
+struct SpaceNavigatorCommands {
+    signed char forwardBackwardPivot;
+    signed char leftRightPivot;
+    signed char twist;
+    signed char forwardBackwardTranslation;
+    signed char leftRightTranslation;
+    signed char upDownTranslation;
+    signed char leftButton;
+    signed char rightButton;
+};
 
-//    public:
+/**
+ * accepts and manages connections from multiple {@link SpaceNavigatorClient}s
+ *
+ * @author Derek Bankieris
+ */
+class SpaceNavigatorServer : public SpaceNavigator, public Server<SpaceNavigatorCommands> {
 
-    /** structure used to serialze commands */
-    /** TODO: fix
-     * WARNING: This is, in general, a TERRIBLE approach. Doubles are not safe for
-     * network transmission. They're used here because this class is part of an
-     * emergency (limited-time) development effort.
-     */
-    struct RemoteSpaceNavigatorCommands {
-        double forwardBackwardPivot;
-        double leftRightPivot;
-        double twist;
-        double forwardBackwardTranslation;
-        double leftRightTranslation;
-        double upDownTranslation;
-        double leftButton;
-        double rightButton;
-    };
+    public:
 
-#ifdef SWIG
-%template (RemoteDeviceServer_RemoteSpaceNavigator) RemoteDeviceServer<RemoteSpaceNavigatorCommands>;
-#endif
-    /**
-     * a server which accepts and manages connections from multiple clients
-     *
-     * @author Derek Bankieris
-     */
-    class RemoteSpaceNavigatorServer : public SpaceNavigator, public RemoteDeviceServer<RemoteSpaceNavigatorCommands> {
+    /** @copydoc Server::Server */
+    SpaceNavigatorServer(unsigned short listenPort = 0);
 
-        public:
+    void update();
 
-        /** @copydoc RemoteDeviceServer::RemoteDeviceServer */
-        RemoteSpaceNavigatorServer(unsigned short listenPort = 0);
-
-        void update();
-
-    };
+};
 
 #ifdef SWIG
-class RemoteSpaceNavigatorClient;
-%template (RemoteDeviceClient_RemoteSpaceNavigator) RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands>;
+//class SpaceNavigatorClient;
+//%template (Client_SpaceNavigator) Client<SpaceNavigator, SpaceNavigatorCommands>;
 #endif
-    /**
-     * transmits commands from a contained SpaceNavigator to a RemoteSpaceNavigatorServer
-     *
-     * @author Derek Bankieris
-     */
-    class RemoteSpaceNavigatorClient : public RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands> {
+/**
+ * transmits commands from a contained SpaceNavigator to a Server
+ *
+ * @author Derek Bankieris
+ */
+class SpaceNavigatorClient : public Client<SpaceNavigator, SpaceNavigatorCommands> {
 
-        public:
+    public:
 
-        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
-        RemoteSpaceNavigatorClient(const SpaceNavigator& sourceController, const std::string hostName, unsigned short hostPort);
+    /** @copydoc Client::Client */
+    SpaceNavigatorClient(const SpaceNavigator& sourceController, const std::string hostName, unsigned short hostPort);
 
-        void packCommands(RemoteSpaceNavigatorCommands& commands, const SpaceNavigator& controller);
+    void packCommands(SpaceNavigatorCommands& commands);
 
-        using RemoteDeviceClient<SpaceNavigator, RemoteSpaceNavigatorCommands>::packCommands;
-
-        private:
-
-        void operator=(const RemoteSpaceNavigatorClient&);
-
-    };
-
-//};
+};
 
 }
 

@@ -14,119 +14,68 @@ LIBRARY DEPENDENCIES: (
 #define REMOTE_FLIGHT_CONTROLLER_HH
 
 #include "idf/FlightController.hh"
-#include "idf/RemoteDeviceServer.hh"
-#include "idf/RemoteDeviceClient.hh"
+#include "idf/Server.hh"
+#include "idf/Client.hh"
 
 namespace idf {
 
-/** provides the infrastructure for establishing a remote FlightController */
-class RemoteFlightController {
+/** structure used to serialze commands */
+struct FlightControllerCommands {
+
+    /** serialized commanded roll */
+    signed char roll;
+
+    /** serialized commanded pitch */
+    signed char pitch;
+
+    /** serialized commanded yaw */
+    signed char yaw;
+
+    /** serialized commanded x */
+    signed char x;
+
+    /** serialized commanded y */
+    signed char y;
+
+    /** serialized commanded z */
+    signed char z;
+
+};
+
+/**
+ * accepts and manages connections from multiple {@link FlightControllerClient}s
+ *
+ * @author Derek Bankieris
+ */
+class FlightControllerServer : public FlightController, public Server<FlightControllerCommands> {
 
     public:
 
-    #ifndef SWIG
-    /** structure used to serialze commands */
-    struct Commands {
+    /** @copydoc Server::Server */
+    FlightControllerServer(unsigned short port = 0);
 
-        /** serialized commanded roll */
-        signed char roll;
+    double getCommandedRoll() const;
+    double getCommandedPitch() const;
+    double getCommandedYaw() const;
+    double getCommandedX() const;
+    double getCommandedY() const;
+    double getCommandedZ() const;
 
-        /** serialized commanded pitch */
-        signed char pitch;
+};
 
-        /** serialized commanded yaw */
-        signed char yaw;
+/**
+ * transmits commands from a contained FlightController to a Server
+ *
+ * @author Derek Bankieris
+ */
+class FlightControllerClient : public Client<FlightController, FlightControllerCommands> {
 
-        /** serialized commanded x */
-        signed char x;
+    public:
 
-        /** serialized commanded y */
-        signed char y;
+    /** @copydoc Client::Client */
+    FlightControllerClient(const FlightController& comamndSource, const std::string& host, unsigned short port);
 
-        /** serialized commanded z */
-        signed char z;
-
-    };
-
-    /**
-     * accepts and manages connections from multiple {@link Client}s
-     *
-     * @author Derek Bankieris
-     */
-    class Server : public FlightController, public RemoteDeviceServer<Commands> {
-
-        public:
-
-        /**
-         * constructs an instance which listens for connections on @a port
-         *
-         * @param port the port over which to listen for connections
-         */
-        Server(unsigned short port = 0);
-
-        /**
-         * gets the roll value, normalized to [-1, 0, 1]
-         *
-         * @return the roll of all added flight controllers
-         */
-        double getCommandedRoll() const;
-
-        /**
-         * gets the pitch value, normalized to [-1, 0, 1]
-         *
-         * @return the pitch of all added flight controllers
-         */
-        double getCommandedPitch() const;
-
-        /**
-         * gets the yaw value, normalized to [-1, 0, 1]
-         *
-         * @return the yaw of all added flight controllers
-         */
-        double getCommandedYaw() const;
-
-        /**
-         * gets the x value, normalized to [-1, 0, 1]
-         *
-         * @return the x of all added flight controllers
-         */
-        double getCommandedX() const;
-
-        /**
-         * gets the y value, normalized to [-1, 0, 1]
-         *
-         * @return the y of all added flight controllers
-         */
-        double getCommandedY() const;
-
-        /**
-         * gets the z value, normalized to [-1, 0, 1]
-         *
-         * @return the z of all added flight controllers
-         */
-        double getCommandedZ() const;
-
-    };
-
-    /**
-     * transmits commands from a contained FlightController to a Server
-     *
-     * @author Derek Bankieris
-     */
-    class Client : public RemoteDeviceClient<FlightController, Commands> {
-
-        public:
-
-        /** @copydoc RemoteDeviceClient::RemoteDeviceClient */
-        Client(const FlightController& sourceController, const std::string hostName, unsigned short hostPort);
-
-        /** @copydoc RemoteCameraController::Client::packCommands */
-        void static packCommands(Commands& commands, const FlightController& controller);
-
-        void packCommands(Commands& commands);
-
-    };
-    #endif
+    void packCommands(FlightControllerCommands& commands);
 
 };
 

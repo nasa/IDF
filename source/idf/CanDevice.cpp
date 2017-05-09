@@ -25,13 +25,13 @@ void CanDevice::open() {
         throw IOException(stream.str());
     }
 
-    mOpen = true;
+    Manageable::open();
 }
 
 void CanDevice::close() {
     if (mOpen) {
         canClose(ntCanHandle);
-        mOpen = false;
+        Manageable::close();
     }
 }
 

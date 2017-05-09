@@ -14,6 +14,7 @@ LIBRARY DEPENDENCIES: (
 #define INPUT_DEVICE_HH
 
 #include "idf/InputLayout.hh"
+#include "idf/Manageable.hh"
 #include <list>
 #include <string>
 #include <utility>
@@ -29,7 +30,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class InputDevice : public virtual InputLayout {
+class InputDevice : public virtual InputLayout, public Manageable {
 
     public:
 
@@ -52,34 +53,12 @@ class InputDevice : public virtual InputLayout {
     /** destructor */
     virtual ~InputDevice() {};
 
-    /** opens this device for communication */
-    virtual void open() = 0;
-
-    /** closes this device */
-    virtual void close() = 0;
-
-    /**
-     * returns the open state of this device
-     *
-     * @return @c true if this device is open
-     */
-    virtual bool isOpen() const;
-
-    /**
-     * updates this instance so that it reflects the target device's current state.
-     * This function calls #open() if #isOpen() return @c false.
-     *
-     * @throws IOException if an error occurs while opening or updating
-     */
-    void update();
+    virtual void update();
 
     /** interactively configures all inputs */
     virtual void configure();
 
     protected:
-
-    /** the open state of this device */
-    bool mOpen;
 
     /**
      * reads all pending data from this device

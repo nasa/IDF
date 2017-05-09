@@ -1,102 +1,55 @@
 #include "idf/RemoteRoboticsController.hh"
-#include "idf/Utils.hh"
-#include "idf/IOException.hh"
-#include <exception>
-#include <cstring>
-#include <cerrno>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <fcntl.h>
 
 namespace idf {
 
-RemoteRoboticsController::Server::Server(unsigned short listenPort) :
-    RemoteDeviceServer<Commands>(listenPort) {}
+RoboticsControllerServer::RoboticsControllerServer(unsigned short port) :
+    Server<RoboticsControllerCommands>(port) {}
 
-double RemoteRoboticsController::Server::getCommandedRoll() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.roll);
-    }
-    return bound(result);
+double RoboticsControllerServer::getCommandedRoll() const {
+    return accumulateClientValues(&RoboticsControllerCommands::roll, std::plus<double>());
 }
 
-double RemoteRoboticsController::Server::getCommandedPitch() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.pitch);
-    }
-    return bound(result);
+double RoboticsControllerServer::getCommandedPitch() const {
+    return accumulateClientValues(&RoboticsControllerCommands::pitch, std::plus<double>());
 }
 
-double RemoteRoboticsController::Server::getCommandedYaw() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.yaw);
-    }
-    return bound(result);
+double RoboticsControllerServer::getCommandedYaw() const {
+    return accumulateClientValues(&RoboticsControllerCommands::yaw, std::plus<double>());
 }
 
-double RemoteRoboticsController::Server::getCommandedX() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.x);
-    }
-    return bound(result);
+double RoboticsControllerServer::getCommandedX() const {
+    return accumulateClientValues(&RoboticsControllerCommands::x, std::plus<double>());
 }
 
-double RemoteRoboticsController::Server::getCommandedY() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.y);
-    }
-    return bound(result);
+double RoboticsControllerServer::getCommandedY() const {
+    return accumulateClientValues(&RoboticsControllerCommands::y, std::plus<double>());
 }
 
-double RemoteRoboticsController::Server::getCommandedZ() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.z);
-    }
-    return bound(result);
+double RoboticsControllerServer::getCommandedZ() const {
+    return accumulateClientValues(&RoboticsControllerCommands::z, std::plus<double>());
 }
 
-bool RemoteRoboticsController::Server::getCommandedTrigger() const {
-    bool result = false;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result  = result || i->commands.trigger;
-    }
-    return result;
+bool RoboticsControllerServer::getCommandedTrigger() const {
+    return accumulateClientValues(&RoboticsControllerCommands::trigger, std::logical_or<bool>());
 }
 
-bool RemoteRoboticsController::Server::getCommandedRateMode() const {
-    bool result = false;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result  = result || i->commands.rateMode;
-    }
-    return result;
+bool RoboticsControllerServer::getCommandedRateMode() const {
+    return accumulateClientValues(&RoboticsControllerCommands::rateMode, std::logical_or<bool>());
 }
 
-RemoteRoboticsController::Client::Client(const RoboticsController& roboticsController,
-  std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<RoboticsController, Commands>(roboticsController, hostName, hostPort) {}
+RoboticsControllerClient::RoboticsControllerClient(const RoboticsController& roboticsController,
+  const std::string& hostName, unsigned short hostPort) :
+    Client<RoboticsController, RoboticsControllerCommands>(roboticsController, hostName, hostPort) {}
 
-void RemoteRoboticsController::Client::packCommands(Commands& commands) {
-    packCommands(commands, controller);
-}
-
-void RemoteRoboticsController::Client::packCommands(Commands& commands,
-  const RoboticsController& roboticsController) {
-    commands.roll = pack(roboticsController.getRoll());
-    commands.pitch = pack(roboticsController.getPitch());
-    commands.yaw = pack(roboticsController.getYaw());
-    commands.x = pack(roboticsController.getX());
-    commands.y = pack(roboticsController.getY());
-    commands.z = pack(roboticsController.getZ());
-    commands.trigger = roboticsController.getTrigger();
-    commands.rateMode = roboticsController.getRateMode();
+void RoboticsControllerClient::packCommands(RoboticsControllerCommands& commands) {
+    commands.roll = pack(source.getRoll());
+    commands.pitch = pack(source.getPitch());
+    commands.yaw = pack(source.getYaw());
+    commands.x = pack(source.getX());
+    commands.y = pack(source.getY());
+    commands.z = pack(source.getZ());
+    commands.trigger = source.getTrigger();
+    commands.rateMode = source.getRateMode();
 }
 
 }

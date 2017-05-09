@@ -1,84 +1,45 @@
 #include "idf/RemoteFlightController.hh"
-#include "idf/Utils.hh"
-#include "idf/IOException.hh"
-#include <exception>
-#include <cstring>
-#include <cerrno>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <fcntl.h>
 
 namespace idf {
 
-RemoteFlightController::Server::Server(unsigned short listenPort) :
-    RemoteDeviceServer<Commands>(listenPort) {}
+FlightControllerServer::FlightControllerServer(unsigned short port) :
+    Server<FlightControllerCommands>(port) {}
 
-double RemoteFlightController::Server::getCommandedRoll() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.roll);
-    }
-    return bound(result);
+double FlightControllerServer::getCommandedRoll() const {
+    return accumulateClientValues(&FlightControllerCommands::roll, std::plus<double>());
 }
 
-double RemoteFlightController::Server::getCommandedPitch() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.pitch);
-    }
-    return bound(result);
+double FlightControllerServer::getCommandedPitch() const {
+    return accumulateClientValues(&FlightControllerCommands::pitch, std::plus<double>());
 }
 
-double RemoteFlightController::Server::getCommandedYaw() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.yaw);
-    }
-    return bound(result);
+double FlightControllerServer::getCommandedYaw() const {
+    return accumulateClientValues(&FlightControllerCommands::yaw, std::plus<double>());
 }
 
-double RemoteFlightController::Server::getCommandedX() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.x);
-    }
-    return bound(result);
+double FlightControllerServer::getCommandedX() const {
+    return accumulateClientValues(&FlightControllerCommands::x, std::plus<double>());
 }
 
-double RemoteFlightController::Server::getCommandedY() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.y);
-    }
-    return bound(result);
+double FlightControllerServer::getCommandedY() const {
+    return accumulateClientValues(&FlightControllerCommands::y, std::plus<double>());
 }
 
-double RemoteFlightController::Server::getCommandedZ() const {
-    double result = 0;
-    for (std::vector<class Client>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-        result += unpack(i->commands.z);
-    }
-    return bound(result);
+double FlightControllerServer::getCommandedZ() const {
+    return accumulateClientValues(&FlightControllerCommands::z, std::plus<double>());
 }
 
-RemoteFlightController::Client::Client(const FlightController& flightController,
-  std::string hostName, unsigned short hostPort) :
-    RemoteDeviceClient<FlightController, Commands>(flightController, hostName, hostPort) {}
+FlightControllerClient::FlightControllerClient(const FlightController& flightController,
+  const std::string& hostName, unsigned short hostPort) :
+    Client<FlightController, FlightControllerCommands>(flightController, hostName, hostPort) {}
 
-void RemoteFlightController::Client::packCommands(Commands& commands) {
-    packCommands(commands, controller);
-}
-
-void RemoteFlightController::Client::packCommands(Commands& commands,
-  const FlightController& flightController) {
-    commands.roll = pack(flightController.getRoll());
-    commands.pitch = pack(flightController.getPitch());
-    commands.yaw = pack(flightController.getYaw());
-    commands.x = pack(flightController.getX());
-    commands.y = pack(flightController.getY());
-    commands.z = pack(flightController.getZ());
+void FlightControllerClient::packCommands(FlightControllerCommands& commands) {
+    commands.roll = pack(source.getRoll());
+    commands.pitch = pack(source.getPitch());
+    commands.yaw = pack(source.getYaw());
+    commands.x = pack(source.getX());
+    commands.y = pack(source.getY());
+    commands.z = pack(source.getZ());
 }
 
 }

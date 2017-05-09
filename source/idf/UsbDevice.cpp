@@ -69,7 +69,7 @@ void UsbDevice::open() {
                         openDevices.push_back(DeviceTag(hidDevice, path));
                         hid_free_enumeration(enumerationHead);
                         hid_set_nonblocking(hidDevice, 1);
-                        mOpen = true;
+                        Manageable::open();
                         return;
                     }
                     else {
@@ -121,7 +121,7 @@ void UsbDevice::close() {
             }
         }
         hid_close(hidDevice);
-        mOpen = false;
+        Manageable::close();
     }
 }
 

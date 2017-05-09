@@ -40,7 +40,7 @@ void SerialDevice::open() {
             throw IOException("Failed to set options for " + path + ": " + std::strerror(errno));
         }
 
-        mOpen = true;
+        Manageable::open();
     }
 }
 
@@ -77,7 +77,7 @@ int SerialDevice::write(const void *buffer, size_t length) {
 void SerialDevice::close() {
     if (mOpen) {
         ::close(handle);
-        mOpen = false;
+        Manageable::close();
     }
 }
 
