@@ -49,6 +49,15 @@ struct RoboticsControllerCommands {
 };
 
 /**
+ * To properly maintain inheritance, SWIG needs to wrap the template from which
+ * this class derives. Only actual instances of a template can be wrapped, so
+ * we must tell SWIG about this particular parameterization via %template.
+ */
+#ifdef SWIG
+%template (Server_RoboticsControllerCommands) Server<RoboticsControllerCommands>;
+#endif
+
+/**
  * accepts and manages connections from multiple {@link RoboticsControllerClient}s
  *
  * @author Derek Bankieris
@@ -70,6 +79,15 @@ class RoboticsControllerServer : public RoboticsController, public Server<Roboti
     bool getCommandedRateMode() const;
 
 };
+
+/**
+ * To properly maintain inheritance, SWIG needs to wrap the template from which
+ * this class derives. Only actual instances of a template can be wrapped, so
+ * we must tell SWIG about this particular parameterization via %template.
+ */
+#ifdef SWIG
+%template (Client_RoboticsController) Client<RoboticsController, RoboticsControllerCommands>;
+#endif
 
 /**
  * transmits commands from a contained RoboticsController to a Server

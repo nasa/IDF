@@ -43,6 +43,15 @@ struct FlightControllerCommands {
 };
 
 /**
+ * To properly maintain inheritance, SWIG needs to wrap the template from which
+ * this class derives. Only actual instances of a template can be wrapped, so
+ * we must tell SWIG about this particular parameterization via %template.
+ */
+#ifdef SWIG
+%template (Server_FlightControllerCommands) Server<FlightControllerCommands>;
+#endif
+
+/**
  * accepts and manages connections from multiple {@link FlightControllerClient}s
  *
  * @author Derek Bankieris
@@ -62,6 +71,15 @@ class FlightControllerServer : public FlightController, public Server<FlightCont
     double getCommandedZ() const;
 
 };
+
+/**
+ * To properly maintain inheritance, SWIG needs to wrap the template from which
+ * this class derives. Only actual instances of a template can be wrapped, so
+ * we must tell SWIG about this particular parameterization via %template.
+ */
+#ifdef SWIG
+%template (Client_FlightController) Client<FlightController, FlightControllerCommands>;
+#endif
 
 /**
  * transmits commands from a contained FlightController to a Server

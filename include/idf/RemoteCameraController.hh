@@ -37,6 +37,15 @@ struct CameraControllerCommands {
 };
 
 /**
+ * To properly maintain inheritance, SWIG needs to wrap the template from which
+ * this class derives. Only actual instances of a template can be wrapped, so
+ * we must tell SWIG about this particular parameterization via %template.
+ */
+#ifdef SWIG
+%template (Server_CameraControllerCommands) Server<CameraControllerCommands>;
+#endif
+
+/**
  * accepts and manages connections from multiple {@link CameraControllerClient}s
  *
  * @author Derek Bankieris
@@ -54,6 +63,15 @@ class CameraControllerServer : public CameraController, public Server<CameraCont
     double getCommandedZoom() const;
 
 };
+
+/**
+ * To properly maintain inheritance, SWIG needs to wrap the template from which
+ * this class derives. Only actual instances of a template can be wrapped, so
+ * we must tell SWIG about this particular parameterization via %template.
+ */
+#ifdef SWIG
+%template (Client_CameraController) Client<CameraController, CameraControllerCommands>;
+#endif
 
 /**
  * transmits commands from a contained CameraController to a Server
