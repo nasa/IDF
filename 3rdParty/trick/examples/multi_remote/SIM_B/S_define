@@ -1,0 +1,94 @@
+#include "sim_objects/default_trick_sys.sm"
+#include "idf/IdfInputDeviceManager.sm"
+
+##include <sstream>
+##include <iomanip>
+
+##include "idf/CompositeFlightController.hh"
+##include "idf/CompositeRoboticsController.hh"
+
+/**
+ * Demonstrates the use of IDF within a Trick simulation, using the Python
+ * class idf.config.Configurator to add a device at run-time. See
+ * RUN_test/input.py.
+ */
+class Example : public IdfInputDeviceManager {
+
+    public:
+
+    idf::CompositeFlightController flightController;
+    idf::CompositeRoboticsController roboticsController;
+
+    /**
+     * While other examples have declared devices here, we want to leave the
+     * choice of device up to the user this time. In this example, our only
+     * concern is the Controller.
+     */
+
+    /**
+     * While devices represent physical hardware, a controller represents a
+     * virtual interface into a control system. This separation allows
+     * control system developers to program against a domain-specific interface
+     * independent of any particular device that might service that
+     * interface. It further ensures that only devices that have been
+     * specifically mapped to the interface may be assigned to service it.
+     */
+
+    Example() :
+        /**
+         * Call the base class constructor, specifying the period at which the
+         * updateDevices() job will be called. You can optionally specify the
+         * phase and class for this job as well. See IdfInputDeviceManager.sm
+         * for details.
+         */
+        IdfInputDeviceManager(0.1) {}
+
+    /**
+     * If you want to perform some action after all devices have been updated,
+     * one possibility is overriding IdfInputDeviceManager's updateDevices()
+     * function. In this example, we just want to print the controller's
+     * normalized values to the console. Normalized values always fall in the
+     * range [-1, 1], with the extremes corresponing to the minimum and maximum
+     * raw values. 0 represents the "neutral" point. If you choose this method,
+     * be sure to call the base class version of the function or the devices
+     * will never be updated!
+     *
+     * Another option is to just declare another scheduled job and do your post-
+     * update logic there. This can be useful if you want the updateDevices()
+     * job and your post-update logic to run at different rates or have
+     * different phases or job classes.
+     */
+    void updateDevices() {
+
+        // Don't forget to call the base class version!
+        IdfInputDeviceManager::updateDevices();
+
+        // Print the values.
+        std::cout << std::showpos << std::fixed << std::setprecision(2)
+
+                  << "Flight:  "
+                  << " Roll: "   << flightController.getRoll()
+                  << " Pitch: " << flightController.getPitch()
+                  << " Yaw: "   << flightController.getYaw()
+                  << " X: "     << flightController.getX()
+                  << " Y: "     << flightController.getY()
+                  << " Z: "     << flightController.getZ()
+
+                  << std::endl
+
+                  << "Robotics:"
+                  << " Roll: "      << roboticsController.getRoll()
+                  << " Pitch: "    << roboticsController.getPitch()
+                  << " Yaw: "      << roboticsController.getYaw()
+                  << " X: "        << roboticsController.getX()
+                  << " Y: "        << roboticsController.getY()
+                  << " Z: "        << roboticsController.getZ()
+                  << " Trigger: "  << roboticsController.getTrigger()
+                  << " RateMode: " << roboticsController.getRateMode()
+
+                  << std::endl;
+    }
+
+};
+
+Example example;

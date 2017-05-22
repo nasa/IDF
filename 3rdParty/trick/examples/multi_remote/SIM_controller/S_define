@@ -1,0 +1,82 @@
+#include "sim_objects/default_trick_sys.sm"
+#include "idf/IdfInputDeviceManager.sm"
+
+##include "idf/CompositeFlightController.hh"
+##include "idf/RemoteFlightController.hh"
+
+##include "idf/CompositeCameraController.hh"
+##include "idf/RemoteCameraController.hh"
+
+##include "idf/CompositeRoboticsController.hh"
+##include "idf/RemoteRoboticsController.hh"
+
+/**
+ * Demonstrates the use of IDF within a Trick simulation, using the Python
+ * class idf.config.Configurator to add a device at run-time. See
+ * RUN_test/input.py.
+ */
+class Example : public IdfInputDeviceManager {
+
+    public:
+
+    enum Activate {Nothing, simA_flight, simA_camera, simB_flight, simB_robotics};
+    Activate activate;
+
+    idf::CompositeFlightController simA_flightController;
+    idf::CompositeCameraController simA_cameraController;
+
+    idf::CompositeFlightController simB_flightController;
+    idf::CompositeRoboticsController simB_roboticsController;
+
+    Example() :
+        /**
+         * Call the base class constructor, specifying the period at which the
+         * updateDevices() job will be called. You can optionally specify the
+         * phase and class for this job as well. See IdfInputDeviceManager.sm
+         * for details.
+         */
+        IdfInputDeviceManager(0.1),
+        simA_flightClient(simA_flightController, "localhost", 19000),
+        simA_cameraClient(simA_cameraController, "localhost", 19001),
+        simB_flightClient(simB_flightController, "localhost", 20000),
+        simB_roboticsClient(simB_roboticsController, "localhost", 20001) {
+        catchOpenExceptions = true;
+        add(simA_flightClient);
+        add(simA_cameraClient);
+        add(simB_flightClient);
+        add(simB_roboticsClient);
+
+        (0.1, "scheduled") processCommand();
+    }
+
+    void processCommand() {
+        switch(activate) {
+            case Nothing:
+                break;
+            case simA_flight:
+                simA_flightController.setActive(true);
+                break;
+            case simA_camera:
+                simA_cameraController.setActive(true);
+                break;
+            case simB_flight:
+                simB_flightController.setActive(true);
+                break;
+            case simB_robotics:
+                simB_roboticsController.setActive(true);
+                break;
+        }
+    }
+
+    private:
+
+    idf::FlightControllerClient simA_flightClient;
+    idf::CameraControllerClient simA_cameraClient;
+
+    idf::FlightControllerClient simB_flightClient;
+    idf::RoboticsControllerClient simB_roboticsClient;
+
+    void operator=(const Example&);
+};
+
+Example example;

@@ -1,0 +1,60 @@
+#include "sim_objects/default_trick_sys.sm"
+#include "idf/IdfInputDeviceManager.sm"
+
+##include <sstream>
+##include <iomanip>
+
+##include "idf/RemoteFlightController.hh"
+##include "idf/RemoteCameraController.hh"
+
+/**
+ * Demonstrates the use of IDF within a Trick simulation, using the Python
+ * class idf.config.Configurator to add a device at run-time. See
+ * RUN_test/input.py.
+ */
+class Example : public IdfInputDeviceManager {
+
+    public:
+
+    Example() :
+        IdfInputDeviceManager(0.1),
+        flightServer(19000),
+        cameraServer(19001) {
+        add(flightServer);
+        add(cameraServer);
+    }
+
+    void updateDevices() {
+
+        // Don't forget to call the base class version!
+        IdfInputDeviceManager::updateDevices();
+
+        // Print the values.
+        std::cout << std::showpos << std::fixed << std::setprecision(2)
+
+                  << "Flight:"
+                  << " Roll: "   << flightServer.getRoll()
+                  << " Pitch: " << flightServer.getPitch()
+                  << " Yaw: "   << flightServer.getYaw()
+                  << " X: "     << flightServer.getX()
+                  << " Y: "     << flightServer.getY()
+                  << " Z: "     << flightServer.getZ()
+
+                  << std::endl
+
+                  << "Camera:"
+                  << " Pan: "   << cameraServer.getPan()
+                  << " Tilt: " << cameraServer.getTilt()
+                  << " Spin: " << cameraServer.getSpin()
+                  << " Zoom: " << cameraServer.getZoom()
+
+                  << std::endl;
+    }
+
+    private:
+    idf::FlightControllerServer flightServer;
+    idf::CameraControllerServer cameraServer;
+
+};
+
+Example example;

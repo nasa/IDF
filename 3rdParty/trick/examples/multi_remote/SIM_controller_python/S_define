@@ -1,0 +1,55 @@
+#include "sim_objects/default_trick_sys.sm"
+#include "idf/IdfInputDeviceManager.sm"
+
+##include "idf/CompositeFlightController.hh"
+##include "idf/CompositeCameraController.hh"
+##include "idf/CompositeRoboticsController.hh"
+
+class Example : public IdfInputDeviceManager {
+
+    public:
+
+    enum Activate {Nothing, simA_flight, simA_camera, simB_flight, simB_robotics};
+    Activate activate;
+    Activate activated;
+
+    idf::CompositeFlightController simA_flightController;
+    idf::CompositeCameraController simA_cameraController;
+
+    idf::CompositeFlightController simB_flightController;
+    idf::CompositeRoboticsController simB_roboticsController;
+
+    Example() :
+        IdfInputDeviceManager(0.1) {
+        catchOpenExceptions = true;
+
+        (0.1, "scheduled") processCommand();
+    }
+
+    void processCommand() {
+        switch(activate) {
+            case Nothing:
+                break;
+            case simA_flight:
+                simA_flightController.setActive(true);
+                activated = simA_flight;
+                break;
+            case simA_camera:
+                simA_cameraController.setActive(true);
+                activated = simA_camera;
+                break;
+            case simB_flight:
+                simB_flightController.setActive(true);
+                activated = simB_flight;
+                break;
+            case simB_robotics:
+                simB_roboticsController.setActive(true);
+                activated = simB_robotics;
+                break;
+        }
+        activate = Nothing;
+    }
+
+};
+
+Example example;
