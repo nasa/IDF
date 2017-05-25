@@ -177,6 +177,17 @@ class Server : public Manageable {
         return listenPort;
     }
 
+    /**
+     * unpacks the @a value packed by Client::pack
+     *
+     * @param value the packed value
+     *
+     * @return the normalized value
+     */
+    static double unpack(signed char value) {
+        return value / 100.0;
+    }
+
     protected:
 
     /** server-managed client information */
@@ -271,17 +282,6 @@ class Server : public Manageable {
 
     /** the connected clients */
     std::vector<Client*> clients;
-
-    /**
-     * unpacks the @a value packed by Client::pack
-     *
-     * @param value the packed value
-     *
-     * @return the normalized value
-     */
-    static double unpack(signed char value) {
-        return value / 100.0;
-    }
 
 };
 
