@@ -8,8 +8,10 @@ ifeq ($(wildcard $(TRICKIFY)),)
     $(error This makefile requires at least Trick 17.1)
 endif
 
-export TRICKIFY_OBJECT_NAME = trickified_idf.o
-export TRICKIFY_CXX_FLAGS = -I$(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../../include)
+INCLUDE := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../../include)
+export TRICKIFY_OBJECT_NAME := trickified_idf.o
+export TRICKIFY_CXX_FLAGS := -I$(INCLUDE)
+export TRICK_EXCLUDE := :$(INCLUDE)/hidapi
 
 all:
 	@$(MAKE) -s -f $(TRICKIFY)
