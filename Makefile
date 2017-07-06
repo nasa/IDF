@@ -10,7 +10,7 @@ SOURCES := $(filter-out $(shell find $(SOURCE_DIR) -name "*Can*"),$(SOURCES))
 endif
 OBJECTS := $(SOURCES:$(SOURCE_DIR)/%.cpp=$(OBJECT_DIR)/%.o)
 DEPENDENCIES := $(SOURCES:$(SOURCE_DIR)/%.cpp=$(DEPENDENCY_DIR)/%.d)
-CXXFLAGS += -g -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual -Iinclude
+CXXFLAGS += -fPIC -g -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual -Iinclude
 COLOR = [34m$(1)[0m
 
 $(LIB): $(OBJECTS) | $(dir $(LIB))
