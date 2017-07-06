@@ -10,7 +10,7 @@ SOURCES := $(filter-out $(shell find $(SOURCE_DIR) -name "*Can*"),$(SOURCES))
 endif
 OBJECTS := $(SOURCES:$(SOURCE_DIR)/%.cpp=$(OBJECT_DIR)/%.o)
 DEPENDENCIES := $(SOURCES:$(SOURCE_DIR)/%.cpp=$(DEPENDENCY_DIR)/%.d)
-CPPFLAGS += -g -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual -Iinclude
+CXXFLAGS += -g -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual -Iinclude
 COLOR = [34m$(1)[0m
 
 $(LIB): $(OBJECTS) | $(dir $(LIB))
@@ -23,13 +23,13 @@ clean:
 $(sort $(dir $(OBJECTS))) $(sort $(dir $(DEPENDENCIES))) $(dir $(LIB)):
 	@mkdir -p $@
 
-build/objects/idf/hidapi.o: CPPFLAGS += -Wno-sign-compare
+build/objects/idf/hidapi.o: CXXFLAGS += -Wno-sign-compare
 
 .SECONDEXPANSION:
 
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp $(DEPENDENCY_DIR)/%.d | $$(dir $$@)
 	$(info $(call COLOR,Compiling)  $<)
-	@$(CXX) -c -MMD -MP -MT $@ -MF $(DEPENDENCY_DIR)/$*.temp $(CPPFLAGS) -o $@ $<
+	@$(CXX) -c -MMD -MP -MT $@ -MF $(DEPENDENCY_DIR)/$*.temp $(CXXFLAGS) -o $@ $<
 	@mv $(DEPENDENCY_DIR)/$*.temp $(DEPENDENCY_DIR)/$*.d
 
 $(DEPENDENCY_DIR)/%.d: | $$(dir $$@) ;
