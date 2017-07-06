@@ -39,3 +39,8 @@ Demonstrates using a CompositeController to allow multiple controllers to
 service the same interface. Controllers can be dynamically added and removed,
 and all inputs are combined. In general, you should prefer CompositeControllers
 over single Controllers as it offers increased flexibility.
+
+### multi_remote
+Demonstrates use of the `Server` and `Client` class templates to read from a
+device in one sim and connect it to multiple Controllers in multiple other sims.
+See `multi_remote/README.md` for more details.

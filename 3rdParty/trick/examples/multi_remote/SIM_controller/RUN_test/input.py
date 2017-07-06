@@ -14,12 +14,13 @@ class Configurator(idf.config.Configurator) :
         # (It calls addInputDevice for you). Don't forget to call it!
         super(Configurator, self).addMasterDevice(device)
 
-        # create a controller using the default mapping and assign it to the pointer in the SimObject
+        # for each server, create a Controller using the default mapping
         simA_flightController = self.createController(trick.SingleFlightController, device)
         simA_cameraController = self.createController(trick.SingleCameraController, device)
         simB_flightController = self.createController(trick.SingleFlightController, device)
         simB_roboticsController = self.createController(trick.SingleRoboticsController, device)
 
+        # ensure only one Controller is active at a time
         meg = trick.MutualExclusionGroup()
         meg.thisown = False
         meg.add(simB_flightController)
@@ -27,10 +28,11 @@ class Configurator(idf.config.Configurator) :
         meg.add(simA_cameraController)
         meg.add(simA_flightController)
 
+        # add each Controller to the correpsonding CompositeController
         self.inputDeviceManager.simA_flightController.add(simA_flightController)
         self.inputDeviceManager.simA_cameraController.add(simA_cameraController)
         self.inputDeviceManager.simB_flightController.add(simB_flightController)
         self.inputDeviceManager.simB_roboticsController.add(simB_roboticsController)
 
-# Instantiate a Configurator, passing it the IdfInputDeviceManager instance from the S_define.
+# instantiate a Configurator, passing it the IdfInputDeviceManager instance from the S_define
 configurator = Configurator(example)

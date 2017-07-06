@@ -54,7 +54,7 @@ class CompositeController : public T {
     }
 
     /**
-     * sets the active state of this controller and all consituent controllers and notifies all registered
+     * sets the active state of this controller and all constituent controllers and notifies all registered
      * listeners of any change. Inactive controllers output neutral or default values when polled.
      *
      * @param activate the state to be set
@@ -71,11 +71,11 @@ class CompositeController : public T {
 
     protected:
 
-    /** the consituent components */
+    /** the constituent components */
     std::vector<T*> components;
 
     /**
-     * accumates a field across all consituents
+     * accumates a field across all constituents
      *
      * @param accessor the accessor returning the field to be accumulated
      * @param BinaryOperation a functor or function pointer that takes two

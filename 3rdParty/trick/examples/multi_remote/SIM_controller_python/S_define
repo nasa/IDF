@@ -5,27 +5,82 @@
 ##include "idf/CompositeCameraController.hh"
 ##include "idf/CompositeRoboticsController.hh"
 
+/**
+ * Demonstrates the use of Clients to connect to Servers in other sims. Each
+ * Client requires a Controller to provide the values to be sent to the Server.
+ * The type of Controller required is determined by the parameter with which
+ * Client (a class template) is instantiated. For instance, SIM_A has a
+ * FlightControllerServer and a CameraControllerServer. We therefore need a
+ * FlightControllerClient and a CameraControllerClient. These, in turn, require
+ * a FlightController and CameraController. This sim uses CompositeControllers
+ * for those entities, which allows multiple Controllers to drive the same
+ * Client if desired. The Clients are instantiated in the input file.
+ */
 class Example : public IdfInputDeviceManager {
 
     public:
 
+    /**
+     * This enum facilitates activating one of the CompositeControllers.
+     * Activation of a CompositeController activates all of its constituent
+     * Controllers. While the CompositeControllers themselves are not part of a
+     * MutualExclusionGroup, the constituent Controllers may be. This sim takes
+     * advantage of this behavior in the Configurator defined in the input file.
+     * Its addMasterDevice method creates a Controller for each
+     * CompositeController and adds them all to a MutualExclusionGroup. This
+     * allows a single device to command every Controller in every sim, but only
+     * one at a time.
+     */
     enum Activate {Nothing, simA_flight, simA_camera, simB_flight, simB_robotics};
+
+    /**
+     * Command to activate a CompositeController. While each CompositeController
+     * could be activated directly by calling its setActive function, supporting
+     * this functionality via a public variable here allows you to select the
+     * active controller via Trick View. You should not adopt this approach if
+     * you have no need for it.
+     */
     Activate activate;
+
+    /** reflects the last-received activation command */
     Activate activated;
 
+    /** drives the simA_flightClient */
     idf::CompositeFlightController simA_flightController;
+
+    /** drives the simA_cameraClient */
     idf::CompositeCameraController simA_cameraController;
 
+    /** drives the simB_flightClient */
     idf::CompositeFlightController simB_flightController;
+
+    /** drives the simB_roboticsClient */
     idf::CompositeRoboticsController simB_roboticsController;
 
     Example() :
+        /**
+         * Call the base class constructor, specifying the period at which the
+         * updateDevices() job will be called. You can optionally specify the
+         * phase and class for this job as well. See IdfInputDeviceManager.sm
+         * for details.
+         */
         IdfInputDeviceManager(0.1) {
+
+        /**
+         * Client throws an IOException from open if it can't connect to the
+         * Server. Telling IDF to suppress these allows us to bring SIM_A and
+         * SIM_B up and down independently of this sim, which will continuously
+         * try to connect to missing Servers.
+         */
         catchOpenExceptions = true;
 
         (0.1, "scheduled") processCommand();
     }
 
+    /**
+     * activates the CompositeController that corresponds to the activate
+     * variable
+     */
     void processCommand() {
         switch(activate) {
             case Nothing:
