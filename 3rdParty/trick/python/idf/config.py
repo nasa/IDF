@@ -18,12 +18,13 @@ class Configurator:
     # @param self the object pointer
     # @param deviceManager @copydoc inputDeviceManager
     # @param vhcVariableName @copydoc vhcVariable
-    def __init__(self, deviceManager, vhcVariableName = None):
+    # @param configFile the configuration file
+    def __init__(self, deviceManager, vhcVariableName=None, configFile=os.path.join(os.path.expanduser('~'), '.idf', 'config.py')):
         self.inputDeviceManager = deviceManager
         self.vhcVariable = vhcVariableName
 
         # execute the user configuration file if present
-        if not self.execConfigFile('config.py'):
+        if not self.execConfigFile(configFile):
 
             # otherwise, use the first available device
             self.useFirstAvailableDevice()
@@ -104,20 +105,16 @@ class Configurator:
         self.inputDeviceManager.setDelay(delay)
         return
 
-    ## calls @c execfile on @a fileName if the file exists in either @c ~/.idf_<hostname> or @c ~/.idf
+    ## calls @c execfile on @a fileName
     #
     # @param fileName the name of the file to @c execfile
     #
     # @return @c true if the file was found
     def execConfigFile(self, fileName):
-        base = os.path.join(os.path.expanduser('~'), '.idf')
         try:
-            execfile(os.path.join(base + '_', socket.gethostname(), fileName))
-        except IOError:
-            try:
-                execfile(os.path.join(base, fileName))
-            except IOError:
-                return False
+            execfile(fileName)
+        except (IOError, TypeError):
+            return False
         return True
 
     ## @var inputDeviceManager
