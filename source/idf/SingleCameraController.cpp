@@ -177,4 +177,18 @@ SingleCameraController* SingleCameraController::createInstance(const IndustrialP
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const IndustrialProducts3& industrialProducts) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+      industrialProducts.twist,
+      industrialProducts.forwardBackwardPivot,
+      industrialProducts.leftRightPivot,
+      industrialProducts.hatUpDownPivot);
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+
+    return controller;
+}
+
 }

@@ -24,6 +24,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/Gravis.hh"
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
+#include "idf/IndustrialProducts3.hh"
 #include "idf/SpaceBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/VirtualLayout.hh"
@@ -220,6 +221,15 @@ class SingleFlightController : public FlightController {
      * @return a new IndustrialProducts2-based flight controller
      */
     static SingleFlightController* createInstance(const IndustrialProducts2& industrialProducts2);
+
+    /*
+     * creates a new SingleFlightController mapped to @a industrialProducts3 using appropriate defaults
+     *
+     * @param industrialProducts3 the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts3-based flight controller
+     */
+    static SingleFlightController* createInstance(const IndustrialProducts3& industrialProducts3);
 
 };
 

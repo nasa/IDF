@@ -358,4 +358,29 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Industr
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const IndustrialProducts3& industrialProducts) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(industrialProducts.switchUp);
+    z->addInput(industrialProducts.switchDown, -1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+      industrialProducts.leftRightPivot,
+      industrialProducts.forwardBackwardPivot,
+      industrialProducts.twist,
+      industrialProducts.hatUpDownPivot,
+      industrialProducts.hatLeftRightPivot,
+      *z,
+      industrialProducts.trigger,
+      industrialProducts.hatNorth);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+    controller->y.setInverted(true);
+
+    controller->rateMode.setToggle(true);
+
+    return controller;
+}
+
 }

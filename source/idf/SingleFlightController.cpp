@@ -247,4 +247,25 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const IndustrialProducts3& industrialProducts) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(industrialProducts.switchUp);
+    z->addInput(industrialProducts.switchDown, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+      industrialProducts.leftRightPivot,
+      industrialProducts.forwardBackwardPivot,
+      industrialProducts.twist,
+      industrialProducts.hatUpDownPivot,
+      industrialProducts.hatLeftRightPivot,
+      *z);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+    controller->y.setInverted(true);
+
+    return controller;
+}
+
 }

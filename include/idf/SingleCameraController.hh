@@ -24,6 +24,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/Gravis.hh"
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
+#include "idf/IndustrialProducts3.hh"
 #include "idf/SpaceBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/VirtualLayout.hh"
@@ -196,6 +197,15 @@ class SingleCameraController : public CameraController {
      * @return a new IndustrialProducts2-based camera controller
      */
     static SingleCameraController* createInstance(const IndustrialProducts2& industrialProducts2);
+
+    /**
+     * creates a new SingleCameraController mapped to @a industrialProducts3 using appropriate defaults
+     *
+     * @param industrialProducts3 the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts3-based camera controller
+     */
+    static SingleCameraController* createInstance(const IndustrialProducts3& industrialProducts3);
 
 };
 

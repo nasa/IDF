@@ -24,6 +24,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/Gravis.hh"
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
+#include "idf/IndustrialProducts3.hh"
 #include "idf/SpaceExplorer.hh"
 #include "idf/SpaceNavigator.hh"
 #include "idf/SpaceMouse.hh"
@@ -273,6 +274,15 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new IndustrialProducts2-based robotics controller
      */
     static SingleRoboticsController* createInstance(const IndustrialProducts2& industrialProducts2);
+
+    /*
+     * creates a new SingleRoboticsController mapped to @a industrialProducts3 using appropriate defaults
+     *
+     * @param industrialProducts3 the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts3-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const IndustrialProducts3& industrialProducts3);
 
 };
 
