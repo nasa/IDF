@@ -1,0 +1,102 @@
+cmake_minimum_required(VERSION 3.4)
+project(IDF)
+
+option(ENABLE_CAN_DEVICES "Enable CAN controlled input devices" OFF)
+
+if(${ENABLE_CAN_DEVICES})
+    set(SRC_IDF
+        source/idf/CanDevice.cpp
+        source/idf/CanIndustrialProducts.cpp
+)
+else()
+    set(SRC_IDF
+        ${SRC_IDF}
+        source/idf/CameraController.cpp
+        source/idf/ChProPedals.cpp
+        source/idf/CompositeCameraController.cpp
+        source/idf/CompositeFlightController.cpp
+        source/idf/CompositeInput.cpp
+        source/idf/CompositeRoboticsController.cpp
+        source/idf/Controller.cpp
+        source/idf/Deadbandable.cpp
+        source/idf/Deadband.cpp
+        source/idf/DualShock3.cpp
+        source/idf/DualShock4.cpp
+        source/idf/DualShock.cpp
+        source/idf/Extreme3dPro.cpp
+        source/idf/FlightController.cpp
+        source/idf/Gravis.cpp
+        source/idf/IndustrialProducts2.cpp
+        source/idf/IndustrialProducts3.cpp
+        source/idf/IndustrialProducts.cpp
+        source/idf/Input.cpp
+        source/idf/InputDevice.cpp
+        source/idf/InputLayout.cpp
+        source/idf/Manageable.cpp
+        source/idf/MutualExclusionGroup.cpp
+        source/idf/Output.cpp
+        source/idf/RemoteCameraController.cpp
+        source/idf/RemoteExtreme3dPro.cpp
+        source/idf/RemoteFlightController.cpp
+        source/idf/RemoteRoboticsController.cpp
+        source/idf/RemoteSpaceNavigator.cpp
+        source/idf/RoboticsController.cpp
+        source/idf/Saitek.cpp
+        source/idf/SerialDevice.cpp
+        source/idf/SerialThrustMaster2.cpp
+        source/idf/SerialThrustMasterBase.cpp
+        source/idf/SerialThrustMaster.cpp
+        source/idf/SingleCameraController.cpp
+        source/idf/SingleFlightController.cpp
+        source/idf/SingleInput.cpp
+        source/idf/SingleRoboticsController.cpp
+        source/idf/SpaceBase.cpp
+        source/idf/SpaceExplorer.cpp
+        source/idf/SpaceMouse.cpp
+        source/idf/SpaceNavigator.cpp
+        source/idf/ThrustMaster2.cpp
+        source/idf/ThrustMasterBase.cpp
+        source/idf/ThrustMaster.cpp
+        source/idf/UsbChProPedals.cpp
+        source/idf/UsbDevice.cpp
+        source/idf/UsbDualShock3.cpp
+        source/idf/UsbDualShock4.cpp
+        source/idf/UsbDualShock.cpp
+        source/idf/UsbExtreme3dPro.cpp
+        source/idf/UsbGravis.cpp
+        source/idf/UsbIndustrialProducts3.cpp
+        source/idf/UsbIndustrialProducts.cpp
+        source/idf/UsbSaitek.cpp
+        source/idf/UsbSpaceBase.cpp
+        source/idf/UsbSpaceExplorer.cpp
+        source/idf/UsbSpaceMouse.cpp
+        source/idf/UsbSpaceNavigator.cpp
+        source/idf/UsbWingMan.cpp
+        source/idf/UsbXBox.cpp
+        source/idf/Utils.cpp
+        source/idf/XBox.cpp
+)
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual")
+
+# ====================
+# HDI API
+# ================
+set(SRC_HIDAPI
+    source/idf/hidapi.cpp
+)
+add_library(hidapi EXCLUDE_FROM_ALL ${SRC_HIDAPI})
+set_target_properties(hidapi PROPERTIES COMPILE_FLAGS "-Wno-sign-compare")
+
+# ====================
+# IDF
+# ================
+add_library(idf STATIC ${SRC_IDF})
+target_link_libraries(idf PRIVATE hidapi)
+include_directories("include")
+
+install(TARGETS idf
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib/static)
