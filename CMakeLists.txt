@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 2.4.4)
 project(IDF)
 
 option(ENABLE_CAN_DEVICES "Enable CAN controlled input devices" OFF)
