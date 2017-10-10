@@ -1,3 +1,7 @@
 language: cpp
 install: sudo apt-get install udev libudev-dev
-script: make
+script:
+- mkdir build
+- cd build
+- cmake ..
+- make
