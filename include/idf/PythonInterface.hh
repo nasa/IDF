@@ -52,6 +52,7 @@
 #include "idf/UsbExtreme3dPro.hh"
 #include "idf/UsbGravis.hh"
 #include "idf/UsbIndustrialProducts.hh"
+#include "idf/UsbIndustrialProducts2.hh"
 #include "idf/UsbIndustrialProducts3.hh"
 #include "idf/UsbSaitek.hh"
 #include "idf/UsbSpaceExplorer.hh"

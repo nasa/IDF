@@ -16,4 +16,15 @@ IndustrialProducts2::IndustrialProducts2() :
     northEastButton(0, 1),
     southEastButton(0, 1) {}
 
+const std::vector<InputLayout::Configurable>& IndustrialProducts2::getConfigurables() {
+    static std::vector<Configurable> inputs;
+    if (inputs.empty()) {
+        append(InputLayout::getConfigurables(), inputs);
+        inputs.push_back(Configurable(forwardBackwardPivot, "Forward/Backward Pivot", "forwardBackwardPivot"));
+        inputs.push_back(Configurable(leftRightPivot, "Left/Right Pivot", "leftRightPivot"));
+        inputs.push_back(Configurable(twist, "Twist", "twist"));
+    }
+    return inputs;
+}
+
 }

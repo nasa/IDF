@@ -14,6 +14,7 @@
 #include "idf/UsbExtreme3dPro.hh"
 #include "idf/UsbGravis.hh"
 #include "idf/UsbIndustrialProducts.hh"
+#include "idf/UsbIndustrialProducts2.hh"
 #include "idf/UsbIndustrialProducts3.hh"
 #include "idf/UsbSaitek.hh"
 #include "idf/UsbSpaceExplorer.hh"
@@ -59,6 +60,7 @@ void run() {
     idf::UsbExtreme3dPro extreme3dPro;
     idf::UsbGravis gravis;
     idf::UsbIndustrialProducts industrialProducts;
+    idf::UsbIndustrialProducts2 industrialProducts2;
     idf::UsbIndustrialProducts3 industrialProducts3;
     idf::UsbSaitek saitek;
     idf::UsbSpaceExplorer spaceExplorer;
@@ -74,6 +76,7 @@ void run() {
     devices.push_back(&extreme3dPro);
     devices.push_back(&gravis);
     devices.push_back(&industrialProducts);
+    devices.push_back(&industrialProducts2);
     devices.push_back(&industrialProducts3);
     devices.push_back(&saitek);
     devices.push_back(&spaceExplorer);

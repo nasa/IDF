@@ -69,6 +69,9 @@ class IndustrialProducts2 : public virtual InputLayout {
     /** the southeast button */
     SingleInput southEastButton;
 
+    protected:
+
+    virtual const std::vector<Configurable>& getConfigurables();
 };
 
 }
