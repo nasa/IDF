@@ -372,7 +372,7 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Industr
       industrialProducts.hatLeftRightPivot,
       *z,
       industrialProducts.trigger,
-      industrialProducts.hatNorth);
+      industrialProducts.button);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
