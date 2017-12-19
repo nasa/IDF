@@ -65,6 +65,7 @@ set(SRC_IDF
     source/idf/UsbDualShock.cpp
     source/idf/UsbExtreme3dPro.cpp
     source/idf/UsbGravis.cpp
+    source/idf/UsbIndustrialProducts2.cpp
     source/idf/UsbIndustrialProducts3.cpp
     source/idf/UsbIndustrialProducts.cpp
     source/idf/UsbSaitek.cpp
@@ -75,6 +76,8 @@ set(SRC_IDF
     source/idf/UsbWingMan.cpp
     source/idf/UsbXBox.cpp
     source/idf/Utils.cpp
+    source/idf/VirtualLayout.cpp
+    source/idf/WingMan.cpp
     source/idf/XBox.cpp
 )
 
