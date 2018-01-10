@@ -18,7 +18,7 @@ include $(MAKEFILE_DIR)/common.mk
 ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
 
     # The core IDF library
-    CORE_LIB := $(IDF_HOME)/build/lib/libidf.a
+    CORE_LIB := $(IDF_HOME)/build/libidf.a
 
     # The Trickified IDF library
     TRICKIFIED_LIB :=$(THIRD_PARTY)/lib/trickified_idf.o
@@ -37,13 +37,14 @@ ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
     TRICK_PYTHON_PATH += :$(EXTERNALS)/3rdParty/trick/lib/python:$(THIRD_PARTY)/lib/python
 
     # Link in the Trickified object and core library
-    TRICK_LDFLAGS += $(THIRD_PARTY)/lib/trickified_idf.o $(IDF_HOME)/build/lib/libidf.a
+    TRICK_LDFLAGS += $(TRICKIFIED_LIB) $(CORE_LIB)
 
     # Append prerequisites to the $(S_MAIN) target, causing the libraries to be built along with the sim
     $(S_MAIN): $(CORE_LIB) $(TRICKIFIED_LIB)
 
     $(CORE_LIB):
-	@$(MAKE) -s -C $(IDF_HOME)
+	@mkdir -p $(dir $@); cd $(dir $@); cmake ..
+	@$(MAKE) -s -C $(dir $@)
 
     $(TRICKIFIED_LIB):
 	@$(MAKE) -s -C $(dir $@)
