@@ -13,7 +13,7 @@ else ifeq ($(UNAME), Darwin)
 endif
 
 configurator: Configurator.cpp $(LIBIDF)
-	@$(CXX) -o $@ $(CFLAGS) $(LIBS) $^
+	@$(CXX) -o $@ $(CFLAGS) $^ $(LIBS)
 
 $(BUILD_DIR):
 	@mkdir -p $@
