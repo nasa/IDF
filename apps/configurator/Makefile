@@ -4,7 +4,7 @@ IDF_HOME := $(abspath $(MAKEFILE_DIR)/../..)
 CFLAGS = -g -Wall -I${IDF_HOME}/include
 BUILD_DIR := $(IDF_HOME)/build
 CMAKEFILE := $(BUILD_DIR)/Makefile
-LIB_IDF := $(BUILD_DIR)/libidf.a
+LIBIDF := $(BUILD_DIR)/libidf.a
 
 ifeq ($(UNAME), Linux)
     LIBS = -ludev -lrt
@@ -12,7 +12,7 @@ else ifeq ($(UNAME), Darwin)
     LIBS = -framework IOKit -framework CoreFoundation
 endif
 
-configurator: Configurator.cpp $(LIB_IDF)
+configurator: Configurator.cpp $(LIBIDF)
 	@$(CXX) -o $@ $(CFLAGS) $(LIBS) $^
 
 $(BUILD_DIR):
