@@ -1,7 +1,5 @@
 language: cpp
 install: sudo apt-get install udev libudev-dev
 script:
-- cd apps/configurator
-- make
-- cd ../hidScanner
-- make
+- make -C apps/configurator
+- make -C apps/hidScanner
