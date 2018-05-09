@@ -33,7 +33,7 @@ bool CompositeRoboticsController::getCommandedTrigger() const {
 }
 
 bool CompositeRoboticsController::getCommandedRateMode() const {
-    return accumulate(&CompositeRoboticsController::getRateMode, std::logical_or<bool>());
+    return accumulate(&CompositeRoboticsController::getRateMode, std::not_equal_to<bool>());
 }
 
 }
