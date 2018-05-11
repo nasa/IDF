@@ -34,7 +34,7 @@ bool RoboticsControllerServer::getCommandedTrigger() const {
 }
 
 bool RoboticsControllerServer::getCommandedRateMode() const {
-    return accumulateClientValues(&RoboticsControllerCommands::rateMode, std::logical_or<bool>());
+    return accumulateClientValues(&RoboticsControllerCommands::rateMode, std::not_equal_to<bool>());
 }
 
 RoboticsControllerClient::RoboticsControllerClient(const RoboticsController& roboticsController,
