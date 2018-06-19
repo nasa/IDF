@@ -13,7 +13,7 @@ else ifeq ($(UNAME), Darwin)
 endif
 
 hidScanner: hidScanner.c
-	$(CC) -o $@ $^ $(HID_C) $(CFLAGS) $(LIBS)
+	$(CXX) -o $@ $^ $(HID_C) $(CFLAGS) $(LIBS)
 
 clean:
 	rm -rf hidScanner

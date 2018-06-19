@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <cstring>
+#include <cwchar>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -17,17 +20,27 @@ int main(int argc, char **args) {
     }
 
     struct hid_device_info* enumerationHead = hid_enumerate(0, 0);
-    int count = 0;
+    struct hid_device_info * deviceInfo;
+    size_t serialLength = std::wcslen(L"Serial #");
+    size_t vendorLength = std::wcslen(L"Vendor");
+    size_t pathLength = std::strlen("Path");
+    for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+        serialLength = std::max(serialLength, wcslen(deviceInfo->serial_number));
+        vendorLength = std::max(vendorLength, wcslen(deviceInfo->manufacturer_string));
+        pathLength = std::max(pathLength, strlen(deviceInfo->path));
+    }
 
     printf("\nNOTE: If running as non-root, you must have udev rules in place allowing access to usb devices.\n\n");
-    printf("Index  Vendor ID  Product ID  Vendor          Product\n");
+    printf("Index  %-*s  %-*ls  Vendor ID  Product ID  %-*ls  Product\n", pathLength, "Path", serialLength, L"Serial #", vendorLength, L"Vendor");
 
-    struct hid_device_info * deviceInfo;
+    int count = 0;
     for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next, ++count) {
-        printf("%-6d 0x%04hX     0x%04hX      %-15ls %ls\n", count,
+        printf("%5d  %-*s  %-*s  0x%04hX     0x%04hX      %-*ls  %ls\n", count,
+          pathLength, deviceInfo->path,
+          serialLength, deviceInfo->serial_number,
           deviceInfo->vendor_id, deviceInfo->product_id,
-          deviceInfo->manufacturer_string ? deviceInfo->manufacturer_string : L"null",
-          deviceInfo->product_string ? deviceInfo->product_string : L"null");
+          vendorLength, deviceInfo->manufacturer_string,
+          deviceInfo->product_string);
     }
 
     int selection = -1;
