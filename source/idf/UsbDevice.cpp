@@ -2,9 +2,11 @@
 #include "idf/IOException.hh"
 
 #include <errno.h>
-#include <sstream>
-#include <cstring>
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
+#include <cstring>
+#include <sstream>
 
 namespace idf {
 
@@ -15,6 +17,7 @@ std::vector<UsbDevice::DeviceTag> UsbDevice::openDevices;
 UsbDevice::UsbDevice(const std::string& id, int vendorID, int productID, unsigned length) :
     InputDevice(id),
     vendorId(vendorID),
+    hidDevice(NULL),
     packetLength(length) {
     productIds.push_back(productID);
     if (++instanceCount == 1) {
@@ -34,10 +37,13 @@ bool UsbDevice::isConnected() {
     bool result = false;
     struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
     for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
-        if (deviceInfo->vendor_id == vendorId) {
-            if (std::find(productIds.begin(), productIds.end(), deviceInfo->product_id) != productIds.end()) {
+        if (deviceInfo->vendor_id == vendorId &&
+          std::find(productIds.begin(), productIds.end(), deviceInfo->product_id) != productIds.end()) {
+            if (devicePath.empty()) {
                 result = true;
-                break;
+            }
+            else {
+                result = devicePath == deviceInfo->path;
             }
         }
     }
@@ -45,46 +51,78 @@ bool UsbDevice::isConnected() {
     return result;
 }
 
-void UsbDevice::open() {
-    if (!mOpen) {
-        struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
+void UsbDevice::setPath(const std::string& path) {
+    devicePath = path;
+}
 
-        for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+bool UsbDevice::deviceMatches(const struct hid_device_info& deviceInfo) const {
+    return deviceInfo.vendor_id == vendorId &&
+           std::find(productIds.begin(), productIds.end(), deviceInfo.product_id) != productIds.end();
+}
 
-            std::string path(deviceInfo->path);
-            bool pathAlreadyOpen = false;
-            for (std::vector<DeviceTag>::iterator i = openDevices.begin(); i < openDevices.end(); ++i) {
-                if (i->path == path) {
-                    pathAlreadyOpen = true;
-                    break;
-                }
-            }
-            if (pathAlreadyOpen) {
-                continue;
-            }
-
-            if (deviceInfo->vendor_id == vendorId) {
-                if (std::find(productIds.begin(), productIds.end(), deviceInfo->product_id) != productIds.end()) {
-                    if ((hidDevice = hid_open_path(deviceInfo->path))) {
-                        openDevices.push_back(DeviceTag(hidDevice, path));
-                        hid_free_enumeration(enumerationHead);
-                        hid_set_nonblocking(hidDevice, 1);
-                        Manageable::open();
-                        return;
-                    }
-                    else {
-                        hid_free_enumeration(enumerationHead);
-                        throw IOException("Failed to open " + name + ": " + strerror(errno) +
-                          ". See the IDF wiki for troubleshooting: https://github.com/nasa/IDF/wiki");
-                    }
-                }
-            }
+bool UsbDevice::isPathOpen(const std::string& path) const {
+    for (std::vector<DeviceTag>::iterator i = openDevices.begin(); i < openDevices.end(); ++i) {
+        if (i->path == path) {
+            return true;
         }
-
-        hid_free_enumeration(enumerationHead);
-
-        throw IOException("Failed to find " + name + ".");
     }
+    return false;
+}
+
+void UsbDevice::open(const std::string& path) {
+    char resolvedPath[PATH_MAX];
+    if (!realpath(path.c_str(), resolvedPath)) {
+        throw IOException("Failed to open " + name + ": Failed to resolve " + path + ": " + strerror(errno));
+    }
+
+    struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
+    for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+        if (!strcmp(resolvedPath, deviceInfo->path)) {
+            if (!deviceMatches(*deviceInfo)) {
+                hid_free_enumeration(enumerationHead);
+                throw IOException("Failed to open " + name + ": The device at " + path + " (" + resolvedPath + ") is not a " + name);
+            }
+
+            hid_free_enumeration(enumerationHead);
+            if (isPathOpen(resolvedPath)) {
+                throw IOException("Failed to open " + name + ": There is already a device open at " + path + " (" + resolvedPath + ")");
+            }
+
+            if (!(hidDevice = hid_open_path(resolvedPath))) {
+                throw IOException("Failed to open " + name + " at " + path + " (" + resolvedPath + "): " + strerror(errno) +
+                  ". See the IDF wiki for troubleshooting: https://github.com/nasa/IDF/wiki");
+            }
+
+            openDevices.push_back(DeviceTag(hidDevice, resolvedPath));
+            hid_set_nonblocking(hidDevice, 1);
+            return Manageable::open();
+        }
+    }
+
+    hid_free_enumeration(enumerationHead);
+    throw IOException("Failed to open " + name + ": There is no device at " + path + " (" + resolvedPath + ")");
+}
+
+void UsbDevice::open() {
+    if (mOpen) {
+        return;
+    }
+
+    if (!devicePath.empty()) {
+        return open(devicePath);
+    }
+
+    struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
+    for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+        if (deviceMatches(*deviceInfo) && !isPathOpen(deviceInfo->path)) {
+            const std::string path = deviceInfo->path;
+            hid_free_enumeration(enumerationHead);
+            return open(path);
+        }
+    }
+
+    hid_free_enumeration(enumerationHead);
+    throw IOException("Failed to find " + name);
 }
 
 std::vector<std::vector<unsigned char> > UsbDevice::read() {

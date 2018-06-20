@@ -6,23 +6,6 @@
 #include <sstream>
 #include <cstring>
 
-// TODO: add an option to build with libusb
-
-//#ifdef __linux__
-//#include <libusb.h>
-
-/**
- * This is required to access fields within struct hid_device in the
- * sendCommand function. hid_device_ is defined in hid.c, which cannot be
- * included here, so we have to replicate some of its definition. It's an ugly
- * hack, but it's the best I have for now.
- */
-/*struct hid_device_ {
-    libusb_device_handle *device_handle;
-    int a, b, c, interface;
-};
-#endif*/
-
 namespace idf {
 
 UsbDualShock3::UsbDualShock3(int vendorID, int productID) :

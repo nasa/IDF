@@ -57,13 +57,21 @@ class UsbDevice : public InputDevice {
      */
     virtual bool isConnected();
 
+    /**
+     * sets the path at which this device can be found. This path will be used
+     * on the next call to open().
+     *
+     * @param path @copydoc devicePath
+     */
+    virtual void setPath(const std::string& path);
+
     virtual void open();
     virtual void close();
 
     protected:
 
     /** vendor ID, used to lookup this device in the USB hierarchy */
-    int vendorId;
+    const int vendorId;
 
     /** product IDs, used to lookup this device in the USB hierarchy */
     std::vector<int> productIds;
@@ -90,9 +98,9 @@ class UsbDevice : public InputDevice {
          * constructor
          *
          * @param deviceHandle handle to the device
-         * @param devicePath path to the device
+         * @param devicePath @copydoc devicePath
          */
-        DeviceTag(hid_device* deviceHandle, std::string& devicePath) :
+        DeviceTag(hid_device* deviceHandle, const std::string& devicePath) :
             path(devicePath),
             handle(deviceHandle) {}
 
@@ -107,6 +115,9 @@ class UsbDevice : public InputDevice {
     /** the length of a packet of data */
     const unsigned packetLength;
 
+    /** the device path (example: /dev/hidraw0) */
+    std::string devicePath;
+
     /**
      * reads @a length bytes from this device and stores them in @a buffer
      *
@@ -118,6 +129,30 @@ class UsbDevice : public InputDevice {
      * @throws IOException if an error occurs while reading or if the device is not open
      */
     unsigned read(unsigned char* buffer, size_t length);
+
+    /**
+     * determines if a device's vendor and product IDs match this instance
+     *
+     * @param deviceInfo the device's vendor and product IDs
+     * @return true if this instance represents a device with the given vendor and product ID
+     */
+    bool deviceMatches(const struct hid_device_info& deviceInfo) const;
+
+    /**
+     * opens the device at path
+     *
+     * @param path @copydoc devicePath
+     */
+    void open(const std::string& path);
+
+    /**
+     * determines if the device at path has been opened
+     *
+     * @param path @copydoc devicePath
+     *
+     * @return true if the path is open
+     */
+    bool isPathOpen(const std::string& path) const;
 
     void operator=(const UsbDevice&);
 
