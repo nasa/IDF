@@ -267,7 +267,7 @@ class Server : public Manageable {
     double accumulateClientValues(const U T::*field, const BinaryOperation& function) const {
         double result = U();
         for (typename std::vector<Client*>::const_iterator i = clients.begin(); i != clients.end(); ++i) {
-            result = function(result, unpack((*i)->getCommands().*field));
+            result = function(result, static_cast<U>(unpack((*i)->getCommands().*field)));
         }
         return result;
     }
