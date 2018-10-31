@@ -70,10 +70,14 @@ bool UsbDevice::isPathOpen(const std::string& path) const {
 }
 
 void UsbDevice::open(const std::string& path) {
-    char resolvedPath[PATH_MAX];
-    if (!realpath(path.c_str(), resolvedPath)) {
-        throw IOException("Failed to open " + name + ": Failed to resolve " + path + ": " + strerror(errno));
-    }
+    #ifdef __APPLE__
+        char resolvedPath = path.c_str();
+    #else
+        char resolvedPath[PATH_MAX];
+        if (!realpath(path.c_str(), resolvedPath)) {
+            throw IOException("Failed to open " + name + ": Failed to resolve " + path + ": " + strerror(errno));
+        }
+    #endif
 
     struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
     for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
