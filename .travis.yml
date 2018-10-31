@@ -1,5 +1,11 @@
 language: cpp
-install: sudo apt-get install udev libudev-dev
+
+os:
+    - linux
+    - osx
+
+install: if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install udev libudev-dev; fi
+
 script:
-- make -C apps/configurator
-- make -C apps/hidScanner
+    - make -C apps/configurator
+    - make -C apps/hidScanner
