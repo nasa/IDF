@@ -71,7 +71,7 @@ bool UsbDevice::isPathOpen(const std::string& path) const {
 
 void UsbDevice::open(const std::string& path) {
     #ifdef __APPLE__
-        char resolvedPath = path.c_str();
+        const char *resolvedPath = path.c_str();
     #else
         char resolvedPath[PATH_MAX];
         if (!realpath(path.c_str(), resolvedPath)) {
