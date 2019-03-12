@@ -39,8 +39,10 @@ double CompositeInput::getValue() const {
         result += (*i)->weight * (*i)->input->getNormalizedValue();
     }
 
-    return result < getMinimumValue() ? getMinimumValue() :
+    result = result < getMinimumValue() ? getMinimumValue() :
        result > getMaximumValue() ? getMaximumValue() : result;
+
+    return applyDeadbands(result);
 }
 
 void CompositeInput::addInput(const Input& input, double weight) {

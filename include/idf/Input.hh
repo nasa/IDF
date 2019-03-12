@@ -13,6 +13,8 @@ LIBRARY DEPENDENCIES: (
 #ifndef INPUT_HH
 #define INPUT_HH
 
+#include "idf/Deadbandable.hh"
+
 namespace idf {
 
 /**
@@ -20,7 +22,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class Input {
+class Input : public Deadbandable {
 
     public:
 

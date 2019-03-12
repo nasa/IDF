@@ -31,12 +31,20 @@ class Deadbandable {
     ~Deadbandable() {}
 
     /**
-     * adds @a deadband to the list of filters.
+     * adds @a deadband to the list of filters to be applied to raw values.
      * Adding a deadband that is already applied to this instance has no effect.
      *
-     * @param deadband the deadband to add
+     * @param deadband the raw deadband to add
      */
     void addDeadband(const Deadband& deadband);
+
+    /**
+     * adds @a deadband to the list of filters to be applied to normalized values.
+     * Adding a deadband that is already applied to this instance has no effect.
+     *
+     * @param deadband the normalized deadband to add
+     */
+    void addNormalizedDeadband(const Deadband& deadband);
 
     /**
      * remove @a deadband from the list of filters.
@@ -50,16 +58,42 @@ class Deadbandable {
     void clearDeadbands();
 
     /**
-     * returns the deadbands applied to this instance
+     * returns the raw deadbands applied to this instance
      *
-     * @return the current deadbands
+     * @return the current raw deadbands
      */
     const std::vector<Deadband>& getDeadbands() const;
+
+    /**
+     * returns the normalized deadbands applied to this instance
+     *
+     * @return the current normalized deadbands
+     */
+    const std::vector<Deadband>& getNormalizedDeadbands() const;
 
     protected:
 
     /**
-     * applies all Deadbands to @a value
+     * adds @a deadband to @a deadbands
+     * Adding a deadband that is already applied to this instance has no effect.
+     *
+     * @param deadband the deadband to add
+     * @param filters the vector to which to add the deadband
+     */
+    void addDeadband(const Deadband& deadband, std::vector<Deadband>& filters);
+
+    /**
+     * applies all Deadbands in @a filters to @a value
+     *
+     * @param value the value to filter
+     * @param filters the deadbands to apply
+     *
+     * @return the filtered value
+     */
+    double applyDeadbands(double value, const std::vector<Deadband>& filters) const;
+
+    /**
+     * applies all raw Deadbands to @a value
      *
      * @param value the value to filter
      *
@@ -67,8 +101,20 @@ class Deadbandable {
      */
     double applyDeadbands(double value) const;
 
-    /** deadband filters */
+    /**
+     * applies all normalized Deadbands to @a value
+     *
+     * @param value the value to filter
+     *
+     * @return the filtered value
+     */
+    double applyNormalizedDeadbands(double value) const;
+
+    /** raw deadband filters */
     std::vector<Deadband> deadbands;
+
+    /** normalized deadband filters */
+    std::vector<Deadband> normalizedDeadbands;
 
 };
 

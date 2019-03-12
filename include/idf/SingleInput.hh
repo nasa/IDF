@@ -13,7 +13,6 @@ LIBRARY DEPENDENCIES: (
 #ifndef SINGLE_INPUT_HH
 #define SINGLE_INPUT_HH
 
-#include "idf/Deadbandable.hh"
 #include "idf/Input.hh"
 
 namespace idf {
@@ -25,7 +24,7 @@ namespace idf {
  *
  * @author Derek Bankieris
  */
-class SingleInput : public Input, public Deadbandable {
+class SingleInput : public Input {
 
     public:
 

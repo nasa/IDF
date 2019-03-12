@@ -82,8 +82,10 @@ double Output::getNormalizedValue() const {
         return 1;
     }
 
-    return (value - neutral) /
+    value = (value - neutral) /
       (value < neutral ? (neutral - minimum) : (maximum - neutral));
+
+      return applyNormalizedDeadbands(value);
 }
 
 }
