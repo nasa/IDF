@@ -3,6 +3,10 @@ project(IDF)
 
 option(ENABLE_CAN_DEVICES "Enable CAN controlled input devices" OFF)
 
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeListsDIR.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeListsDIR.txt)
+endif()
+
 if(${ENABLE_CAN_DEVICES})
     set(SRC_IDF
         source/idf/CanDevice.cpp
@@ -33,6 +37,7 @@ set(SRC_IDF
     source/idf/Input.cpp
     source/idf/InputDevice.cpp
     source/idf/InputLayout.cpp
+    source/idf/MadCatz.cpp
     source/idf/Manageable.cpp
     source/idf/MutualExclusionGroup.cpp
     source/idf/Output.cpp
@@ -68,6 +73,7 @@ set(SRC_IDF
     source/idf/UsbIndustrialProducts2.cpp
     source/idf/UsbIndustrialProducts3.cpp
     source/idf/UsbIndustrialProducts.cpp
+    source/idf/UsbMadCatz.cpp
     source/idf/UsbSaitek.cpp
     source/idf/UsbSpaceBase.cpp
     source/idf/UsbSpaceExplorer.cpp
@@ -96,3 +102,8 @@ install(TARGETS idf
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib/static)
+
+
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/CMakeLists.txt)
+endif()
