@@ -27,7 +27,7 @@ ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
     LINKS += $(EXTERNALS)/3rdParty/trick/lib/python
 
     # Tell SWIG where to find *.i files
-    SWIG_FLAGS += -I$(THIRD_PARTY)/lib
+    TRICK_SWIG_FLAGS += -I$(THIRD_PARTY)/lib
 
     # Tell Trick to expect io_* and py_* code for these headers, but not to generate it itself.
     # This is different than ICG_EXCLUDE, which would cause Trick to ignore the io_* and py_* code.
