@@ -20,8 +20,6 @@ namespace idf {
 
 /**
  * %MadCatz hand controller's input layout
- *
- * @author Derek Bankieris
  */
 class MadCatz : public virtual InputLayout {
 

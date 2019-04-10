@@ -12,15 +12,12 @@ UsbMadCatz::UsbMadCatz(int vendorID, int productID, const std::string& id, unsig
 
 void UsbMadCatz::decode(const std::vector<unsigned char>& data) {
     uint16_t value;
-     
-    //forwardBackwardPivot.setValue(((unsigned)data[2] & 0xF) << 6 | data[1] >> 2);
-    // 10-bits B23 B22 B21 B20 B17 B16 B15 B14 B13 B12 
+
+    // 10-bits B23 B22 B21 B20 B17 B16 B15 B14 B13 B12
     value = ((uint16_t) data[2] & 0x000f) << 6 |  ((uint16_t)data[1] & 0x00FC) >> 2;
     forwardBackwardPivot.setValue(value);
 
-    //leftRightPivot.setValue(((unsigned)data[1] & 3) << 8 | data[0]);
     // 10-bits  B11 B10 B07 B06 B05 B04 B03 B02 B01 B00
-    //----------------------------------------------------------------
     value = ((uint16_t)data[1] & 0x0003) << 8 | ((uint16_t)data[0] & 0x00ff);
     leftRightPivot.setValue(value);
 
@@ -58,8 +55,8 @@ void UsbMadCatz::decode(const std::vector<unsigned char>& data) {
     hatWest.setValue(hat == 7);
     hatNorthWest.setValue(hat == 8);
 
-    scrollUp.setValue(data[7] >> 0 & 1);
-    scrollDown.setValue(data[6] >> 7 & 1);
+    scrollUp.setValue(data[6] >> 7 & 1);
+    scrollDown.setValue(data[7] >> 0 & 1);
 }
 
 }

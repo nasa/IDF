@@ -20,8 +20,6 @@ namespace idf {
 
 /**
  * USB MadCatz hand controller
- *
- * @author Derek Bankieris
  */
 class UsbMadCatz : public UsbDevice, public virtual MadCatz {
 
