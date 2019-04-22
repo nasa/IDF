@@ -16,6 +16,7 @@
 #include "idf/UsbIndustrialProducts.hh"
 #include "idf/UsbIndustrialProducts2.hh"
 #include "idf/UsbIndustrialProducts3.hh"
+#include "idf/UsbMadCatz.hh"
 #include "idf/UsbSaitek.hh"
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"
@@ -62,6 +63,7 @@ void run() {
     idf::UsbIndustrialProducts industrialProducts;
     idf::UsbIndustrialProducts2 industrialProducts2;
     idf::UsbIndustrialProducts3 industrialProducts3;
+    idf::UsbMadCatz madcatz;
     idf::UsbSaitek saitek;
     idf::UsbSpaceExplorer spaceExplorer;
     idf::UsbSpaceMouse spaceMouse;
@@ -78,6 +80,7 @@ void run() {
     devices.push_back(&industrialProducts);
     devices.push_back(&industrialProducts2);
     devices.push_back(&industrialProducts3);
+    devices.push_back(&madcatz);
     devices.push_back(&saitek);
     devices.push_back(&spaceExplorer);
     devices.push_back(&spaceMouse);
