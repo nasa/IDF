@@ -3,10 +3,6 @@ project(IDF)
 
 option(ENABLE_CAN_DEVICES "Enable CAN controlled input devices" OFF)
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeListsDIR.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeListsDIR.txt)
-endif()
-
 if(${ENABLE_CAN_DEVICES})
     set(SRC_IDF
         source/idf/CanDevice.cpp
@@ -102,8 +98,3 @@ install(TARGETS idf
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib/static)
-
-
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/CMakeLists.txt)
-include(${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/CMakeLists.txt)
-endif()
