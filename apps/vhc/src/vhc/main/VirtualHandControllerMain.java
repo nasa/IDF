@@ -1,11 +1,5 @@
 package vhc.main;
 
-import com.apple.eawt.AppEvent.PreferencesEvent;
-import com.apple.eawt.AppEvent.AboutEvent;
-import com.apple.eawt.Application;
-import com.apple.eawt.AboutHandler;
-import com.apple.eawt.PreferencesHandler;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -594,17 +588,6 @@ public class VirtualHandControllerMain extends RunTimeTrickApplication {
         catch (Exception e) {}
 
         super.initialize(args);
-
-        if (System.getProperty("os.name").contains("Mac")) {
-            Application application =  Application.getApplication();
-            application.setDockIconImage(resourceMap.getImageIcon("Application.icon").getImage());
-
-            application.setAboutHandler(new AboutHandler() {
-                public void handleAbout(AboutEvent e) {
-                    aboutDialog.setVisible(true);
-                }
-            });
-        }
 
         Layout.FULL.extendedState = Integer.parseInt(trickProperties.getProperty(fullStateKey, Integer.toString(JFrame.NORMAL)));
 
