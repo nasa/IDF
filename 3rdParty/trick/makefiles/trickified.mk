@@ -39,8 +39,15 @@ ifneq ($(wildcard $(TRICK_HOME)/share/trick/makefiles/trickify.mk),)
     # Link in the Trickified object and core library
     TRICK_LDFLAGS += $(TRICKIFIED_LIB) $(CORE_LIB)
 
-    # Append prerequisites to the $(S_MAIN) target, causing the libraries to be built along with the sim
-    $(S_MAIN): $(CORE_LIB) $(TRICKIFIED_LIB)
+    # Append the trickified library as a prerequisite to the $(SWIG_SRC) target,
+    # causing it to be built along with the sim if necessary. Using $(SWIG_SRC)
+    # ensures that the Trickified .i files are generated before SWIG is run on
+    # any sim .i files, which may %import them.
+    $(SWIG_SRC): $(TRICKIFIED_LIB)
+
+    # Append the core library as a prerequisite to the $(S_MAIN) target,
+    # causing it to be built along with the sim if necessary.
+    $(S_MAIN): $(CORE_LIB)
 
     $(CORE_LIB):
 	@mkdir -p $(dir $@); cd $(dir $@); cmake ..
