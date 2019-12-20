@@ -91,6 +91,23 @@ class Client : public Manageable {
         Manageable::open();
     }
 
+    /**
+     * sends the commands to the server
+     *
+     * @throws IOException if an error occurs
+     */
+    void update() {
+        Manageable::update();
+
+        U commands;
+        packCommands(commands);
+
+        if (write(socketHandle, &commands, sizeof(commands)) == -1) {
+            close();
+            throw IOException("Failed to write: " + std::string(strerror(errno)));
+        }
+    }
+
     /** disconnects from the server */
     void close() {
         ::close(socketHandle);
@@ -134,23 +151,6 @@ class Client : public Manageable {
         source(commandSource),
         serverName(host),
         serverPort(port) {}
-
-    /**
-     * sends the commands to the server
-     *
-     * @throws IOException if an error occurs
-     */
-    void update() {
-        Manageable::update();
-
-        U commands;
-        packCommands(commands);
-
-        if (write(socketHandle, &commands, sizeof(commands)) == -1) {
-            close();
-            throw IOException("Failed to write: " + std::string(strerror(errno)));
-        }
-    }
 
     /**
      * packs commands from @a source into @a commands
