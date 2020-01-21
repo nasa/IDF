@@ -3,7 +3,9 @@
 namespace idf {
 
 UsbSpaceMouse::UsbSpaceMouse(int vendorID, int productID) :
-    UsbSpaceBase("Space Mouse", vendorID, productID) {}
+    UsbSpaceBase("Space Mouse", vendorID, productID) {
+    productIds.push_back(0xC635);
+}
 
 void UsbSpaceMouse::processButtons(const unsigned char* buttonData) {
     buttonMenu.setValue(buttonData[0] & 1);
