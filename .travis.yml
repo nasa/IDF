@@ -9,3 +9,4 @@ install: if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install udev l
 script:
     - make -C apps/configurator
     - make -C apps/hidScanner
+    - make -C examples/basic

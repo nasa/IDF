@@ -1,28 +1,18 @@
-UNAME := $(shell uname)
-MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-IDF_HOME := $(abspath $(MAKEFILE_DIR)/../..)
-CFLAGS = -g -Wall -I${IDF_HOME}/include
-BUILD_DIR := $(IDF_HOME)/build
-CMAKEFILE := $(BUILD_DIR)/Makefile
-LIBIDF := $(BUILD_DIR)/libidf.a
+IDF_HOME := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+IDF_CONFIG := $(IDF_HOME)/bin/idf-config
+IDF_BUILD_DIR := $(IDF_HOME)/build
+IDF_LIB := $(IDF_BUILD_DIR)/libidf.a
 
-ifeq ($(UNAME), Linux)
-    LIBS = -ludev -lrt
-else ifeq ($(UNAME), Darwin)
-    LIBS = -framework IOKit -framework CoreFoundation
-endif
+CXXFLAGS += $(shell $(IDF_CONFIG) --cxxflags)
+LDLIBS += $(shell $(IDF_CONFIG) --libs)
 
-configurator: Configurator.cpp $(LIBIDF)
-	@$(CXX) -o $@ $(CFLAGS) $^ $(LIBS)
+configurator: $(IDF_LIB)
 
-$(BUILD_DIR):
-	@mkdir -p $@
+$(IDF_LIB): | $(IDF_BUILD_DIR)
+	cd $| && cmake .. && $(MAKE)
 
-$(CMAKEFILE): | $(BUILD_DIR)
-	@cd $(BUILD_DIR); cmake ..
-
-$(LIBIDF): $(CMAKEFILE)
-	@$(MAKE) -s -C $(dir $(CMAKEFILE))
+$(IDF_BUILD_DIR):
+	mkdir -p $@
 
 clean:
 	@rm -rf configurator
