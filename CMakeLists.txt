@@ -27,6 +27,7 @@ set(SRC_IDF
     source/idf/Extreme3dPro.cpp
     source/idf/FlightController.cpp
     source/idf/Gravis.cpp
+    source/idf/HagstromKEUSB36.cpp
     source/idf/IndustrialProducts2.cpp
     source/idf/IndustrialProducts3.cpp
     source/idf/IndustrialProducts.cpp
@@ -66,6 +67,7 @@ set(SRC_IDF
     source/idf/UsbDualShock.cpp
     source/idf/UsbExtreme3dPro.cpp
     source/idf/UsbGravis.cpp
+    source/idf/UsbHagstromKEUSB36.cpp
     source/idf/UsbIndustrialProducts2.cpp
     source/idf/UsbIndustrialProducts3.cpp
     source/idf/UsbIndustrialProducts.cpp
