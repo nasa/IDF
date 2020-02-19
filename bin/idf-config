@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import argparse
+import platform
+from inspect import getsourcefile
+from os.path import abspath, dirname
+
+idf_home = dirname(abspath(dirname(getsourcefile(lambda:_))))
+
+parser = argparse.ArgumentParser(description='idf-config makes it easier to build applications that use IDF. It can print the compiler and linker flags needed to compile and link against IDF.')
+parser.add_argument('--cxxflags', action='store_true', help='C++ compiler flags for files that include IDF headers')
+parser.add_argument('--libs', action='store_true', help='Libraries for files that link against libidf.a')
+
+args = parser.parse_args()
+
+if args.cxxflags:
+    print '-I' + idf_home + '/include'
+elif args.libs:
+    if platform.system() == 'Linux':
+        print '-lstdc++ -ludev'
+    else:
+        print '-framework IOKit -framework CoreFoundation'

@@ -6,13 +6,10 @@ IDF_LIB := $(IDF_BUILD_DIR)/libidf.a
 CXXFLAGS += $(shell $(IDF_CONFIG) --cxxflags)
 LDLIBS += $(shell $(IDF_CONFIG) --libs)
 
-hidScanner: $(IDF_LIB)
+basic: $(IDF_LIB)
 
 $(IDF_LIB): | $(IDF_BUILD_DIR)
 	cd $| && cmake .. && $(MAKE)
 
 $(IDF_BUILD_DIR):
 	mkdir -p $@
-
-clean:
-	@rm -rf configurator
