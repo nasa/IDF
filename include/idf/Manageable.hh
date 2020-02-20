@@ -36,8 +36,10 @@ class Manageable {
     virtual void open() = 0;
 
     /**
-     * Performs communication and updates state. This function calls #open() first
-     * if #isOpen() return @c false.
+     * Updates this instance's state to reflect the latest data from the device
+     * at the cost of missing inputs that are applied and removed between calls.
+     * See #InputDevice::updateOnce() for a loss-free version. This function
+     * calls #open() first if #isOpen() returns @c false.
      *
      * @throws IOException if an error occurs while opening or updating
      */
