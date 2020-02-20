@@ -55,6 +55,23 @@ class InputDevice : public virtual InputLayout, public Manageable {
 
     virtual void update();
 
+    /**
+     * Updates this instance's state to reflect the next unprocessed data from
+     * the device. This is a lossless version of #update(). However, as it
+     * processes only a single packet from the device, it does not guarantee
+     * that this instance will reflect the device's latest state when this
+     * function returns. The caller should take care not to "fall behind" the
+     * device by calling this function sufficiently quickly or in a loop until
+     * it returns @c false. This function calls #open() first if #isOpen()
+     * returns @c false.
+     *
+     * @return @c true  if data was processed
+     *         @c false if there was no data to process
+     *
+     * @throws IOException if an error occurs while opening or updating
+     */
+    virtual bool updateOnce();
+
     /** interactively configures all inputs */
     virtual void configure();
 
@@ -104,7 +121,7 @@ class InputDevice : public virtual InputLayout, public Manageable {
     };
 
     /** the queue of data entries waiting to be processed */
-    std::list<Entry*> storage;
+    std::list<Entry> storage;
 
     /**
      * interactively configures @a inputs

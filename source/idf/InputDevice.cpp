@@ -21,6 +21,10 @@ InputDevice::InputDevice(const std::string& id) :
     enabled(true) {}
 
 void InputDevice::update() {
+    while (updateOnce()) {}
+}
+
+bool InputDevice::updateOnce() {
 
     Manageable::update();
 
@@ -30,16 +34,18 @@ void InputDevice::update() {
     // store them
     if (!data.empty() && enabled) {
         for (std::vector<std::vector<unsigned char> >::iterator i = data.begin(); i != data.end(); ++i) {
-            storage.push_back(new Entry(*i, delay));
+            storage.push_back(Entry(*i, delay));
         }
     }
 
-    // process all packets whose time has arrived
-    while (!storage.empty() && storage.front()->targetTime <= getTime()) {
-        decode(storage.front()->data);
-        delete storage.front();
+    // process the next packet whose time has arrived
+    if (!storage.empty() && storage.front().targetTime <= getTime()) {
+        decode(storage.front().data);
         storage.pop_front();
+        return true;
     }
+
+    return false;
 }
 
 double InputDevice::getTime() {

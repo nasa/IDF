@@ -77,7 +77,7 @@ class UsbDevice : public InputDevice {
     std::vector<int> productIds;
 
     /** handle to the device */
-    hid_device* hidDevice;
+    hid_device* hidDevice; // trick_io(**)
 
     virtual std::vector<std::vector<unsigned char> > read();
 
