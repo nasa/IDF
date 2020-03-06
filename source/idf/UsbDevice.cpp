@@ -51,13 +51,21 @@ bool UsbDevice::isConnected() {
     return result;
 }
 
+void UsbDevice::setSerialNumber(const std::wstring& serial) {
+    serialNumber = serial;
+}
+
 void UsbDevice::setPath(const std::string& path) {
     devicePath = path;
 }
 
 bool UsbDevice::deviceMatches(const struct hid_device_info& deviceInfo) const {
-    return deviceInfo.vendor_id == vendorId &&
-           std::find(productIds.begin(), productIds.end(), deviceInfo.product_id) != productIds.end();
+    bool result = deviceInfo.vendor_id == vendorId &&
+      std::find(productIds.begin(), productIds.end(), deviceInfo.product_id) != productIds.end();
+    if (!serialNumber.empty()) {
+        result &= !serialNumber.compare(deviceInfo.serial_number);
+    }
+    return result;
 }
 
 bool UsbDevice::isPathOpen(const std::string& path) const {
@@ -84,7 +92,12 @@ void UsbDevice::open(const std::string& path) {
         if (!strcmp(resolvedPath, deviceInfo->path)) {
             if (!deviceMatches(*deviceInfo)) {
                 hid_free_enumeration(enumerationHead);
-                throw IOException("Failed to open " + name + ": The device at " + path + " (" + resolvedPath + ") is not a " + name);
+                std::ostringstream ss;
+                ss << "Failed to open " + name + ": The device at " + path + " (" + resolvedPath + ") is not a " + name;
+                if (!serialNumber.empty()) {
+                    ss << " or does not match the required serial number";
+                }
+                throw IOException(ss.str());
             }
 
             hid_free_enumeration(enumerationHead);
@@ -126,7 +139,12 @@ void UsbDevice::open() {
     }
 
     hid_free_enumeration(enumerationHead);
-    throw IOException("Failed to find " + name);
+    std::ostringstream ss;
+    ss << "Failed to find an available " << name;
+    if (!serialNumber.empty()) {
+        ss << " with the required serial number";
+    }
+    throw IOException(ss.str());
 }
 
 std::vector<std::vector<unsigned char> > UsbDevice::read() {

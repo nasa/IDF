@@ -52,6 +52,7 @@
 #include "idf/UsbExtreme3dPro.hh"
 #include "idf/UsbGravis.hh"
 #include "idf/UsbHagstromKEUSB36.hh"
+#include "idf/UsbHagstromKEUSB36FS.hh"
 #include "idf/UsbIndustrialProducts.hh"
 #include "idf/UsbIndustrialProducts2.hh"
 #include "idf/UsbIndustrialProducts3.hh"
