@@ -5,6 +5,8 @@
 
 int main(int, char**) {
     idf::UsbHagstromKEUSB36FS hagstrom;
+    //hagstrom.setSerialNumber(L"11010149");
+    //hagstrom.setPath("/dev/hidraw2");
 
     while (true) {
         hagstrom.update();
