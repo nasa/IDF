@@ -68,6 +68,7 @@ set(SRC_IDF
     source/idf/UsbExtreme3dPro.cpp
     source/idf/UsbGravis.cpp
     source/idf/UsbHagstromKEUSB36.cpp
+    source/idf/UsbHagstromKEUSB36FS.cpp
     source/idf/UsbIndustrialProducts2.cpp
     source/idf/UsbIndustrialProducts3.cpp
     source/idf/UsbIndustrialProducts.cpp

@@ -35,7 +35,7 @@ int main(int argc, char **args) {
 
     int count = 0;
     for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next, ++count) {
-        printf("%5d  %-*s  %-*s  0x%04hX     0x%04hX      %-*ls  %ls\n", count,
+        printf("%5d  %-*s  %-*ls  0x%04hX     0x%04hX      %-*ls  %ls\n", count,
           pathLength, deviceInfo->path,
           serialLength, deviceInfo->serial_number,
           deviceInfo->vendor_id, deviceInfo->product_id,
