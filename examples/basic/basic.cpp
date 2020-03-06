@@ -1,10 +1,10 @@
 #include <iomanip>
 #include <iostream>
 #include <unistd.h>
-#include "idf/UsbHagstromKEUSB36.hh"
+#include "idf/UsbHagstromKEUSB36FS.hh"
 
 int main(int, char**) {
-    idf::UsbHagstromKEUSB36 hagstrom;
+    idf::UsbHagstromKEUSB36FS hagstrom;
 
     while (true) {
         hagstrom.update();
