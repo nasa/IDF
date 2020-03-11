@@ -84,18 +84,18 @@ set(SRC_IDF
     source/idf/VirtualLayout.cpp
     source/idf/WingMan.cpp
     source/idf/XBox.cpp
-    source/idf/hidapi.cpp
+    source/idf/hidapi.c
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual")
 
-set_source_files_properties(hidapi.cpp PROPERTIES COMPILE_FLAGS "-Wno-sign-compare")
+set_source_files_properties(hidapi.c PROPERTIES COMPILE_FLAGS "-Wno-sign-compare")
 
 # ====================
 # IDF
 # ================
 add_library(idf STATIC ${SRC_IDF})
-include_directories("include")
+include_directories("include" "include/hidapi/hidapi")
 
 install(TARGETS idf
     RUNTIME DESTINATION bin

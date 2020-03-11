@@ -2,14 +2,14 @@
 PURPOSE:
 LIBRARY DEPENDENCIES: (
 (idf/UsbDevice.cpp)
-(idf/hidapi.cpp)
+(idf/hidapi.c)
 )
 */
 
 /**
  * @trick_parse{everything}
  * @trick_link_dependency{idf/UsbDevice.cpp}
- * @trick_link_dependency{idf/hidapi.cpp}
+ * @trick_link_dependency{idf/hidapi.c}
  */
 
 #ifndef USB_DEVICE_HH
