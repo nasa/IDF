@@ -31,14 +31,15 @@ int main(int argc, char **args) {
     }
 
     printf("\nNOTE: If running as non-root, you must have udev rules in place allowing access to usb devices.\n\n");
-    printf("Index  %-*s  %-*ls  Vendor ID  Product ID  %-*ls  Product\n", pathLength, "Path", serialLength, L"Serial #", vendorLength, L"Vendor");
+    printf("Index  %-*s  Vendor ID  Product ID  %-*ls  Interface #  %-*ls  Product\n", pathLength, "Path", serialLength, L"Serial #", vendorLength, L"Vendor");
 
     int count = 0;
     for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next, ++count) {
-        printf("%5d  %-*s  %-*ls  0x%04hX     0x%04hX      %-*ls  %ls\n", count,
+        printf("%5d  %-*s  0x%04hX     0x%04hX      %-*ls  %11d  %-*ls  %ls\n", count,
           pathLength, deviceInfo->path,
-          serialLength, deviceInfo->serial_number,
           deviceInfo->vendor_id, deviceInfo->product_id,
+          serialLength, deviceInfo->serial_number,
+          deviceInfo->interface_number,
           vendorLength, deviceInfo->manufacturer_string,
           deviceInfo->product_string);
     }
@@ -65,7 +66,7 @@ int main(int argc, char **args) {
     }
 
     selection = -1;
-    int numBytes = 8;
+    int numBytes = 64;
 
     switch (deviceInfo->vendor_id) {
 
