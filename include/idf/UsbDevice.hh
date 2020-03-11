@@ -66,6 +66,14 @@ class UsbDevice : public InputDevice {
     virtual void setSerialNumber(const std::wstring& serialNumber);
 
     /**
+     * Sets @a interfaceNumber as an additional constraint when searching for matching devices.
+     * Takes effect on the next call to open().
+     *
+     * @param interfaceNumber @copydoc interfaceNumber
+     */
+    virtual void setInterfaceNumber(int interfaceNumber);
+
+    /**
      * sets the path at which this device can be found. This path will be used
      * on the next call to open().
      *
@@ -86,6 +94,9 @@ class UsbDevice : public InputDevice {
 
     /** serial number, used to lookup this device in the USB hierarchy */
     std::wstring serialNumber;
+
+    /** USB interface number, used to lookup this device in the USB hierarchy */
+    int interfaceNumber;
 
     /** handle to the device */
     hid_device* hidDevice; // trick_io(**)

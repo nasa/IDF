@@ -17,6 +17,8 @@ std::vector<UsbDevice::DeviceTag> UsbDevice::openDevices;
 UsbDevice::UsbDevice(const std::string& id, int vendorID, int productID, unsigned length) :
     InputDevice(id),
     vendorId(vendorID),
+    serialNumber(L""),
+    interfaceNumber(0),
     hidDevice(NULL),
     packetLength(length) {
     productIds.push_back(productID);
@@ -55,16 +57,23 @@ void UsbDevice::setSerialNumber(const std::wstring& serial) {
     serialNumber = serial;
 }
 
+void UsbDevice::setInterfaceNumber(int interface) {
+    interfaceNumber = interface;
+}
+
 void UsbDevice::setPath(const std::string& path) {
     devicePath = path;
 }
 
 bool UsbDevice::deviceMatches(const struct hid_device_info& deviceInfo) const {
     bool result = deviceInfo.vendor_id == vendorId &&
+      deviceInfo.interface_number == interfaceNumber &&
       std::find(productIds.begin(), productIds.end(), deviceInfo.product_id) != productIds.end();
+
     if (!serialNumber.empty()) {
         result &= !serialNumber.compare(deviceInfo.serial_number);
     }
+
     return result;
 }
 
