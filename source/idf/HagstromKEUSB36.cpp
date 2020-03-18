@@ -75,6 +75,47 @@ HagstromKEUSB36::HagstromKEUSB36() :
     map[37] = &input34;
     map[38] = &input35;
     map[39] = &input36;
-    }
+
+    inputs.push_back(&input1);
+    inputs.push_back(&input2);
+    inputs.push_back(&input3);
+    inputs.push_back(&input4);
+    inputs.push_back(&input5);
+    inputs.push_back(&input6);
+    inputs.push_back(&input7);
+    inputs.push_back(&input8);
+    inputs.push_back(&input9);
+    inputs.push_back(&input10);
+    inputs.push_back(&input11);
+    inputs.push_back(&input12);
+    inputs.push_back(&input13);
+    inputs.push_back(&input14);
+    inputs.push_back(&input15);
+    inputs.push_back(&input16);
+    inputs.push_back(&input17);
+    inputs.push_back(&input18);
+    inputs.push_back(&input19);
+    inputs.push_back(&input20);
+    inputs.push_back(&input21);
+    inputs.push_back(&input22);
+    inputs.push_back(&input23);
+    inputs.push_back(&input24);
+    inputs.push_back(&input25);
+    inputs.push_back(&input26);
+    inputs.push_back(&input27);
+    inputs.push_back(&input28);
+    inputs.push_back(&input29);
+    inputs.push_back(&input30);
+    inputs.push_back(&input31);
+    inputs.push_back(&input32);
+    inputs.push_back(&input33);
+    inputs.push_back(&input34);
+    inputs.push_back(&input35);
+    inputs.push_back(&input36);
+}
+
+const std::vector<SingleInput*>& HagstromKEUSB36::getInputs() const {
+    return inputs;
+}
 
 }
