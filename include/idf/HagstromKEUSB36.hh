@@ -135,10 +135,20 @@ class HagstromKEUSB36 : public virtual InputLayout {
     /** header pin 36 */
     SingleInput input36;
 
+    /**
+     * gets a vector of all inputs in order
+     *
+     * @return a vector of the inputs
+     */
+    const std::vector<SingleInput*>& getInputs() const;
+
     protected:
 
     /** maps byte values to header pins */
     std::map<int, SingleInput*> map;
+
+    /** all inputs together for ease of iteration */
+    std::vector<SingleInput*> inputs;
 
 };
 
