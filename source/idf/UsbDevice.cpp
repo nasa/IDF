@@ -38,7 +38,7 @@ UsbDevice::~UsbDevice() {
 bool UsbDevice::isConnected() {
     bool result = false;
     struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
-    for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+    for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo && !result; deviceInfo = deviceInfo->next) {
         if (deviceInfo->vendor_id == vendorId &&
           std::find(productIds.begin(), productIds.end(), deviceInfo->product_id) != productIds.end()) {
             if (devicePath.empty()) {
