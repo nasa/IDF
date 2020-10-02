@@ -91,7 +91,7 @@ class FlightControllerClient : public Client<FlightController, FlightControllerC
     public:
 
     /** @copydoc Client::Client */
-    FlightControllerClient(const FlightController& comamndSource, const std::string& host, unsigned short port);
+    FlightControllerClient(const FlightController& commandSource, const std::string& host, unsigned short port);
 
     void packCommands(FlightControllerCommands& commands);
 

@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbSaitek::UsbSaitek(int vendorID, int productID) :
-    UsbDevice("Saitek", vendorID, productID, 3) {}
+UsbSaitek::UsbSaitek() :
+    UsbDevice("Saitek", 3) {}
 
 void UsbSaitek::decode(const std::vector<unsigned char>& data) {
     leftPedal.setValue(data[0] & 0x7F);

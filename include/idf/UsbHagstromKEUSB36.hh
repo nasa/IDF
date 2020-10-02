@@ -18,13 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-// USB HagstromKEUSB36 input device
+/** USB HagstromKEUSB36 board */
 class UsbHagstromKEUSB36 : public UsbDevice, public HagstromKEUSB36 {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbHagstromKEUSB36(int vendorID = 0x04B4, int productID = 0x3648);
+    /** constructor */
+    UsbHagstromKEUSB36();
 
     void decode(const std::vector<unsigned char>& data);
 

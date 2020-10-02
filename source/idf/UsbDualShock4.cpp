@@ -9,9 +9,8 @@
 
 namespace idf {
 
-UsbDualShock4::UsbDualShock4(int vendorID, int productID) :
-    UsbDualShock("Playstation 4 Controller", vendorID, productID, 64) {
-    productIds.push_back(0x09CC);
+UsbDualShock4::UsbDualShock4() :
+    UsbDualShock("Playstation 4 Controller", 64) {
     command[2] = 0x05; // report ID
     command[3] = 0xFF; // enable motors
 }

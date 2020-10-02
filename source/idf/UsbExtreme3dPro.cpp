@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbExtreme3dPro::UsbExtreme3dPro(int vendorID, int productID) :
-    UsbWingMan(vendorID, productID, "Extreme 3D Pro", 7) {}
+UsbExtreme3dPro::UsbExtreme3dPro() :
+    UsbWingMan("Extreme 3D Pro", 7) {}
 
 void UsbExtreme3dPro::decode(const std::vector<unsigned char>& data) {
     UsbWingMan::decode(data);

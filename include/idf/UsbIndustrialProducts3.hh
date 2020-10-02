@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB IndustrialProducts hand controller
- *
- * @author Derek Bankieris
- */
+/** USB IndustrialProducts joystick */
 class UsbIndustrialProducts3 : public UsbDevice, public IndustrialProducts3 {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbIndustrialProducts3(int vendorID = 0x068E, int productID = 0x0026);
+    /** constructor */
+    UsbIndustrialProducts3();
 
     void decode(const std::vector<unsigned char>& data);
 

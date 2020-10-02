@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbHagstromKEUSB36::UsbHagstromKEUSB36(int vendorID, int productID) :
-    UsbDevice("Hagstrom KE-USB36", vendorID, productID, 8) {}
+UsbHagstromKEUSB36::UsbHagstromKEUSB36() :
+    UsbDevice("Hagstrom KE-USB36", 8) {}
 
 void UsbHagstromKEUSB36::decode(const std::vector<unsigned char>& data) {
     for (std::vector<SingleInput*>::iterator i = inputs.begin(); i != inputs.end(); ++i) {

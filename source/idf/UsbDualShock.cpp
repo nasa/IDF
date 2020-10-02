@@ -2,7 +2,7 @@
 
 namespace idf {
 
-UsbDualShock::UsbDualShock(const std::string deviceName, int vendorID, int productID, unsigned length) :
-    UsbDevice(deviceName, vendorID, productID, length) {}
+UsbDualShock::UsbDualShock(const std::string& deviceName, unsigned length) :
+    UsbDevice(deviceName, length) {}
 
 }

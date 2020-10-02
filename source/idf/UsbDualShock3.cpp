@@ -8,8 +8,8 @@
 
 namespace idf {
 
-UsbDualShock3::UsbDualShock3(int vendorID, int productID) :
-    UsbDualShock("Playstation 3 Controller", vendorID, productID, 49) {}
+UsbDualShock3::UsbDualShock3() :
+    UsbDualShock("Playstation 3 Controller", 49) {}
 
 void UsbDualShock3::decode(const std::vector<unsigned char>& data) {
     selectButton.setValue(data[2] & 1);

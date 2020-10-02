@@ -1,0 +1,15 @@
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-16.04, ubuntu-18.04, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt-get update && sudo apt-get install libudev-dev
+        if: matrix.os != 'macos-latest'
+      - run: make -C apps/configurator
+      - run: make -C apps/hidScanner
+      - run: make -C examples/basic
