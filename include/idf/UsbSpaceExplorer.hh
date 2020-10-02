@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB SpaceExplorer hand controller
- *
- * @author Derek Bankieris
- */
+/** USB SpaceExplorer mouse */
 class UsbSpaceExplorer : public UsbSpaceBase, public SpaceExplorer {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbSpaceExplorer(int vendorID = 0x46D, int productID = 0xC627);
+    /** constructor */
+    UsbSpaceExplorer();
 
     protected:
 

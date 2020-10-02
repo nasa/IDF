@@ -18,23 +18,17 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * common aspects of all 3dconnexion controllers
- *
- * @author Derek Bankieris
- */
+/** common aspects of all 3Dconnexion controllers */
 class UsbSpaceBase : public UsbDevice, public virtual SpaceBase {
 
     public:
 
     /**
-     * constructs a new instance whose open() will look for a USB device with the @a vendorID and @a productID
+     * constructor
      *
-     * @param name the name of this device
-     * @param vendorID the target USB device's vendorID
-     * @param productID the target USB device's productID
+     * @param name @copydoc InputDevice::name
      */
-    UsbSpaceBase(const std::string& name, int vendorID, int productID);
+    UsbSpaceBase(const std::string& name);
 
     /** destructor */
     virtual ~UsbSpaceBase() {};

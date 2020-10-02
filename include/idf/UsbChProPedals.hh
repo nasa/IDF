@@ -18,23 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB Ch Pro Pedals input device
- *
- * @author Derek Bankieris
- */
+/** USB Ch Pro Pedals foot pedals */
 class UsbChProPedals : public UsbDevice, public ChProPedals {
 
     public:
 
-    /**
-     * constructs a new instance whose open() will look for a USB
-     * device with the @a vendorID and @a productID
-     *
-     * @param vendorID the target USB device's vendorID
-     * @param productID the target USB device's productID
-     */
-    UsbChProPedals(int vendorID = 0x068E, int productID = 0x00F2);
+    /** constructor */
+    UsbChProPedals();
 
     void decode(const std::vector<unsigned char>& data);
 

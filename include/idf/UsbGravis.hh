@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB Gravis hand controller
- *
- * @author Derek Bankieris
- */
+/** USB Gravis game controller */
 class UsbGravis : public UsbDevice, public Gravis {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbGravis(int vendorID = 0x0428, int productID = 0x4001);
+    /** constrcutor */
+    UsbGravis();
 
     void decode(const std::vector<unsigned char>& data);
 

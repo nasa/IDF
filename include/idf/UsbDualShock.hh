@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * common aspects of all Sony PlayStation DUALSHOCK controllers
- *
- * @author Derek Bankieris
- */
+/** common aspects of all Sony PlayStation DUALSHOCK controllers */
 class UsbDualShock : public UsbDevice, public virtual DualShock {
 
     public:
 
     /** @copydoc UsbDevice::UsbDevice */
-    UsbDualShock(const std::string name, int vendorID, int productID, unsigned packetLength);
+    UsbDualShock(const std::string& name, unsigned packetLength);
 
     /** destructor */
     virtual ~UsbDualShock() {};

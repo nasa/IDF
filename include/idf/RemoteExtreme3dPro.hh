@@ -56,7 +56,7 @@ class Extreme3dProServer : public Extreme3dPro, public Server<Extreme3dProComman
     public:
 
     /** @copydoc Server::Server */
-    Extreme3dProServer(unsigned short listenPort = 0);
+    Extreme3dProServer(unsigned short port = 0);
 
     void update();
 
@@ -72,7 +72,7 @@ class Extreme3dProClient : public Client<Extreme3dPro, Extreme3dProCommands> {
     public:
 
     /** @copydoc Client::Client */
-    Extreme3dProClient(const Extreme3dPro& comamndSource, const std::string& host, unsigned short port);
+    Extreme3dProClient(const Extreme3dPro& commandSource, const std::string& host, unsigned short port);
 
     void packCommands(Extreme3dProCommands& commands);
 

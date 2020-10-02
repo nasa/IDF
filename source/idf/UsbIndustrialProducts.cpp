@@ -2,10 +2,8 @@
 
 namespace idf {
 
-UsbIndustrialProducts::UsbIndustrialProducts(int vendorID, int productID) :
-    UsbDevice("Industrial Products", vendorID, productID, 8) {
-    productIds.push_back(0x0019);
-}
+UsbIndustrialProducts::UsbIndustrialProducts() :
+    UsbDevice("Industrial Products", 8) {}
 
 void UsbIndustrialProducts::decode(const std::vector<unsigned char>& data) {
     leftRightPivot.setValue(((unsigned)data[1]) << 8 | data[0]);

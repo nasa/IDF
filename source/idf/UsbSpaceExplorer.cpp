@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbSpaceExplorer::UsbSpaceExplorer(int vendorID, int productID) :
-    UsbSpaceBase("Space Explorer", vendorID, productID) {}
+UsbSpaceExplorer::UsbSpaceExplorer() :
+    UsbSpaceBase("Space Explorer") {}
 
 void UsbSpaceExplorer::processButtons(const unsigned char* buttonData) {
     button1.setValue(buttonData[0] & 1);
