@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB XBox hand controller
- *
- * @author Derek Bankieris
- */
+/** USB XBox controller */
 class UsbXBox : public UsbDevice, public XBox {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbXBox(int vendorID = 0x045E, int productID = 0x028E);
+    /** constructor */
+    UsbXBox();
 
     void decode(const std::vector<unsigned char>& data);
 

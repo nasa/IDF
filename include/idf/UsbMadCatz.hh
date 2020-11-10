@@ -18,27 +18,15 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB MadCatz hand controller
- */
+/** USB Mad Catz joystick */
 class UsbMadCatz : public UsbDevice, public virtual MadCatz {
 
     public:
 
-    /** @copydoc UsbSpaceBase::UsbSpaceBase */
-    UsbMadCatz(int vendorID = 0x0738, int productID = 0x1302, const std::string& name = "Mad Catz");
+    /** constructor */
+    UsbMadCatz();
 
     virtual void decode(const std::vector<unsigned char>& data);
-
-    protected:
-
-    /** @copydoc UsbDevice::UsbDevice */
-    UsbMadCatz(int vendorID, int productID, const std::string& name, unsigned packetLength);
-
-    private:
-
-    /** this class is not copy-assignable */
-    void operator=(const UsbMadCatz&);
 
 };
 

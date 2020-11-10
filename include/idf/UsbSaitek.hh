@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB Saitek Pro Flight Rudder Pedals input device
- *
- * @author Derek Bankieris
- */
+/** USB Saitek Pro Flight Rudder Pedals */
 class UsbSaitek : public UsbDevice, public Saitek {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbSaitek(int vendorID = 0x06A3, int productID = 0x0763);
+    /** constructor */
+    UsbSaitek();
 
     void decode(const std::vector<unsigned char>& data);
 

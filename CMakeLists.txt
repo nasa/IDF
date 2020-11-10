@@ -7,7 +7,7 @@ if(${ENABLE_CAN_DEVICES})
     set(SRC_IDF
         source/idf/CanDevice.cpp
         source/idf/CanIndustrialProducts.cpp
-)
+    )
 endif(${ENABLE_CAN_DEVICES})
 
 set(SRC_IDF

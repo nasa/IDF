@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbSpaceBase::UsbSpaceBase(const std::string& id, int vendorID, int productID) :
-    UsbDevice(id, vendorID, productID, 7) {}
+UsbSpaceBase::UsbSpaceBase(const std::string& id) :
+    UsbDevice(id, 7) {}
 
 void UsbSpaceBase::decode(const std::vector<unsigned char>& data) {
     switch (data[0]) {

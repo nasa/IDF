@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB Extreme3dPro hand controller
- *
- * @author Derek Bankieris
- */
+/** USB Extreme3dPro joystick */
 class UsbExtreme3dPro : public UsbWingMan, public Extreme3dPro {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbExtreme3dPro(int vendorID = 0x046D, int productID = 0xC215);
+    /** constructor */
+    UsbExtreme3dPro();
 
     void decode(const std::vector<unsigned char>& data);
 

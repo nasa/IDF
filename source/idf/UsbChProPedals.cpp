@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbChProPedals::UsbChProPedals(int vendorID, int productID) :
-    UsbDevice("Ch Pro Pedals", vendorID, productID, 3) {}
+UsbChProPedals::UsbChProPedals() :
+    UsbDevice("Ch Pro Pedals", 3) {}
 
 void UsbChProPedals::decode(const std::vector<unsigned char>& data) {
     leftPedal.setValue(data[0]);

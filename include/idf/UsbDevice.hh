@@ -17,8 +17,9 @@ LIBRARY DEPENDENCIES: (
 
 #include "idf/InputDevice.hh"
 
-#include <vector>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "hidapi/hidapi/hidapi.h"
 
@@ -37,17 +38,47 @@ class UsbDevice : public InputDevice {
 
     public:
 
+    /** properties that identify a particular USB product */
+    class Identification {
+
+        public:
+
+        /** vendor ID */
+        int vendorId;
+
+        /** product ID */
+        int productId;
+
+        /** interface number */
+        int interfaceNumber;
+
+        Identification(const struct hid_device_info& info) :
+            vendorId(info.vendor_id),
+            productId(info.product_id),
+            interfaceNumber(info.interface_number) {}
+
+        Identification(int vendor, int product, int interface) :
+            vendorId(vendor),
+            productId(product),
+            interfaceNumber(interface) {}
+
+        bool operator==(const Identification& other) {
+            return vendorId == other.vendorId
+                && productId == other.productId
+                && interfaceNumber == other.interfaceNumber;
+        }
+
+    };
+
     /**
-     * constructs a new instance whose open() will look for a USB device with the @a vendorID and @a productID
+     * constructor
      *
-     * @param name the name of this device
-     * @param vendorID the target USB device's vendorID
-     * @param productID the target USB device's productID
+     * @param name @copydoc InputDevice::name
      * @param packetLength @copydoc packetLength
      */
-    UsbDevice(const std::string& name, int vendorID, int productID, unsigned packetLength);
+    UsbDevice(const std::string& name, unsigned packetLength);
 
-    /** destructs this instance */
+    /** destructor, calls #close */
     virtual ~UsbDevice();
 
     /**
@@ -58,45 +89,30 @@ class UsbDevice : public InputDevice {
     virtual bool isConnected();
 
     /**
-     * Sets @a serialNumber as an additional constraint when searching for matching devices. Takes
-     * effect on the next call to open().
+     * sets @a serialNumber as an additional constraint when searching for matching devices
      *
      * @param serialNumber @copydoc serialNumber
      */
     virtual void setSerialNumber(const std::wstring& serialNumber);
 
     /**
-     * Sets @a interfaceNumber as an additional constraint when searching for matching devices.
-     * Takes effect on the next call to open().
+     * sets @a path as an additional constraint when searching for matching devices
      *
-     * @param interfaceNumber @copydoc interfaceNumber
-     */
-    virtual void setInterfaceNumber(int interfaceNumber);
-
-    /**
-     * sets the path at which this device can be found. This path will be used
-     * on the next call to open().
-     *
-     * @param path @copydoc devicePath
+     * @param path @copydoc path
      */
     virtual void setPath(const std::string& path);
+
+    /**
+     * adds @a identifcation as a new ID that this device can match against
+     *
+     * @param identification @copydoc Identification
+     */
+    virtual void addIdentification(const Identification& identification);
 
     virtual void open();
     virtual void close();
 
     protected:
-
-    /** vendor ID, used to lookup this device in the USB hierarchy */
-    const int vendorId;
-
-    /** product IDs, used to lookup this device in the USB hierarchy */
-    std::vector<int> productIds;
-
-    /** serial number, used to lookup this device in the USB hierarchy */
-    std::wstring serialNumber;
-
-    /** USB interface number, used to lookup this device in the USB hierarchy */
-    int interfaceNumber;
 
     /** handle to the device */
     hid_device* hidDevice; // trick_io(**)
@@ -105,40 +121,23 @@ class UsbDevice : public InputDevice {
 
     private:
 
-    /** device path and handle information */
-    class DeviceTag {
-
-        public:
-
-        /** path to the device */
-        std::string path;
-
-        /** handle to the device */
-        hid_device* handle;
-
-        /**
-         * constructor
-         *
-         * @param deviceHandle handle to the device
-         * @param devicePath @copydoc devicePath
-         */
-        DeviceTag(hid_device* deviceHandle, const std::string& devicePath) :
-            path(devicePath),
-            handle(deviceHandle) {}
-
-    };
-
     /** number of instances in existance */
     static int instanceCount;
 
-    /** open devices */
-    static std::vector<DeviceTag> openDevices;
+    /** open devices and their paths */
+    static std::map<UsbDevice*, std::string> openDevices;
 
-    /** the length of a packet of data */
+    /** list of known vendor, product, and interface numbers for all supported devices */
+    std::map<std::string, std::vector<Identification> > identifications;
+
+    /** length of a packet of data */
     const unsigned packetLength;
 
-    /** the device path (example: /dev/hidraw0) */
-    std::string devicePath;
+    /** serial number */
+    std::wstring serialNumber;
+
+    /** path (example: /dev/hidraw0) */
+    std::string path;
 
     /**
      * reads @a length bytes from this device and stores them in @a buffer
@@ -153,28 +152,39 @@ class UsbDevice : public InputDevice {
     unsigned read(unsigned char* buffer, size_t length);
 
     /**
-     * determines if a device's vendor and product IDs match this instance
+     * determines if a device can be serviced by this instance based on its
+     * vendor ID, product ID, interface number, serial number, and path
      *
-     * @param deviceInfo the device's vendor and product IDs
-     * @return true if this instance represents a device with the given vendor and product ID
+     * @param deviceInfo the device's information
+     *
+     * @return @a true if the device matches
      */
-    bool deviceMatches(const struct hid_device_info& deviceInfo) const;
+    bool deviceMatches(const struct hid_device_info& deviceInfo);
 
     /**
-     * opens the device at path
+     * opens the device at @a path
      *
-     * @param path @copydoc devicePath
+     * @param path @copydoc path
      */
     void open(const std::string& path);
 
     /**
-     * determines if the device at path has been opened
+     * returns the instance (if any) that is open at @a path
      *
-     * @param path @copydoc devicePath
+     * @param path @copydoc path
      *
-     * @return true if the path is open
+     * @return the open instance or @a NULL
      */
-    bool isPathOpen(const std::string& path) const;
+    UsbDevice* getInstanceAtPath(const std::string& path) const;
+
+    /**
+     * returns an absolute path to @a path, resolving '.', '..', and symbolic links
+     *
+     * @return the resolved path
+     */
+    std::string resolvePath(const std::string& path) const;
+
+    std::string getDeviceName(const Identification& info);
 
     void operator=(const UsbDevice&);
 

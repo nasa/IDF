@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbGravis::UsbGravis(int vendorID, int productID) :
-    UsbDevice("Gravis", vendorID, productID, 4) {}
+UsbGravis::UsbGravis() :
+    UsbDevice("Gravis", 4) {}
 
 void UsbGravis::decode(const std::vector<unsigned char>& data) {
     directionalPadLeft.setValue(~data[0] & 1);

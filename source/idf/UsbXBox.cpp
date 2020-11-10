@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbXBox::UsbXBox(int vendorID, int productID) :
-    UsbDevice("X Box Controller", vendorID, productID, 14) {}
+UsbXBox::UsbXBox() :
+    UsbDevice("Xbox Controller", 14) {}
 
 void UsbXBox::decode(const std::vector<unsigned char>& data) {
     directionalPadUp.setValue(data[2] & 1);

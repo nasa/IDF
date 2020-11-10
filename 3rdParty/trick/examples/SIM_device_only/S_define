@@ -15,13 +15,11 @@ class Example : public IdfInputDeviceManager {
     public:
 
     /**
-     * note that the UsbExtreme3dPro's constructor takes the vendor id and
-     * product id as arguments. This allows IDF to automatically locate the
-     * device within the USB network. Default values are provided that match
-     * the device against which this example was written. If you have a
-     * different generation Logitech Extreme 3D Pro, your product id may be
-     * different, in which case you must explicitly construct this instance
-     * in this class's initialization list with the correct value.
+     * In this example, we're requiring a specific device. IDF maintains a list
+     * of identifying properties for each supported device so it can locate them
+     * within the USB network. If you have a different generation Logitech
+     * Extreme 3D Pro, its properties may not be in IDF yet, in which case you
+     * can use UsbDevice::addIdentification to add support for it.
      */
     idf::UsbExtreme3dPro device;
 

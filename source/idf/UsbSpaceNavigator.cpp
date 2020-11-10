@@ -2,10 +2,8 @@
 
 namespace idf {
 
-UsbSpaceNavigator::UsbSpaceNavigator(int vendorID, int productID) :
-    UsbSpaceBase("Space Navigator", vendorID, productID) {
-    productIds.push_back(0xC626);
-}
+UsbSpaceNavigator::UsbSpaceNavigator() :
+    UsbSpaceBase("Space Navigator") {}
 
 void UsbSpaceNavigator::processButtons(const unsigned char* buttonData) {
     leftButton.setValue(buttonData[0] & 1);

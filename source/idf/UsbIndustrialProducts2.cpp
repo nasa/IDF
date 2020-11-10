@@ -2,8 +2,8 @@
 
 namespace idf {
 
-UsbIndustrialProducts2::UsbIndustrialProducts2(int vendorID, int productID) :
-    UsbDevice("Industrial Products 2", vendorID, productID, 8) {
+UsbIndustrialProducts2::UsbIndustrialProducts2() :
+    UsbDevice("Industrial Products 2", 8) {
 }
 
 void UsbIndustrialProducts2::decode(const std::vector<unsigned char>& data) {

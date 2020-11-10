@@ -4,11 +4,8 @@
 
 namespace idf {
 
-UsbMadCatz::UsbMadCatz(int vendorID, int productID, const std::string& id) :
-    UsbDevice(id, vendorID, productID, 8) {}
-
-UsbMadCatz::UsbMadCatz(int vendorID, int productID, const std::string& id, unsigned length) :
-    UsbDevice(id, vendorID, productID, length) {}
+UsbMadCatz::UsbMadCatz() :
+    UsbDevice("Mad Catz", 8) {}
 
 void UsbMadCatz::decode(const std::vector<unsigned char>& data) {
     uint16_t value;

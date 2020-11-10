@@ -40,16 +40,12 @@ class SpaceNavigatorServer : public SpaceNavigator, public Server<SpaceNavigator
     public:
 
     /** @copydoc Server::Server */
-    SpaceNavigatorServer(unsigned short listenPort = 0);
+    SpaceNavigatorServer(unsigned short port = 0);
 
     void update();
 
 };
 
-#ifdef SWIG
-//class SpaceNavigatorClient;
-//%template (Client_SpaceNavigator) Client<SpaceNavigator, SpaceNavigatorCommands>;
-#endif
 /**
  * transmits commands from a contained SpaceNavigator to a Server
  *
@@ -60,7 +56,7 @@ class SpaceNavigatorClient : public Client<SpaceNavigator, SpaceNavigatorCommand
     public:
 
     /** @copydoc Client::Client */
-    SpaceNavigatorClient(const SpaceNavigator& sourceController, const std::string hostName, unsigned short hostPort);
+    SpaceNavigatorClient(const SpaceNavigator& commandSource, const std::string host, unsigned short port);
 
     void packCommands(SpaceNavigatorCommands& commands);
 

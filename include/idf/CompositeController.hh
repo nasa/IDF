@@ -78,7 +78,7 @@ class CompositeController : public T {
      * accumates a field across all constituents
      *
      * @param accessor the accessor returning the field to be accumulated
-     * @param BinaryOperation a functor or function pointer that takes two
+     * @param function a functor or function pointer that takes two
      *   arguments and returns one value, all of accessor's type, used to
      *   sequentially accumulate the fields
      *

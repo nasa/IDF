@@ -2,11 +2,11 @@
 
 namespace idf {
 
-UsbWingMan::UsbWingMan(int vendorID, int productID, const std::string& id) :
-    UsbDevice(id, vendorID, productID, 6) {}
+UsbWingMan::UsbWingMan() :
+    UsbDevice("Wing Man", 6) {}
 
-UsbWingMan::UsbWingMan(int vendorID, int productID, const std::string& id, unsigned length) :
-    UsbDevice(id, vendorID, productID, length) {}
+UsbWingMan::UsbWingMan(const std::string& id, unsigned length) :
+    UsbDevice(id, length) {}
 
 void UsbWingMan::decode(const std::vector<unsigned char>& data) {
     leftRightPivot.setValue(((unsigned)data[1] & 3) << 8 | data[0]);

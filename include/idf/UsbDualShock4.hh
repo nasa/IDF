@@ -18,17 +18,13 @@ LIBRARY DEPENDENCIES: (
 
 namespace idf {
 
-/**
- * USB Sony PlayStation DUALSHOCK4 SIXAXIS controller
- *
- * @author Derek Bankieris
- */
+/** USB Sony PlayStation DUALSHOCK4 SIXAXIS controller */
 class UsbDualShock4 : public UsbDualShock, public DualShock4 {
 
     public:
 
-    /** @copydoc UsbChProPedals::UsbChProPedals */
-    UsbDualShock4(int vendorID = 0x054C, int productID = 0x05C4);
+    /** constructor */
+    UsbDualShock4();
 
     void decode(const std::vector<unsigned char>& data);
     void sendCommand();
