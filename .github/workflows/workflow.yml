@@ -8,6 +8,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
       - run: sudo apt-get update && sudo apt-get install libudev-dev
         if: matrix.os != 'macos-latest'
       - run: make -C apps/configurator
