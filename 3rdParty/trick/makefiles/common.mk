@@ -8,19 +8,19 @@ TRICK_GTE_EXT += IDF_HOME
 # Header, SimObject, and Python module paths
 EXTERNALS         := externals/idf
 THIRD_PARTY       := $(IDF_HOME)/3rdParty/trick
-INCLUDE           := $(IDF_HOME)/include
-SOURCE		  := $(IDF_HOME)/source
-TRICK_CFLAGS      += -I$(INCLUDE) -I$(SOURCE)
-TRICK_CXXFLAGS    += -I$(INCLUDE) -I$(SOURCE)
+CONFIG            := $(IDF_HOME)/bin/idf-config
+COMMON		  := $(shell $(CONFIG) --cxxflags) -I$(IDF_HOME)/include/hidapi/hidapi
+TRICK_CFLAGS      += $(COMMON)
+TRICK_CXXFLAGS    += $(COMMON)
 TRICK_SFLAGS      += -I$(THIRD_PARTY)/sim_objects
 TRICK_PYTHON_PATH += :$(EXTERNALS)/3rdParty/trick/python:$(THIRD_PARTY)/python
-TRICK_EXCLUDE     += :$(INCLUDE)/hidapi
+TRICK_EXCLUDE     += :$(IDF_HOME)/include/hidapi
 
 # Links to be built by build_externals
 LINKS := $(EXTERNALS)/apps/vhc/build $(EXTERNALS)/3rdParty/trick/python
 
 # Libraries
-TRICK_LDFLAGS += $(shell $(IDF_HOME)/bin/idf-condif --libs)
+TRICK_LDFLAGS += $(shell $(CONFIG) --libs)
 
 # Include libntcan, if available
 ifdef NTCAN_HOME
