@@ -19,4 +19,4 @@ elif args.libs:
     if platform.system() == 'Linux':
         print '-lstdc++ -ludev'
     else:
-        print '-framework IOKit -framework CoreFoundation'
+        print '-framework IOKit -framework CoreFoundation -framework AppKit'

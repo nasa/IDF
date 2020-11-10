@@ -20,11 +20,7 @@ TRICK_EXCLUDE     += :$(INCLUDE)/hidapi
 LINKS := $(EXTERNALS)/apps/vhc/build $(EXTERNALS)/3rdParty/trick/python
 
 # Libraries
-ifeq ($(TRICK_HOST_TYPE), Linux)
-    TRICK_LDFLAGS += -ludev -lrt
-else ifeq ($(TRICK_HOST_TYPE), Darwin)
-    TRICK_LDFLAGS += -framework IOKit -framework CoreFoundation
-endif
+TRICK_LDFLAGS += $(shell $(IDF_HOME)/bin/idf-condif --libs)
 
 # Include libntcan, if available
 ifdef NTCAN_HOME
