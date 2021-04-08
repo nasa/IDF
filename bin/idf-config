@@ -14,9 +14,9 @@ parser.add_argument('--libs', action='store_true', help='Libraries for files tha
 args = parser.parse_args()
 
 if args.cxxflags:
-    print '-I' + idf_home + '/include'
+    print('-I' + idf_home + '/include')
 elif args.libs:
     if platform.system() == 'Linux':
-        print '-lstdc++ -ludev'
+        print('-lstdc++ -ludev')
     else:
-        print '-framework IOKit -framework CoreFoundation -framework AppKit'
+        print('-framework IOKit -framework CoreFoundation -framework AppKit')
