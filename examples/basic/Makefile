@@ -6,7 +6,9 @@ IDF_LIB := $(IDF_BUILD_DIR)/libidf.a
 CXXFLAGS += $(shell $(IDF_CONFIG) --cxxflags)
 LDLIBS += $(shell $(IDF_CONFIG) --libs)
 
-basic: $(IDF_LIB)
+all: basic keyboard
+
+basic keyboard: $(IDF_LIB)
 
 $(IDF_LIB): | $(IDF_BUILD_DIR)
 	cd $| && cmake .. && $(MAKE)

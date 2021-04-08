@@ -34,6 +34,7 @@ set(SRC_IDF
     source/idf/Input.cpp
     source/idf/InputDevice.cpp
     source/idf/InputLayout.cpp
+    source/idf/Keyboard.cpp
     source/idf/MadCatz.cpp
     source/idf/Manageable.cpp
     source/idf/MutualExclusionGroup.cpp
@@ -72,6 +73,7 @@ set(SRC_IDF
     source/idf/UsbIndustrialProducts2.cpp
     source/idf/UsbIndustrialProducts3.cpp
     source/idf/UsbIndustrialProducts.cpp
+    source/idf/UsbKeyboard.cpp
     source/idf/UsbMadCatz.cpp
     source/idf/UsbSaitek.cpp
     source/idf/UsbSpaceBase.cpp
