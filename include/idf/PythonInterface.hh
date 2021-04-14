@@ -56,6 +56,7 @@
 #include "idf/UsbIndustrialProducts.hh"
 #include "idf/UsbIndustrialProducts2.hh"
 #include "idf/UsbIndustrialProducts3.hh"
+#include "idf/UsbKeyboard.hh"
 #include "idf/UsbSaitek.hh"
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"

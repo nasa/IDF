@@ -40,6 +40,12 @@ service the same interface. Controllers can be dynamically added and removed,
 and all inputs are combined. In general, you should prefer CompositeControllers
 over single Controllers as it offers increased flexibility.
 
+### SIM_composite_inputs
+Demonstrates how to combine multiple inputs via CompositeInput and how to
+specify a custom mapping through a Controller's constructor. See the
+[wiki](https://github.com/nasa/IDF/wiki/Mapping-a-Keyboard) for more
+information.
+
 ### multi_remote
 Demonstrates use of the `Server` and `Client` class templates to read from a
 device in one sim and connect it to multiple Controllers in multiple other sims.
