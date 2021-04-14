@@ -1,0 +1,99 @@
+#include "sim_objects/default_trick_sys.sm"
+#include "idf/IdfInputDeviceManager.sm"
+
+##include <sstream>
+##include <iomanip>
+
+##include "idf/CompositeFlightController.hh"
+##include "idf/CompositeCameraController.hh"
+##include "idf/CompositeRoboticsController.hh"
+##include "idf/MutualExclusionGroup.hh"
+
+/**
+ * Demonstrates the use of IDF within a Trick simulation. While the previous
+ * examples have accepted the defaults when mapping a device to a controller,
+ * this one illustrates a custom mapping.
+ */
+class Example : public IdfInputDeviceManager {
+
+    public:
+
+    /**
+     * Generally, you should not require specific devices to drive your
+     * simulation. A control system declares its interface through a
+     * Controller and does not care about what physical device(s) ultimately
+     * end up servicing that interface. Thus, while the beginner examples
+     * declared devices in this section for simplicity, you should usually
+     * not do that.
+     */
+
+    /**
+     * While devices represent physical hardware, a controller represents a
+     * virtual interface into a control system. This separation allows
+     * control system developers to program against a domain-specific interface
+     * independent of any particular device that might service that
+     * interface. It further ensures that only devices that have been
+     * specifically mapped to the interface may be assigned to service it.
+     *
+     * CompositeControllers provide further flexibility by not limiting the
+     * number of controllers that may be used to service an interface. For
+     * instance, a user may have two input devices and wish to use them both as
+     * controllers. Or the developer may want to support local devices, remote
+     * devices, and the Virtual Hand Controller simultaneously. Each device
+     * could be mapped to a SingleController which is then added to a
+     * CompositeController. Thus, you should generally prefer declaring
+     * instances of CompositeControllers.
+     */
+    idf::CompositeFlightController controller;
+
+    Example() :
+        /**
+         * Call the base class constructor, specifying the period at which the
+         * updateDevices() job will be called. You can optionally specify the
+         * phase and class for this job as well. See IdfInputDeviceManager.sm
+         * for details.
+         */
+        IdfInputDeviceManager(0.1) {
+
+        /**
+         * Nothing to see here!
+         * All of the configuration is done in the input file.
+         */
+    }
+
+    /**
+     * If you want to perform some action after all devices have been updated,
+     * one possibility is overriding IdfInputDeviceManager's updateDevices()
+     * function. In this example, we just want to print the controller's
+     * normalized values to the console. Normalized values always fall in the
+     * range [-1, 1], with the extremes corresponing to the minimum and maximum
+     * raw values. 0 represents the "neutral" point. If you choose this method,
+     * be sure to call the base class version of the function or the devices
+     * will never be updated!
+     *
+     * Another option is to just declare another scheduled job and do your post-
+     * update logic there. This can be useful if you want the updateDevices()
+     * job and your post-update logic to run at different rates or have
+     * different phases or job classes.
+     */
+    void updateDevices() {
+
+        // Don't forget to call the base class version!
+        IdfInputDeviceManager::updateDevices();
+
+        // Print the values.
+        std::cout << std::showpos << std::fixed << std::setprecision(2)
+
+                  << " Roll: "  << controller.getRoll()
+                  << " Pitch: " << controller.getPitch()
+                  << " Yaw: "   << controller.getYaw()
+                  << " X: "     << controller.getX()
+                  << " Y: "     << controller.getY()
+                  << " Z: "     << controller.getZ()
+
+                  << std::endl;
+    }
+
+};
+
+Example example;
