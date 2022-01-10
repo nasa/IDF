@@ -109,6 +109,13 @@ class UsbDevice : public InputDevice {
      */
     virtual void addIdentification(const Identification& identification);
 
+    /**
+     * gets the actual path this instance was bound to during #open
+     *
+     * @return the system path to this device or an empty string if this instance is not yet bound
+     */
+    virtual std::string getPath();
+
     virtual void open();
     virtual void close();
 

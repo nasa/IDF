@@ -81,6 +81,14 @@ void UsbDevice::addIdentification(const Identification& identification) {
     identifications[name].push_back(identification);
 }
 
+std::string UsbDevice::getPath() {
+    std::map<UsbDevice*, std::string>::iterator element = openDevices.find(this);
+    if (element != openDevices.end()) {
+        return element->second;
+    }
+    return "";
+}
+
 bool UsbDevice::deviceMatches(const struct hid_device_info& deviceInfo) {
     if (!serialNumber.empty() && wcscmp(serialNumber.c_str(), deviceInfo.serial_number)) {
         return false;
