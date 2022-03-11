@@ -105,14 +105,14 @@ class Configurator:
         self.inputDeviceManager.setDelay(delay)
         return
 
-    ## calls @c execfile on @a fileName
+    ## calls @c exec on @a fileName
     #
-    # @param fileName the name of the file to @c execfile
+    # @param fileName the name of the file to @c exec
     #
     # @return @c true if the file was found
     def execConfigFile(self, fileName):
         try:
-            execfile(fileName)
+            exec(compile(open(fileName).read(), fileName, 'exec'))
         except (IOError, TypeError):
             return False
         return True

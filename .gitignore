@@ -1,5 +1,6 @@
 .icg_no_found
 .nfs*
+.trick
 *S_*
 build
 CP_out
@@ -13,6 +14,7 @@ Makefile_*
 object_*
 send_hs
 swig
+trick.zip
 varserver_log
 *.swp
 *.a
