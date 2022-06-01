@@ -191,4 +191,18 @@ SingleCameraController* SingleCameraController::createInstance(const IndustrialP
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const Er7Orion& er7Orion) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+      er7Orion.twist,
+      er7Orion.forwardBackwardPivot,
+      er7Orion.leftRightPivot,
+      er7Orion.forwardBackwardTranslation);
+
+    controller->tilt.setInverted(true);
+    controller->pan.setInverted(true);
+
+    return controller;
+}
+
 }
