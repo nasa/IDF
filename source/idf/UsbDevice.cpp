@@ -42,6 +42,7 @@ UsbDevice::UsbDevice(const std::string& id, unsigned length) :
     identifications["Playstation 4 Controller"].push_back(Identification(0x054C, 0x09CC, 3));
     identifications["Mad Catz"].push_back(Identification(0x0738, 0x1302, 0));
     identifications["Saitek"].push_back(Identification(0x06A3, 0x0763, 0));
+    identifications["Saitek Pro Flight X-56 Rhino Throttle"].push_back(Identification(0x0738, 0xA221, 0));
     identifications["Space Explorer"].push_back(Identification(0x046D, 0xC627, 0));
     identifications["Space Mouse"].push_back(Identification(0x046D, 0xC62B, 0));
     identifications["Space Mouse"].push_back(Identification(0x046D, 0xC635, 0));

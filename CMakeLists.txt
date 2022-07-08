@@ -46,6 +46,8 @@ set(SRC_IDF
     source/idf/RemoteSpaceNavigator.cpp
     source/idf/RoboticsController.cpp
     source/idf/Saitek.cpp
+    source/idf/SaitekX56Throttle.cpp
+    source/idf/UsbSaitekX56Throttle.cpp
     source/idf/SerialDevice.cpp
     source/idf/SerialThrustMaster2.cpp
     source/idf/SerialThrustMasterBase.cpp
