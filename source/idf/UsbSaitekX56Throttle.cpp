@@ -37,7 +37,7 @@ void UsbSaitekX56Throttle::decode(const std::vector<unsigned char>& data) {
      * @brief Hat cardinal directions are encoded on individual bits. Ordinal
      * directions are encoded as combinations of the cardinal bits.
      */
-    char hat3 = (data[4] & 0x7) << 1 | (data[5] >> 7 & 0x1);
+    char hat3 = (data[4] >> 7 & 0x1) | (data[5] << 1 & 0xE);
     char hat4 = data[5] >> 3 & 0xF;
 
     hat3North.setValue(     hat3 == 1 );
@@ -67,8 +67,8 @@ void UsbSaitekX56Throttle::decode(const std::vector<unsigned char>& data) {
 
     rotary1.setValue( data[7] );
     rotary2.setValue( data[9] );
-    rotary3.setValue( data[11] );
     rotary3.setValue( data[12] );
+    rotary4.setValue( data[11] );
 
     thumbForwardBackwardPivot.setValue( data[8] );
     thumbUpDownPivot.setValue( data[10] );
