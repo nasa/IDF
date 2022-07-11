@@ -41,14 +41,14 @@ class SaitekX56Stick : public virtual InputLayout {
     /** left-right pivoting */
     SingleInput leftRightPivot;
 
+    /** twisting */
+    SingleInput twist;
+
     /** thumb stick forward-backward pivoting */
     SingleInput thumbForwardBackwardPivot;
 
     /** thumb stick left-right pivoting*/
-    SingleInput thumbForwardBackwardPivot;
-
-    /** twisting */
-    SingleInput twist;
+    SingleInput thumbLeftRightPivot;
 
     /** the primary trigger */
     SingleInput trigger1;
