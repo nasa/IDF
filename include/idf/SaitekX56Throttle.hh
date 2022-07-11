@@ -41,6 +41,11 @@ class SaitekX56Throttle : public virtual InputLayout {
     /** The thottle axis on right */
     SingleInput rightThrottle;
 
+    /** the small joystick on the rightThrottle */
+    SingleInput thumbForwardBackwardPivot;
+
+    SingleInput thumbUpDownPivot;
+
     /** The button labeled "E" */
     SingleInput buttonE;
 
@@ -166,11 +171,6 @@ class SaitekX56Throttle : public virtual InputLayout {
 
     /** the button labeled "TGL4" */
     SingleInput toggle4;
-
-    /** the small joystick on the rightThrottle */
-    SingleInput miniStickForwardBackwardPivot;
-
-    SingleInput miniStickUpDownPivot;
 
     protected:
 

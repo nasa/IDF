@@ -5,6 +5,8 @@ namespace idf {
 SaitekX56Throttle::SaitekX56Throttle() :
     leftThrottle(0, 1023, 511),
     rightThrottle(0, 1023, 511),
+    thumbForwardBackwardPivot(0, 255, 127),
+    thumbUpDownPivot(0, 255, 127),
     buttonE(0, 1),
     buttonF(0, 1),
     buttonG(0, 1),
@@ -46,9 +48,7 @@ SaitekX56Throttle::SaitekX56Throttle() :
     toggle1(-1, 1),
     toggle2(-1, 1),
     toggle3(-1, 1),
-    toggle4(-1, 1),
-    miniStickForwardBackwardPivot(0, 255, 127),
-    miniStickUpDownPivot(0, 255, 127) {}
+    toggle4(-1, 1) {}
 
 const std::vector<InputLayout::Configurable>& SaitekX56Throttle::getConfigurables() {
     static std::vector<Configurable> inputs;
@@ -56,8 +56,8 @@ const std::vector<InputLayout::Configurable>& SaitekX56Throttle::getConfigurable
         append(InputLayout::getConfigurables(), inputs);
         inputs.push_back(Configurable(leftThrottle, "Left Throttle", "leftThrottle"));
         inputs.push_back(Configurable(rightThrottle, "Right Throttle", "rightThrottle"));
-        inputs.push_back(Configurable(miniStickForwardBackwardPivot, "Forward/Backward Pivot", "miniStickForwardBackwardPivot"));
-        inputs.push_back(Configurable(miniStickUpDownPivot, "Up/Down Pivot", "miniStickUpDown"));
+        inputs.push_back(Configurable(thumbForwardBackwardPivot, "Forward/Backward Pivot", "thumbForwardBackwardPivot"));
+        inputs.push_back(Configurable(thumbUpDownPivot, "Up/Down Pivot", "thumbUpDown"));
     }
     return inputs;
 }

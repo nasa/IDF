@@ -70,8 +70,8 @@ void UsbSaitekX56Throttle::decode(const std::vector<unsigned char>& data) {
     rotary3.setValue( data[11] );
     rotary3.setValue( data[12] );
 
-    miniStickForwardBackwardPivot.setValue( data[8] );
-    miniStickUpDownPivot.setValue( data[10] );
+    thumbForwardBackwardPivot.setValue( data[8] );
+    thumbUpDownPivot.setValue( data[10] );
 
 }
 
