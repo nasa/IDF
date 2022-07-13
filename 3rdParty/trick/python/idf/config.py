@@ -50,6 +50,7 @@ class Configurator:
           trick.UsbSpaceExplorer,
           trick.UsbSpaceMouse,
           trick.UsbSpaceNavigator,
+          trick.UsbTeensyduino,
           trick.UsbWingMan,
           trick.UsbXBox]:
             device = device()
