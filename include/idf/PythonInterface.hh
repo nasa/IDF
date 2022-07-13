@@ -61,6 +61,7 @@
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"
 #include "idf/UsbSpaceNavigator.hh"
+#include "idf/UsbTeensyduino.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
 
