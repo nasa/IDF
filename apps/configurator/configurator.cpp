@@ -21,6 +21,7 @@
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"
 #include "idf/UsbSpaceNavigator.hh"
+#include "idf/UsbTeensyduino.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
 
@@ -68,6 +69,7 @@ void run() {
     idf::UsbSpaceExplorer spaceExplorer;
     idf::UsbSpaceMouse spaceMouse;
     idf::UsbSpaceNavigator spaceNavigator;
+    idf::UsbTeensyduino teensyduino;
     idf::UsbWingMan wingMan;
     idf::UsbXBox xBox;
 
@@ -85,6 +87,7 @@ void run() {
     devices.push_back(&spaceExplorer);
     devices.push_back(&spaceMouse);
     devices.push_back(&spaceNavigator);
+    devices.push_back(&teensyduino);
     devices.push_back(&wingMan);
     devices.push_back(&xBox);
 
