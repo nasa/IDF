@@ -46,6 +46,7 @@ SaitekX52::SaitekX52() :
     hat3SouthWest(0,1),
     hat3West(0,1),
     hat3NorthWest(0,1),
+    mode(1,3),
     throttle(0, 255),
     scrollUp(0,1),
     scrollDown(0,1),
@@ -66,10 +67,11 @@ const std::vector<InputLayout::Configurable>& SaitekX52::getConfigurables() {
         append(InputLayout::getConfigurables(), inputs);
         inputs.push_back(Configurable(forwardBackwardPivot, "Forward Backward Pivot", "forwardBackwardPivot"));
         inputs.push_back(Configurable(leftRightPivot, "Left Right Pivot", "leftRightPivot"));
+        inputs.push_back(Configurable(twist, "Twist", "twist"));
+
+        inputs.push_back(Configurable(throttle, "Throttle", "throttle"));
         inputs.push_back(Configurable(thumbForwardBackwardPivot, "Thumb Forward Backward Pivot", "thumbForwardBackwardPivot"));
         inputs.push_back(Configurable(thumbUpDownPivot, "Thumb Up Down Pivot", "thumbUpdDownPivot"));
-        inputs.push_back(Configurable(twist, "Twist", "twist"));
-        inputs.push_back(Configurable(throttle, "Throttle", "throttle"));
         inputs.push_back(Configurable(slider, "Slider", "slider"));
     }
     return inputs;

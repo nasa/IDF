@@ -12,7 +12,7 @@ UsbSaitekX52::UsbSaitekX52(const std::string& id, unsigned length) :
 void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
     leftRightPivot.setValue( ((unsigned)data[1] & 0x7) << 8 | data[0]);
     forwardBackwardPivot.setValue( ((unsigned)data[2] & 0x3F) << 5 | data[1] >> 3);
-    twist.setValue( ((unsigned)data[3] << 2) | (data[2] & 0xC0 >> 6) );
+    twist.setValue( ((unsigned)data[3] << 2) | (data[2] >> 6 & 0x3) );
     throttle.setValue( data[4]);
     rotary1.setValue( data[5]);
     rotary2.setValue( data[6]);
@@ -33,9 +33,9 @@ void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
     toggle6.setValue( data[9] >> 5 & 0x1);
     triggerStage2.setValue( data[9] >> 6 & 0x1);
 
-    char hat1 = (data[9] >> 7 & 0x1) | (data[10] << 1 & 0xE);
-    char hat2 = (data[12] >> 3 & 0xF);
-    char hat3 = (data[10] >> 4 & 0xF);
+    char hat1 = (data[10] << 1 & 0xE) | (data[9] >> 7 & 0x1);
+    char hat2 = (data[12] >> 4 & 0xF);
+    char hat3 = (data[10] >> 3 & 0xF);
 
     hat1North.setValue(     hat1 == 1 );
     hat1NorthEast.setValue( hat1 == 3 );
@@ -64,8 +64,20 @@ void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
     hat3West.setValue(      hat3 == 8 );
     hat3NorthWest.setValue( hat3 == 9 );
 
+    mode.setValue( data[10] & 0x80 ? 1 : data[11] & 0x1 ? 2 : 3 );
 
+    buttonFunction.setValue(  data[11] >> 2 & 0x1);
+    buttonStartStop.setValue( data[11] >> 3 & 0x1);
+    buttonReset.setValue(     data[11] >> 4 & 0x1);
+    buttonI.setValue(         data[11] >> 5 & 0x1);
+    mouseLeftClick.setValue(  data[11] >> 6 & 0x1);
     
+    scrollUp.setValue(   data[12]      & 0x1 );
+    scrollDown.setValue( data[12] >> 1 & 0x1 );
+
+    thumbForwardBackwardPivot.setValue( data[13] & 0xF );
+    thumbUpDownPivot.setValue( data[13] >> 4 & 0xF);
+
 }
 
 }

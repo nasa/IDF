@@ -99,6 +99,9 @@ class SaitekX52 : public virtual InputLayout {
     SingleInput hat3West;
     SingleInput hat3NorthWest;
 
+    /** mode switch */
+    SingleInput mode;
+
     /** throttle position */
     SingleInput throttle;
 
@@ -108,10 +111,10 @@ class SaitekX52 : public virtual InputLayout {
     /** scroll wheel down */
     SingleInput scrollDown;
 
-    /** rotary on top of throttle */
+    /** rotary on front of throttle */
     SingleInput rotary1;
 
-    /** rotary on bottom of throttle */
+    /** rotary on top of throttle */
     SingleInput rotary2;
 
     /** mouse left button */
