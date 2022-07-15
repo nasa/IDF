@@ -42,7 +42,6 @@
 #include "idf/RemoteSpaceNavigator.hh"
 
 // Serial Devices
-#include "idf/SerialNasaErHc.hh"
 #include "idf/SerialThrustMaster.hh"
 #include "idf/SerialThrustMaster2.hh"
 
