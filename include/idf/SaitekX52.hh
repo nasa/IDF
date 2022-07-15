@@ -70,6 +70,8 @@ class SaitekX52 : public virtual InputLayout {
 
 
     /** hat1 directions */
+    SingleInput hat1UpDownPivot;
+    SingleInput hat1LeftRightPivot;
     SingleInput hat1North;
     SingleInput hat1NorthEast;
     SingleInput hat1East;
@@ -80,6 +82,8 @@ class SaitekX52 : public virtual InputLayout {
     SingleInput hat1NorthWest;
 
     /** hat2 directions */
+    SingleInput hat2UpDownPivot;
+    SingleInput hat2LeftRightPivot;
     SingleInput hat2North;
     SingleInput hat2NorthEast;
     SingleInput hat2East;
@@ -90,6 +94,8 @@ class SaitekX52 : public virtual InputLayout {
     SingleInput hat2NorthWest;
 
     /** hat3 directions */
+    SingleInput hat3UpDownPivot;
+    SingleInput hat3LeftRightPivot;
     SingleInput hat3North;
     SingleInput hat3NorthEast;
     SingleInput hat3East;
@@ -101,6 +107,9 @@ class SaitekX52 : public virtual InputLayout {
 
     /** mode switch */
     SingleInput mode;
+    SingleInput mode1;
+    SingleInput mode2;
+    SingleInput mode3;
 
     /** throttle position */
     SingleInput throttle;

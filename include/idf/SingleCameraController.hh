@@ -25,6 +25,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
 #include "idf/IndustrialProducts3.hh"
+#include "idf/SaitekX52.hh"
 #include "idf/SpaceBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/VirtualLayout.hh"
@@ -206,6 +207,15 @@ class SingleCameraController : public CameraController {
      * @return a new IndustrialProducts3-based camera controller
      */
     static SingleCameraController* createInstance(const IndustrialProducts3& industrialProducts3);
+
+    /**
+     * creates a new SingleCameraController mapped to @a saitekX52 using appropriate defaults
+     *
+     * @param saitekX52 the inputs to use in the default mapping
+     *
+     * @return a new SaitekX52-based camera controller
+     */
+    static SingleCameraController* createInstance(const SaitekX52& saitekX52);
 
 };
 

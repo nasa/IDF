@@ -268,4 +268,25 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
     return controller;
 }
 
+
+SingleFlightController* SingleFlightController::createInstance(const SaitekX52& saitekX52) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(saitekX52.buttonA);
+    z->addInput(saitekX52.buttonB, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        saitekX52.leftRightPivot,
+        saitekX52.forwardBackwardPivot,
+        saitekX52.twist,
+        saitekX52.hat2UpDownPivot,
+        saitekX52.hat2LeftRightPivot,
+        *z);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 }

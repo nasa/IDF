@@ -37,6 +37,8 @@ void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
     char hat2 = (data[12] >> 4 & 0xF);
     char hat3 = (data[10] >> 3 & 0xF);
 
+    hat1UpDownPivot.setValue(   hat1 & 0x1 ? 1 : hat1 & 0x4 ? -1 : 0 );
+    hat1LeftRightPivot.setValue(hat1 & 0x8 ? 1 : hat1 & 0x2 ? -1 : 0 );
     hat1North.setValue(     hat1 == 1 );
     hat1NorthEast.setValue( hat1 == 3 );
     hat1East.setValue(      hat1 == 2 );
@@ -46,6 +48,8 @@ void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
     hat1West.setValue(      hat1 == 8 );
     hat1NorthWest.setValue( hat1 == 9 );
 
+    hat2UpDownPivot.setValue( (hat2 == 1 || hat2 == 2 || hat2 == 8) ? 1 : (hat2 >=4 && hat2 <=6) ? -1 : 0 );
+    hat2LeftRightPivot.setValue(hat2 >=6 && hat3 <= 8 ? 1 : hat2 >=2 && hat2 <=4 ? -1 : 0 );
     hat2North.setValue(     hat2 == 1 );
     hat2NorthEast.setValue( hat2 == 2 );
     hat2East.setValue(      hat2 == 3 );
@@ -55,6 +59,8 @@ void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
     hat2West.setValue(      hat2 == 7 );
     hat2NorthWest.setValue( hat2 == 8 );
 
+    hat3UpDownPivot.setValue(   hat3 & 0x1 ? 1 : hat3 & 0x4 ? -1 : 0 );
+    hat3LeftRightPivot.setValue(hat3 & 0x8 ? 1 : hat3 & 0x2 ? -1 : 0 );
     hat3North.setValue(     hat3 == 1 );
     hat3NorthEast.setValue( hat3 == 3 );
     hat3East.setValue(      hat3 == 2 );
@@ -65,6 +71,9 @@ void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
     hat3NorthWest.setValue( hat3 == 9 );
 
     mode.setValue( data[10] & 0x80 ? 1 : data[11] & 0x1 ? 2 : 3 );
+    mode1.setValue(data[10] >> 7 & 0x1);
+    mode2.setValue(data[11]      & 0x1);
+    mode3.setValue(data[11] >> 1 & 0x1);
 
     buttonFunction.setValue(  data[11] >> 2 & 0x1);
     buttonStartStop.setValue( data[11] >> 3 & 0x1);
@@ -77,7 +86,6 @@ void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
 
     thumbForwardBackwardPivot.setValue( data[13] & 0xF );
     thumbUpDownPivot.setValue( data[13] >> 4 & 0xF);
-
 }
 
 }
