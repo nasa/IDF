@@ -268,6 +268,22 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const Er7Orion& er7Orion) {
+    SingleFlightController *controller =
+      new SingleFlightController(
+      er7Orion.leftRightPivot,
+      er7Orion.forwardBackwardPivot,
+      er7Orion.twist,
+      er7Orion.forwardBackwardTranslation,
+      er7Orion.leftRightTranslation,
+      er7Orion.upDownTranslation);
+
+    controller->y.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
 
 SingleFlightController* SingleFlightController::createInstance(const SaitekX52& saitekX52) {
     SingleFlightController *controller =
@@ -278,6 +294,7 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX52& 
         saitekX52.throttle,
         saitekX52.hat2LeftRightPivot,
         saitekX52.hat2UpDownPivot);
+        
     controller->x.setInverted(true);
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
