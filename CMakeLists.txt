@@ -48,6 +48,7 @@ set(SRC_IDF
     source/idf/RemoteSpaceNavigator.cpp
     source/idf/RoboticsController.cpp
     source/idf/Saitek.cpp
+    source/idf/SaitekX52.cpp
     source/idf/SerialDevice.cpp
     source/idf/SerialThrustMaster2.cpp
     source/idf/SerialThrustMasterBase.cpp
@@ -60,6 +61,7 @@ set(SRC_IDF
     source/idf/SpaceExplorer.cpp
     source/idf/SpaceMouse.cpp
     source/idf/SpaceNavigator.cpp
+    source/idf/Teensyduino.cpp
     source/idf/ThrustMaster2.cpp
     source/idf/ThrustMasterBase.cpp
     source/idf/ThrustMaster.cpp
@@ -78,10 +80,12 @@ set(SRC_IDF
     source/idf/UsbKeyboard.cpp
     source/idf/UsbMadCatz.cpp
     source/idf/UsbSaitek.cpp
+    source/idf/UsbSaitekX52.cpp
     source/idf/UsbSpaceBase.cpp
     source/idf/UsbSpaceExplorer.cpp
     source/idf/UsbSpaceMouse.cpp
     source/idf/UsbSpaceNavigator.cpp
+    source/idf/UsbTeensyduino.cpp
     source/idf/UsbWingMan.cpp
     source/idf/UsbXBox.cpp
     source/idf/Utils.cpp

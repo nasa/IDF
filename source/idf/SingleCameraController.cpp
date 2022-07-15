@@ -205,4 +205,26 @@ SingleCameraController* SingleCameraController::createInstance(const Er7Orion& e
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const SaitekX52& saitekX52) {
+    CompositeInput* spin = new CompositeInput();
+    spin->addInput(saitekX52.toggle1);
+    spin->addInput(saitekX52.toggle2, -1);
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(saitekX52.mode3, 1);
+    zoom->addInput(saitekX52.mode1, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        saitekX52.hat1LeftRightPivot,
+        saitekX52.hat1UpDownPivot,
+        *spin,
+        *zoom);
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+
+    return controller;
+}
+
 }

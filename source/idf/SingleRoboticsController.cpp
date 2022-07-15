@@ -402,4 +402,27 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Er7Orio
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX52& saitekX52) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(saitekX52.buttonA);
+    z->addInput(saitekX52.buttonB, -1);
+
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        saitekX52.leftRightPivot,
+        saitekX52.forwardBackwardPivot,
+        saitekX52.twist,
+        saitekX52.hat2UpDownPivot,
+        saitekX52.hat2LeftRightPivot,
+        *z,
+        saitekX52.trigger,
+        saitekX52.buttonC);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 }

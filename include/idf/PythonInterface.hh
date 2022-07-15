@@ -59,9 +59,11 @@
 #include "idf/UsbIndustrialProducts3.hh"
 #include "idf/UsbKeyboard.hh"
 #include "idf/UsbSaitek.hh"
+#include "idf/UsbSaitekX52.hh"
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"
 #include "idf/UsbSpaceNavigator.hh"
+#include "idf/UsbTeensyduino.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
 

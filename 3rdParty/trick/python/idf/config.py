@@ -47,9 +47,11 @@ class Configurator:
           trick.UsbIndustrialProducts,
           trick.UsbIndustrialProducts3,
           trick.UsbSaitek,
+          trick.UsbSaitekX52,
           trick.UsbSpaceExplorer,
           trick.UsbSpaceMouse,
           trick.UsbSpaceNavigator,
+          trick.UsbTeensyduino,
           trick.UsbWingMan,
           trick.UsbXBox]:
             device = device()
