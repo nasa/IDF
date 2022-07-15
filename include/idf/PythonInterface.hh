@@ -42,6 +42,7 @@
 #include "idf/RemoteSpaceNavigator.hh"
 
 // Serial Devices
+#include "idf/SerialNasaErHc.hh"
 #include "idf/SerialThrustMaster.hh"
 #include "idf/SerialThrustMaster2.hh"
 
@@ -58,11 +59,13 @@
 #include "idf/UsbIndustrialProducts3.hh"
 #include "idf/UsbKeyboard.hh"
 #include "idf/UsbSaitek.hh"
+#include "idf/UsbSaitekX52.hh"
 #include "idf/UsbSaitekX56Stick.hh"
 #include "idf/UsbSaitekX56Throttle.hh"
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"
 #include "idf/UsbSpaceNavigator.hh"
+#include "idf/UsbTeensyduino.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
 
