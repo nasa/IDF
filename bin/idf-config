@@ -1,4 +1,4 @@
-#!/urs/bin/env sh
+#!/usr/bin/env sh
 
 """":
 if type python > /dev/null 2>&1
