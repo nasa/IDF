@@ -270,15 +270,18 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
 
 
 SingleFlightController* SingleFlightController::createInstance(const SaitekX52& saitekX52) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(saitekX52.buttonA, 1);
+    z->addInput(saitekX52.buttonB, -1);
+
     SingleFlightController *controller =
       new SingleFlightController(
         saitekX52.leftRightPivot,
         saitekX52.forwardBackwardPivot,
         saitekX52.twist,
-        saitekX52.throttle,
+        saitekX52.hat2UpDownPivot,
         saitekX52.hat2LeftRightPivot,
-        saitekX52.hat2UpDownPivot);
-    controller->x.setInverted(true);
+        *z);
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 

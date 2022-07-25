@@ -388,7 +388,6 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX
     z->addInput(saitekX52.buttonA);
     z->addInput(saitekX52.buttonB, -1);
 
-
     SingleRoboticsController *controller =
       new SingleRoboticsController(
         saitekX52.leftRightPivot,
