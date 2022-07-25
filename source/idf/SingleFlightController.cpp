@@ -302,4 +302,21 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX52& 
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const SaitekX56Stick& saitekX56Stick) {
+    SingleFlightController *controller =
+      new SingleFlightController(
+        saitekX56Stick.leftRightPivot,
+        saitekX56Stick.forwardBackwardPivot,
+        saitekX56Stick.twist,
+        saitekX56Stick.hat2UpDownPivot,
+        saitekX56Stick.hat2LeftRightPivot,
+        saitekX56Stick.hat1UpDownPivot);
+        
+    controller->x.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 }

@@ -14,6 +14,8 @@ SaitekX56Stick::SaitekX56Stick() :
     buttonB(0, 1),
     buttonC(0, 1),
     buttonD(0, 1),
+    hat1UpDownPivot(-1,1),
+    hat1LeftRightPivot(-1,1),
     hat1North(0,1),
     hat1NorthEast(0,1),
     hat1East(0,1),
@@ -22,6 +24,8 @@ SaitekX56Stick::SaitekX56Stick() :
     hat1SouthWest(0,1),
     hat1West(0,1),
     hat1NorthWest(0,1),
+    hat2UpDownPivot(-1,1),
+    hat2LeftRightPivot(-1,1),
     hat2North(0,1),
     hat2NorthEast(0,1),
     hat2East(0,1),
@@ -30,6 +34,8 @@ SaitekX56Stick::SaitekX56Stick() :
     hat2SouthWest(0,1),
     hat2West(0,1),
     hat2NorthWest(0,1),
+    povUpDownPivot(-1,1),
+    povLeftRightPivot(-1,1),
     povNorth(0,1),
     povNorthEast(0,1),
     povEast(0,1),
@@ -59,6 +65,8 @@ const std::vector<InputLayout::Configurable>& SaitekX56Stick::getConfigurables()
         // inputs.push_back(Configurable(buttonC,"Button C", "buttonC"));
         // inputs.push_back(Configurable(buttonD,"Button D", "buttonD"));
 
+        // inputs.push_back(Configurable(hat1UpDownPivot,"Hat 1 Up/Down Pivot", "hat1UpDownPivot"));
+        // inputs.push_back(Configurable(hat1LeftRightPivot,"Hat 1 Left/Right Pivot", "hat1LeftRightPivot"));
         // inputs.push_back(Configurable(hat1North,"Hat 1 North", "hat1North"));
         // inputs.push_back(Configurable(hat1NorthEast,"Hat 1 North-East", "hat1NorthEast"));
         // inputs.push_back(Configurable(hat1East,"Hat 1 East", "hat1East"));
@@ -68,6 +76,8 @@ const std::vector<InputLayout::Configurable>& SaitekX56Stick::getConfigurables()
         // inputs.push_back(Configurable(hat1West,"Hat 1 West", "hat1West"));
         // inputs.push_back(Configurable(hat1NorthWest,"Hat 1 North-West", "hat1NorthWest"));
 
+        // inputs.push_back(Configurable(hat2UpDownPivot,"Hat 2 Up/Down Pivot", "hat2UpDownPivot"));
+        // inputs.push_back(Configurable(hat2LeftRightPivot,"Hat 2 Left/Right Pivot", "hat2LeftRightPivot"));
         // inputs.push_back(Configurable(hat2North,"Hat 2 North", "hat2North"));
         // inputs.push_back(Configurable(hat2NorthEast,"Hat 2 North-East", "hat2NorthEast"));
         // inputs.push_back(Configurable(hat2East,"Hat 2 East", "hat2East"));
@@ -77,6 +87,8 @@ const std::vector<InputLayout::Configurable>& SaitekX56Stick::getConfigurables()
         // inputs.push_back(Configurable(hat2West,"Hat 2 West", "hat2West"));
         // inputs.push_back(Configurable(hat2NorthWest,"Hat 2 North-West", "hat2NorthWest"));
 
+        // inputs.push_back(Configurable(povUpDownPivot,"POV Up/Down Pivot", "povUpDownPivot"));
+        // inputs.push_back(Configurable(povLeftRightPivot,"POV Left/Right Pivot", "povLeftRightPivot"));
         // inputs.push_back(Configurable(povNorth,"POV North", "povNorth"));
         // inputs.push_back(Configurable(povNorthEast,"POV North-East", "povNorthEast"));
         // inputs.push_back(Configurable(povEast,"POV East", "povEast"));

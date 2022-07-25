@@ -34,6 +34,8 @@ void UsbSaitekX56Stick::decode(const std::vector<unsigned char>& data) {
     /** @brief POV is an 8-direction hat Starting at North and incrementing
      * values clockwise
      */
+    povUpDownPivot.setValue( pov == 1 || pov ==2 || pov ==8 ? 1 : pov >= 4 && pov <=6 ? -1 : 0);
+    povLeftRightPivot.setValue( pov >=2 && pov <=4 ? -1 : pov >=6 && pov <= 8 ? 1 : 0);
     povNorth.setValue(     pov == 1 );
     povNorthEast.setValue( pov == 2 );
     povEast.setValue(      pov == 3 );
@@ -47,6 +49,8 @@ void UsbSaitekX56Stick::decode(const std::vector<unsigned char>& data) {
      * @brief Hat cardinal directions are encoded on individual bits. Ordinal
      * directions are encoded as combinations of the cardinal bits.
      */
+    hat1UpDownPivot.setValue( hat1 & 0x1 ? 1 : hat1 & 0x4 ? -1 : 0);
+    hat1LeftRightPivot.setValue( hat1 & 0x8 ? 1 : hat1 & 0x2 ? -1 : 0);
     hat1North.setValue(     hat1 == 1 );
     hat1NorthEast.setValue( hat1 == 3 );
     hat1East.setValue(      hat1 == 2 );
@@ -56,6 +60,8 @@ void UsbSaitekX56Stick::decode(const std::vector<unsigned char>& data) {
     hat1West.setValue(      hat1 == 8 );
     hat1NorthWest.setValue( hat1 == 9 );
 
+    hat2UpDownPivot.setValue( hat2 & 0x1 ? 1 : hat2 & 0x4 ? -1 : 0);
+    hat2LeftRightPivot.setValue( hat2 & 0x8 ? 1 : hat2 & 0x2 ? -1 : 0);
     hat2North.setValue(     hat2 == 1 );
     hat2NorthEast.setValue( hat2 == 3 );
     hat2East.setValue(      hat2 == 2 );

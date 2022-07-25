@@ -227,30 +227,29 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX52& 
     return controller;
 }
 
-SingleCameraController* SingleCameraController::createInstance(const SaitekX56Throttle& saitekX56Throttle) {
-    CompositeInput& pan = *new CompositeInput();
-    pan.addInput(saitekX56Throttle.hat3East, -1);
-    pan.addInput(saitekX56Throttle.hat3West);
-    
-    CompositeInput& tilt = *new CompositeInput();
-    tilt.addInput(saitekX56Throttle.hat3North);
-    tilt.addInput(saitekX56Throttle.hat3South, -1);
-
-    CompositeInput& spin = *new CompositeInput();
-    spin.addInput(saitekX56Throttle.hat4North);
-    spin.addInput(saitekX56Throttle.hat4South, -1);
-
-    CompositeInput& zoom = *new CompositeInput();
-    zoom.addInput(saitekX56Throttle.hat4East);
-    zoom.addInput(saitekX56Throttle.hat4West, -1);
-
+SingleCameraController* SingleCameraController::createInstance(const SaitekX56Stick& saitekX56Stick) {
     SingleCameraController *controller =
       new SingleCameraController(
-        pan,
-        tilt,
-        spin,
-        zoom);
-        
+        saitekX56Stick.povLeftRightPivot,
+        saitekX56Stick.povUpDownPivot,
+        saitekX56Stick.thumbLeftRightPivot,
+        saitekX56Stick.thumbForwardBackwardPivot);
+
+    Deadband db = Deadband(-0,016,0.016);
+    controller->spin.addDeadband(db); // Autocentering on the thumbstick is weak and imprecise
+    controller->zoom.addDeadband(db); // Autocentering on the thumbstick is weak and imprecise
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(const SaitekX56Throttle& saitekX56Throttle) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+        saitekX56Throttle.hat3ForwardBackwardPivot,
+        saitekX56Throttle.hat3UpDownPivot,
+        saitekX56Throttle.hat4ForwardBackwardPivot,
+        saitekX56Throttle.hat4UpDownPivot);
+
     return controller;
 }
 

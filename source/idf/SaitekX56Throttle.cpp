@@ -3,8 +3,8 @@
 namespace idf {
 
 SaitekX56Throttle::SaitekX56Throttle() :
-    leftThrottle(0, 1023, 511),
-    rightThrottle(0, 1023, 511),
+    leftThrottle(0, 1023),
+    rightThrottle(0, 1023),
     thumbForwardBackwardPivot(0, 255, 127),
     thumbUpDownPivot(0, 255, 127),
     buttonE(0, 1),
@@ -15,6 +15,8 @@ SaitekX56Throttle::SaitekX56Throttle() :
     buttonJ(0, 1),
     buttonK(0, 1),
     buttonL(0, 1),
+    hat3UpDownPivot(-1,1),
+    hat3ForwardBackwardPivot(-1,1),
     hat3North(0,1),
     hat3NorthEast(0,1),
     hat3East(0,1),
@@ -23,6 +25,8 @@ SaitekX56Throttle::SaitekX56Throttle() :
     hat3SouthWest(0,1),
     hat3West(0,1),
     hat3NorthWest(0,1),
+    hat4UpDownPivot(-1,1),
+    hat4ForwardBackwardPivot(-1,1),
     hat4North(0,1),
     hat4NorthEast(0,1),
     hat4East(0,1),
@@ -72,6 +76,8 @@ const std::vector<InputLayout::Configurable>& SaitekX56Throttle::getConfigurable
         // inputs.push_back(Configurable(buttonK,"Button K", "buttonK"));
         // inputs.push_back(Configurable(buttonL,"Button L", "buttonL"));
 
+        // inputs.push_back(Configurable(hat3UpDownPivot,"Hat 3 Up/Down Pivot", "hat3UpDownPivot"));
+        // inputs.push_back(Configurable(hat3ForwardBackwardPivot,"Hat 3 Forward/Backward Pivot", "hat3ForwardBackwardPivot"));
         // inputs.push_back(Configurable(hat3North,"Hat 3 North", "hat3North"));
         // inputs.push_back(Configurable(hat3NorthEast,"Hat 3 North-East", "hat3NorthEast"));
         // inputs.push_back(Configurable(hat3East,"Hat 3 East", "hat3East"));
@@ -81,6 +87,8 @@ const std::vector<InputLayout::Configurable>& SaitekX56Throttle::getConfigurable
         // inputs.push_back(Configurable(hat3West,"Hat 3 West", "hat3West"));
         // inputs.push_back(Configurable(hat3NorthWest,"Hat 3 North-West", "hat3NorthWest"));
 
+        // inputs.push_back(Configurable(hat4UpDownPivot,"Hat 4 Up/Down Pivot", "hat4UpDownPivot"));
+        // inputs.push_back(Configurable(hat4ForwardBackwardPivot,"Hat 4 Forward/Backward Pivot", "hat4ForwardBackwardPivot"));
         // inputs.push_back(Configurable(hat4North,"Hat 4 North", "hat4North"));
         // inputs.push_back(Configurable(hat4NorthEast,"Hat 4 North-East", "hat4NorthEast"));
         // inputs.push_back(Configurable(hat4East,"Hat 4 East", "hat4East"));

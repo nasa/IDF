@@ -68,6 +68,12 @@ class SaitekX56Stick : public virtual InputLayout {
     /** The button labeled "D" */
     SingleInput buttonD;
 
+    /** Up/Down pivot on H1 regardless of left/right */
+    SingleInput hat1UpDownPivot;
+
+    /** Left/Right pivot on H1 redardless of up/down */
+    SingleInput hat1LeftRightPivot;
+
     /** The North (up) Direction on the hat labeled "H1" */
     SingleInput hat1North;
     
@@ -92,6 +98,12 @@ class SaitekX56Stick : public virtual InputLayout {
     /** The North West (up + left) Direction on the hat labeled "H1" */
     SingleInput hat1NorthWest;
 
+    /** Up/Down pivot on H2 regardless of left/right */
+    SingleInput hat2UpDownPivot;
+
+    /** Left/Right pivot on H2 redardless of up/down */
+    SingleInput hat2LeftRightPivot;
+
     /** The North (up) Direction on the hat labeled "H2" */
     SingleInput hat2North;
     
@@ -115,6 +127,13 @@ class SaitekX56Stick : public virtual InputLayout {
 
     /** The North West (up + left) Direction on the hat labeled "H2" */
     SingleInput hat2NorthWest;
+
+
+    /** Up/Down pivot on POV regardless of left/right */
+    SingleInput povUpDownPivot;
+
+    /** Left/Right pivot on POV redardless of up/down */
+    SingleInput povLeftRightPivot;
 
     /** The North (up) Direction on the hat labeled "POV" */
     SingleInput povNorth;

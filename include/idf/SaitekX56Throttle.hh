@@ -70,6 +70,12 @@ class SaitekX56Throttle : public virtual InputLayout {
     /** The button labeled "L", rocker with buttonK */
     SingleInput buttonL;
 
+    /** Up/Down pivot on H3 regardless of left/right */
+    SingleInput hat3UpDownPivot;
+
+    /** Fwd/Back pivot on H3 redardless of up/down */
+    SingleInput hat3ForwardBackwardPivot;
+
     /** The North (up) Direction on the stick labeled "H3" */
     SingleInput hat3North;
     
@@ -93,6 +99,12 @@ class SaitekX56Throttle : public virtual InputLayout {
 
     /** The North West (up + left) Direction on the stick labeled "H3" */
     SingleInput hat3NorthWest;
+
+    /** Up/Down pivot on H4 regardless of left/right */
+    SingleInput hat4UpDownPivot;
+
+    /** Fwd/Back pivot on H4 redardless of up/down */
+    SingleInput hat4ForwardBackwardPivot;
 
     /** The North (up) Direction on the stick labeled "H4" */
     SingleInput hat4North;
