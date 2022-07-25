@@ -222,9 +222,8 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX56St
         saitekX56Stick.thumbLeftRightPivot,
         saitekX56Stick.thumbForwardBackwardPivot);
 
-    Deadband db = Deadband(-0,016,0.016);
-    controller->spin.addDeadband(db); // Autocentering on the thumbstick is weak and imprecise
-    controller->zoom.addDeadband(db); // Autocentering on the thumbstick is weak and imprecise
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
 
     return controller;
 }

@@ -297,8 +297,6 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX56St
         saitekX56Stick.hat2UpDownPivot,
         saitekX56Stick.hat2LeftRightPivot,
         saitekX56Stick.hat1UpDownPivot);
-        
-    controller->x.setInverted(true);
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 

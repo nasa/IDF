@@ -13,7 +13,7 @@ void UsbSaitekX56Stick::decode(const std::vector<unsigned char>& data) {
     leftRightPivot.setValue(       ((unsigned)data[1] << 8) | data[0] );
     forwardBackwardPivot.setValue( ((unsigned)data[3] << 8) | data[2] );
 
-    twist.setValue( ((unsigned)data[5] << 8) | data[4] );
+    twist.setValue( ((unsigned)(data[5] & 0xf) << 8) | data[4]);
 
     thumbLeftRightPivot.setValue( data[9] );
     thumbForwardBackwardPivot.setValue( data[10] );
