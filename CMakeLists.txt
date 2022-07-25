@@ -24,8 +24,6 @@ set(SRC_IDF
     source/idf/DualShock3.cpp
     source/idf/DualShock4.cpp
     source/idf/DualShock.cpp
-    source/idf/Er7Orion.cpp
-    source/idf/SerialEr7Orion.cpp
     source/idf/Extreme3dPro.cpp
     source/idf/FlightController.cpp
     source/idf/Gravis.cpp
