@@ -198,6 +198,7 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX52& 
 
     CompositeInput* zoom = new CompositeInput();
     zoom->addInput(saitekX52.mode3, 1);
+    zoom->addInput(saitekX52.mode2, 0);
     zoom->addInput(saitekX52.mode1, -1);
 
     SingleCameraController *controller =
