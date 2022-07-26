@@ -40,6 +40,8 @@ void UsbSaitekX56Throttle::decode(const std::vector<unsigned char>& data) {
     char hat3 = (data[4] >> 7 & 0x1) | (data[5] << 1 & 0xE);
     char hat4 = data[5] >> 3 & 0xF;
 
+    hat3UpDownPivot.setValue( hat3 & 0x1 ? 1 : hat3 & 0x4 ? -1 : 0);
+    hat3ForwardBackwardPivot.setValue( hat3 & 0x8 ? 1 : hat3 & 0x2 ? -1 : 0);
     hat3North.setValue(     hat3 == 1 );
     hat3NorthEast.setValue( hat3 == 3 );
     hat3East.setValue(      hat3 == 2 );
@@ -49,6 +51,8 @@ void UsbSaitekX56Throttle::decode(const std::vector<unsigned char>& data) {
     hat3West.setValue(      hat3 == 8 );
     hat3NorthWest.setValue( hat3 == 9 );
 
+    hat4UpDownPivot.setValue( hat4 & 0x1 ? 1 : hat4 & 0x4 ? -1 : 0);
+    hat4ForwardBackwardPivot.setValue( hat4 & 0x8 ? 1 : hat4 & 0x2 ? -1 : 0);
     hat4North.setValue(     hat4 == 1 );
     hat4NorthEast.setValue( hat4 == 3 );
     hat4East.setValue(      hat4 == 2 );

@@ -214,5 +214,29 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX52& 
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const SaitekX56Stick& saitekX56Stick) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+        saitekX56Stick.povLeftRightPivot,
+        saitekX56Stick.povUpDownPivot,
+        saitekX56Stick.thumbLeftRightPivot,
+        saitekX56Stick.thumbForwardBackwardPivot);
+
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(const SaitekX56Throttle& saitekX56Throttle) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+        saitekX56Throttle.hat3ForwardBackwardPivot,
+        saitekX56Throttle.hat3UpDownPivot,
+        saitekX56Throttle.hat4ForwardBackwardPivot,
+        saitekX56Throttle.hat4UpDownPivot);
+
+    return controller;
+}
 
 }

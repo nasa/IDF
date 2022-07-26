@@ -405,4 +405,22 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX56Stick& saitekX56Stick) {
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        saitekX56Stick.leftRightPivot,
+        saitekX56Stick.forwardBackwardPivot,
+        saitekX56Stick.twist,
+        saitekX56Stick.hat2UpDownPivot,
+        saitekX56Stick.hat2LeftRightPivot,
+        saitekX56Stick.hat1UpDownPivot,
+        saitekX56Stick.trigger1,
+        saitekX56Stick.buttonA);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 }

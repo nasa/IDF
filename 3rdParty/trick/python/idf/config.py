@@ -48,6 +48,8 @@ class Configurator:
           trick.UsbIndustrialProducts3,
           trick.UsbSaitek,
           trick.UsbSaitekX52,
+          trick.UsbSaitekX56Stick,
+          trick.UsbSaitekX56Throttle,
           trick.UsbSpaceExplorer,
           trick.UsbSpaceMouse,
           trick.UsbSpaceNavigator,
