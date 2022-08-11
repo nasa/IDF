@@ -3,10 +3,10 @@
 #include <stdio.h>
 namespace idf {
 
-SerialEr7Orion::SerialEr7Orion(const char *terminalPath) :
-    ThrustMasterBase(false),
-    SerialThrustMasterBase("ER7 Orion", terminalPath, false),
-    Er7Orion() {}
+SerialEr7Orion::SerialEr7Orion(const char *terminalPath, bool isMale) :
+    ThrustMasterBase(isMale),
+    SerialThrustMasterBase("ER7 Orion", terminalPath, isMale),
+    Er7Orion(isMale) {}
 
 void SerialEr7Orion::decode(const std::vector<unsigned char>& data) {
     SerialThrustMasterBase::decode(data);

@@ -2,8 +2,8 @@
 
 namespace idf {
 
-Er7Orion::Er7Orion() :
-    ThrustMasterBase(false),
+Er7Orion::Er7Orion(bool isMale) :
+    ThrustMasterBase(isMale),
     cfsButton(0, 1),
     bfsButton(0, 1),
     rhcButton(0, 1),

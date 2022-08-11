@@ -28,7 +28,7 @@ class SerialEr7Orion : public SerialThrustMasterBase, public Er7Orion {
      *
      * @param path @copydoc path
      */
-    SerialEr7Orion(const char *path = "/dev/ttyS0");
+    SerialEr7Orion(const char *path = "/dev/ttyACM0", bool isMale = true);
 
     void decode(const std::vector<unsigned char>& data);
 

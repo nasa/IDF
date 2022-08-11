@@ -24,7 +24,7 @@ class Er7Orion : public virtual ThrustMasterBase {
     public:
 
     /** constructor */
-    Er7Orion();
+    Er7Orion(bool isMale = false);
 
     /** destructor */
     virtual ~Er7Orion() {};
