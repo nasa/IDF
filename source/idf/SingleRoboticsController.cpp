@@ -383,30 +383,10 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Industr
     return controller;
 }
 
-SingleRoboticsController* SingleRoboticsController::createInstance(const Er7Orion& er7Orion) {
-    SingleRoboticsController *controller =
-      new SingleRoboticsController(
-      er7Orion.leftRightPivot,
-      er7Orion.forwardBackwardPivot,
-      er7Orion.twist,
-      er7Orion.forwardBackwardTranslation,
-      er7Orion.leftRightTranslation,
-      er7Orion.upDownTranslation,
-      er7Orion.trigger,
-      er7Orion.bfsButton);
-
-    controller->y.setInverted(true);
-    controller->pitch.setInverted(true);
-    controller->yaw.setInverted(true);
-
-    return controller;
-}
-
 SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX52& saitekX52) {
     CompositeInput* z = new CompositeInput();
     z->addInput(saitekX52.buttonA);
     z->addInput(saitekX52.buttonB, -1);
-
 
     SingleRoboticsController *controller =
       new SingleRoboticsController(
@@ -418,6 +398,24 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX
         *z,
         saitekX52.trigger,
         saitekX52.buttonC);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
+SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX56Stick& saitekX56Stick) {
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        saitekX56Stick.leftRightPivot,
+        saitekX56Stick.forwardBackwardPivot,
+        saitekX56Stick.twist,
+        saitekX56Stick.hat2UpDownPivot,
+        saitekX56Stick.hat2LeftRightPivot,
+        saitekX56Stick.hat1UpDownPivot,
+        saitekX56Stick.trigger1,
+        saitekX56Stick.buttonA);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);

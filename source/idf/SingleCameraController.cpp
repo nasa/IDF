@@ -191,20 +191,6 @@ SingleCameraController* SingleCameraController::createInstance(const IndustrialP
     return controller;
 }
 
-SingleCameraController* SingleCameraController::createInstance(const Er7Orion& er7Orion) {
-    SingleCameraController *controller =
-      new SingleCameraController(
-      er7Orion.twist,
-      er7Orion.forwardBackwardPivot,
-      er7Orion.leftRightPivot,
-      er7Orion.forwardBackwardTranslation);
-
-    controller->tilt.setInverted(true);
-    controller->pan.setInverted(true);
-
-    return controller;
-}
-
 SingleCameraController* SingleCameraController::createInstance(const SaitekX52& saitekX52) {
     CompositeInput* spin = new CompositeInput();
     spin->addInput(saitekX52.toggle1);
@@ -212,6 +198,7 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX52& 
 
     CompositeInput* zoom = new CompositeInput();
     zoom->addInput(saitekX52.mode3, 1);
+    zoom->addInput(saitekX52.mode2, 0);
     zoom->addInput(saitekX52.mode1, -1);
 
     SingleCameraController *controller =
@@ -223,6 +210,31 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX52& 
 
     controller->pan.setInverted(true);
     controller->tilt.setInverted(true);
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(const SaitekX56Stick& saitekX56Stick) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+        saitekX56Stick.povLeftRightPivot,
+        saitekX56Stick.povUpDownPivot,
+        saitekX56Stick.thumbLeftRightPivot,
+        saitekX56Stick.thumbForwardBackwardPivot);
+
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(const SaitekX56Throttle& saitekX56Throttle) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+        saitekX56Throttle.hat3ForwardBackwardPivot,
+        saitekX56Throttle.hat3UpDownPivot,
+        saitekX56Throttle.hat4ForwardBackwardPivot,
+        saitekX56Throttle.hat4UpDownPivot);
 
     return controller;
 }

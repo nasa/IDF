@@ -25,8 +25,8 @@ LIBRARY DEPENDENCIES: (
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
 #include "idf/IndustrialProducts3.hh"
-#include "idf/Er7Orion.hh"
 #include "idf/SaitekX52.hh"
+#include "idf/SaitekX56Stick.hh"
 #include "idf/SpaceExplorer.hh"
 #include "idf/SpaceNavigator.hh"
 #include "idf/SpaceMouse.hh"
@@ -287,15 +287,6 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const IndustrialProducts3& industrialProducts3);
 
     /*
-     * creates a new SingleRoboticsController mapped to @a nasaErHc using appropriate defaults
-     *
-     * @param Er7Orion the inputs to use in the default mapping
-     *
-     * @return a new Er7Orion-based flight controller
-     */
-    static SingleRoboticsController* createInstance(const Er7Orion& er7Orion);
-
-    /*
      * creates a new SingleRoboticsController mapped to @a SaitekX52 using appropriate defaults
      *
      * @param saitekX52 the inputs to use in the default mapping
@@ -303,6 +294,15 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new SaitekX52-based robotics controller
      */
     static SingleRoboticsController* createInstance(const SaitekX52& saitekX52);
+
+    /*
+     * creates a new SingleRoboticsController mapped to @a SaitekX56Stick using appropriate defaults
+     *
+     * @param saitekX56Stick the inputs to use in the default mapping
+     *
+     * @return a new SaitekX56Stick-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const SaitekX56Stick& saitekX56Stick);
 
 };
 

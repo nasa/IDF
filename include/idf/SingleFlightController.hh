@@ -25,8 +25,8 @@ LIBRARY DEPENDENCIES: (
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
 #include "idf/IndustrialProducts3.hh"
-#include "idf/Er7Orion.hh"
 #include "idf/SaitekX52.hh"
+#include "idf/SaitekX56Stick.hh"
 #include "idf/SpaceBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/VirtualLayout.hh"
@@ -233,23 +233,23 @@ class SingleFlightController : public FlightController {
      */
     static SingleFlightController* createInstance(const IndustrialProducts3& industrialProducts3);
 
-    /*
-     * creates a new SingleFlightController mapped to @a er7Orion using appropriate defaults
-     *
-     * @param er7Orion the inputs to use in the default mapping
-     *
-     * @return a new Er7Orion-based flight controller
-     */
-    static SingleFlightController* createInstance(const Er7Orion& er7Orion);
-
     /**
-     * creates a new SingleFlightController mapped to @a saitekX52 using appropriate defaults
+     * creates a new SingleFlightController mapped to @a SaitekX52 using appropriate defaults
      *
      * @param saitekX52 the inputs to use in the default mapping
      *
      * @return a new SaitekX52-based flight controller
      */
     static SingleFlightController* createInstance(const SaitekX52& saitekX52);
+
+    /**
+     * creates a new SingleFlightController mapped to @a SaitekX56Stick using appropriate defaults
+     *
+     * @param saitekX56Stick the inputs to use in the default mapping
+     *
+     * @return a new SaitekX56Stick-based flight controller
+     */
+    static SingleFlightController* createInstance(const SaitekX56Stick& saitekX56Stick);
 
 };
 

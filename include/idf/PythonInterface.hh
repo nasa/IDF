@@ -60,6 +60,8 @@
 #include "idf/UsbKeyboard.hh"
 #include "idf/UsbSaitek.hh"
 #include "idf/UsbSaitekX52.hh"
+#include "idf/UsbSaitekX56Stick.hh"
+#include "idf/UsbSaitekX56Throttle.hh"
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"
 #include "idf/UsbSpaceNavigator.hh"
