@@ -423,4 +423,19 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const Er7Orion& er7Orion) {
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+      er7Orion.leftRightPivot,
+      er7Orion.forwardBackwardPivot,
+      er7Orion.twist,
+      er7Orion.forwardBackwardTranslation,
+      er7Orion.leftRightTranslation,
+      er7Orion.upDownTranslation,
+      er7Orion.trigger,
+      er7Orion.bfsButton);
+
+    return controller;
+}
+
 }

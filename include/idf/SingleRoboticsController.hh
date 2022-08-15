@@ -22,6 +22,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/DualShock.hh"
 #include "idf/Extreme3dPro.hh"
 #include "idf/Gravis.hh"
+#include "idf/Er7Orion.hh"
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
 #include "idf/IndustrialProducts3.hh"
@@ -304,6 +305,14 @@ class SingleRoboticsController : public RoboticsController {
      */
     static SingleRoboticsController* createInstance(const SaitekX56Stick& saitekX56Stick);
 
+    /*
+     * creates a new SingleRoboticsController mapped to @a Er7Orion using appropriate defaults
+     *
+     * @param Er7Orion the inputs to use in the default mapping
+     *
+     * @return a new Er7Orion-based flight controller
+     */
+    static SingleRoboticsController* createInstance(const Er7Orion& er7Orion);
 };
 
 }
