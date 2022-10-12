@@ -24,6 +24,7 @@ set(SRC_IDF
     source/idf/DualShock3.cpp
     source/idf/DualShock4.cpp
     source/idf/DualShock.cpp
+    source/idf/Er7Orion.cpp
     source/idf/Extreme3dPro.cpp
     source/idf/FlightController.cpp
     source/idf/Gravis.cpp
@@ -50,6 +51,7 @@ set(SRC_IDF
     source/idf/SaitekX56Stick.cpp
     source/idf/SaitekX56Throttle.cpp
     source/idf/SerialDevice.cpp
+    source/idf/SerialEr7Orion.cpp
     source/idf/SerialThrustMaster2.cpp
     source/idf/SerialThrustMasterBase.cpp
     source/idf/SerialThrustMaster.cpp
