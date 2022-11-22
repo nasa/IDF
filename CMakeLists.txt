@@ -67,6 +67,7 @@ set(SRC_IDF
     source/idf/ThrustMaster2.cpp
     source/idf/ThrustMasterBase.cpp
     source/idf/ThrustMaster.cpp
+    source/idf/ThrustMasterJoystickHotas.cpp
     source/idf/UsbChProPedals.cpp
     source/idf/UsbDevice.cpp
     source/idf/UsbDualShock3.cpp
@@ -90,6 +91,7 @@ set(SRC_IDF
     source/idf/UsbSpaceMouse.cpp
     source/idf/UsbSpaceNavigator.cpp
     source/idf/UsbTeensyduino.cpp
+    source/idf/UsbThrustMasterJoystickHotas.cpp
     source/idf/UsbWingMan.cpp
     source/idf/UsbXBox.cpp
     source/idf/Utils.cpp
