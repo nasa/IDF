@@ -92,10 +92,12 @@ set(SRC_IDF
     source/idf/UsbTeensyduino.cpp
     source/idf/UsbWingMan.cpp
     source/idf/UsbXBox.cpp
+    source/idf/UsbXBoxOne.cpp
     source/idf/Utils.cpp
     source/idf/VirtualLayout.cpp
     source/idf/WingMan.cpp
     source/idf/XBox.cpp
+    source/idf/XBoxOne.cpp
     source/idf/hidapi.c
 )
 

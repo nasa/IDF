@@ -27,6 +27,7 @@
 #include "idf/UsbTeensyduino.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
+#include "idf/UsbXBoxOne.hh"
 
 namespace configurator {
 
@@ -78,6 +79,7 @@ void run() {
     idf::UsbTeensyduino teensyduino;
     idf::UsbWingMan wingMan;
     idf::UsbXBox xBox;
+    idf::UsbXBoxOne xBoxOne;
 
     std::vector<idf::UsbDevice*> devices;
     devices.push_back(&chProPedals);
@@ -99,6 +101,7 @@ void run() {
     devices.push_back(&teensyduino);
     devices.push_back(&wingMan);
     devices.push_back(&xBox);
+    devices.push_back(&xBoxOne);
 
     devices.erase(std::remove_if(devices.begin(), devices.end(), notConnected), devices.end());
 
