@@ -24,13 +24,13 @@ void UsbXBoxOne::decode(const std::vector<unsigned char>& data) {
         xButton.setValue(data[14] >> 3 & 1);
         yButton.setValue(data[14] >> 4 & 1);
 
-        leftAnalogLeftRightPivot.setValue((int)(u_char)data[2] << 8 | data[1]);
-        leftAnalogUpDownPivot.setValue((int)(u_char)data[4] << 8 | data[3]);
-        leftAnalogTrigger.setValue((int)(u_char)data[10] << 8 | data[9]);
+        leftAnalogLeftRightPivot.setValue((int)(unsigned char)data[2] << 8 | data[1]);
+        leftAnalogUpDownPivot.setValue((int)(unsigned char)data[4] << 8 | data[3]);
+        leftAnalogTrigger.setValue((int)(unsigned char)data[10] << 8 | data[9]);
 
-        rightAnalogLeftRightPivot.setValue((int)(u_char)data[6] << 8 | data[5]);
-        rightAnalogUpDownPivot.setValue((int)(u_char)data[8] << 8 | data[7]);
-        rightAnalogTrigger.setValue((int)(u_char)data[12] << 8 | data[11]);
+        rightAnalogLeftRightPivot.setValue((int)(unsigned char)data[6] << 8 | data[5]);
+        rightAnalogUpDownPivot.setValue((int)(unsigned char)data[8] << 8 | data[7]);
+        rightAnalogTrigger.setValue((int)(unsigned char)data[12] << 8 | data[11]);
     }
 }
 
