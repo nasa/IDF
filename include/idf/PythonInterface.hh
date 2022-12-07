@@ -68,6 +68,7 @@
 #include "idf/UsbTeensyduino.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
+#include "idf/UsbXBoxOne.hh"
 
 // CAN Devices
 #ifdef IDF_CAN

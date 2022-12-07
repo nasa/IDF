@@ -55,7 +55,8 @@ class Configurator:
           trick.UsbSpaceNavigator,
           trick.UsbTeensyduino,
           trick.UsbWingMan,
-          trick.UsbXBox]:
+          trick.UsbXBox,
+          trick.UsbXBoxOne]:
             device = device()
             # if the device is connected to the computer, add it and return
             if int(device.isConnected()):
