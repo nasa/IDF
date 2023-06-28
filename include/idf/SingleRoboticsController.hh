@@ -33,7 +33,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SpaceMouse.hh"
 #include "idf/ThrustMaster.hh"
 #include "idf/ThrustMaster2.hh"
-#include "idf/UsbXBoxOne.hh"
+#include "idf/XBoxOne.hh"
 #include "idf/VirtualLayout.hh"
 #include "idf/WingMan.hh"
 
@@ -262,13 +262,13 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const ThrustMaster2& thrustMaster2);
 
     /*
-     * creates a new SingleRoboticsController mapped to @a UsbXBoxOne using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a XBoxOne using appropriate defaults
      *
-     * @param UsbXBoxOne the inputs to use in the default mapping
+     * @param XBoxOne the inputs to use in the default mapping
      *
-     * @return a new UsbXBoxOne-based flight controller
+     * @return a new XBoxOne-based flight controller
      */
-    static SingleRoboticsController* createInstance(const UsbXBoxOne& usbXBoxOne);
+    static SingleRoboticsController* createInstance(const XBoxOne& xBoxOne);
 
     /*
      * creates a new SingleRoboticsController mapped to @a industrialProducts using appropriate defaults

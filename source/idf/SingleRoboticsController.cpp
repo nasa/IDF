@@ -304,27 +304,27 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const ThrustM
     return controller;
 }
 
-SingleRoboticsController* SingleRoboticsController::createInstance(const UsbXBoxOne& usbXBoxOne) {
+SingleRoboticsController* SingleRoboticsController::createInstance(const XBoxOne& xBoxOne) {
     CompositeInput* x = new CompositeInput();
-    x->addInput(usbXBoxOne.directionalPadUp);
-    x->addInput(usbXBoxOne.directionalPadDown, -1);
+    x->addInput(xBoxOne.directionalPadUp);
+    x->addInput(xBoxOne.directionalPadDown, -1);
 
     CompositeInput* y = new CompositeInput();
-    y->addInput(usbXBoxOne.directionalPadLeft);
-    y->addInput(usbXBoxOne.directionalPadRight, -1);
+    y->addInput(xBoxOne.directionalPadLeft);
+    y->addInput(xBoxOne.directionalPadRight, -1);
 
     CompositeInput* z = new CompositeInput();
-    z->addInput(usbXBoxOne.rightBumper);
-    z->addInput(usbXBoxOne.leftBumper, -1);
+    z->addInput(xBoxOne.rightBumper);
+    z->addInput(xBoxOne.leftBumper, -1);
 
     SingleRoboticsController *controller =
       new SingleRoboticsController(
-        usbXBoxOne.leftAnalogLeftRightPivot,
-        usbXBoxOne.leftAnalogUpDownPivot,
-        usbXBoxOne.rightAnalogLeftRightPivot,
+        xBoxOne.leftAnalogLeftRightPivot,
+        xBoxOne.leftAnalogUpDownPivot,
+        xBoxOne.rightAnalogLeftRightPivot,
         *x, *y, *z,
-        usbXBoxOne.viewButton,
-        usbXBoxOne.menuButton);
+        xBoxOne.viewButton,
+        xBoxOne.menuButton);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);

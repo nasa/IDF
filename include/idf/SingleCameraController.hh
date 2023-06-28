@@ -30,7 +30,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SaitekX56Throttle.hh"
 #include "idf/SpaceBase.hh"
 #include "idf/ThrustMasterBase.hh"
-#include "idf/UsbXBoxOne.hh"
+#include "idf/XBoxOne.hh"
 #include "idf/VirtualLayout.hh"
 #include "idf/WingMan.hh"
 
@@ -240,13 +240,13 @@ class SingleCameraController : public CameraController {
 
 
     /**
-     * creates a new SingleCameraController mapped to @a UsbXBoxOne using appropriate defaults
+     * creates a new SingleCameraController mapped to @a XBoxOne using appropriate defaults
      *
-     * @param UsbXBoxOne the inputs to use in the default mapping
+     * @param XBoxOne the inputs to use in the default mapping
      *
-     * @return a new UsbXBoxOne-based camera controller
+     * @return a new XBoxOne-based camera controller
      */
-    static SingleCameraController* createInstance(const UsbXBoxOne& UsbXBoxOne);
+    static SingleCameraController* createInstance(const XBoxOne& xBoxOne);
 };
 
 }

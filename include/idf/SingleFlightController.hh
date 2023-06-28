@@ -29,7 +29,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SaitekX56Stick.hh"
 #include "idf/SpaceBase.hh"
 #include "idf/ThrustMasterBase.hh"
-#include "idf/UsbXBoxOne.hh"
+#include "idf/XBoxOne.hh"
 #include "idf/VirtualLayout.hh"
 #include "idf/WingMan.hh"
 
@@ -253,13 +253,13 @@ class SingleFlightController : public FlightController {
     static SingleFlightController* createInstance(const SaitekX56Stick& saitekX56Stick);
 
     /**
-     * creates a new SingleFlightController mapped to @a UsbXBoxOne using appropriate defaults
+     * creates a new SingleFlightController mapped to @a XBoxOne using appropriate defaults
      *
      * @param saitekX56Stick the inputs to use in the default mapping
      *
-     * @return a new UsbXboxOne-based flight controller
+     * @return a new XboxOne-based flight controller
      */
-    static SingleFlightController* createInstance(const UsbXBoxOne& usbXBoxOne);
+    static SingleFlightController* createInstance(const XBoxOne& xBoxOne);
 
 
 };

@@ -303,22 +303,22 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX56St
     return controller;
 }
 
-SingleFlightController* SingleFlightController::createInstance(const UsbXBoxOne& usbXBoxOne) {
+SingleFlightController* SingleFlightController::createInstance(const XBoxOne& xBoxOne) {
     CompositeInput* x = new CompositeInput();
-    x->addInput(usbXBoxOne.directionalPadUp);
-    x->addInput(usbXBoxOne.directionalPadDown, -1);
+    x->addInput(xBoxOne.directionalPadUp);
+    x->addInput(xBoxOne.directionalPadDown, -1);
 
     CompositeInput* y = new CompositeInput();
-    y->addInput(usbXBoxOne.directionalPadLeft);
-    y->addInput(usbXBoxOne.directionalPadRight, -1);
+    y->addInput(xBoxOne.directionalPadLeft);
+    y->addInput(xBoxOne.directionalPadRight, -1);
 
     CompositeInput* z = new CompositeInput();
-    z->addInput(usbXBoxOne.rightBumper);
-    z->addInput(usbXBoxOne.leftBumper, -1);
+    z->addInput(xBoxOne.rightBumper);
+    z->addInput(xBoxOne.leftBumper, -1);
 
     SingleFlightController *controller =
-      new SingleFlightController(usbXBoxOne.leftAnalogLeftRightPivot,
-      usbXBoxOne.leftAnalogUpDownPivot, usbXBoxOne.rightAnalogLeftRightPivot, *x, *y, *z);
+      new SingleFlightController(xBoxOne.leftAnalogLeftRightPivot,
+      xBoxOne.leftAnalogUpDownPivot, xBoxOne.rightAnalogLeftRightPivot, *x, *y, *z);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
