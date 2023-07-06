@@ -239,4 +239,15 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX56Th
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const XBoxOne& xBoxOne) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+        xBoxOne.yButton,
+        xBoxOne.xButton,
+        xBoxOne.aButton,
+        xBoxOne.bButton);
+
+    return controller;
+}
+
 }

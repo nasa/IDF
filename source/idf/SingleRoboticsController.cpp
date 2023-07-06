@@ -304,6 +304,34 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const ThrustM
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const XBoxOne& xBoxOne) {
+    CompositeInput* x = new CompositeInput();
+    x->addInput(xBoxOne.directionalPadUp);
+    x->addInput(xBoxOne.directionalPadDown, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(xBoxOne.directionalPadLeft);
+    y->addInput(xBoxOne.directionalPadRight, -1);
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(xBoxOne.rightBumper);
+    z->addInput(xBoxOne.leftBumper, -1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        xBoxOne.leftAnalogLeftRightPivot,
+        xBoxOne.leftAnalogUpDownPivot,
+        xBoxOne.rightAnalogLeftRightPivot,
+        *x, *y, *z,
+        xBoxOne.viewButton,
+        xBoxOne.menuButton);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 SingleRoboticsController* SingleRoboticsController::createInstance(const IndustrialProducts& industrialProducts) {
     CompositeInput* z = new CompositeInput();
     z->addInput(industrialProducts.switchUp);
