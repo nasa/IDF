@@ -101,7 +101,8 @@ set(SRC_IDF
     source/idf/hidapi.c
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual")
+# See IDF github issues 77 and 21 for why we disable implicit-conversion-floating-point-to-bool warning
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual -Wno-implicit-conversion-floating-point-to-bool")
 
 set_source_files_properties(hidapi.c PROPERTIES COMPILE_FLAGS "-Wno-sign-compare")
 
