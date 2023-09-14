@@ -195,14 +195,14 @@ class Client : public Manageable {
 
     private:
 
-    /** Number of times to retry establishing the initial connection */
-    int retryLimit;
-
     /** the name or ip address of the server */
     std::string serverName;
 
     /** the port on which the server is listening */
     unsigned short serverPort;
+
+    /** Number of times to retry establishing the initial connection */
+    int retryLimit;
 
     /** the socket */
     int socketHandle;
