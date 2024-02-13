@@ -4,9 +4,11 @@ namespace idf {
 
 SingleFlightController::SingleFlightController(
   const Input& rollInput, const Input& pitchInput, const Input& yawInput,
-  const Input& xInput, const Input& yInput, const Input& zInput) :
+  const Input& xInput, const Input& yInput, const Input& zInput,
+  const Input& triggerInput, const Input& commInput, const Input& shutdownInput) :
     roll(rollInput), pitch(pitchInput), yaw(yawInput),
-    x(xInput), y(yInput), z(zInput) {}
+    x(xInput), y(yInput), z(zInput), 
+    trigger(triggerInput), comm(commInput), shutdown(shutdownInput){}
 
 void SingleFlightController::addDeadband(const Deadband& deadband) {
     roll.addDeadband(deadband);
@@ -50,6 +52,18 @@ double SingleFlightController::getCommandedZ() const {
     return z.getNormalizedValue();
 }
 
+bool SingleFlightController::getCommandedTrigger() const {
+    return trigger.getNormalizedValue() > 0;
+}
+
+bool SingleFlightController::getCommandedComm() const {
+    return comm.getNormalizedValue() > 0;
+}
+
+bool SingleFlightController::getCommandedShutdown() const {
+    return shutdown.getNormalizedValue() > 0;
+}
+
 SingleFlightController* SingleFlightController::createInstance(const WingMan& wingMan) {
     CompositeInput* x = new CompositeInput();
     x->addInput(wingMan.hatNorth);
@@ -63,9 +77,12 @@ SingleFlightController* SingleFlightController::createInstance(const WingMan& wi
     z->addInput(wingMan.button4);
     z->addInput(wingMan.button5, -1);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+    
     SingleFlightController *controller =
       new SingleFlightController(wingMan.leftRightPivot,
-      wingMan.forwardBackwardPivot, wingMan.twist, *x, *y, *z);
+      wingMan.forwardBackwardPivot, wingMan.twist, *x, *y, *z,
+      wingMan.trigger, dummyInput, dummyInput);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
@@ -86,9 +103,12 @@ SingleFlightController* SingleFlightController::createInstance(const Extreme3dPr
     z->addInput(extreme3dPro.button6);
     z->addInput(extreme3dPro.button4, -1);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(extreme3dPro.leftRightPivot,
-      extreme3dPro.forwardBackwardPivot, extreme3dPro.twist, *x, *y, *z);
+      extreme3dPro.forwardBackwardPivot, extreme3dPro.twist, *x, *y, *z,
+      extreme3dPro.trigger, dummyInput, extreme3dPro.button8);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
@@ -97,6 +117,8 @@ SingleFlightController* SingleFlightController::createInstance(const Extreme3dPr
 }
 
 SingleFlightController* SingleFlightController::createInstance(const SpaceBase& spaceBase) {
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
       spaceBase.leftRightPivot,
@@ -104,7 +126,8 @@ SingleFlightController* SingleFlightController::createInstance(const SpaceBase& 
       spaceBase.twist,
       spaceBase.forwardBackwardTranslation,
       spaceBase.leftRightTranslation,
-      spaceBase.upDownTranslation);
+      spaceBase.upDownTranslation,
+      dummyInput,dummyInput,dummyInput);
 
     controller->x.setInverted(true);
     controller->y.setInverted(true);
@@ -141,7 +164,9 @@ SingleFlightController* SingleFlightController::createInstance(const Gravis& gra
     z->addInput(gravis.directionalPadUp);
     z->addInput(gravis.directionalPadDown, -1);
 
-    return new SingleFlightController(*roll, *pitch, *yaw, *x, *y, *z);
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
+    return new SingleFlightController(*roll, *pitch, *yaw, *x, *y, *z, dummyInput, dummyInput, dummyInput);
 }
 
 SingleFlightController* SingleFlightController::createInstance(const DualShock& dualShock) {
@@ -153,6 +178,8 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock& 
     roll->addInput(dualShock.leftTrigger, -1);
     roll->addInput(dualShock.rightTrigger);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
       *roll,
@@ -160,7 +187,8 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock& 
       dualShock.rightAnalogLeftRightPivot,
       dualShock.leftAnalogUpDownPivot,
       dualShock.leftAnalogLeftRightPivot,
-      *z);
+      *z,
+      dummyInput, dummyInput, dummyInput);
 
     controller->x.setInverted(true);
     controller->y.setInverted(true);
@@ -171,16 +199,21 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock& 
 }
 
 SingleFlightController* SingleFlightController::createInstance(const VirtualLayout& virtualLayout) {
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     return new SingleFlightController(
       virtualLayout.clockwiseCounterclockwiseRotation,
       virtualLayout.upDownRotation,
       virtualLayout.leftRightRotation,
       virtualLayout.inOutTranslation,
       virtualLayout.leftRightTranslation,
-      virtualLayout.upDownTranslation);
+      virtualLayout.upDownTranslation,
+      dummyInput, dummyInput, dummyInput);
 }
 
 SingleFlightController* SingleFlightController::createInstance(const ThrustMasterBase& thrustMaster) {
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
       thrustMaster.leftRightPivot,
@@ -188,7 +221,8 @@ SingleFlightController* SingleFlightController::createInstance(const ThrustMaste
       thrustMaster.twist,
       thrustMaster.forwardBackwardTranslation,
       thrustMaster.leftRightTranslation,
-      thrustMaster.upDownTranslation);
+      thrustMaster.upDownTranslation,
+      dummyInput, dummyInput, dummyInput);
 
     controller->y.setInverted(true);
     controller->pitch.setInverted(true);
@@ -206,6 +240,8 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
     z->addInput(industrialProducts.switchUp);
     z->addInput(industrialProducts.switchDown, -1);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
       industrialProducts.leftRightPivot,
@@ -213,7 +249,8 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
       industrialProducts.twist,
       industrialProducts.hatUpDownPivot,
       industrialProducts.hatLeftRightPivot,
-      *z);
+      *z,
+      dummyInput, dummyInput, dummyInput);
 
     controller->yaw.setInverted(true);
     controller->y.setInverted(true);
@@ -234,12 +271,15 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
     z->addInput(industrialProducts2.northEastButton);
     z->addInput(industrialProducts2.southEastButton, -1);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
       industrialProducts2.leftRightPivot,
       industrialProducts2.forwardBackwardPivot,
       industrialProducts2.twist,
-      *x, *y, *z);
+      *x, *y, *z,
+      dummyInput, dummyInput, dummyInput);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
@@ -252,6 +292,8 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
     z->addInput(industrialProducts.switchUp);
     z->addInput(industrialProducts.switchDown, -1);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
       industrialProducts.leftRightPivot,
@@ -259,7 +301,8 @@ SingleFlightController* SingleFlightController::createInstance(const IndustrialP
       industrialProducts.twist,
       industrialProducts.hatUpDownPivot,
       industrialProducts.hatLeftRightPivot,
-      *z);
+      *z,
+      industrialProducts.trigger, dummyInput, industrialProducts.button);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
@@ -274,6 +317,8 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX52& 
     z->addInput(saitekX52.buttonA, 1);
     z->addInput(saitekX52.buttonB, -1);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
         saitekX52.leftRightPivot,
@@ -281,7 +326,9 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX52& 
         saitekX52.twist,
         saitekX52.hat2UpDownPivot,
         saitekX52.hat2LeftRightPivot,
-        *z);
+        *z,
+        dummyInput, dummyInput, dummyInput);
+	
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
@@ -289,6 +336,8 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX52& 
 }
 
 SingleFlightController* SingleFlightController::createInstance(const SaitekX56Stick& saitekX56Stick) {
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(
         saitekX56Stick.leftRightPivot,
@@ -296,7 +345,9 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX56St
         saitekX56Stick.twist,
         saitekX56Stick.hat2UpDownPivot,
         saitekX56Stick.hat2LeftRightPivot,
-        saitekX56Stick.hat1UpDownPivot);
+        saitekX56Stick.hat1UpDownPivot,
+        dummyInput, dummyInput, dummyInput);
+	
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
 
@@ -316,9 +367,12 @@ SingleFlightController* SingleFlightController::createInstance(const XBoxOne& xB
     z->addInput(xBoxOne.rightBumper);
     z->addInput(xBoxOne.leftBumper, -1);
 
+    SingleInput& dummyInput = *new SingleInput(0, 1);
+
     SingleFlightController *controller =
       new SingleFlightController(xBoxOne.leftAnalogLeftRightPivot,
-      xBoxOne.leftAnalogUpDownPivot, xBoxOne.rightAnalogLeftRightPivot, *x, *y, *z);
+      xBoxOne.leftAnalogUpDownPivot, xBoxOne.rightAnalogLeftRightPivot, *x, *y, *z, 
+      dummyInput, dummyInput, dummyInput);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
