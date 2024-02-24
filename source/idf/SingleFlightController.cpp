@@ -108,7 +108,7 @@ SingleFlightController* SingleFlightController::createInstance(const Extreme3dPr
     SingleFlightController *controller =
       new SingleFlightController(extreme3dPro.leftRightPivot,
       extreme3dPro.forwardBackwardPivot, extreme3dPro.twist, *x, *y, *z,
-      extreme3dPro.trigger, dummyInput, extreme3dPro.button8);
+      extreme3dPro.trigger, dummyInput, extreme3dPro.button2);
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
