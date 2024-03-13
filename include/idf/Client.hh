@@ -66,23 +66,36 @@ class Client : public Manageable {
 
         // Establish first available connection.
         struct addrinfo *currentHost;
-        for (currentHost = results; currentHost != NULL; currentHost = currentHost->ai_next) {
-            if ((socketHandle = socket(currentHost->ai_family,
-              currentHost->ai_socktype, currentHost->ai_protocol)) == -1) {
-                continue;
-            }
+        bool connected = false;
 
-            if (connect(socketHandle, currentHost->ai_addr, currentHost->ai_addrlen) == 0) {
-                std::cout << "[Client] Connected  to " << serverName << ":" << serverPort << std::endl;
-                break;
-            }
+        for (int ii=0; ii<retryLimit; ++ii) {
+           for (currentHost = results; currentHost != NULL; currentHost = currentHost->ai_next) {
+               if ((socketHandle = socket(currentHost->ai_family,
+                 currentHost->ai_socktype, currentHost->ai_protocol)) == -1) {
+                   continue;
+               }
 
-            ::close(socketHandle);
+                  if (connect(socketHandle, currentHost->ai_addr, currentHost->ai_addrlen) == 0) {
+                      std::cout << "[Client] Connected  to " << serverName << ":" << serverPort << std::endl;
+                      connected = true;
+                      break;
+                  }
+
+               ::close(socketHandle);
+
+           }
+
+           if (connected) {
+              break;
+           } else {
+               std::cout << "[Client] Connection failed - attempting reconnect to " << serverName << ":" << serverPort << std::endl;
+               sleep(1);
+           }
         }
 
         freeaddrinfo(results);
 
-        if (currentHost == NULL) {
+        if (not connected) {
             stream.str("");
             stream << "Failed to connect to " << serverName << ":" << serverPort;
             throw IOException(stream.str());
@@ -112,6 +125,15 @@ class Client : public Manageable {
     void close() {
         ::close(socketHandle);
         Manageable::close();
+    }
+
+    /**
+     * sets the retry limit for initial connection
+     *
+     * @param limit @copydoc retryLimit
+     */
+    void setRetryLimit(const int limit) {
+        retryLimit = limit;
     }
 
     /**
@@ -150,7 +172,8 @@ class Client : public Manageable {
     Client(const T& commandSource, const std::string& host, unsigned short port) :
         source(commandSource),
         serverName(host),
-        serverPort(port) {}
+        serverPort(port),
+        retryLimit(5) {}
 
     /**
      * packs commands from @a source into @a commands
@@ -177,6 +200,9 @@ class Client : public Manageable {
 
     /** the port on which the server is listening */
     unsigned short serverPort;
+
+    /** Number of times to retry establishing the initial connection */
+    int retryLimit;
 
     /** the socket */
     int socketHandle;

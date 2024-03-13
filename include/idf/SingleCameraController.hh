@@ -242,7 +242,7 @@ class SingleCameraController : public CameraController {
     /**
      * creates a new SingleCameraController mapped to @a XBoxOne using appropriate defaults
      *
-     * @param XBoxOne the inputs to use in the default mapping
+     * @param xBoxOne the inputs to use in the default mapping
      *
      * @return a new XBoxOne-based camera controller
      */

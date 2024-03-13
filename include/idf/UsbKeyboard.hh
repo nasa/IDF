@@ -28,6 +28,7 @@ class UsbKeyboard : public UsbDevice, public Keyboard {
      *
      * @param vendor vendor ID
      * @param product product ID
+     * @param interface interface
      */
     UsbKeyboard(int vendor, int product, int interface = 0);
 
