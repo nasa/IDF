@@ -255,7 +255,7 @@ class SingleFlightController : public FlightController {
     /**
      * creates a new SingleFlightController mapped to @a XBoxOne using appropriate defaults
      *
-     * @param saitekX56Stick the inputs to use in the default mapping
+     * @param xBoxOne the inputs to use in the default mapping
      *
      * @return a new XboxOne-based flight controller
      */

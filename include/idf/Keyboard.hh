@@ -209,7 +209,7 @@ class Keyboard : public virtual InputLayout {
     /** , and < */
     SingleInput comma;
 
-    /** . and > */
+    /** \. and > */
     SingleInput period;
 
     /** / and ? */

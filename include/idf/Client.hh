@@ -130,7 +130,7 @@ class Client : public Manageable {
     /**
      * sets the retry limit for initial connection
      *
-     * @param host @copydoc serverName
+     * @param limit @copydoc retryLimit
      */
     void setRetryLimit(const int limit) {
         retryLimit = limit;

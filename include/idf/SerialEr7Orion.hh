@@ -27,6 +27,7 @@ class SerialEr7Orion : public SerialThrustMasterBase, public Er7Orion {
      * constructs a new instance whose open() will open the serial port at @a path
      *
      * @param path @copydoc path
+     * @param isMale @copydoc male
      */
     SerialEr7Orion(const char *path = "/dev/ttyACM0", bool isMale = true);
 
