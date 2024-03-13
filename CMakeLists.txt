@@ -101,7 +101,7 @@ set(SRC_IDF
     source/idf/hidapi.c
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual")
 
 set_source_files_properties(hidapi.c PROPERTIES COMPILE_FLAGS "-Wno-sign-compare")
 
