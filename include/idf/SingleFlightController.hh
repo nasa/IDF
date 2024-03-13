@@ -78,9 +78,22 @@ class SingleFlightController : public FlightController {
     /** z */
     Output z;
 
+    /* trigger */
+    Output trigger;
+    
+    /* Comm */
+    Output comm;
+ 
+    /* shutdown */
+    Output shutdown;
+
     /**
      * constructs a new instance using the specified inputs
      *
+     * @param trigger the input to process astrigger 
+     * @param comm  the input to process to activate comm 
+     * @param shutdown the input to process to shutdown  
+
      * @param roll the input to process as roll
      * @param pitch the input to process as pitch
      * @param yaw the input to process as yaw
@@ -90,7 +103,8 @@ class SingleFlightController : public FlightController {
      */
     SingleFlightController(
       const Input& roll, const Input& pitch, const Input& yaw,
-      const Input& x, const Input& y, const Input& z);
+      const Input& x, const Input& y, const Input& z,
+      const Input& trigger, const Input& comm, const Input& shutdown);
 
     /**
      * adds @a deadband to all outputs
@@ -143,6 +157,28 @@ class SingleFlightController : public FlightController {
      * @return the z command
      */
     double getCommandedZ() const;
+
+    /**
+     * returns the commanded trigger
+     *
+     * @return the trigger command
+     */
+    bool getCommandedTrigger() const;
+
+    /**
+     * returns the commanded Comm
+     *
+     * @return the Comm command
+     */
+    bool getCommandedComm() const;
+    
+    /**
+     * returns the commanded shutdown
+     *
+     * @return the shutdown command
+     */
+    bool getCommandedShutdown() const;
+    
 
     /**
      * creates a new SingleFlightController mapped to @a wingMan using appropriate defaults

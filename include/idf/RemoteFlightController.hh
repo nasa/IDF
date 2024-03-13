@@ -40,6 +40,15 @@ struct FlightControllerCommands {
     /** serialized commanded z */
     signed char z;
 
+    /** trigger command */
+    bool trigger;
+
+    /** comm command */
+    bool comm;
+
+    /** shutdown command */
+    bool shutdown;
+
 };
 
 /**
@@ -69,6 +78,9 @@ class FlightControllerServer : public FlightController, public Server<FlightCont
     double getCommandedX() const;
     double getCommandedY() const;
     double getCommandedZ() const;
+    bool getCommandedTrigger() const;
+    bool getCommandedComm() const;
+    bool getCommandedShutdown() const;
 
 };
 

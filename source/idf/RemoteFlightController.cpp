@@ -29,6 +29,18 @@ double FlightControllerServer::getCommandedZ() const {
     return accumulateClientValues(&FlightControllerCommands::z, std::plus<double>());
 }
 
+bool FlightControllerServer::getCommandedTrigger() const {
+    return accumulateClientValues(&FlightControllerCommands::trigger, std::logical_or<bool>());
+}
+
+bool FlightControllerServer::getCommandedComm() const {
+    return accumulateClientValues(&FlightControllerCommands::comm, std::logical_or<bool>());
+}
+
+bool FlightControllerServer::getCommandedShutdown() const {
+    return accumulateClientValues(&FlightControllerCommands::shutdown, std::logical_or<bool>());
+}
+
 FlightControllerClient::FlightControllerClient(const FlightController& flightController,
   const std::string& hostName, unsigned short hostPort) :
     Client<FlightController, FlightControllerCommands>(flightController, hostName, hostPort) {}
@@ -40,6 +52,9 @@ void FlightControllerClient::packCommands(FlightControllerCommands& commands) {
     commands.x = pack(source.getX());
     commands.y = pack(source.getY());
     commands.z = pack(source.getZ());
+    commands.trigger = pack(source.getTrigger());
+    commands.comm = pack(source.getComm());
+    commands.shutdown = pack(source.getShutdown());
 }
 
 }

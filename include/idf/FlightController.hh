@@ -71,6 +71,29 @@ class FlightController : public Controller {
      */
     double getZ() const;
 
+    /**
+     * when active, returns the commanded trigger state. When inactive, returns @c false.
+     *
+     * @return the trigger command
+     */
+    bool getTrigger() const;
+
+    /**
+     * when active, returns the commanded Comm state. When inactive, returns @c false.
+     *
+     * @return the trigger command
+     */
+    bool getComm() const;
+
+    /**
+     * when active, returns the commanded Shutdown state. When inactive, returns @c false.
+     *
+     * @return the trigger command
+     */
+    bool getShutdown() const;
+
+
+
     protected:
 
     /**
@@ -115,6 +138,26 @@ class FlightController : public Controller {
      */
     virtual double getCommandedZ() const = 0;
 
+    /**
+     * returns the commanded trigger state
+     *
+     * @return the trigger command
+     */
+    virtual bool getCommandedTrigger() const = 0;
+
+    /**
+     * returns the commanded Comm state
+     *
+     * @return the comm command
+     */
+    virtual bool getCommandedComm() const = 0;
+
+    /**
+     * returns the commanded Shutdown state
+     *
+     * @return the shutdown command
+     */
+    virtual bool getCommandedShutdown() const = 0;
 };
 
 }

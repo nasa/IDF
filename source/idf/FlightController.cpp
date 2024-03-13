@@ -26,4 +26,16 @@ double FlightController::getZ() const {
     return active ? getCommandedZ() : 0;
 }
 
+bool  FlightController::getTrigger() const {
+    return active ? getCommandedTrigger() : false;
+}
+
+bool  FlightController::getComm() const {
+    return active ? getCommandedComm() : false;
+}
+
+bool  FlightController::getShutdown() const {
+    return active ? getCommandedShutdown() : false;
+}
+
 }

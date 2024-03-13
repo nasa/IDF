@@ -76,6 +76,28 @@ class CompositeFlightController : public CompositeController<FlightController> {
      */
     double getCommandedZ() const;
 
+    /**
+     * gets the conglomerate trigger value, which is the logical
+     * OR of all constituent controllers' trigger values
+     *
+     * @return the combined trigger of all added robotics controllers
+     */
+    bool getCommandedTrigger() const;
+
+    /**
+     * returns the commanded Comm
+     *
+     * @return the Comm command
+     */
+    bool getCommandedComm() const;
+    
+    /**
+     * returns the commanded shutdown
+     *
+     * @return the shutdown command
+     */
+    bool getCommandedShutdown() const;
+
 };
 
 }
