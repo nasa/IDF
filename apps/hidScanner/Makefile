@@ -15,4 +15,4 @@ $(IDF_BUILD_DIR):
 	mkdir -p $@
 
 clean:
-	@rm -rf configurator
+	@rm -rf hidScanner
