@@ -23,12 +23,12 @@ void EthernetDevice::close() {
     throw(std::logic_error("Not Implemented. Stub."));
 }
 
-int EthernetDevice::read() {
+int EthernetDevice::read(unsigned char *buffer, size_t length) {
     throw(std::logic_error("Not Implemented. Stub."));
     return 0;
 }
 
-int EthernetDevice::write() {
+int EthernetDevice::write(unsigned char *buffer, size_t length) {
     throw(std::logic_error("Not Implemented. Stub."));
     return 0;
 }
