@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include "hidapi/hidapi/hidapi.h"
 
@@ -48,7 +49,7 @@ int main(int argc, char **args) {
     }
 
     unsigned short port = validatePort(args[1]);
-    int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    int server = socket(AF_INET, SOCK_STREAM, 0);
     if (errno > 0) {
         perror("\nfailed to create socket");
         return -1;
@@ -109,7 +110,7 @@ int main(int argc, char **args) {
     hid_device* device = hid_open_path(deviceInfo->path);
     if (!device) {
         perror("Failed to open device");
-        close(serverSocket);
+        close(server);
         return -1;
     }
 
@@ -181,19 +182,47 @@ int main(int argc, char **args) {
 
     unsigned char data[numBytes];
 
-    bind(serverSocket, (struct sockaddr*)& serverAddress, sizeof(serverAddress));
+    bind(server, (struct sockaddr*)& serverAddress, sizeof(serverAddress));
     if (errno > 0) {
         // fprintf(stderr, "Could not bind port %d: %s\n", port, strerror(errno));
         perror("Cound not bind port");
         return -1;
     }
+
+    listen(server, 5);
+    if (errno > 0) {
+        perror("failed to listen for clients");
+        return -1;
+    }
+
     socklen_t boundLen = sizeof(serverAddress);
-    getsockname(serverSocket, (struct sockaddr *)&serverAddress, &boundLen);
-    printf("Bound socket on port %d\n", ntohs(serverAddress.sin_port));
+    getsockname(server, (struct sockaddr *)&serverAddress, &boundLen);
+    printf("Listening for client on port %d\n", ntohs(serverAddress.sin_port));
 
-    // while (1) {
+    struct sockaddr_in clientAddr;
+    socklen_t clientAddrLen = sizeof(clientAddr);
+    int client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen);
+    printf("Client connected %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+    char sendBuffer[2048] = {0};
+    size_t buffLen = 0;
 
-    // }
+    printf("Sending client device info\n");
+    buffLen = snprintf(sendBuffer, sizeof(sendBuffer), "%s,%04x", deviceInfo->manufacturer_string, deviceInfo->product_id);
+    send(client, sendBuffer, strlen(sendBuffer), 0);
 
+    while (1) {
+        int bytesRead = hid_read(device, data, sizeof(data));
+        if (bytesRead < 0) {
+            perror("Error reading from device");
+            return -1;
+        }
+        else if (bytesRead > 0) {
+
+        }
+    }
+
+    close(client);
+    close(server);
+    hid_exit();
     return 0;
 }
