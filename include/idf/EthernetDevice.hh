@@ -38,19 +38,32 @@ class EthernetDevice : public InputDevice {
      * @param ipAddress the ipaddress of this device
      * @param port the port number of this device
      */
-    EthernetDevice(const std::string& name, const std::string& ipAddress, const int port);
+    EthernetDevice(const std::string& name);
 
-    virtual ~EthernetDevice() {};
+    virtual ~EthernetDevice() {
+        close();
+    };
     
     virtual void open();
     virtual void close();
 
     using InputDevice::read;
 
-    protected:
+    private:
 
-    /** network socket to the device */
-    int socket;
+    /** the name or ip address of the server */
+    std::string serverName;
+
+    /** the port on which the server is listening */
+    unsigned short serverPort;
+
+    /** Number of times to retry establishing the initial connection */
+    int retryLimit;
+
+    /** the socket */
+    int socketHandle;
+    
+    protected:
 
     /**
      * reads @a length bytes from this device and stores them in @a buffer
@@ -76,11 +89,35 @@ class EthernetDevice : public InputDevice {
      */
     virtual int write(const void *buffer, size_t length);
 
-    /** IP Address to the device */
-    std::string ipAddress;
+    
+    /**
+     * sets the retry limit for initial connection
+     *
+     * @param limit @copydoc retryLimit
+     */
+    void setRetryLimit(const int limit) {
+        retryLimit = limit;
+    }
 
-    /** IP Port to the device */
-    int port;
+    /**
+     * sets the host to which this instance will attempt to connect the next
+     * time open() is called
+     *
+     * @param host @copydoc serverName
+     */
+    void setHost(const std::string& host) {
+        serverName = host;
+    }
+
+    /**
+     * sets the server port to which this instance will attempt to connect the
+     * next time open() is called
+     *
+     * @param port @copydoc serverPort
+     */
+    void setPort(unsigned short port) {
+        serverPort = port;
+    }
 
 };
 
