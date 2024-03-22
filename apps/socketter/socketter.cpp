@@ -17,7 +17,7 @@ static unsigned getBit(unsigned char bit, unsigned value) {
 }
 
 void usage(){
-        printf("\nUsage:\n\tsocketter <port>\n\n");
+    printf("\nUsage:\n\tsocketter <port>\n\n");
 }
 
 int validatePort(char* port_in) {
@@ -180,7 +180,7 @@ int main(int argc, char **args) {
 
     hid_set_nonblocking(device, 1);
 
-    unsigned char data[numBytes];
+    unsigned char data[numBytes] = { 0 };
 
     bind(server, (struct sockaddr*)& serverAddress, sizeof(serverAddress));
     if (errno > 0) {
@@ -203,10 +203,11 @@ int main(int argc, char **args) {
     socklen_t clientAddrLen = sizeof(clientAddr);
     int client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen);
     printf("Client connected %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
-    char sendBuffer[2048] = {0};
+
+    char sendBuffer[128] = {0};
     size_t buffLen = 0;
 
-    printf("Sending client device info\n");
+    printf("Sending client device info: %s,%d\n",deviceInfo->manufacturer_string, deviceInfo->product_id);
     buffLen = snprintf(sendBuffer, sizeof(sendBuffer), "%s,%04x", deviceInfo->manufacturer_string, deviceInfo->product_id);
     send(client, sendBuffer, strlen(sendBuffer), 0);
 
@@ -217,10 +218,11 @@ int main(int argc, char **args) {
             return -1;
         }
         else if (bytesRead > 0) {
-
+            if (selection == -1 || data[0] == selection || data[0] == 3) {
+                send(client, data, sizeof(data), 0);
+            }
         }
     }
-
     close(client);
     close(server);
     hid_exit();
