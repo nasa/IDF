@@ -3,10 +3,11 @@
 namespace idf {
 
 EthernetWingMan::EthernetWingMan() :
-    EthernetDevice("Wing Man", 6) {}
+    EthernetWingMan("Wing Man", 6) {}
 
 EthernetWingMan::EthernetWingMan(const std::string& id, unsigned length) :
-    EthernetDevice(id, length) {}
+    EthernetDevice(id),
+    packetLength(length) {}
 
 void EthernetWingMan::decode(const std::vector<unsigned char>& data) {
     leftRightPivot.setValue(((unsigned)data[1] & 3) << 8 | data[0]);

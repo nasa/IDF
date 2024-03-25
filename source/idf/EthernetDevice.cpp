@@ -13,8 +13,8 @@
 
 namespace idf {
 
-EthernetDevice::EthernetDevice(const std::string& name) :
-   InputDevice(name) {}
+EthernetDevice::EthernetDevice(const std::string& id) :
+   InputDevice(id) {}
 
 void EthernetDevice::open() {
     // get server connection information

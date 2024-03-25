@@ -33,6 +33,10 @@ class EthernetWingMan : public EthernetDevice, public virtual WingMan {
     /** @copydoc EthernetDevice::EthernetDevice */
     EthernetWingMan(const std::string& name, unsigned packetLength);
 
+    private:
+
+    const unsigned packetLength;
+
 };
 
 }
