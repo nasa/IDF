@@ -66,8 +66,6 @@ void EthernetDevice::open() {
         }
         Manageable::open();
     }
-
-    throw(std::logic_error("Not Implemented. Stub."));
 }
 
 /** disconnects from the server */

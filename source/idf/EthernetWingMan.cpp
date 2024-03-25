@@ -3,7 +3,8 @@
 namespace idf {
 
 EthernetWingMan::EthernetWingMan() :
-    EthernetWingMan("Wing Man", 6) {}
+    EthernetDevice("Wing Man"),
+    packetLength(6) {}
 
 EthernetWingMan::EthernetWingMan(const std::string& id, unsigned length) :
     EthernetDevice(id),
