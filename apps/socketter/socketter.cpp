@@ -51,7 +51,7 @@ int main(int argc, char **args) {
     unsigned short port = validatePort(args[1]);
     int server = socket(AF_INET, SOCK_STREAM, 0);
     if (errno > 0) {
-        perror("\nfailed to create socket");
+        perror("failed to create socket");
         return -1;
     }
 
@@ -207,19 +207,26 @@ int main(int argc, char **args) {
     char sendBuffer[128] = {0};
     size_t buffLen = 0;
 
-    printf("Sending client device info: %s,%d\n",deviceInfo->manufacturer_string, deviceInfo->product_id);
-    buffLen = snprintf(sendBuffer, sizeof(sendBuffer), "%s,%04x", deviceInfo->manufacturer_string, deviceInfo->product_id);
+    // read once to get actual number of bytes to read.
+    int bytesRead = hid_read(device, data, sizeof(data));
+    if (bytesRead < 0) {
+        perror("Error reading from device");
+        return -1;
+    }
+
+    printf("Sending client device info: 0x%04X,0x%04X,%d\n",deviceInfo->vendor_id, deviceInfo->product_id, bytesRead);
+    buffLen = snprintf(sendBuffer, sizeof(sendBuffer), "%04X,%04X,%d", deviceInfo->vendor_id, deviceInfo->product_id, bytesRead);
     send(client, sendBuffer, strlen(sendBuffer), 0);
 
     while (1) {
-        int bytesRead = hid_read(device, data, sizeof(data));
+        bytesRead = hid_read(device, data, sizeof(data));
         if (bytesRead < 0) {
             perror("Error reading from device");
             return -1;
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
-                send(client, data, sizeof(data), 0);
+                send(client, data, bytesRead, 0);
             }
         }
     }

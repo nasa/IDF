@@ -8,7 +8,6 @@ LDLIBS += $(shell $(IDF_CONFIG) --libs)
 
 socketter: $(IDF_LIB)
 
-
 $(IDF_LIB): | $(IDF_BUILD_DIR)
 	cd $| && cmake .. && $(MAKE)
 
@@ -17,3 +16,4 @@ $(IDF_BUILD_DIR):
 
 clean:
 	@rm -rf socketter
+	@rm -rf tester
