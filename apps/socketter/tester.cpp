@@ -55,24 +55,20 @@ int main (int argc, char **args) {
     serverAddress.sin_port = htons(port);
     serverAddress.sin_addr.s_addr = INADDR_ANY;
 
-
-    int bytesRecvd = 0;
-    unsigned char buffer[1024] = { 0 };
-    unsigned char data[1024] = { 0 };
-
     if (connect(server, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
         perror("failed to connect to server");
         return -1;
     }
 
-    // device info once
-    bytesRecvd = recv(server, buffer, sizeof(buffer), 0);
-    std::cout << "Device info " << buffer << std::endl;
+    int bytesRecvd = 0;
+    unsigned char data[1024] = { 0 };
 
+    // device info once
+    bytesRecvd = recv(server, data, sizeof(data), 0);
     std::stringstream ss;
-    ss << buffer;
     std::string token;
     std::vector<std::string> tokens;
+    ss << data;
     while(getline(ss, token, ',')) {
         tokens.push_back(token);
     }
@@ -83,11 +79,10 @@ int main (int argc, char **args) {
     printf("Start Recieving data for device: 0x%04X, 0x%04X, %d bytes/block\n", vendorId, productId, controllerBytes);
 
     while(1) {
-        if ((bytesRecvd = recv(server, buffer, sizeof(buffer), 0)) < 0 ) {
+        if ((bytesRecvd = recv(server, data, sizeof(data), 0)) < 0 ) {
             perror("no data recieved from server:");
             break;
         }
-        memcpy(data, buffer, bytesRecvd);
         printf("\x1b[39;49mRead %d bytes:", bytesRecvd);
         int i;
         for (i = 0; i < bytesRecvd; ++i) {
