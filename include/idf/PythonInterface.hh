@@ -70,6 +70,10 @@
 #include "idf/UsbXBox.hh"
 #include "idf/UsbXBoxOne.hh"
 
+// Ethernet Devices
+#include "idf/EthernetExtreme3dPro.hh"
+#include "idf/EthernetWingMan.hh"
+
 // CAN Devices
 #ifdef IDF_CAN
 #include "idf/CanIndustrialProducts.hh"
