@@ -13,8 +13,9 @@
 
 namespace idf {
 
-EthernetDevice::EthernetDevice(const std::string& id) :
-   InputDevice(id) {}
+EthernetDevice::EthernetDevice(const std::string& id, unsigned length) :
+   InputDevice(id),
+   packetLength(length) {}
 
 void EthernetDevice::open() {
     // get server connection information
@@ -76,7 +77,18 @@ void EthernetDevice::close() {
     }
 }
 
-int EthernetDevice::read(unsigned char *buffer, size_t length) {
+
+std::vector<std::vector<unsigned char> > EthernetDevice::read() {
+    std::vector<std::vector<unsigned char> > results;
+    std::vector<unsigned char> buffer(packetLength);
+
+    while (read(&buffer[0], buffer.size())) {
+        results.push_back(buffer);
+    }
+
+    return results;
+}
+unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
     throw(std::logic_error("Not Implemented. Stub."));
     return 0;
 }

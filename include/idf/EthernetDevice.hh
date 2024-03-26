@@ -38,7 +38,7 @@ class EthernetDevice : public InputDevice {
      * @param ipAddress the ipaddress of this device
      * @param port the port number of this device
      */
-    EthernetDevice(const std::string& name);
+    EthernetDevice(const std::string& name, unsigned packetLength);
 
     virtual ~EthernetDevice() {
         close();
@@ -46,49 +46,7 @@ class EthernetDevice : public InputDevice {
     
     virtual void open();
     virtual void close();
-
-    using InputDevice::read;
-
-    private:
-
-    /** the name or ip address of the server */
-    std::string serverName;
-
-    /** the port on which the server is listening */
-    unsigned short serverPort;
-
-    /** Number of times to retry establishing the initial connection */
-    int retryLimit;
-
-    /** the socket */
-    int socketHandle;
     
-    protected:
-
-    /**
-     * reads @a length bytes from this device and stores them in @a buffer
-     *
-     * @param buffer the location to store the data
-     * @param length the number of bytes to read
-     *
-     * @return the number of bytes read (always non-negative)
-     *
-     * @throws IOException if an error occurs while reading or if the device is not open
-     */
-    virtual int read(unsigned char *buffer, size_t length);
-
-    /**
-     * writes @a length bytes from @a buffer to this device
-     *
-     * @param buffer the location of the data to write
-     * @param length the number of bytes to write
-     *
-     * @return the number of bytes written (always non-negative)
-     *
-     * @throws IOException if an error occurs while writing or if the device is not open
-     */
-    virtual int write(const void *buffer, size_t length);
-
     
     /**
      * sets the retry limit for initial connection
@@ -118,6 +76,51 @@ class EthernetDevice : public InputDevice {
     void setPort(unsigned short port) {
         serverPort = port;
     }
+
+    
+    protected:
+
+    virtual std::vector<std::vector<unsigned char> > read();
+    
+    private:
+
+    const unsigned packetLength;
+
+    /** the name or ip address of the server */
+    std::string serverName;
+
+    /** the port on which the server is listening */
+    unsigned short serverPort;
+
+    /** Number of times to retry establishing the initial connection */
+    int retryLimit;
+
+    /** the socket */
+    int socketHandle;
+
+    /**
+     * reads @a length bytes from this device and stores them in @a buffer
+     *
+     * @param buffer the location to store the data
+     * @param length the number of bytes to read
+     *
+     * @return the number of bytes read (always non-negative)
+     *
+     * @throws IOException if an error occurs while reading or if the device is not open
+     */
+    virtual unsigned read(unsigned char *buffer, size_t length);
+
+    /**
+     * writes @a length bytes from @a buffer to this device
+     *
+     * @param buffer the location of the data to write
+     * @param length the number of bytes to write
+     *
+     * @return the number of bytes written (always non-negative)
+     *
+     * @throws IOException if an error occurs while writing or if the device is not open
+     */
+    virtual int write(const void *buffer, size_t length);
 
 };
 
