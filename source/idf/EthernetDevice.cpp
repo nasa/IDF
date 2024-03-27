@@ -69,13 +69,30 @@ std::vector<std::vector<unsigned char> > EthernetDevice::read() {
     return results;
 }
 unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
-    throw(std::logic_error("Not Implemented. Stub."));
-    return 0;
+    if (!mOpen) {
+        open();
+    }
+
+    int bytesRecvd = 0;
+
+    // non-blocking receive
+    bytesRecvd = recv(socketHandle, buffer, length, MSG_DONTWAIT);
+    if (bytesRecvd < 0) {
+        if (errno == EAGAIN) { // no data, try again later
+            return 0;
+        } else {
+            close();
+            throw IOException("Error " + std::to_string(bytesRecvd) + " while reading " + name + ": " + strerror(errno));
+        }
+    }
+    return bytesRecvd;
 }
 
 int EthernetDevice::write(const void *buffer, size_t length) {
-    throw(std::logic_error("Not Implemented. Stub."));
-    return 0;
+    if (!mOpen) {
+        open();
+    }
+    std::cout << "[IDF::EthernetDevice::write] not implemented" << std::endl;
 }
 
 } // namespace
