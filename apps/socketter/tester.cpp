@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <vector>
+#include <arpa/inet.h>
 
 static unsigned getBit(unsigned char bit, unsigned value) {
     return (value >> bit) & 1;
@@ -53,7 +54,7 @@ int main (int argc, char **args) {
     struct sockaddr_in serverAddress;
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
-    serverAddress.sin_addr.s_addr = INADDR_ANY;
+    serverAddress.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     if (connect(server, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
         perror("failed to connect to server");

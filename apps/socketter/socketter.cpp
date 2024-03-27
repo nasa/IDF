@@ -17,10 +17,10 @@ static unsigned getBit(unsigned char bit, unsigned value) {
 }
 
 void usage(){
-    printf("\nUsage:\n\tsocketter <port>\n\n");
+    printf("\nUsage:\n\tsocketter <port> [vendorid productid]\n\n");
 }
 
-int validatePort(char* port_in) {
+unsigned short validatePort(char* port_in) {
     int port = 0;
     try{
         port = std::stoi(port_in);
@@ -41,8 +41,28 @@ int validatePort(char* port_in) {
     return (unsigned short) port;
 }
 
-int main(int argc, char **args) {
+unsigned short validateId(char* id_in) {
+    int id = -1;
+    try {
+        id = std::stoi(id_in, nullptr, 16);
+    } catch (std::invalid_argument const& ex) {
+        fprintf(stderr, "\ninvalid input '%s'\n", id_in);
+        usage();
+        std::exit(-1);
+    } catch (std::out_of_range const& ex) {
+        fprintf(stderr, "\nport out of range '%s'\n", id_in);
+        std::exit(-1);
+    }
+    // if (port > 65535) {
+    //     fprintf(stderr, "\nport out of valid range 1024-65535\n\n");
+    //     std::exit(-1);
+    // } else if (port == 0) {
+    //     printf("\nWARNING: port 0 will bind a random port\n");
+    // }
+    return id;
+}
 
+int main(int argc, char **args) {
     if (argc <= 1) {
         usage();
         return 0;
@@ -53,6 +73,13 @@ int main(int argc, char **args) {
     if (errno > 0) {
         perror("failed to create socket");
         return -1;
+    }
+
+    int vendId = -1;
+    int prodId = -1;
+    if (argc >= 4) {
+        vendId = validateId(args[2]);
+        prodId = validateId(args[3]);
     }
 
     struct sockaddr_in serverAddress;
@@ -68,43 +95,58 @@ int main(int argc, char **args) {
 
     struct hid_device_info* enumerationHead = hid_enumerate(0, 0);
     struct hid_device_info * deviceInfo;
-    size_t serialLength = std::wcslen(L"Serial #");
-    size_t vendorLength = std::wcslen(L"Vendor");
-    size_t pathLength   = std::strlen("Path");
-    for(deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
-        serialLength = std::max(serialLength, wcslen(deviceInfo->serial_number));
-        vendorLength = std::max(vendorLength, wcslen(deviceInfo->manufacturer_string));
-        pathLength   = std::max(pathLength, strlen(deviceInfo->path));
-    }
-
-    printf("\nNOTE: If running as non-root, you must have udev rules in place allowing access to usb devices.\n\n");
-    printf("Index  %-*s  Vendor ID  Product ID  %-*ls  Interface #  %-*ls  Product\n", static_cast<int>(pathLength),
-	   "Path", static_cast<int>(serialLength), L"Serial #", static_cast<int>(vendorLength), L"Vendor");
-
-    int count = 0;
-    for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next, ++count) {
-        printf("%5d  %-*s  0x%04hX     0x%04hX      %-*ls  %11d  %-*ls  %ls\n", count,
-          static_cast<int>(pathLength), deviceInfo->path,
-          deviceInfo->vendor_id, deviceInfo->product_id,
-          static_cast<int>(serialLength), deviceInfo->serial_number,
-          deviceInfo->interface_number,
-          static_cast<int>(vendorLength), deviceInfo->manufacturer_string,
-          deviceInfo->product_string);
-    }
 
     int selection = -1;
-    printf("\n");
 
-    while (selection < 0 || selection > count -1) {
-        char buffer[1024];
-        printf("Select a device to listen to: ");
-        fgets(buffer, sizeof(buffer), stdin);
-        sscanf(buffer, "%d", &selection);
+    if (vendId != -1 && prodId != -1) {
+        for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+            selection++;
+            if (deviceInfo->vendor_id == vendId && deviceInfo->product_id == prodId) {
+                break;
+            }
+        }
     }
 
-    deviceInfo = enumerationHead;
-    for (count = 0; count < selection; ++count) {
-        deviceInfo = deviceInfo->next;
+    if (!deviceInfo) {
+
+        size_t serialLength = std::wcslen(L"Serial #");
+        size_t vendorLength = std::wcslen(L"Vendor");
+        size_t pathLength   = std::strlen("Path");
+        for(deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+            serialLength = std::max(serialLength, wcslen(deviceInfo->serial_number));
+            vendorLength = std::max(vendorLength, wcslen(deviceInfo->manufacturer_string));
+            pathLength   = std::max(pathLength, strlen(deviceInfo->path));
+        }
+
+        printf("\nNOTE: If running as non-root, you must have udev rules in place allowing access to usb devices.\n\n");
+        printf("Index  %-*s  Vendor ID  Product ID  %-*ls  Interface #  %-*ls  Product\n", static_cast<int>(pathLength),
+        "Path", static_cast<int>(serialLength), L"Serial #", static_cast<int>(vendorLength), L"Vendor");
+
+        int count = 0;
+        for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next, ++count) {
+            printf("%5d  %-*s  0x%04hX     0x%04hX      %-*ls  %11d  %-*ls  %ls\n", count,
+            static_cast<int>(pathLength), deviceInfo->path,
+            deviceInfo->vendor_id, deviceInfo->product_id,
+            static_cast<int>(serialLength), deviceInfo->serial_number,
+            deviceInfo->interface_number,
+            static_cast<int>(vendorLength), deviceInfo->manufacturer_string,
+            deviceInfo->product_string);
+        }
+
+        selection = -1;
+        printf("\n");
+
+        while (selection < 0 || selection > count -1) {
+            char buffer[1024];
+            printf("Select a device to listen to: ");
+            fgets(buffer, sizeof(buffer), stdin);
+            sscanf(buffer, "%d", &selection);
+        }
+
+        deviceInfo = enumerationHead;
+        for (count = 0; count < selection; ++count) {
+            deviceInfo = deviceInfo->next;
+        }
     }
 
     hid_device* device = hid_open_path(deviceInfo->path);
