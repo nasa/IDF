@@ -18,53 +18,34 @@ EthernetDevice::EthernetDevice(const std::string& id, unsigned length) :
    packetLength(length) {}
 
 void EthernetDevice::open() {
-    // get server connection information
-    struct addrinfo hints;
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
+    if (!mOpen) {
 
-    std::ostringstream stream;
-    stream << serverPort;
-    struct addrinfo *results;
-    if (getaddrinfo(serverName.c_str(), stream.str().c_str(), &hints, &results)) {
-        throw IOException("Failed to resolve server address \"" + serverName + "\": " + strerror(errno));
-    }
+        std::ostringstream stream;
+        stream << "[IDF::EthernetDevice::open()] ";
 
-    std::cout << "[Client] Connecting to " << serverName << ":" << serverPort << std::endl;
+        socketHandle = socket(AF_INET, SOCK_STREAM, 0);
 
-    struct addrinfo *currentHost;
-    bool connected = false;
-    for (int ii = 0; ii < retryLimit; ++ii) {
-        for (currentHost = results; currentHost != NULL; currentHost = currentHost->ai_next) {
-            if ((socketHandle = socket(currentHost->ai_family,
-                 currentHost->ai_socktype, currentHost->ai_protocol)) == -1) {
-                    continue;
-            }
-
-            if (connect(socketHandle, currentHost->ai_addr, currentHost->ai_addrlen) == 0) {
-                std::cout << "[Client] Connected  to " << serverName << ":" << serverPort << std::endl;
-                connected = true;
-                break;
-            }
-
-            ::close(socketHandle);
-        }
-        
-        if (connected) {
-              break;
-        } else {
-            std::cout << "[Client] Connection failed - attempting reconnect to " << serverName << ":" << serverPort << std::endl;
-            sleep(1);
-        }
-
-        freeaddrinfo(results);
-
-        if(not connected) {
-            stream.str("");
-            stream << "Failed to connect to " << serverName << ":" << serverPort;
+        if ( errno > 0) {
+            stream << "failed to create socket";
+            perror(stream.str().c_str());
             throw IOException(stream.str());
         }
+
+        struct sockaddr_in serverAddress;
+        serverAddress.sin_family = AF_INET;
+        serverAddress.sin_port = htons(serverPort);
+        serverAddress.sin_addr.s_addr = inet_addr(serverName.c_str());
+
+        std::cout << "[IDF::EthernetDevice] Connecting to " << serverName << ":" << serverPort << std::endl;
+
+        if (connect(socketHandle, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
+            stream << "failed to connect to device " << serverName << ":" << serverPort;
+            perror(stream.str().c_str());
+            throw IOException(stream.str());
+        }
+
+        std::cout << "[IDF::EthernetDevice] Connected  to " << serverName << ":" << serverPort << std::endl;
+
         Manageable::open();
     }
 }
@@ -76,7 +57,6 @@ void EthernetDevice::close() {
         Manageable::close();
     }
 }
-
 
 std::vector<std::vector<unsigned char> > EthernetDevice::read() {
     std::vector<std::vector<unsigned char> > results;
