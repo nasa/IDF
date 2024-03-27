@@ -94,7 +94,7 @@ int main(int argc, char **args) {
     }
 
     struct hid_device_info* enumerationHead = hid_enumerate(0, 0);
-    struct hid_device_info * deviceInfo;
+    struct hid_device_info * deviceInfo = 0;
 
     int selection = -1;
 
@@ -105,6 +105,7 @@ int main(int argc, char **args) {
                 break;
             }
         }
+        printf("Confirmed device: 0x%04X,0x%04X\n", deviceInfo->vendor_id, deviceInfo->product_id);
     }
 
     if (!deviceInfo) {
@@ -256,9 +257,7 @@ int main(int argc, char **args) {
         return -1;
     }
 
-    printf("Sending client device info: 0x%04X,0x%04X,%d\n",deviceInfo->vendor_id, deviceInfo->product_id, bytesRead);
-    buffLen = snprintf(sendBuffer, sizeof(sendBuffer), "%04X,%04X,%d", deviceInfo->vendor_id, deviceInfo->product_id, bytesRead);
-    send(client, sendBuffer, strlen(sendBuffer), 0);
+    printf("Serving device: 0x%04X,0x%04X,%d\n", deviceInfo->vendor_id, deviceInfo->product_id, bytesRead);ndBuffer, strlen(sendBuffer), 0);
 
     while (1) {
         bytesRead = hid_read(device, data, sizeof(data));
