@@ -19,6 +19,7 @@ namespace {
     int client;
     sockaddr_in clientAddr;
     socklen_t clientAddrLen;
+    bool connected = false;
 
     struct hid_device_info * deviceInfo;
 }
@@ -76,10 +77,11 @@ unsigned short validateId(char* id_in) {
 void acceptClient() {
     printf("Listening for client on port %d\n", ntohs(serverAddr.sin_port));
     while((client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen)) < 0){
+        connected = false;
         perror("Failed to accept client");
         std::exit(-1);
     }
-    
+    connected = true;
     printf("Client connected %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
     printf("Serving device: 0x%04X,0x%04X\n", deviceInfo->vendor_id, deviceInfo->product_id);
 }
@@ -275,6 +277,10 @@ int main(int argc, char **args) {
     }
 
     while (1) {
+        if(!connected) {
+            acceptClient();
+        }
+
         bytesRead = hid_read(device, data, sizeof(data));
         if (bytesRead < 0) {
             perror("Error reading from device");
@@ -282,11 +288,10 @@ int main(int argc, char **args) {
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
-                if(send(client, data, bytesRead, MSG_NOSIGNAL) <= 0){
+                if(send(client, data, bytesRead, MSG_NOSIGNAL) < 0){
                     perror("Error sending to client");
                     close(client);
-
-                    acceptClient();
+                    connected = false;
                 }
             }
         }

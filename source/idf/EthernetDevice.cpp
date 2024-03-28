@@ -92,7 +92,13 @@ int EthernetDevice::write(const void *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
-    std::cout << "[IDF::EthernetDevice::write] not implemented" << std::endl;
+    int bytesSent = send(socketHandle, buffer, length, MSG_NOSIGNAL);
+    if (bytesSent < 0) {
+        close();
+        throw IOException("Error while writing " + name + ": " + strerror(errno));
+    }
+
+    return bytesSent;
 }
 
 } // namespace
