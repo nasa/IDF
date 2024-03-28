@@ -13,7 +13,7 @@ static unsigned getBit(unsigned char bit, unsigned value) {
 }
 
 void usage(){
-    printf("\nUsage:\n\tsocketter <port>\n\n");
+    printf("\nUsage:\n\tsocketter <port> [-udp]\n\n");
 }
 
 int validatePort(char* port_in) {
@@ -44,43 +44,49 @@ int main (int argc, char **args) {
         return 0;
     }
 
-    int server = socket(AF_INET, SOCK_STREAM, 0);
+    bool tcp = true;
+    int sockType = SOCK_STREAM;
+
+    if (argc >= 3 && strcmp("-udp", args[2]) == 0 ) {
+        tcp = false;
+        sockType = SOCK_DGRAM;
+    }
+
+    int server = socket(AF_INET, sockType, 0);
     if ( errno > 0) {
         perror("failed to create socket");
     }
 
     unsigned short port = validatePort(args[1]);
     
-    struct sockaddr_in serverAddress;
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(port);
-    serverAddress.sin_addr.s_addr = inet_addr("127.0.0.1");
+    struct sockaddr_in serverAddr;
+    socklen_t serverAddrLen = sizeof(serverAddr);
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(port);
+    serverAddr.sin_addr.s_addr = INADDR_ANY;//inet_addr("127.0.0.1");
 
-    if (connect(server, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
-        perror("failed to connect to server");
-        return -1;
+    sockaddr * srcAddr = NULL;
+    socklen_t  * srcAddrLen;
+
+    char greeting[] = "give me HC";
+
+    if (tcp) {
+        if (connect(server, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+            perror("failed to connect to server");
+            return -1;
+        }
+    } else {
+        sendto(server, greeting, sizeof(greeting), MSG_CONFIRM, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
+        srcAddr = (struct sockaddr *)&serverAddr;
+        srcAddrLen = &serverAddrLen;
     }
 
     int bytesRecvd = 0;
     unsigned char data[1024] = { 0 };
 
-    // device info once
-    // bytesRecvd = recv(server, data, sizeof(data), 0);
-    // std::stringstream ss;
-    // std::string token;
-    // std::vector<std::string> tokens;
-    // ss << data;
-    // while(getline(ss, token, ',')) {
-    //     tokens.push_back(token);
-    // }
-    // unsigned short vendorId = std::stoi(tokens.at(0), nullptr, 16);
-    // unsigned short productId = std::stoi(tokens.at(1), nullptr, 16);
-    // int controllerBytes = std::stoi(tokens.at(2));
-    
-    // printf("Start Recieving data for device: 0x%04X, 0x%04X, %d bytes/block\n", vendorId, productId, controllerBytes);
-
     while(1) {
-        if ((bytesRecvd = recv(server, data, sizeof(data), 0)) < 0 ) {
+        bytesRecvd = recvfrom(server, data, sizeof(data), 0, srcAddr, srcAddrLen);
+        if (bytesRecvd < 0) {
             perror("no data recieved from server:");
             break;
         }

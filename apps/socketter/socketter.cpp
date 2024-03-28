@@ -14,14 +14,15 @@
 
 namespace {
     int server;
-    sockaddr_in serverAddr;
+    struct sockaddr_in serverAddr;
 
     int client;
-    sockaddr_in clientAddr;
-    socklen_t clientAddrLen;
+    struct sockaddr_in clientAddr;
+    socklen_t clientAddrLen = sizeof(clientAddr);
     bool connected = false;
 
     struct hid_device_info * deviceInfo;
+    bool tcp = true;
 }
 
 static unsigned getBit(unsigned char bit, unsigned value) {
@@ -29,7 +30,7 @@ static unsigned getBit(unsigned char bit, unsigned value) {
 }
 
 void usage(){
-    printf("\nUsage:\n\tsocketter <port> [vendorid productid]\n\n");
+    printf("\nUsage:\n\tsocketter <port> [-udp] [-d <vendorid> <productid>]\n\n");
 }
 
 unsigned short validatePort(char* port_in) {
@@ -69,11 +70,22 @@ unsigned short validateId(char* id_in) {
 }
 
 void acceptClient() {
-    printf("Listening for client on port %d\n", ntohs(serverAddr.sin_port));
-    while((client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen)) < 0){
-        connected = false;
-        perror("Failed to accept client");
-        std::exit(-1);
+    printf("Listening for%s client on port %d\n", tcp ? "" : " UDP", ntohs(serverAddr.sin_port));
+    if (tcp) {
+        
+        while((client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen)) < 0){
+            connected = false;
+            perror("Failed to accept client");
+            std::exit(-1);
+        }
+    } else {
+
+        unsigned char data[1024] = {0};
+        while(recvfrom(server, data, sizeof(data), MSG_WAITALL, (struct sockaddr*)&clientAddr, &clientAddrLen) < 0) {
+            connected = false;
+            perror("Failed to accept client");
+            std::exit(-1);
+        }
     }
     connected = true;
     printf("Client connected %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
@@ -86,24 +98,41 @@ int main(int argc, char **args) {
         return 0;
     }
 
+    // process arguments
     unsigned short port = validatePort(args[1]);
-    server = socket(AF_INET, SOCK_STREAM, 0);
-    if (errno > 0) {
-        perror("failed to create socket");
-        return -1;
-    }
 
     int vendId = -1;
     int prodId = -1;
-    if (argc >= 4) {
-        vendId = validateId(args[2]);
-        prodId = validateId(args[3]);
+    int sockType = SOCK_STREAM;
+
+    for (int i = 2; i < argc; ++i) {
+        if (strcmp(args[i],"-d") == 0) {
+            if (argc < i+2) {
+                fprintf(stderr, "flag -d requires 2 parameters: <vendor_id> <product_id>\n");
+                usage();
+                std::exit(-1);
+            }
+            vendId = validateId(args[i+1]);
+            prodId = validateId(args[i+2]);
+        } else if (strcmp(args[i], "-udp") == 0) {
+            printf("Setting UDP\n");
+            tcp = false;
+            sockType = SOCK_DGRAM;
+        }
+    }
+
+    // create socket
+    server = socket(AF_INET, sockType, 0);
+    if (errno > 0) {
+        perror("failed to create socket");
+        return -1;
     }
 
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
+    // init HID library and connect device
     int result = hid_init();
     if (result < 0) {
         printf("Failed to initialize HID library.\n");
@@ -116,13 +145,18 @@ int main(int argc, char **args) {
     int selection = -1;
 
     if (vendId != -1 && prodId != -1) {
+        int found = false;
         for (deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
             selection++;
             if (deviceInfo->vendor_id == vendId && deviceInfo->product_id == prodId) {
+                found = true;
+                printf("Confirmed device: 0x%04X,0x%04X\n", deviceInfo->vendor_id, deviceInfo->product_id);
                 break;
             }
         }
-        printf("Confirmed device: 0x%04X,0x%04X\n", deviceInfo->vendor_id, deviceInfo->product_id);
+        if (!found) {
+            printf("Device not found: 0x%04X,0x%04X\n", vendId, prodId);
+        }
     }
 
     if (!deviceInfo) {
@@ -249,14 +283,16 @@ int main(int argc, char **args) {
         return -1;
     }
 
-    listen(server, 5);
-    if (errno > 0) {
-        perror("failed to listen for clients");
-        return -1;
-    }
+    if(tcp) {
+        listen(server, 5);
+        if (errno > 0) {
+            perror("failed to listen for clients");
+            return -1;
+        }
 
-    socklen_t boundLen = sizeof(serverAddr);
-    getsockname(server, (struct sockaddr *)&serverAddr, &boundLen);
+        socklen_t boundLen = sizeof(serverAddr);
+        getsockname(server, (struct sockaddr *)&serverAddr, &boundLen);
+    }
 
     acceptClient();
 
@@ -270,6 +306,8 @@ int main(int argc, char **args) {
         return -1;
     }
 
+    int sent = 0;
+
     while (1) {
         if(!connected) {
             acceptClient();
@@ -282,7 +320,9 @@ int main(int argc, char **args) {
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
-                if(send(client, data, bytesRead, MSG_NOSIGNAL) < 0){
+                sent = tcp ? send(client, data, bytesRead, MSG_NOSIGNAL)
+                           : sendto(server, data, bytesRead, MSG_NOSIGNAL, (struct sockaddr*)&clientAddr, clientAddrLen);
+                if(sent < 0) {
                     perror("Error sending to client");
                     close(client);
                     connected = false;
