@@ -12,6 +12,17 @@
 #include <sys/socket.h>
 #include "hidapi/hidapi/hidapi.h"
 
+namespace {
+    int server;
+    sockaddr_in serverAddr;
+
+    int client;
+    sockaddr_in clientAddr;
+    socklen_t clientAddrLen;
+
+    struct hid_device_info * deviceInfo;
+}
+
 static unsigned getBit(unsigned char bit, unsigned value) {
     return (value >> bit) & 1;
 }
@@ -62,6 +73,17 @@ unsigned short validateId(char* id_in) {
     return id;
 }
 
+void acceptClient() {
+    printf("Listening for client on port %d\n", ntohs(serverAddr.sin_port));
+    while((client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen)) < 0){
+        perror("Failed to accept client");
+        std::exit(-1);
+    }
+    
+    printf("Client connected %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+    printf("Serving device: 0x%04X,0x%04X\n", deviceInfo->vendor_id, deviceInfo->product_id);
+}
+
 int main(int argc, char **args) {
     if (argc <= 1) {
         usage();
@@ -69,7 +91,7 @@ int main(int argc, char **args) {
     }
 
     unsigned short port = validatePort(args[1]);
-    int server = socket(AF_INET, SOCK_STREAM, 0);
+    server = socket(AF_INET, SOCK_STREAM, 0);
     if (errno > 0) {
         perror("failed to create socket");
         return -1;
@@ -82,10 +104,9 @@ int main(int argc, char **args) {
         prodId = validateId(args[3]);
     }
 
-    struct sockaddr_in serverAddress;
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(port);
-    serverAddress.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(port);
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
 
     int result = hid_init();
     if (result < 0) {
@@ -94,7 +115,7 @@ int main(int argc, char **args) {
     }
 
     struct hid_device_info* enumerationHead = hid_enumerate(0, 0);
-    struct hid_device_info * deviceInfo = 0;
+    deviceInfo = 0;
 
     int selection = -1;
 
@@ -225,7 +246,7 @@ int main(int argc, char **args) {
 
     unsigned char data[numBytes] = { 0 };
 
-    bind(server, (struct sockaddr*)& serverAddress, sizeof(serverAddress));
+    bind(server, (struct sockaddr*)& serverAddr, sizeof(serverAddr));
     if (errno > 0) {
         // fprintf(stderr, "Could not bind port %d: %s\n", port, strerror(errno));
         perror("Cound not bind port");
@@ -238,14 +259,10 @@ int main(int argc, char **args) {
         return -1;
     }
 
-    socklen_t boundLen = sizeof(serverAddress);
-    getsockname(server, (struct sockaddr *)&serverAddress, &boundLen);
-    printf("Listening for client on port %d\n", ntohs(serverAddress.sin_port));
+    socklen_t boundLen = sizeof(serverAddr);
+    getsockname(server, (struct sockaddr *)&serverAddr, &boundLen);
 
-    struct sockaddr_in clientAddr;
-    socklen_t clientAddrLen = sizeof(clientAddr);
-    int client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen);
-    printf("Client connected %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+    acceptClient();
 
     char sendBuffer[128] = {0};
     size_t buffLen = 0;
@@ -257,8 +274,6 @@ int main(int argc, char **args) {
         return -1;
     }
 
-    printf("Serving device: 0x%04X,0x%04X,%d\n", deviceInfo->vendor_id, deviceInfo->product_id, bytesRead);ndBuffer, strlen(sendBuffer), 0);
-
     while (1) {
         bytesRead = hid_read(device, data, sizeof(data));
         if (bytesRead < 0) {
@@ -267,7 +282,12 @@ int main(int argc, char **args) {
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
-                send(client, data, bytesRead, 0);
+                if(send(client, data, bytesRead, MSG_NOSIGNAL) <= 0){
+                    perror("Error sending to client");
+                    close(client);
+
+                    acceptClient();
+                }
             }
         }
     }

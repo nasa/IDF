@@ -65,19 +65,19 @@ int main (int argc, char **args) {
     unsigned char data[1024] = { 0 };
 
     // device info once
-    bytesRecvd = recv(server, data, sizeof(data), 0);
-    std::stringstream ss;
-    std::string token;
-    std::vector<std::string> tokens;
-    ss << data;
-    while(getline(ss, token, ',')) {
-        tokens.push_back(token);
-    }
-    unsigned short vendorId = std::stoi(tokens.at(0), nullptr, 16);
-    unsigned short productId = std::stoi(tokens.at(1), nullptr, 16);
-    int controllerBytes = std::stoi(tokens.at(2));
+    // bytesRecvd = recv(server, data, sizeof(data), 0);
+    // std::stringstream ss;
+    // std::string token;
+    // std::vector<std::string> tokens;
+    // ss << data;
+    // while(getline(ss, token, ',')) {
+    //     tokens.push_back(token);
+    // }
+    // unsigned short vendorId = std::stoi(tokens.at(0), nullptr, 16);
+    // unsigned short productId = std::stoi(tokens.at(1), nullptr, 16);
+    // int controllerBytes = std::stoi(tokens.at(2));
     
-    printf("Start Recieving data for device: 0x%04X, 0x%04X, %d bytes/block\n", vendorId, productId, controllerBytes);
+    // printf("Start Recieving data for device: 0x%04X, 0x%04X, %d bytes/block\n", vendorId, productId, controllerBytes);
 
     while(1) {
         if ((bytesRecvd = recv(server, data, sizeof(data), 0)) < 0 ) {
