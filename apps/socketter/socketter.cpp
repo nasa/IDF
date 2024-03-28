@@ -48,7 +48,7 @@ unsigned short validatePort(char* port_in) {
         fprintf(stderr, "\nport out of valid range 1024-65535\n\n");
         std::exit(-1);
     } else if (port == 0) {
-        printf("\nWARNING: port 0 will bind a random port\n");
+        fprintf(stderr, "\nWARNING: port 0 will bind a random port\n");
     }
     return (unsigned short) port;
 }
@@ -65,12 +65,6 @@ unsigned short validateId(char* id_in) {
         fprintf(stderr, "\nport out of range '%s'\n", id_in);
         std::exit(-1);
     }
-    // if (port > 65535) {
-    //     fprintf(stderr, "\nport out of valid range 1024-65535\n\n");
-    //     std::exit(-1);
-    // } else if (port == 0) {
-    //     printf("\nWARNING: port 0 will bind a random port\n");
-    // }
     return id;
 }
 
