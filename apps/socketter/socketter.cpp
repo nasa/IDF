@@ -25,20 +25,20 @@ namespace {
     bool tcp = true;
 }
 
-static unsigned getBit(unsigned char bit, unsigned value) {
-    return (value >> bit) & 1;
-}
-
 void usage(){
-    printf("\nUsage:\n\tsocketter <port> [-udp] [-d <vendorid> <productid>]\n\n");
+    printf("\nUsage:\n  socketter <port> [options]\n\nOptions:\n");
+    printf("  -dev <vendorid> <productid>    specify device\n");
+    printf("  -req                           read+send only on request from client\n");
+    printf("  -udp                           connect via UDP (default TCP)\n");
 }
 
 unsigned short validatePort(char* port_in) {
+
     int port = 0;
     try{
         port = std::stoi(port_in);
     } catch (std::invalid_argument const& ex) {
-        fprintf(stderr, "\ninvalid input '%s'\n", port_in);
+        fprintf(stderr, "\ninvalid port '%s'\n", port_in);
         usage();
         std::exit(-1);
     } catch (std::out_of_range const& ex) {
@@ -55,11 +55,12 @@ unsigned short validatePort(char* port_in) {
 }
 
 unsigned short validateId(char* id_in) {
+
     int id = -1;
     try {
         id = std::stoi(id_in, nullptr, 16);
     } catch (std::invalid_argument const& ex) {
-        fprintf(stderr, "\ninvalid input '%s'\n", id_in);
+        fprintf(stderr, "\ninvalid device identifier '%s'\n", id_in);
         usage();
         std::exit(-1);
     } catch (std::out_of_range const& ex) {
@@ -70,6 +71,7 @@ unsigned short validateId(char* id_in) {
 }
 
 void acceptClient() {
+
     printf("Listening for%s client on port %d\n", tcp ? "" : " UDP", ntohs(serverAddr.sin_port));
     if (tcp) {
         
@@ -92,7 +94,35 @@ void acceptClient() {
     printf("Serving device: 0x%04X,0x%04X\n", deviceInfo->vendor_id, deviceInfo->product_id);
 }
 
+static unsigned getBit(unsigned char bit, unsigned value) {
+    return (value >> bit) & 1;
+}
+
+static void printBits(unsigned char * data, int len) {
+    printf("\x1b[39;49mRead %d bytes:", len);
+    int i;
+    for (i = 0; i < len; ++i) {
+        printf("  ");
+        printf("\033[0;3%dm", i % 7 + 1);
+        int j = 7;
+        while(j > 3) {
+            printf("%u", getBit(j--, data[i]));
+        }
+        printf(" ");
+        while (j >= 0) {
+            printf("%u", getBit(j--, data[i]));
+        }
+    }
+    printf("\n");
+}
+
+enum READ_MODE {
+    CONTINUOUS = 0,
+    REQUEST = 1,
+};
+
 int main(int argc, char **args) {
+
     if (argc <= 1) {
         usage();
         return 0;
@@ -104,24 +134,30 @@ int main(int argc, char **args) {
     int vendId = -1;
     int prodId = -1;
     int sockType = SOCK_STREAM;
+    READ_MODE readMode = CONTINUOUS;
 
     for (int i = 2; i < argc; ++i) {
-        if (strcmp(args[i],"-d") == 0) {
+        if (strcmp(args[i],"-dev") == 0) {
             if (argc < i+2) {
-                fprintf(stderr, "flag -d requires 2 parameters: <vendor_id> <product_id>\n");
+                fprintf(stderr, "flag -dev requires 2 parameters: <vendor_id> <product_id>\n");
                 usage();
                 std::exit(-1);
             }
-            vendId = validateId(args[i+1]);
-            prodId = validateId(args[i+2]);
+            vendId = validateId(args[++i]);
+            prodId = validateId(args[++i]);
         } else if (strcmp(args[i], "-udp") == 0) {
-            printf("Setting UDP\n");
             tcp = false;
             sockType = SOCK_DGRAM;
+        } else if (strcmp(args[i], "-req") == 0) {
+            readMode = REQUEST;
+        } else {
+            fprintf(stderr, "unrecognized argument '%s'\n", args[i]);
+            usage();
+            std::exit(-1);
         }
     }
 
-    // create socket
+    // grab the socket and port right away instead of potentially failing after user has selected device
     server = socket(AF_INET, sockType, 0);
     if (errno > 0) {
         perror("failed to create socket");
@@ -131,6 +167,13 @@ int main(int argc, char **args) {
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
+
+    bind(server, (struct sockaddr*)& serverAddr, sizeof(serverAddr));
+    if (errno > 0) {
+        // fprintf(stderr, "Could not bind port %d: %s\n", port, strerror(errno));
+        perror("Cound not bind port");
+        return -1;
+    }
 
     // init HID library and connect device
     int result = hid_init();
@@ -276,13 +319,6 @@ int main(int argc, char **args) {
 
     unsigned char data[numBytes] = { 0 };
 
-    bind(server, (struct sockaddr*)& serverAddr, sizeof(serverAddr));
-    if (errno > 0) {
-        // fprintf(stderr, "Could not bind port %d: %s\n", port, strerror(errno));
-        perror("Cound not bind port");
-        return -1;
-    }
-
     if(tcp) {
         listen(server, 5);
         if (errno > 0) {
@@ -296,7 +332,7 @@ int main(int argc, char **args) {
 
     acceptClient();
 
-    char sendBuffer[128] = {0};
+    char recvBuffer[1024] = {0};
     size_t buffLen = 0;
 
     // read once to get actual number of bytes to read.
@@ -307,29 +343,58 @@ int main(int argc, char **args) {
     }
 
     int sent = 0;
-
+    bool doSend = readMode == CONTINUOUS;
+    int bytesRecvd = 0;
     while (1) {
         if(!connected) {
             acceptClient();
         }
+        memset(data, 0, sizeof(data));
+        memset(recvBuffer, 0, sizeof(recvBuffer));
+        
+        // if we're not approved to send, check for client request
+        if (!doSend && readMode == REQUEST) {
+            // don't really care what they send, just want them to send something
+            while((bytesRecvd = tcp ? recv(client, recvBuffer, sizeof(recvBuffer), MSG_DONTWAIT)
+                                    : recvfrom(server, recvBuffer, sizeof(recvBuffer), MSG_DONTWAIT, (struct sockaddr*)&clientAddr, &clientAddrLen)
+                  ) > 0) {
+                doSend = true;
+            }
+            if (bytesRecvd < 0) {
+                if (errno != EAGAIN) {
+                    connected = false;
+                    doSend = false;
+                    perror("Failed to receive from client");
+                }
+            } else if (bytesRecvd == 0) {
+                doSend = false;
+                perror("nothing from client");
+                connected = false;
+            }
+        }
 
+        // then read, and send if requested
         bytesRead = hid_read(device, data, sizeof(data));
         if (bytesRead < 0) {
             perror("Error reading from device");
             return -1;
         }
-        else if (bytesRead > 0) {
-            if (selection == -1 || data[0] == selection || data[0] == 3) {
-                sent = tcp ? send(client, data, bytesRead, MSG_NOSIGNAL)
-                           : sendto(server, data, bytesRead, MSG_NOSIGNAL, (struct sockaddr*)&clientAddr, clientAddrLen);
-                if(sent < 0) {
-                    perror("Error sending to client");
-                    close(client);
-                    connected = false;
+        else if (bytesRead > 0 ) {
+            if (doSend) {
+                if (selection == -1 || data[0] == selection || data[0] == 3) {
+                    sent = tcp ? send(client, data, bytesRead, MSG_NOSIGNAL)
+                            : sendto(server, data, bytesRead, MSG_NOSIGNAL, (struct sockaddr*)&clientAddr, clientAddrLen);
+                    if(sent < 0) {
+                        perror("Error sending to client");
+                        close(client);
+                        connected = false;
+                    }
                 }
+                doSend = readMode == CONTINUOUS;
             }
         }
     }
+
     close(client);
     close(server);
     hid_exit();
