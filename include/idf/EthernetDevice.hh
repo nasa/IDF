@@ -47,16 +47,6 @@ class EthernetDevice : public InputDevice {
     
     virtual void open();
     virtual void close();
-    
-    
-    /**
-     * sets the retry limit for initial connection
-     *
-     * @param limit @copydoc retryLimit
-     */
-    void setRetryLimit(const int limit) {
-        retryLimit = limit;
-    }
 
     /**
      * sets the host to which this instance will attempt to connect the next
@@ -111,9 +101,6 @@ class EthernetDevice : public InputDevice {
 
     /** the port on which the server is listening */
     unsigned short serverPort;
-
-    /** Number of times to retry establishing the initial connection */
-    int retryLimit;
 
     /** the socket */
     int socketHandle;

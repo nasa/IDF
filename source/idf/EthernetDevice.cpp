@@ -37,7 +37,6 @@ void EthernetDevice::open() {
 
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_port = htons(serverPort);
-        // serverAddr.sin_addr.s_addr = INADDR_ANY;
         serverAddr.sin_addr.s_addr = inet_addr(serverName.c_str());
         serverAddrLen = sizeof(serverAddr);
 
@@ -97,7 +96,9 @@ unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
             return 0;
         } else {
             close();
-            throw IOException("Error " + std::to_string(bytesRecvd) + " while reading " + name + ": " + strerror(errno));
+            std::ostringstream stream;
+            stream << "Error while reading from " << name;
+            perror(stream.str().c_str());
         }
     }
     return bytesRecvd;
