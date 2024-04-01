@@ -118,17 +118,17 @@ class EthernetDevice : public InputDevice {
     /** the socket */
     int socketHandle;
 
-    struct sockaddr_in serverAddr = {0};
-    socklen_t serverAddrLen = 0;
+    struct sockaddr_in serverAddr;
+    socklen_t serverAddrLen;
 
-    struct sockaddr_in * srcAddr = {0};
-    socklen_t srcAddrLen = 0;
-
-    /** default to using TCP for communications */
-    bool tcp = true;
+    struct sockaddr_in * srcAddr;
+    socklen_t srcAddrLen;
 
     /** socket type specifier. Should be set via setTCP or setUDP */
-    int sockType = SOCK_STREAM;
+    int sockType;
+
+    /** default to using TCP for communications */
+    bool tcp;
 
     /**
      * reads @a length bytes from this device and stores them in @a buffer

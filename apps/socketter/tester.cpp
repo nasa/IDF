@@ -134,7 +134,7 @@ int main (int argc, char **args) {
             return -1;
         }
     } else {
-        sendto(server, greeting, sizeof(greeting), MSG_CONFIRM, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
+        sendto(server, greeting, sizeof(greeting), 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
         srcAddr = (struct sockaddr *)&serverAddr;
         srcAddrLen = &serverAddrLen;
     }

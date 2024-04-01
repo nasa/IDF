@@ -14,8 +14,11 @@ namespace idf {
 
 EthernetDevice::EthernetDevice(const std::string& id, unsigned length) :
     InputDevice(id),
-    packetLength(length) {
+    packetLength(length),
+    sockType(SOCK_STREAM),
+    tcp(true) {
         memset(&serverAddr, 0 , sizeof(serverAddr));
+        
     }
 
 void EthernetDevice::open() {
@@ -48,7 +51,7 @@ void EthernetDevice::open() {
             }
         } else {
             char sendBuffer[] = "hello HC";
-            if(sendto(socketHandle, sendBuffer, sizeof(sendBuffer), MSG_CONFIRM, (struct sockaddr *)&serverAddr, serverAddrLen) < 0) {
+            if(sendto(socketHandle, sendBuffer, sizeof(sendBuffer), 0, (struct sockaddr *)&serverAddr, serverAddrLen) < 0) {
                 stream << "failed to connect to UDP device " << serverName << ":" << serverPort;
                 perror(stream.str().c_str());
                 throw IOException(stream.str());

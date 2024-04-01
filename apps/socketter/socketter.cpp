@@ -317,7 +317,7 @@ int main(int argc, char **args) {
 
     hid_set_nonblocking(device, 1);
 
-    unsigned char data[numBytes] = { 0 };
+    unsigned char data[numBytes];
 
     if(tcp) {
         listen(server, 5);
