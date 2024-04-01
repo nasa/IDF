@@ -35,7 +35,7 @@ int validatePort(char* port_in) {
     return (unsigned short) port;
 }
 
-unsigned int validateMs(char* ms_in) {
+unsigned int validateMillis(char* ms_in) {
 
     int ms = 0;
     try {
@@ -103,7 +103,7 @@ int main (int argc, char **args) {
         } else if (strcmp(args[i], "-req") == 0) {
             readMode = REQUEST;
             ++i;
-            period = validateMs(args[i]);
+            period = validateMillis(args[i]);
         } else {
             fprintf(stderr, "unrecognized argument '%s'\n", args[i]);
             usage();
@@ -138,8 +138,11 @@ int main (int argc, char **args) {
         srcAddr = (struct sockaddr *)&serverAddr;
         srcAddrLen = &serverAddrLen;
     }
-    // send first request
-    sendto(server, greeting, sizeof(greeting), 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
+
+    if (readMode == REQUEST) {
+        // send first request
+        sendto(server, greeting, sizeof(greeting), 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
+    }
 
     int bytesRecvd = 0;
     unsigned char data[1024] = { 0 };

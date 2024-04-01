@@ -7,15 +7,16 @@
 #include <sstream>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <netdb.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
 namespace idf {
 
 EthernetDevice::EthernetDevice(const std::string& id, unsigned length) :
-   InputDevice(id),
-   packetLength(length) {}
+    InputDevice(id),
+    packetLength(length) {
+        memset(&serverAddr, 0 , sizeof(serverAddr));
+    }
 
 void EthernetDevice::open() {
     if (!mOpen) {
@@ -23,7 +24,7 @@ void EthernetDevice::open() {
         std::ostringstream stream;
         stream << "[IDF::EthernetDevice::open()] ";
 
-        socketHandle = socket(AF_INET, SOCK_STREAM, 0);
+        socketHandle = socket(AF_INET, sockType, 0);
 
         if ( errno > 0) {
             stream << "failed to create socket";
@@ -31,20 +32,31 @@ void EthernetDevice::open() {
             throw IOException(stream.str());
         }
 
-        struct sockaddr_in serverAddress;
-        serverAddress.sin_family = AF_INET;
-        serverAddress.sin_port = htons(serverPort);
-        serverAddress.sin_addr.s_addr = inet_addr(serverName.c_str());
+        serverAddr.sin_family = AF_INET;
+        serverAddr.sin_port = htons(serverPort);
+        // serverAddr.sin_addr.s_addr = INADDR_ANY;
+        serverAddr.sin_addr.s_addr = inet_addr(serverName.c_str());
+        serverAddrLen = sizeof(serverAddr);
 
         std::cout << "[IDF::EthernetDevice] Connecting to " << serverName << ":" << serverPort << std::endl;
 
-        if (connect(socketHandle, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
-            stream << "failed to connect to device " << serverName << ":" << serverPort;
-            perror(stream.str().c_str());
-            throw IOException(stream.str());
+        if(tcp) {
+            if (connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen) < 0) {
+                stream << "failed to connect to TCP device " << serverName << ":" << serverPort;
+                perror(stream.str().c_str());
+                throw IOException(stream.str());
+            }
+        } else {
+            char sendBuffer[] = "hello HC";
+            if(sendto(socketHandle, sendBuffer, sizeof(sendBuffer), MSG_CONFIRM, (struct sockaddr *)&serverAddr, serverAddrLen) < 0) {
+                stream << "failed to connect to UDP device " << serverName << ":" << serverPort;
+                perror(stream.str().c_str());
+                throw IOException(stream.str());
+            }
+
         }
 
-        std::cout << "[IDF::EthernetDevice] Connected  to " << serverName << ":" << serverPort << std::endl;
+        std::cout << "[IDF::EthernetDevice] Connected to " << serverName << ":" << serverPort << std::endl;
 
         Manageable::open();
     }
@@ -76,7 +88,7 @@ unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
     int bytesRecvd = 0;
 
     // non-blocking receive
-    bytesRecvd = recv(socketHandle, buffer, length, MSG_DONTWAIT);
+    bytesRecvd = recvfrom(socketHandle, buffer, length, MSG_DONTWAIT, (struct sockaddr*)&srcAddr, &srcAddrLen);
     if (bytesRecvd < 0) {
         if (errno == EAGAIN) { // no data, try again later
             return 0;
@@ -92,7 +104,7 @@ int EthernetDevice::write(const void *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
-    int bytesSent = send(socketHandle, buffer, length, MSG_NOSIGNAL);
+    int bytesSent = sendto(socketHandle, buffer, length, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);
     if (bytesSent < 0) {
         close();
         throw IOException("Error while writing " + name + ": " + strerror(errno));
