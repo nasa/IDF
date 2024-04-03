@@ -10,8 +10,9 @@
 
 void usage(){
     printf("\nUsage:\n  tester <port> [options]\n\nOptions:\n");
-    printf("  -req <ms>  request value every <ms> milliseconds from server (default is continuous receive)\n");
-    printf("  -udp       connect via UDP (default TCP)\n");
+    printf("  -len <size>  expected number of bytes from socketter. default = 7\n");
+    printf("  -req <ms>    request value every <ms> milliseconds from server (default is continuous receive)\n");
+    printf("  -udp         connect via UDP (default TCP)\n");
 }
 
 int validatePort(char* port_in) {
@@ -95,6 +96,7 @@ int main (int argc, char **args) {
     int sockType = SOCK_STREAM;
     READ_MODE readMode = CONTINUOUS;
     int period = 0;
+    unsigned short expected = 7;
 
     for (int i = 2; i < argc; ++i) {
         if (strcmp(args[i], "-udp") == 0) {
@@ -104,6 +106,8 @@ int main (int argc, char **args) {
             readMode = REQUEST;
             ++i;
             period = validateMillis(args[i]);
+        } else if (strcmp(args[i], "-len") == 0) {
+            expected = std::stoi(args[++i]);
         } else {
             fprintf(stderr, "unrecognized argument '%s'\n", args[i]);
             usage();
@@ -145,24 +149,43 @@ int main (int argc, char **args) {
     }
 
     int bytesRecvd = 0;
+    unsigned bytesTotal = 0;
     unsigned char data[1024] = { 0 };
+    unsigned char readBuff[1024] = { 0 };
 
     while(1) {
-        bytesRecvd = recvfrom(server, data, sizeof(data), 0, srcAddr, srcAddrLen);
-        if (bytesRecvd < 0) {
-            if (errno == EAGAIN) {
+        bytesRecvd = 0;
+        bytesTotal = 0;
+        memset(&data, 0 , sizeof(data));
+        memset(&readBuff, 0 , sizeof(readBuff));
+        while(bytesTotal < expected) {
+            bytesRecvd = recvfrom(server, &readBuff[bytesTotal], expected-bytesTotal, MSG_DONTWAIT, srcAddr, srcAddrLen);
+            if (bytesRecvd < 0) {
+                if (errno == EAGAIN || errno == EINTR) {
+                    continue;
+                } 
+                perror("no data recieved from server:");
+                break;
+            } else if (bytesRecvd == 0) {
                 continue;
+            } else {
+                if (bytesRecvd < expected) {
+                    printf("only got %d bytes. read again\n", bytesRecvd);
+                }
+                // memcpy(&data[bytesTotal], &readBuff, bytesRecvd);
+                bytesTotal += bytesRecvd;
             }
-            perror("no data recieved from server:");
-            break;
-        } else if (bytesRecvd == 0) {
-            continue;
         }
-        printBits(data, bytesRecvd);
+        if (bytesTotal > 0) {
+            memcpy(&data, &readBuff, expected);
+            printBits(data, bytesTotal);
+        }
 
         if (readMode == REQUEST) {
             usleep(period*1000);
             sendto(server, greeting, sizeof(greeting), 0,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
+        } else {
+            usleep(1);
         }
     }
 

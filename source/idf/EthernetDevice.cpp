@@ -18,7 +18,7 @@ EthernetDevice::EthernetDevice(const std::string& id, unsigned length) :
     sockType(SOCK_STREAM),
     tcp(true) {
         memset(&serverAddr, 0 , sizeof(serverAddr));
-        
+        setTCP(); // ensure vars are zeroed out.
     }
 
 void EthernetDevice::open() {
@@ -42,20 +42,18 @@ void EthernetDevice::open() {
 
         std::cout << "[IDF::EthernetDevice] Connecting to " << serverName << ":" << serverPort << std::endl;
 
-        if(tcp) {
-            if (connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen) < 0) {
-                stream << "failed to connect to TCP device " << serverName << ":" << serverPort;
+        char sendBuffer[] = "hello HC";
+        int ret = -1;
+        while (1) {
+            ret = tcp ? connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen)
+                      : sendto(socketHandle, sendBuffer, sizeof(sendBuffer), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+            if(ret < 0) {
+                if (errno == EINTR) { continue; } // interrupted by a SIGNAL; retry
+                stream << "failed to connect to " << (tcp ? "TCP" : "UDP") << " device " << serverName << ":" << serverPort;
                 perror(stream.str().c_str());
                 throw IOException(stream.str());
             }
-        } else {
-            char sendBuffer[] = "hello HC";
-            if(sendto(socketHandle, sendBuffer, sizeof(sendBuffer), 0, (struct sockaddr *)&serverAddr, serverAddrLen) < 0) {
-                stream << "failed to connect to UDP device " << serverName << ":" << serverPort;
-                perror(stream.str().c_str());
-                throw IOException(stream.str());
-            }
-
+            break;
         }
 
         std::cout << "[IDF::EthernetDevice] Connected to " << serverName << ":" << serverPort << std::endl;
@@ -82,38 +80,56 @@ std::vector<std::vector<unsigned char> > EthernetDevice::read() {
 
     return results;
 }
+
 unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
 
     int bytesRecvd = 0;
+    unsigned bytesTotal = 0;
+    unsigned char readBuff[length*10];
+    memset(&readBuff, 0, length);
 
-    // non-blocking receive
-    bytesRecvd = recvfrom(socketHandle, buffer, length, MSG_DONTWAIT, (struct sockaddr*)&srcAddr, &srcAddrLen);
-    if (bytesRecvd < 0) {
-        if (errno == EAGAIN) { // no data, try again later
-            return 0;
-        } else {
-            close();
-            std::ostringstream stream;
-            stream << "Error while reading from " << name;
-            perror(stream.str().c_str());
+    while(bytesTotal < length) {
+        // non-blocking receive
+        bytesRecvd = recvfrom(socketHandle, &readBuff[bytesTotal], length-bytesTotal, MSG_DONTWAIT, (struct sockaddr*)&srcAddr, &srcAddrLen);
+        if (bytesRecvd < 0) {
+            if (errno == EAGAIN) { return 0; } // no data, try again later
+            else if (errno == EINTR) { continue; } // interrupted, retry
+            else {
+                close();
+                std::ostringstream stream;
+                stream << "Error while reading from " << name;
+                perror(stream.str().c_str());
+                break;
+            }
+        } else if (bytesRecvd > 0) {
+            bytesTotal += static_cast<unsigned>(bytesRecvd);
         }
     }
-    return bytesRecvd;
+    memcpy(buffer, &readBuff, length);
+    return bytesTotal;
 }
 
 int EthernetDevice::write(const void *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
-    int bytesSent = sendto(socketHandle, buffer, length, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);
-    if (bytesSent < 0) {
-        close();
-        throw IOException("Error while writing " + name + ": " + strerror(errno));
-    }
 
+    int bytesSent = 0;
+    unsigned bytesTotal = 0;
+
+    while (bytesTotal < length) {
+        bytesSent = sendto(socketHandle, (&buffer)[bytesTotal], length-bytesTotal, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);
+        if (bytesSent < 0) {
+            if (errno == EINTR) { continue; } // interrupted by SIGNAL; retry
+            close();
+            throw IOException("Error while writing " + name + ": " + strerror(errno));
+        }
+        bytesTotal += static_cast<unsigned>(bytesSent);
+        break;
+    }
     return bytesSent;
 }
 

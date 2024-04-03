@@ -33,7 +33,6 @@ void usage(){
 }
 
 unsigned short validatePort(char* port_in) {
-
     int port = 0;
     try{
         port = std::stoi(port_in);
@@ -72,10 +71,13 @@ unsigned short validateId(char* id_in) {
 
 void acceptClient() {
 
-    printf("Listening for%s client on port %d\n", tcp ? "" : " UDP", ntohs(serverAddr.sin_port));
+    std::cout << "Listening for " << (tcp?"TCP":"UDP") << " client on port " << ntohs(serverAddr.sin_port) << std::endl;
     if (tcp) {
         
         while((client = accept(server, (struct sockaddr*)&clientAddr, &clientAddrLen)) < 0){
+            if (errno == EINTR || errno == ECONNABORTED) {
+                continue;
+            }
             connected = false;
             perror("Failed to accept client");
             std::exit(-1);
@@ -84,12 +86,16 @@ void acceptClient() {
 
         unsigned char data[1024] = {0};
         while(recvfrom(server, data, sizeof(data), MSG_WAITALL, (struct sockaddr*)&clientAddr, &clientAddrLen) < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
             connected = false;
             perror("Failed to accept client");
             std::exit(-1);
         }
     }
     connected = true;
+
     printf("Client connected %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
     printf("Serving device: 0x%04X,0x%04X\n", deviceInfo->vendor_id, deviceInfo->product_id);
 }
@@ -342,9 +348,11 @@ int main(int argc, char **args) {
         return -1;
     }
 
-    int sent = 0;
     bool doSend = readMode == CONTINUOUS;
+    int sent = 0;
     int bytesRecvd = 0;
+    unsigned bytesTotal = 0;
+
     while (1) {
         if(!connected) {
             acceptClient();
@@ -382,17 +390,25 @@ int main(int argc, char **args) {
         else if (bytesRead > 0 ) {
             if (doSend) {
                 if (selection == -1 || data[0] == selection || data[0] == 3) {
-                    sent = tcp ? send(client, data, bytesRead, MSG_NOSIGNAL)
-                            : sendto(server, data, bytesRead, MSG_NOSIGNAL, (struct sockaddr*)&clientAddr, clientAddrLen);
-                    if(sent < 0) {
-                        perror("Error sending to client");
-                        close(client);
-                        connected = false;
+                    
+                    bytesTotal = 0;
+                    while(bytesTotal < bytesRead) {
+                        sent = tcp ? send(client, data, bytesRead, MSG_NOSIGNAL)
+                                : sendto(server, data, bytesRead, MSG_NOSIGNAL, (struct sockaddr*)&clientAddr, clientAddrLen);
+                        if(sent < 0) {
+                            if(errno == EAGAIN || errno == EINTR){ continue; }
+                            perror("Error sending to client");
+                            close(client);
+                            connected = false;
+                            break;
+                        }
+                        bytesTotal += sent;
                     }
                 }
                 doSend = readMode == CONTINUOUS;
             }
         }
+        usleep(1);
     }
 
     close(client);
