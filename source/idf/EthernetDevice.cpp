@@ -88,7 +88,7 @@ unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
 
     int bytesRecvd = 0;
     unsigned bytesTotal = 0;
-    unsigned char readBuff[length*10];
+    unsigned char readBuff[length];
     memset(&readBuff, 0, length);
 
     while(bytesTotal < length) {
@@ -125,10 +125,11 @@ int EthernetDevice::write(const void *buffer, size_t length) {
         if (bytesSent < 0) {
             if (errno == EINTR) { continue; } // interrupted by SIGNAL; retry
             close();
-            throw IOException("Error while writing " + name + ": " + strerror(errno));
+            perror("Error sending to client");
+            break;
+        } else if (bytesSent > 0) {
+            bytesTotal += static_cast<unsigned>(bytesSent);
         }
-        bytesTotal += static_cast<unsigned>(bytesSent);
-        break;
     }
     return bytesSent;
 }
