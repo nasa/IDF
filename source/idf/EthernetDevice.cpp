@@ -99,9 +99,40 @@ unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
             else if (errno == EINTR) { continue; } // interrupted, retry
             else {
                 close();
-                std::ostringstream stream;
-                stream << "Error while reading from " << name;
-                perror(stream.str().c_str());
+                std::string errmsg("Error while reading from ");
+                errmsg.append(name);
+                perror(errmsg.c_str());
+                break;
+            }
+        } else if (bytesRecvd > 0) {
+            bytesTotal += static_cast<unsigned>(bytesRecvd);
+        }
+    }
+    memcpy(buffer, &readBuff, length);
+    return bytesTotal;
+}
+
+unsigned EthernetDevice::peek(unsigned char *buffer, size_t length) {
+    if (!mOpen) {
+        open();
+    }
+
+    int bytesRecvd = 0;
+    unsigned bytesTotal = 0;
+    unsigned char readBuff[length];
+    memset(&readBuff, 0, length);
+
+    while(bytesTotal < length) {
+        // non-blocking receive
+        bytesRecvd = recvfrom(socketHandle, &readBuff[bytesTotal], length-bytesTotal, MSG_DONTWAIT | MSG_PEEK, (struct sockaddr*)&srcAddr, &srcAddrLen);
+        if (bytesRecvd < 0) {
+            if (errno == EAGAIN) { return 0; } // no data, try again later
+            else if (errno == EINTR) { continue; } // interrupted, retry
+            else {
+                close();
+                std::string errmsg("Error while reading from ");
+                errmsg.append(name);
+                perror(errmsg.c_str());
                 break;
             }
         } else if (bytesRecvd > 0) {

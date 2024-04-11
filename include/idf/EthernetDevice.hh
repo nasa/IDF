@@ -129,6 +129,20 @@ class EthernetDevice : public InputDevice {
      */
     virtual unsigned read(unsigned char *buffer, size_t length);
 
+
+    /**
+     * peeks at @a length bytes from this device and stores them in @a buffer
+     *
+     * @param buffer the location to store the data
+     * @param length the number of bytes to read
+     *
+     * @return the number of bytes read (always non-negative)
+     *
+     * @throws IOException if an error occurs while reading or if the device is not open
+     */
+    virtual unsigned peek(unsigned char *buffer, size_t length);
+
+
     /**
      * writes @a length bytes from @a buffer to this device
      *
