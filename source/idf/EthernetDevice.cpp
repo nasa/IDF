@@ -99,10 +99,7 @@ unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
             else if (errno == EINTR) { continue; } // interrupted, retry
             else {
                 close();
-                std::string errmsg("Error while reading from ");
-                errmsg.append(name);
-                perror(errmsg.c_str());
-                break;
+                throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
             bytesTotal += static_cast<unsigned>(bytesRecvd);
@@ -130,10 +127,7 @@ unsigned EthernetDevice::peek(unsigned char *buffer, size_t length) {
             else if (errno == EINTR) { continue; } // interrupted, retry
             else {
                 close();
-                std::string errmsg("Error while reading from ");
-                errmsg.append(name);
-                perror(errmsg.c_str());
-                break;
+                throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
             bytesTotal += static_cast<unsigned>(bytesRecvd);
@@ -155,9 +149,10 @@ int EthernetDevice::write(const void *buffer, size_t length) {
         bytesSent = sendto(socketHandle, (&buffer)[bytesTotal], length-bytesTotal, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);
         if (bytesSent < 0) {
             if (errno == EINTR) { continue; } // interrupted by SIGNAL; retry
-            close();
-            perror("Error sending to client");
-            break;
+            else {
+                close();
+                throw IOException("Error while writing to " + name + ": " + strerror(errno));
+            }
         } else if (bytesSent > 0) {
             bytesTotal += static_cast<unsigned>(bytesSent);
         }
