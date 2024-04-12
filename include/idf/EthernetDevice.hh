@@ -116,6 +116,18 @@ class EthernetDevice : public InputDevice {
      */
     virtual unsigned peek(unsigned char *buffer, size_t length);
 
+    /**
+     * writes @a length bytes from @a buffer to this device
+     *
+     * @param buffer the location of the data to write
+     * @param length the number of bytes to write
+     *
+     * @return the number of bytes written (always non-negative)
+     *
+     * @throws IOException if an error occurs while writing or if the device is not open
+     */
+    virtual int write(const void *buffer, size_t length);
+
     private:
 
     const unsigned packetLength;
@@ -140,19 +152,6 @@ class EthernetDevice : public InputDevice {
 
     /** default to using TCP for communications */
     bool tcp;
-
-
-    /**
-     * writes @a length bytes from @a buffer to this device
-     *
-     * @param buffer the location of the data to write
-     * @param length the number of bytes to write
-     *
-     * @return the number of bytes written (always non-negative)
-     *
-     * @throws IOException if an error occurs while writing or if the device is not open
-     */
-    virtual int write(const void *buffer, size_t length);
 
 };
 
