@@ -42,11 +42,10 @@ void EthernetDevice::open() {
 
         std::cout << "[IDF::EthernetDevice] Connecting to " << serverName << ":" << serverPort << std::endl;
 
-        char sendBuffer[] = "hello HC";
         int ret = -1;
         while (1) {
             ret = tcp ? connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen)
-                      : sendto(socketHandle, sendBuffer, sizeof(sendBuffer), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+                      : sendto(socketHandle, udpGreeting.c_str(), sizeof(char)*udpGreeting.length(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
             if(ret < 0) {
                 if (errno == EINTR) { continue; } // interrupted by a SIGNAL; retry
                 stream << "failed to connect to " << (tcp ? "TCP" : "UDP") << " device " << serverName << ":" << serverPort;
@@ -81,7 +80,7 @@ std::vector<std::vector<unsigned char> > EthernetDevice::read() {
     return results;
 }
 
-unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
+int EthernetDevice::read(unsigned char *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
@@ -109,7 +108,7 @@ unsigned EthernetDevice::read(unsigned char *buffer, size_t length) {
     return bytesTotal;
 }
 
-unsigned EthernetDevice::peek(unsigned char *buffer, size_t length) {
+int EthernetDevice::peek(unsigned char *buffer, size_t length) {
     if (!mOpen) {
         open();
     }

@@ -82,10 +82,12 @@ class EthernetDevice : public InputDevice {
     /**
      * @brief Sets the communications protocol to UDP.
      * default is TCP.
+     * @param greeting message to send to server when connecting
      */
-    void setUDP() {
+    void setUDP(const char* greeting) {
         tcp = false;
         sockType = SOCK_DGRAM;
+        udpGreeting = greeting;
     }
 
     protected:
@@ -102,7 +104,7 @@ class EthernetDevice : public InputDevice {
      *
      * @throws IOException if an error occurs while reading or if the device is not open
      */
-    virtual unsigned read(unsigned char *buffer, size_t length);
+    virtual int read(unsigned char *buffer, size_t length);
 
     /**
      * peeks at @a length bytes from this device and stores them in @a buffer
@@ -114,7 +116,7 @@ class EthernetDevice : public InputDevice {
      *
      * @throws IOException if an error occurs while reading or if the device is not open
      */
-    virtual unsigned peek(unsigned char *buffer, size_t length);
+    virtual int peek(unsigned char *buffer, size_t length);
 
     /**
      * writes @a length bytes from @a buffer to this device
@@ -152,6 +154,8 @@ class EthernetDevice : public InputDevice {
 
     /** default to using TCP for communications */
     bool tcp;
+
+    std::string udpGreeting;
 
 };
 
