@@ -82,15 +82,23 @@ class EthernetDevice : public InputDevice {
     /**
      * @brief Sets the communications protocol to UDP.
      * default is TCP.
-     * @param greeting message to send to server when connecting
      */
-    void setUDP(const char* greeting) {
-        tcp = false;
-        sockType = SOCK_DGRAM;
-        udpGreeting = greeting;
-    }
+    virtual void setUDP() = 0;
 
     protected:
+
+    /**
+     * @brief Sets the communications protocol to UDP.
+     * default is TCP.
+     * @param greeting message to send to server when connecting
+     * @param length of greeting
+     */
+    void setUDP(const char* greeting, size_t length) {
+        tcp = false;
+        sockType = SOCK_DGRAM;
+        udpGreeting = std::string(greeting, length);
+        udpGreetingLen = length;
+    }
 
     virtual std::vector<std::vector<unsigned char> > read();
 
@@ -104,7 +112,7 @@ class EthernetDevice : public InputDevice {
      *
      * @throws IOException if an error occurs while reading or if the device is not open
      */
-    virtual int read(unsigned char *buffer, size_t length);
+    virtual size_t read(unsigned char *buffer, size_t length);
 
     /**
      * peeks at @a length bytes from this device and stores them in @a buffer
@@ -116,7 +124,7 @@ class EthernetDevice : public InputDevice {
      *
      * @throws IOException if an error occurs while reading or if the device is not open
      */
-    virtual int peek(unsigned char *buffer, size_t length);
+    virtual size_t peek(unsigned char *buffer, size_t length);
 
     /**
      * writes @a length bytes from @a buffer to this device
@@ -128,7 +136,7 @@ class EthernetDevice : public InputDevice {
      *
      * @throws IOException if an error occurs while writing or if the device is not open
      */
-    virtual int write(const void *buffer, size_t length);
+    virtual size_t write(const void *buffer, size_t length);
 
     private:
 
@@ -156,6 +164,7 @@ class EthernetDevice : public InputDevice {
     bool tcp;
 
     std::string udpGreeting;
+    size_t udpGreetingLen;
 
 };
 

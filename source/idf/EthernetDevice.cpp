@@ -45,7 +45,7 @@ void EthernetDevice::open() {
         int ret = -1;
         while (1) {
             ret = tcp ? connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen)
-                      : sendto(socketHandle, udpGreeting.c_str(), sizeof(char)*udpGreeting.length(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+                      : sendto(socketHandle, udpGreeting.c_str(), sizeof(char)*udpGreetingLen, 0, (struct sockaddr *)&serverAddr, serverAddrLen);
             if(ret < 0) {
                 if (errno == EINTR) { continue; } // interrupted by a SIGNAL; retry
                 stream << "failed to connect to " << (tcp ? "TCP" : "UDP") << " device " << serverName << ":" << serverPort;
@@ -80,19 +80,18 @@ std::vector<std::vector<unsigned char> > EthernetDevice::read() {
     return results;
 }
 
-int EthernetDevice::read(unsigned char *buffer, size_t length) {
+size_t EthernetDevice::read(unsigned char *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
 
-    int bytesRecvd = 0;
-    unsigned bytesTotal = 0;
-    unsigned char readBuff[length];
-    memset(&readBuff, 0, length);
+    ssize_t bytesRecvd = 0;
+    size_t bytesTotal = 0;
+    memset(&buffer, 0, length);
 
     while(bytesTotal < length) {
         // non-blocking receive
-        bytesRecvd = recvfrom(socketHandle, &readBuff[bytesTotal], length-bytesTotal, MSG_DONTWAIT, (struct sockaddr*)&srcAddr, &srcAddrLen);
+        bytesRecvd = recvfrom(socketHandle, &buffer[bytesTotal], length-bytesTotal, MSG_DONTWAIT, (struct sockaddr*)&srcAddr, &srcAddrLen);
         if (bytesRecvd < 0) {
             if (errno == EAGAIN) { return 0; } // no data, try again later
             else if (errno == EINTR) { continue; } // interrupted, retry
@@ -101,26 +100,24 @@ int EthernetDevice::read(unsigned char *buffer, size_t length) {
                 throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
-            bytesTotal += static_cast<unsigned>(bytesRecvd);
+            bytesTotal += static_cast<size_t>(bytesRecvd);
         }
     }
-    memcpy(buffer, &readBuff, length);
     return bytesTotal;
 }
 
-int EthernetDevice::peek(unsigned char *buffer, size_t length) {
+size_t EthernetDevice::peek(unsigned char *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
 
-    int bytesRecvd = 0;
-    unsigned bytesTotal = 0;
-    unsigned char readBuff[length];
-    memset(&readBuff, 0, length);
+    ssize_t bytesRecvd = 0;
+    size_t bytesTotal = 0;
+    memset(&buffer, 0, length);
 
     while(bytesTotal < length) {
         // non-blocking receive
-        bytesRecvd = recvfrom(socketHandle, &readBuff[bytesTotal], length-bytesTotal, MSG_DONTWAIT | MSG_PEEK, (struct sockaddr*)&srcAddr, &srcAddrLen);
+        bytesRecvd = recvfrom(socketHandle, &buffer[bytesTotal], length-bytesTotal, MSG_DONTWAIT | MSG_PEEK, (struct sockaddr*)&srcAddr, &srcAddrLen);
         if (bytesRecvd < 0) {
             if (errno == EAGAIN) { return 0; } // no data, try again later
             else if (errno == EINTR) { continue; } // interrupted, retry
@@ -129,20 +126,19 @@ int EthernetDevice::peek(unsigned char *buffer, size_t length) {
                 throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
-            bytesTotal += static_cast<unsigned>(bytesRecvd);
+            bytesTotal += static_cast<size_t>(bytesRecvd);
         }
     }
-    memcpy(buffer, &readBuff, length);
     return bytesTotal;
 }
 
-int EthernetDevice::write(const void *buffer, size_t length) {
+size_t EthernetDevice::write(const void *buffer, size_t length) {
     if (!mOpen) {
         open();
     }
 
-    int bytesSent = 0;
-    unsigned bytesTotal = 0;
+    ssize_t bytesSent = 0;
+    size_t bytesTotal = 0;
 
     while (bytesTotal < length) {
         bytesSent = sendto(socketHandle, (&buffer)[bytesTotal], length-bytesTotal, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);
@@ -153,7 +149,7 @@ int EthernetDevice::write(const void *buffer, size_t length) {
                 throw IOException("Error while writing to " + name + ": " + strerror(errno));
             }
         } else if (bytesSent > 0) {
-            bytesTotal += static_cast<unsigned>(bytesSent);
+            bytesTotal += static_cast<size_t>(bytesSent);
         }
     }
     return bytesSent;
