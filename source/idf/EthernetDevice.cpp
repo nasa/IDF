@@ -45,7 +45,7 @@ void EthernetDevice::open() {
         int ret = -1;
         while (1) {
             ret = tcp ? connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen)
-                      : sendto(socketHandle, udpGreeting.c_str(), sizeof(char)*udpGreetingLen, 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+                      : sendto(socketHandle, &udpGreeting[0], udpGreeting.size(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
             if(ret < 0) {
                 if (errno == EINTR) { continue; } // interrupted by a SIGNAL; retry
                 stream << "failed to connect to " << (tcp ? "TCP" : "UDP") << " device " << serverName << ":" << serverPort;
@@ -87,7 +87,6 @@ size_t EthernetDevice::read(unsigned char *buffer, size_t length) {
 
     ssize_t bytesRecvd = 0;
     size_t bytesTotal = 0;
-    memset(&buffer, 0, length);
 
     while(bytesTotal < length) {
         // non-blocking receive
@@ -113,7 +112,6 @@ size_t EthernetDevice::peek(unsigned char *buffer, size_t length) {
 
     ssize_t bytesRecvd = 0;
     size_t bytesTotal = 0;
-    memset(&buffer, 0, length);
 
     while(bytesTotal < length) {
         // non-blocking receive

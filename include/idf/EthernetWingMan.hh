@@ -28,7 +28,10 @@ class EthernetWingMan : public EthernetDevice, public virtual WingMan {
 
     virtual void decode(const std::vector<unsigned char>& data);
 
-    virtual void setUDP() { EthernetDevice::setUDP("Hello", 6); }
+    virtual void setUDP() { 
+        unsigned char buff[] = "hello";
+        EthernetDevice::setUDP(buff, 6);
+    }
 
     protected:
 

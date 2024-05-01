@@ -93,11 +93,13 @@ class EthernetDevice : public InputDevice {
      * @param greeting message to send to server when connecting
      * @param length of greeting
      */
-    void setUDP(const char* greeting, size_t length) {
+    void setUDP(const unsigned char* greeting, size_t length) {
         tcp = false;
         sockType = SOCK_DGRAM;
-        udpGreeting = std::string(greeting, length);
-        udpGreetingLen = length;
+        udpGreeting.reserve(length);
+        udpGreeting = std::vector<unsigned char>(greeting, greeting+length);
+        printf("udp Greeting: %s", &udpGreeting[0]);
+        // udpGreetingLen = length;
     }
 
     virtual std::vector<std::vector<unsigned char> > read();
@@ -163,8 +165,7 @@ class EthernetDevice : public InputDevice {
     /** default to using TCP for communications */
     bool tcp;
 
-    std::string udpGreeting;
-    size_t udpGreetingLen;
+    std::vector<unsigned char> udpGreeting;
 
 };
 
