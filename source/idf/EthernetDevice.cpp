@@ -105,17 +105,16 @@ size_t EthernetDevice::read(unsigned char *buffer, size_t length) {
     return bytesTotal;
 }
 
-size_t EthernetDevice::peek(unsigned char *buffer, size_t length) {
+size_t EthernetDevice::peek(unsigned char *buffer, size_t max) {
     if (!mOpen) {
         open();
     }
 
     ssize_t bytesRecvd = 0;
-    size_t bytesTotal = 0;
 
-    while(bytesTotal < length) {
-        // non-blocking receive
-        bytesRecvd = recvfrom(socketHandle, &buffer[bytesTotal], length-bytesTotal, MSG_DONTWAIT | MSG_PEEK, (struct sockaddr*)&srcAddr, &srcAddrLen);
+    while(1) {
+        // 1 attempt at a non-blocking receive. Loop just to allow for Interrupt signals
+        bytesRecvd = recvfrom(socketHandle, &buffer[0], max, MSG_DONTWAIT | MSG_PEEK, (struct sockaddr*)&srcAddr, &srcAddrLen);
         if (bytesRecvd < 0) {
             if (errno == EAGAIN) { return 0; } // no data, try again later
             else if (errno == EINTR) { continue; } // interrupted, retry
@@ -124,10 +123,10 @@ size_t EthernetDevice::peek(unsigned char *buffer, size_t length) {
                 throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
-            bytesTotal += static_cast<size_t>(bytesRecvd);
+            return static_cast<size_t>(bytesRecvd);
         }
     }
-    return bytesTotal;
+    return 0;
 }
 
 size_t EthernetDevice::write(const void *buffer, size_t length) {

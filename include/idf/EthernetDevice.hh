@@ -98,7 +98,7 @@ class EthernetDevice : public InputDevice {
         sockType = SOCK_DGRAM;
         udpGreeting.reserve(length);
         udpGreeting = std::vector<unsigned char>(greeting, greeting+length);
-        printf("udp Greeting: %s", &udpGreeting[0]);
+        printf("UDP Greeting: `%s`\n", &udpGreeting[0]);
         // udpGreetingLen = length;
     }
 
@@ -117,16 +117,16 @@ class EthernetDevice : public InputDevice {
     virtual size_t read(unsigned char *buffer, size_t length);
 
     /**
-     * peeks at @a length bytes from this device and stores them in @a buffer
+     * peeks at up to @a max bytes from this device and stores them in @a buffer
      *
      * @param buffer the location to store the data
-     * @param length the number of bytes to read
+     * @param max the number of bytes to read
      *
-     * @return the number of bytes read (always non-negative)
+     * @return the number of bytes peeked (always non-negative)
      *
-     * @throws IOException if an error occurs while reading or if the device is not open
+     * @throws IOException if an error occurs while peeking or if the device is not open
      */
-    virtual size_t peek(unsigned char *buffer, size_t length);
+    virtual size_t peek(unsigned char *buffer, size_t max);
 
     /**
      * writes @a length bytes from @a buffer to this device
