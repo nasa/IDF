@@ -25,7 +25,7 @@ class EthernetExtreme3dPro : public EthernetWingMan, public Extreme3dPro {
     public:
 
     /** constructor */
-    EthernetExtreme3dPro();
+    EthernetExtreme3dPro(std::string& host, unsigned short port );
 
     void decode(const std::vector<unsigned char>& data);
 

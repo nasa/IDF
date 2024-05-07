@@ -2,8 +2,8 @@
 
 namespace idf {
 
-EthernetExtreme3dPro::EthernetExtreme3dPro() :
-    EthernetWingMan("Extreme 3D Pro", 14) {}
+EthernetExtreme3dPro::EthernetExtreme3dPro(std::string& host, unsigned short port ) :
+    EthernetWingMan("Extreme 3D Pro", host, port, 14) {}
 
 void EthernetExtreme3dPro::decode(const std::vector<unsigned char>& data) {
     EthernetWingMan::decode(data);

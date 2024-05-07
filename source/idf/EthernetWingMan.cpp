@@ -2,11 +2,11 @@
 
 namespace idf {
 
-EthernetWingMan::EthernetWingMan() :
-    EthernetDevice("Wing Man", 6) {}
+EthernetWingMan::EthernetWingMan(std::string& host, unsigned short port ) :
+    EthernetDevice("Wing Man", host, port, 6) {}
 
-EthernetWingMan::EthernetWingMan(const std::string& id, unsigned length) :
-    EthernetDevice(id, length) {}
+EthernetWingMan::EthernetWingMan(const std::string& id, std::string& host, unsigned short port, unsigned length) :
+    EthernetDevice(id, host, port, length) {}
 
 void EthernetWingMan::decode(const std::vector<unsigned char>& data) {
     leftRightPivot.setValue( static_cast<double>(((unsigned)data[1] & 3) << 8 | data[0]) );

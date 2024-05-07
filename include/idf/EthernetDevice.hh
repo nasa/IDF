@@ -39,7 +39,7 @@ class EthernetDevice : public InputDevice {
      * @param ipAddress the ipaddress of this device
      * @param port the port number of this device
      */
-    EthernetDevice(const std::string& name, unsigned packetLength);
+    EthernetDevice(const std::string& name, std::string& host, unsigned short port, unsigned packetLength);
 
     virtual ~EthernetDevice() {
         close();
