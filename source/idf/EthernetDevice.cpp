@@ -12,11 +12,11 @@
 
 namespace idf {
 
-EthernetDevice::EthernetDevice(const std::string& id, std::string& host, unsigned short port, unsigned length) :
+EthernetDevice::EthernetDevice(const std::string& id, const std::string& host, unsigned short port, unsigned length) :
     InputDevice(id),
+    packetLength(length),
     serverName(host),
     serverPort(port),
-    packetLength(length),
     sockType(SOCK_STREAM),
     tcp(true) {
         memset(&serverAddr, 0 , sizeof(serverAddr));

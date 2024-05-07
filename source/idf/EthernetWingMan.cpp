@@ -2,10 +2,10 @@
 
 namespace idf {
 
-EthernetWingMan::EthernetWingMan(std::string& host, unsigned short port ) :
+EthernetWingMan::EthernetWingMan(const std::string& host, unsigned short port ) :
     EthernetDevice("Wing Man", host, port, 6) {}
 
-EthernetWingMan::EthernetWingMan(const std::string& id, std::string& host, unsigned short port, unsigned length) :
+EthernetWingMan::EthernetWingMan(const std::string& id, const std::string& host, unsigned short port, unsigned length) :
     EthernetDevice(id, host, port, length) {}
 
 void EthernetWingMan::decode(const std::vector<unsigned char>& data) {

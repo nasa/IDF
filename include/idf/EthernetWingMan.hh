@@ -24,7 +24,7 @@ class EthernetWingMan : public EthernetDevice, public virtual WingMan {
     public:
 
     /** constructor */
-    EthernetWingMan(std::string& host, unsigned short port);
+    EthernetWingMan(const std::string& host, unsigned short port);
 
     virtual void decode(const std::vector<unsigned char>& data);
 
@@ -36,7 +36,7 @@ class EthernetWingMan : public EthernetDevice, public virtual WingMan {
     protected:
 
     /** @copydoc EthernetDevice::EthernetDevice */
-    EthernetWingMan(const std::string& name, std::string& host, unsigned short port, unsigned packetLength);
+    EthernetWingMan(const std::string& name, const std::string& host, unsigned short port, unsigned packetLength);
 
 };
 
