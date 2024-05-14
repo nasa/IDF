@@ -31,7 +31,7 @@ void EthernetDevice::open() {
 
         socketHandle = socket(AF_INET, sockType, 0);
 
-        if ( errno > 0) {
+        if (socketHandle < 0) {
             stream << "failed to create socket";
             perror(stream.str().c_str());
             throw IOException(stream.str());
