@@ -17,6 +17,7 @@ LIBRARY DEPENDENCIES: (
 
 #include <string>
 #include <netinet/in.h>
+#include <ctime>
 
 namespace idf {
 
@@ -74,8 +75,6 @@ class EthernetDevice : public InputDevice {
      */
     void setTCP() {
         tcp = true;
-        srcAddr = NULL;
-        srcAddrLen = 0;
         sockType = SOCK_STREAM;
     }
 
@@ -156,7 +155,7 @@ class EthernetDevice : public InputDevice {
     struct sockaddr_in serverAddr;
     socklen_t serverAddrLen;
 
-    struct sockaddr_in * srcAddr;
+    struct sockaddr_in srcAddr;
     socklen_t srcAddrLen;
 
     /** socket type specifier. Should be set via setTCP or setUDP */
@@ -166,6 +165,8 @@ class EthernetDevice : public InputDevice {
     bool tcp;
 
     std::vector<unsigned char> udpGreeting;
+
+    std::time_t lastPacketArrived;
 
 };
 

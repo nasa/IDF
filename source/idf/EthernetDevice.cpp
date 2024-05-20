@@ -47,7 +47,7 @@ void EthernetDevice::open() {
         int ret = -1;
         while (1) {
             ret = tcp ? connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen)
-                      : sendto(socketHandle, &udpGreeting[0], udpGreeting.size(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+                       : sendto(socketHandle, &udpGreeting[0], udpGreeting.size(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
             if(ret < 0) {
                 if (errno == EINTR) { continue; } // interrupted by a SIGNAL; retry
                 stream << "failed to connect to " << (tcp ? "TCP" : "UDP") << " device " << serverName << ":" << serverPort;
@@ -56,7 +56,7 @@ void EthernetDevice::open() {
             }
             break;
         }
-
+        lastPacketArrived = std::time(nullptr);
         std::cout << "[IDF::EthernetDevice] Connected to " << serverName << ":" << serverPort << std::endl;
 
         Manageable::open();
@@ -92,16 +92,23 @@ size_t EthernetDevice::read(unsigned char *buffer, size_t length) {
 
     while(bytesTotal < length) {
         // non-blocking receive
-        bytesRecvd = recvfrom(socketHandle, &buffer[bytesTotal], length-bytesTotal, MSG_DONTWAIT, (struct sockaddr*)&srcAddr, &srcAddrLen);
+        srcAddrLen = sizeof(srcAddr);
+        bytesRecvd = tcp ? recv(socketHandle, &buffer[bytesTotal], length-bytesTotal, MSG_DONTWAIT)
+                         : recvfrom(socketHandle, &buffer[bytesTotal], length-bytesTotal, MSG_DONTWAIT, (struct sockaddr*)&srcAddr, &srcAddrLen);
         if (bytesRecvd < 0) {
-            if (errno == EAGAIN) { return 0; } // no data, try again later
-            else if (errno == EINTR) { continue; } // interrupted, retry
+            if (errno == EAGAIN) { // no data, try again later
+                if(std::time(nullptr) >= (lastPacketArrived + 2)) {
+                    close();
+                }
+                return 0;
+            } else if (errno == EINTR) { continue; } // interrupted, retry
             else {
                 close();
                 throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
             bytesTotal += static_cast<size_t>(bytesRecvd);
+            lastPacketArrived = std::time(nullptr);
         }
     }
     return bytesTotal;
@@ -116,16 +123,24 @@ size_t EthernetDevice::peek(unsigned char *buffer, size_t max) {
 
     while(1) {
         // 1 attempt at a non-blocking receive. Loop just to allow for Interrupt signals
-        bytesRecvd = recvfrom(socketHandle, &buffer[0], max, MSG_DONTWAIT | MSG_PEEK, (struct sockaddr*)&srcAddr, &srcAddrLen);
+        srcAddrLen = sizeof(srcAddr);
+        bytesRecvd = tcp ? recv(socketHandle, &buffer[0], max, MSG_DONTWAIT | MSG_PEEK)
+                         : recvfrom(socketHandle, &buffer[0], max, MSG_DONTWAIT | MSG_PEEK, (struct sockaddr*)&srcAddr, &srcAddrLen);
         if (bytesRecvd < 0) {
-            if (errno == EAGAIN) { return 0; } // no data, try again later
-            else if (errno == EINTR) { continue; } // interrupted, retry
+            if (errno == EAGAIN) { // no data, try again later
+                if(std::time(nullptr) >= (lastPacketArrived + 2)) {
+                    printf("\tPacket timeout: closing\n");
+                    close();
+                }
+                return 0;
+            } else if (errno == EINTR) { continue; } // interrupted, retry
             else {
                 close();
                 throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
             return static_cast<size_t>(bytesRecvd);
+            lastPacketArrived = std::time(nullptr);
         }
     }
     return 0;
