@@ -82,25 +82,27 @@ class EthernetDevice : public InputDevice {
      * @brief Sets the communications protocol to UDP.
      * default is TCP.
      */
-    virtual void setUDP() = 0;
+    void setUDP() {
+        tcp = false;
+        sockType = SOCK_DGRAM;
+    }
+
 
     protected:
 
     /**
-     * @brief Sets the communications protocol to UDP.
-     * default is TCP.
-     * @param greeting message to send to server when connecting
-     * @param length of greeting
+     * @brief Get the Udp Greeting message. Each device may have a specific
+     * message or need to construct one based on parameters
+     * 
+     * @return std::vector<unsigned char> 
      */
-    void setUDP(const unsigned char* greeting, size_t length) {
-        tcp = false;
-        sockType = SOCK_DGRAM;
-        udpGreeting.reserve(length);
-        udpGreeting = std::vector<unsigned char>(greeting, greeting+length);
-        printf("UDP Greeting: `%s`\n", &udpGreeting[0]);
-        // udpGreetingLen = length;
-    }
+    virtual std::vector<unsigned char> getUdpGreeting() = 0;
 
+    /**
+     * reads all pending data from this device
+     *
+     * @return a collection of state packets
+     */
     virtual std::vector<std::vector<unsigned char> > read();
 
     /**
@@ -163,8 +165,6 @@ class EthernetDevice : public InputDevice {
 
     /** default to using TCP for communications */
     bool tcp;
-
-    std::vector<unsigned char> udpGreeting;
 
     std::time_t lastPacketArrived;
 

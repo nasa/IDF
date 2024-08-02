@@ -29,11 +29,14 @@ class EthernetWingMan : public EthernetDevice, public virtual WingMan {
     virtual void decode(const std::vector<unsigned char>& data);
 
     virtual void setUDP() { 
-        unsigned char buff[] = "hello";
-        EthernetDevice::setUDP(buff, 6);
+        EthernetDevice::setUDP();
     }
 
     protected:
+
+    std::vector<unsigned char> getUdpGreeting() { 
+        return {'m','e','l','l','o','n'};
+    }
 
     /** @copydoc EthernetDevice::EthernetDevice */
     EthernetWingMan(const std::string& name, const std::string& host, unsigned short port, unsigned packetLength);

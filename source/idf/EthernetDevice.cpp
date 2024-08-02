@@ -16,11 +16,9 @@ EthernetDevice::EthernetDevice(const std::string& id, const std::string& host, u
     InputDevice(id),
     packetLength(length),
     serverName(host),
-    serverPort(port),
-    sockType(SOCK_STREAM),
-    tcp(true) {
+    serverPort(port) {
         memset(&serverAddr, 0 , sizeof(serverAddr));
-        setTCP(); // ensure vars are zeroed out.
+        setTCP();
     }
 
 void EthernetDevice::open() {
@@ -46,8 +44,12 @@ void EthernetDevice::open() {
 
         int ret = -1;
         while (1) {
-            ret = tcp ? connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen)
-                       : sendto(socketHandle, &udpGreeting[0], udpGreeting.size(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+            if (tcp) {
+                ret = connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen);
+            } else {
+                std::vector<unsigned char> udpGreeting = getUdpGreeting();
+                sendto(socketHandle, &udpGreeting[0], udpGreeting.size(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+            }
             if(ret < 0) {
                 if (errno == EINTR) { continue; } // interrupted by a SIGNAL; retry
                 stream << "failed to connect to " << (tcp ? "TCP" : "UDP") << " device " << serverName << ":" << serverPort;
