@@ -48,7 +48,7 @@ void EthernetDevice::open() {
                 ret = connect(socketHandle, (struct sockaddr*)&serverAddr, serverAddrLen);
             } else {
                 std::vector<unsigned char> udpGreeting = getUdpGreeting();
-                sendto(socketHandle, &udpGreeting[0], udpGreeting.size(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
+                ret = sendto(socketHandle, &udpGreeting[0], udpGreeting.size(), 0, (struct sockaddr *)&serverAddr, serverAddrLen);
             }
             if(ret < 0) {
                 if (errno == EINTR) { continue; } // interrupted by a SIGNAL; retry
