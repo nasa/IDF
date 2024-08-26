@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.4.4)
+cmake_minimum_required(VERSION 3.16.3)
 project(IDF)
 
 option(ENABLE_CAN_DEVICES "Enable CAN controlled input devices" OFF)
@@ -25,6 +25,9 @@ set(SRC_IDF
     source/idf/DualShock4.cpp
     source/idf/DualShock.cpp
     source/idf/Er7Orion.cpp
+    source/idf/EthernetDevice.cpp
+    source/idf/EthernetExtreme3dPro.cpp
+    source/idf/EthernetWingMan.cpp
     source/idf/Extreme3dPro.cpp
     source/idf/FlightController.cpp
     source/idf/Gravis.cpp
@@ -102,6 +105,7 @@ set(SRC_IDF
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-show-option -Wredundant-decls -Wshadow -Woverloaded-virtual")
+set(CMAKE_CXX_STANDARD 11)
 
 set_source_files_properties(hidapi.c PROPERTIES COMPILE_FLAGS "-Wno-sign-compare")
 
