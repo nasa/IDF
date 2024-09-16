@@ -191,6 +191,21 @@ SingleCameraController* SingleCameraController::createInstance(const IndustrialP
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const IndustrialProducts4& industrialProducts) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+      industrialProducts.twist,
+      industrialProducts.forwardBackwardPivot,
+      industrialProducts.leftRightPivot,
+      industrialProducts.hatUpDownPivot);
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+
+    return controller;
+}
+
+
 SingleCameraController* SingleCameraController::createInstance(const SaitekX52& saitekX52) {
     CompositeInput* spin = new CompositeInput();
     spin->addInput(saitekX52.toggle1);

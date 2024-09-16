@@ -26,6 +26,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
 #include "idf/IndustrialProducts3.hh"
+#include "idf/IndustrialProducts4.hh"
 #include "idf/SaitekX52.hh"
 #include "idf/SaitekX56Stick.hh"
 #include "idf/SpaceExplorer.hh"
@@ -296,6 +297,15 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new IndustrialProducts3-based robotics controller
      */
     static SingleRoboticsController* createInstance(const IndustrialProducts3& industrialProducts3);
+
+    /*
+     * creates a new SingleRoboticsController mapped to @a industrialProducts4 using appropriate defaults
+     *
+     * @param industrialProducts4 the inputs to use in the default mapping
+     *
+     * @return a new industrialProducts4-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const IndustrialProducts4& industrialProducts4);
 
     /*
      * creates a new SingleRoboticsController mapped to @a SaitekX52 using appropriate defaults
