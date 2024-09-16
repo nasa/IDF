@@ -34,6 +34,7 @@ set(SRC_IDF
     source/idf/HagstromKEUSB36.cpp
     source/idf/IndustrialProducts2.cpp
     source/idf/IndustrialProducts3.cpp
+    source/idf/IndustrialProducts4.cpp
     source/idf/IndustrialProducts.cpp
     source/idf/Input.cpp
     source/idf/InputDevice.cpp
@@ -81,6 +82,7 @@ set(SRC_IDF
     source/idf/UsbHagstromKEUSB36FS.cpp
     source/idf/UsbIndustrialProducts2.cpp
     source/idf/UsbIndustrialProducts3.cpp
+    source/idf/UsbIndustrialProducts4.cpp
     source/idf/UsbIndustrialProducts.cpp
     source/idf/UsbKeyboard.cpp
     source/idf/UsbMadCatz.cpp

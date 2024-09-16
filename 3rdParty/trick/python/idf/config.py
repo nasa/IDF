@@ -46,6 +46,7 @@ class Configurator:
           trick.UsbGravis,
           trick.UsbIndustrialProducts,
           trick.UsbIndustrialProducts3,
+          trick.UsbIndustrialProducts4,
           trick.UsbSaitek,
           trick.UsbSaitekX52,
           trick.UsbSaitekX56Stick,

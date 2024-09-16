@@ -37,6 +37,7 @@ UsbDevice::UsbDevice(const std::string& id, unsigned length) :
     identifications["Industrial Products"].push_back(Identification(0x068E, 0x002E, 0));
     identifications["Industrial Products 2"].push_back(Identification(0x068E, 0x0019, 0));
     identifications["Industrial Products 3"].push_back(Identification(0x068E, 0x0026, 0));
+    identifications["Industrial Products 4"].push_back(Identification(0x068E, 0x0177, 0));
     identifications["Playstation 3 Controller"].push_back(Identification(0x054C, 0x0268, 0));
     identifications["Playstation 4 Controller"].push_back(Identification(0x054C, 0x05C4, 0));
     identifications["Playstation 4 Controller"].push_back(Identification(0x054C, 0x09CC, 3));

@@ -25,6 +25,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
 #include "idf/IndustrialProducts3.hh"
+#include "idf/IndustrialProducts4.hh"
 #include "idf/SaitekX52.hh"
 #include "idf/SaitekX56Stick.hh"
 #include "idf/SaitekX56Throttle.hh"
@@ -210,6 +211,15 @@ class SingleCameraController : public CameraController {
      * @return a new IndustrialProducts3-based camera controller
      */
     static SingleCameraController* createInstance(const IndustrialProducts3& industrialProducts3);
+
+    /**
+     * creates a new SingleCameraController mapped to @a industrialProducts4 using appropriate defaults
+     *
+     * @param industrialProducts4 the inputs to use in the default mapping
+     *
+     * @return a new industrialProducts4-based camera controller
+     */
+    static SingleCameraController* createInstance(const IndustrialProducts4& industrialProducts4);
 
     /**
      * creates a new SingleCameraController mapped to @a SaitekX52 using appropriate defaults

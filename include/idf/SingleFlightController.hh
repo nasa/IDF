@@ -25,6 +25,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
 #include "idf/IndustrialProducts3.hh"
+#include "idf/IndustrialProducts4.hh"
 #include "idf/SaitekX52.hh"
 #include "idf/SaitekX56Stick.hh"
 #include "idf/SpaceBase.hh"
@@ -233,6 +234,15 @@ class SingleFlightController : public FlightController {
      * @return a new IndustrialProducts3-based flight controller
      */
     static SingleFlightController* createInstance(const IndustrialProducts3& industrialProducts3);
+
+    /*
+     * creates a new SingleFlightController mapped to @a industrialProducts4 using appropriate defaults
+     *
+     * @param industrialProducts4 the inputs to use in the default mapping
+     *
+     * @return a new IndustrialProducts4-based flight controller
+     */
+    static SingleFlightController* createInstance(const IndustrialProducts4& industrialProducts4);
 
     /**
      * creates a new SingleFlightController mapped to @a SaitekX52 using appropriate defaults

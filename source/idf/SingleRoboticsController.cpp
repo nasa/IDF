@@ -411,6 +411,31 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Industr
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const IndustrialProducts4& industrialProducts) {
+    CompositeInput* z = new CompositeInput();
+    z->addInput(industrialProducts.switchUp);
+    z->addInput(industrialProducts.switchDown, -1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+      industrialProducts.leftRightPivot,
+      industrialProducts.forwardBackwardPivot,
+      industrialProducts.twist,
+      industrialProducts.hatUpDownPivot,
+      industrialProducts.hatLeftRightPivot,
+      *z,
+      industrialProducts.trigger,
+      industrialProducts.button1);
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+    controller->y.setInverted(true);
+
+    controller->rateMode.setToggle(true);
+
+    return controller;
+}
+
 SingleRoboticsController* SingleRoboticsController::createInstance(const SaitekX52& saitekX52) {
     CompositeInput* z = new CompositeInput();
     z->addInput(saitekX52.buttonA);
