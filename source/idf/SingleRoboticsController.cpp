@@ -505,6 +505,10 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const DacoThc
       *dummyInput,
       dacoThc.switch1);
 
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+
     return controller;
 }
 }

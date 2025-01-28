@@ -358,6 +358,11 @@ SingleFlightController* SingleFlightController::createInstance(const DacoThc& da
         dacoThc.leftRightTranslation,
         dacoThc.upDownTranslation
       );
+
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+
     return controller;
 }
 

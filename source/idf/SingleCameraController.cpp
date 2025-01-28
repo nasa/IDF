@@ -274,6 +274,11 @@ SingleCameraController* SingleCameraController::createInstance(const DacoThc& da
         dacoThc.leftRightTranslation,
         *dummyInput,
         dacoThc.forwardBackwardTranslation);
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
     return controller;
 }
 
