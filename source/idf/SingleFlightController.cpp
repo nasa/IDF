@@ -346,4 +346,19 @@ SingleFlightController* SingleFlightController::createInstance(const XBoxOne& xB
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const DacoThc& dacoThc) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+    
+    SingleFlightController *controller =
+      new SingleFlightController(
+        *dummyInput,
+        *dummyInput,
+        *dummyInput,
+        dacoThc.forwardBackwardTranslation,
+        dacoThc.leftRightTranslation,
+        dacoThc.upDownTranslation
+      );
+    return controller;
+}
+
 }

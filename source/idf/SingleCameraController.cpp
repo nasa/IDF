@@ -265,4 +265,16 @@ SingleCameraController* SingleCameraController::createInstance(const XBoxOne& xB
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const DacoThc& dacoThc) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+    
+    SingleCameraController *controller =
+      new SingleCameraController(
+        dacoThc.leftRightTranslation,
+        dacoThc.leftRightTranslation,
+        *dummyInput,
+        dacoThc.forwardBackwardTranslation);
+    return controller;
+}
+
 }

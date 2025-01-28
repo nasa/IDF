@@ -491,4 +491,20 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Er7Orio
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const DacoThc& dacoThc) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+    
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+      *dummyInput,
+      *dummyInput,
+      *dummyInput,
+      dacoThc.forwardBackwardTranslation,
+      dacoThc.leftRightTranslation,
+      dacoThc.upDownTranslation,
+      *dummyInput,
+      dacoThc.switch1);
+
+    return controller;
+}
 }

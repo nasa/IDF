@@ -19,6 +19,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/Input.hh"
 #include "idf/CompositeInput.hh"
 
+#include "idf/DacoThc.hh"
 #include "idf/DualShock.hh"
 #include "idf/Extreme3dPro.hh"
 #include "idf/Gravis.hh"
@@ -271,6 +272,14 @@ class SingleFlightController : public FlightController {
      */
     static SingleFlightController* createInstance(const XBoxOne& xBoxOne);
 
+    /**
+     * creates a new SingleFlightController mapped to @a DacoThc using appropriate defaults
+     *
+     * @param dacoThc the inputs to use in the default mapping
+     *
+     * @return a new DacoThc-based camera controller
+     */
+    static SingleFlightController* createInstance(const DacoThc& dacoThc);
 
 };
 
