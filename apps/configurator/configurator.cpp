@@ -8,7 +8,7 @@
 #include "idf/SerialThrustMaster.hh"
 #include "idf/SerialThrustMaster2.hh"
 #include "idf/UsbDevice.hh"
-#include "idf/UsbDaco.hh"
+#include "idf/UsbDacoThc.hh"
 #include "idf/UsbChProPedals.hh"
 #include "idf/UsbDualShock3.hh"
 #include "idf/UsbDualShock4.hh"
@@ -63,7 +63,7 @@ void configure(idf::InputDevice& device) {
 
 void run() {
     idf::UsbChProPedals chProPedals;
-    idf::UsbDaco daco;
+    idf::UsbDacoThc dacoThc;
     idf::UsbDualShock3 dualShock3;
     idf::UsbDualShock4 dualShock4;
     idf::UsbExtreme3dPro extreme3dPro;
@@ -87,7 +87,7 @@ void run() {
 
     std::vector<idf::UsbDevice*> devices;
     devices.push_back(&chProPedals);
-    devices.push_back(&daco);
+    devices.push_back(&dacoThc);
     devices.push_back(&dualShock3);
     devices.push_back(&dualShock4);
     devices.push_back(&extreme3dPro);

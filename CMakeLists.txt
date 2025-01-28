@@ -19,7 +19,7 @@ set(SRC_IDF
     source/idf/CompositeInput.cpp
     source/idf/CompositeRoboticsController.cpp
     source/idf/Controller.cpp
-    source/idf/Daco.cpp
+    source/idf/DacoThc.cpp
     source/idf/Deadbandable.cpp
     source/idf/Deadband.cpp
     source/idf/DualShock3.cpp
@@ -73,7 +73,7 @@ set(SRC_IDF
     source/idf/ThrustMasterBase.cpp
     source/idf/ThrustMaster.cpp
     source/idf/UsbChProPedals.cpp
-    source/idf/UsbDaco.cpp
+    source/idf/UsbDacoThc.cpp
     source/idf/UsbDevice.cpp
     source/idf/UsbDualShock3.cpp
     source/idf/UsbDualShock4.cpp

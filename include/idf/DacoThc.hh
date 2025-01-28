@@ -1,17 +1,17 @@
 /*
 PURPOSE:
 LIBRARY DEPENDENCIES: (
-(idf/Daco.cpp)
+(idf/DacoThc.cpp)
 )
 */
 
 /**
  * @trick_parse{everything}
- * @trick_link_dependency{idf/Daco.cpp}
+ * @trick_link_dependency{idf/DacoThc.cpp}
  */
 
-#ifndef DACO_HH
-#define DACO_HH
+#ifndef DACO_THC_HH
+#define DACO_THC_HH
 
 #include "idf/InputLayout.hh"
 #include "idf/SingleInput.hh"
@@ -19,28 +19,28 @@ LIBRARY DEPENDENCIES: (
 namespace idf {
 
 /**
- * %Daco DF0201 3 Axes 5 Switch Controller input layout
+ * %DacoThc DF0201 3 Axes 5 Switch Controller input layout
  *
  * @author Philip Kunz
  */
-class Daco : public virtual InputLayout {
+class DacoThc : public virtual InputLayout {
 
    public:
 
    /** constructor */
-   Daco();
+   DacoThc();
 
    /** destructor */
-   virtual ~Daco() {};
+   virtual ~DacoThc() {};
 
-   /** x axis */
-   SingleInput x;
+   /** forward backward */
+   SingleInput forwardBackwardTranslation;
 
    /** y axis */
-   SingleInput y;
+   SingleInput leftRightTranslation;
 
    /** z axis */
-   SingleInput z;
+   SingleInput upDownTranslation;
 
    /** switch */
    SingleInput switch1;
