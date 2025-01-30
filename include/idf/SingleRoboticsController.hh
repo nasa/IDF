@@ -19,6 +19,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/Input.hh"
 #include "idf/CompositeInput.hh"
 
+#include "idf/DacoThc.hh"
 #include "idf/DualShock.hh"
 #include "idf/Extreme3dPro.hh"
 #include "idf/Gravis.hh"
@@ -333,6 +334,17 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new Er7Orion-based flight controller
      */
     static SingleRoboticsController* createInstance(const Er7Orion& er7Orion);
+
+
+    /**
+     * creates a new SingleRoboticsController mapped to @a DacoThc using appropriate defaults
+     *
+     * @param dacoThc the inputs to use in the default mapping
+     *
+     * @return a new DacoThc-based camera controller
+     */
+    static SingleRoboticsController* createInstance(const DacoThc& dacoThc);
+
 };
 
 }

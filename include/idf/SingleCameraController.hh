@@ -19,6 +19,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/Input.hh"
 #include "idf/CompositeInput.hh"
 
+#include "idf/DacoThc.hh"
 #include "idf/DualShock.hh"
 #include "idf/Extreme3dPro.hh"
 #include "idf/Gravis.hh"
@@ -248,7 +249,6 @@ class SingleCameraController : public CameraController {
      */
     static SingleCameraController* createInstance(const SaitekX56Throttle& saitekX56Throttle);
 
-
     /**
      * creates a new SingleCameraController mapped to @a XBoxOne using appropriate defaults
      *
@@ -257,6 +257,15 @@ class SingleCameraController : public CameraController {
      * @return a new XBoxOne-based camera controller
      */
     static SingleCameraController* createInstance(const XBoxOne& xBoxOne);
+
+    /**
+     * creates a new SingleCameraController mapped to @a DacoThc using appropriate defaults
+     *
+     * @param dacoThc the inputs to use in the default mapping
+     *
+     * @return a new DacoThc-based camera controller
+     */
+    static SingleCameraController* createInstance(const DacoThc& dacoThc);
 };
 
 }

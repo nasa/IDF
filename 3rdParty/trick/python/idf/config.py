@@ -40,6 +40,7 @@ class Configurator:
         # loop through all supported devices
         for device in [
           trick.UsbChProPedals,
+          trick.UsbDacoThc,
           trick.UsbDualShock3,
           trick.UsbDualShock4,
           trick.UsbExtreme3dPro,

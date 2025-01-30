@@ -265,4 +265,21 @@ SingleCameraController* SingleCameraController::createInstance(const XBoxOne& xB
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const DacoThc& dacoThc) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+    
+    SingleCameraController *controller =
+      new SingleCameraController(
+        dacoThc.leftRightTranslation,
+        dacoThc.leftRightTranslation,
+        *dummyInput,
+        dacoThc.forwardBackwardTranslation);
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
 }

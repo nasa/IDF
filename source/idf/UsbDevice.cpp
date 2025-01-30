@@ -30,6 +30,7 @@ UsbDevice::UsbDevice(const std::string& id, unsigned length) :
         }
     }
     identifications["Ch Pdo Pedals"].push_back(Identification(0x068E, 0x00F2, 0));
+    identifications["Daco THC DF0201"].push_back(Identification(0x1CFA, 0x0044, 0));
     identifications["Extreme 3D Pro"].push_back(Identification(0x046D, 0xC215, 0));
     identifications["Gravis"].push_back(Identification(0x0428, 0x4001, 0));
     identifications["Hagstrom KE-USB36"].push_back(Identification(0x03EB, 0x3650, 0));

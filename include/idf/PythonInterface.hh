@@ -48,6 +48,7 @@
 
 // USB Devices
 #include "idf/UsbChProPedals.hh"
+#include "idf/UsbDacoThc.hh"
 #include "idf/UsbDualShock3.hh"
 #include "idf/UsbDualShock4.hh"
 #include "idf/UsbExtreme3dPro.hh"
