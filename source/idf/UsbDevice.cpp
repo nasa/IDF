@@ -56,7 +56,7 @@ UsbDevice::UsbDevice(const std::string& id, unsigned length) :
     identifications["Teensyduino Joystick"].push_back(Identification(0x16C0, 0x0482, 3));
     identifications["Wing Man"].push_back(Identification(0x046D, 0xC212, 0));
     identifications["Xbox Controller"].push_back(Identification(0x045E, 0x028E, 0));
-    identifications["Xbox One Controller"].push_back(Identification(0x045E, 0x02FD, -1));
+    identifications["Xbox One Controller (model 1708)"].push_back(Identification(0x045E, 0x02FD, -1));
 }
 
 UsbDevice::~UsbDevice() {
