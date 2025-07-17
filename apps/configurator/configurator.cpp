@@ -4,6 +4,7 @@
 #include <limits>
 #include <vector>
 
+#include "idf/BtXBoxOneWireless.hh"
 #include "idf/SerialDevice.hh"
 #include "idf/SerialThrustMaster.hh"
 #include "idf/SerialThrustMaster2.hh"
@@ -84,6 +85,7 @@ void run() {
     idf::UsbWingMan wingMan;
     idf::UsbXBox xBox;
     idf::UsbXBoxOne xBoxOne;
+    idf::BtXBoxOneWireless xBoxOneW;
 
     std::vector<idf::UsbDevice*> devices;
     devices.push_back(&chProPedals);
@@ -108,6 +110,7 @@ void run() {
     devices.push_back(&wingMan);
     devices.push_back(&xBox);
     devices.push_back(&xBoxOne);
+    devices.push_back(&xBoxOneW);
 
     devices.erase(std::remove_if(devices.begin(), devices.end(), notConnected), devices.end());
 

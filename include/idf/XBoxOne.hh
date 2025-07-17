@@ -33,13 +33,16 @@ class XBoxOne : public virtual InputLayout {
     /** destructor */
     virtual ~XBoxOne() {};
 
-    /** upper-left analog pad left-right pivot */
+    /** left analog stick left-right pivot */
     SingleInput leftAnalogLeftRightPivot;
 
-    /** upper-left analog pad up-down pivot */
+    /** left analog stick up-down pivot */
     SingleInput leftAnalogUpDownPivot;
 
-    /** pushing in of the left analog trigger */
+    /** left stick click in */
+    SingleInput leftAnalogIn;
+
+    /** left analog trigger */
     SingleInput leftAnalogTrigger;
 
     /** lower-right analog pad left-right pivot */
@@ -48,7 +51,10 @@ class XBoxOne : public virtual InputLayout {
     /** lower-right analog pad up-down pivot */
     SingleInput rightAnalogUpDownPivot;
 
-    /** pushing in of the right analog trigger */
+    /** right stick click in */
+    SingleInput rightAnalogIn;
+
+    /** right analog trigger */
     SingleInput rightAnalogTrigger;
 
     /** up on the directional pad */

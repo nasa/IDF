@@ -12,6 +12,7 @@ endif(${ENABLE_CAN_DEVICES})
 
 set(SRC_IDF
     ${SRC_IDF}
+    source/idf/BtXBoxOneWireless.cpp
     source/idf/CameraController.cpp
     source/idf/ChProPedals.cpp
     source/idf/CompositeCameraController.cpp

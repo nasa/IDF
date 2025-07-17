@@ -5,9 +5,11 @@ namespace idf {
 XBoxOne::XBoxOne() :
     leftAnalogLeftRightPivot(0, 0xFFFF),
     leftAnalogUpDownPivot(0, 0xFFFF),
+    leftAnalogIn(0,1),
     leftAnalogTrigger(0, 0x3FF, 0),
     rightAnalogLeftRightPivot(0, 0xFFFF),
     rightAnalogUpDownPivot(0, 0xFFFF),
+    rightAnalogIn(0,1),
     rightAnalogTrigger(0, 0x3FF, 0),
     directionalPadUp(0, 1),
     directionalPadDown(0, 1),
