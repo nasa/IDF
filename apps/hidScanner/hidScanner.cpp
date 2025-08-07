@@ -147,7 +147,8 @@ int main(int argc, char **args) {
         int bytesRead = hid_read(device, data, sizeof(data));
         if (bytesRead < 0) {
             perror("Error reading from device");
-            keepReading = false;
+            if (errno == EINTR) keepReading = false;
+            else return -1;
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
@@ -173,6 +174,11 @@ int main(int argc, char **args) {
     unsigned char report[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
     int report_size = hid_get_report_descriptor(device, report, sizeof(report));
 
+    if (report_size < 0) {
+        perror("Error reading HID Report Descriptor from device");
+        return -1;
+    }
+
     printf("\x1b[39;49m\nHID Report Descriptor (%d bytes):\n   ", report_size);
     for(int i=0; i < report_size; ++i) {
         printf("%02X ", report[i]);
@@ -180,7 +186,6 @@ int main(int argc, char **args) {
         else if (i % 8 == 7) printf(" ");
     }
     printf("\n");
-
 
     hid_exit();
     return 0;
