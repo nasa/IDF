@@ -3,15 +3,24 @@
 #include <cwchar>
 #include <unistd.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <stdio.h>
 #include <errno.h>
 #include "hidapi/hidapi/hidapi.h"
+
+static volatile bool keepReading = true;
 
 static unsigned getBit(unsigned char bit, unsigned value) {
     return (value >> bit) & 1;
 }
 
+void interruptHandler(int unused){
+    keepReading = false;
+}
+
 int main(int argc, char **args) {
+
+    signal(SIGINT, interruptHandler);
 
     int result = hid_init();
     if (result < 0) {
@@ -134,11 +143,12 @@ int main(int argc, char **args) {
 
     unsigned char data[numBytes];
 
-    while (1) {
+    while (keepReading) {
         int bytesRead = hid_read(device, data, sizeof(data));
         if (bytesRead < 0) {
             perror("Error reading from device");
-            return -1;
+            if (errno == EINTR) keepReading = false;
+            else return -1;
         }
         else if (bytesRead > 0) {
             if (selection == -1 || data[0] == selection || data[0] == 3) {
@@ -160,6 +170,22 @@ int main(int argc, char **args) {
             }
         }
     }
+
+    unsigned char report[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
+    int report_size = hid_get_report_descriptor(device, report, sizeof(report));
+
+    if (report_size < 0) {
+        perror("Error reading HID Report Descriptor from device");
+        return -1;
+    }
+
+    printf("\x1b[39;49m\nHID Report Descriptor (%d bytes):\n   ", report_size);
+    for(int i=0; i < report_size; ++i) {
+        printf("%02X ", report[i]);
+        if (i % 16 == 15) printf("\n   ");
+        else if (i % 8 == 7) printf(" ");
+    }
+    printf("\n");
 
     hid_exit();
     return 0;
