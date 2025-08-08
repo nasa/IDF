@@ -23,7 +23,7 @@ LIBRARY DEPENDENCIES: (
 namespace idf
 {
 
-struct HIDInput
+struct HidInput
 {
    std::string name;
    int start_bit;
@@ -36,26 +36,27 @@ struct HIDInput
    int units_exp;
 };
 
-struct HIDReport
+struct HidReport
 {
    int id;
-   std::vector<HIDInput> inputs;
+   std::vector<HidInput> inputs;
    int bytes_count;
    bool has_report_byte;
 };
 
-struct HIDDevice
+struct HidDecoded
 {
    std::string type;
-   std::vector<HIDReport> reports;
+   std::vector<HidReport> reports;
+   int maxReportLength;
 };
 
-class HIDDecoder
+class HidDecoder
 {
 public:
-   HIDDecoder();
+   HidDecoder();
 
-   HIDDevice parseDescriptor(const std::vector<unsigned char>& descriptor);
+   HidDecoded parseDescriptor(const std::vector<unsigned char>& descriptor);
    // std::vector<std::pair<std::string, std::string>> enumerateDevices();
 
 private:
@@ -84,8 +85,8 @@ private:
    int productId_;
 
    std::string device_type_ = "Unknown";
-   std::vector<HIDReport> reports_;
-   std::vector<HIDInput> inputs_;
+   std::vector<HidReport> reports_;
+   std::vector<HidInput> inputs_;
    int bit_offset_ = 0;
    int report_id_ = 0;
    std::vector<int> usage_list_;
@@ -113,7 +114,7 @@ private:
       {0x08, "Multi-axis Controller"}
    };
 
-}; // HIDDecoder
+}; // HidDecoder
 
 } // namespace
 

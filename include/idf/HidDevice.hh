@@ -22,21 +22,34 @@ namespace idf {
 class HidDevice : public UsbDevice {
    public:
 
-   HidDevice();
+   HidDevice( int vendor, int product );
+
+   HidDevice( HidDecoded );
 
    virtual ~HidDevice() {};
 
-   virtual void open();
+   /**
+    * @brief open device with @a vendor and @a product, and parse the HID
+    * report descriptor.
+    *
+    * @param vendor USB Vendor ID
+    * @param product USB Product ID
+    * @return HIDDecodedDevice struct enumerating the available reports
+    */
+   static HidDecoded decodeDevice( int vendor, int product);
+
+   void printDecodedInfo();
 
    protected:
 
-   std::vector<HIDReport>hidReports;
+   HidDecoded decoded;
+
+   std::vector<HidReport>hidReports;
 
    std::vector<unsigned char> hidReportDescriptor;
 
    virtual std::vector<unsigned char> getHidReportDescriptor();
 
-   void parseHidReportDescriptor();
 };
 
 } // namespace idf

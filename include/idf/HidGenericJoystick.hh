@@ -32,7 +32,7 @@ class HidGenericJoystick : public HidDevice, public virtual GenericJoystick {
 
    public:
 
-   HidGenericJoystick();
+   HidGenericJoystick(int vendor, int product);
 
    void decode(const std::vector<unsigned char>& data);
 

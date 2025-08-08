@@ -32,7 +32,7 @@ class GenericJoystick : public virtual InputLayout {
 
    GenericJoystick();
 
-   virtual ~GenericJoystick();
+   virtual ~GenericJoystick() {};
 
    // forward-backward pivoting
    SingleInput forwardBackwardPivot;

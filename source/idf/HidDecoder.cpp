@@ -5,11 +5,11 @@
 namespace idf
 {
 
-   HIDDecoder::HIDDecoder() {
+   HidDecoder::HidDecoder() {
       init();
    }
 
-   void HIDDecoder::init() {
+   void HidDecoder::init() {
       reports_.clear();
       inputs_.clear();
       bit_offset_ = 0;
@@ -31,7 +31,7 @@ namespace idf
       button_base_ = 1;
    }
 
-   HIDDevice HIDDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
+   HidDecoded HidDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
    {
       init();
       uint i = 0;
@@ -77,10 +77,17 @@ namespace idf
          report_id_ == 0
       });
 
-      return {device_type_, reports_};
+      int maxReport = -1;
+      for (HidReport rep : reports_) {
+         if (rep.inputs.size() > 0) {
+            maxReport = std::max(maxReport, rep.bytes_count);
+         }
+      }
+
+      return {device_type_, reports_, maxReport};
    }
 
-   void HIDDecoder::decodeGlobalItem(int tag_code, int data, const std::vector<unsigned char> &data_bytes)
+   void HidDecoder::decodeGlobalItem(int tag_code, int data, const std::vector<unsigned char> &data_bytes)
    {
       if (tag_code == 0x0) {  // Usage Page
          current_.usage_page = data;
@@ -153,7 +160,7 @@ namespace idf
       }
    }
 
-   void HIDDecoder::decodeLocalItem(int tag_code, int data)
+   void HidDecoder::decodeLocalItem(int tag_code, int data)
    {
       if (tag_code == 0x0) {  // Usage
          if (data < 0x30) {
@@ -173,7 +180,7 @@ namespace idf
       }
    }
 
-   void HIDDecoder::decodeMainItem(int tag_code)
+   void HidDecoder::decodeMainItem(int tag_code)
    {
       if (tag_code == 0x8) {  // Input(s) from current HIDState information
          std::vector<int> expanded_usages;
@@ -241,11 +248,11 @@ namespace idf
       }
    }
 
-   bool HIDDecoder::interpretSigned() {
+   bool HidDecoder::interpretSigned() {
       return current_.logical_max < 0 || current_.logical_min < 0;
    }
 
-   int HIDDecoder::convertDataToInt(const std::vector<unsigned char> &data, bool isSigned) {
+   int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, bool isSigned) {
       u_int32_t value = 0;
 
       for (uint i = 0; i < data.size(); ++i) {

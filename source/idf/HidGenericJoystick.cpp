@@ -2,7 +2,8 @@
 
 namespace idf {
 
-HidGenericJoystick::HidGenericJoystick() {}
+HidGenericJoystick::HidGenericJoystick(int vendor, int product) :
+   HidDevice(vendor, product) {}
 
 void HidGenericJoystick::decode(const std::vector<unsigned char>& data) {
    printf("decode something from:");
