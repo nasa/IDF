@@ -42,6 +42,8 @@ class HidDevice : public UsbDevice {
 
    protected:
 
+   HidDecoder decoder;
+
    HidDecoded decoded;
 
    std::vector<HidReport>hidReports;

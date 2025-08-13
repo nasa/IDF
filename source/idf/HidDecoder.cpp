@@ -35,6 +35,7 @@ namespace idf
    {
       init();
       uint i = 0;
+
       while (i < descriptor.size()) {
          unsigned char prefix = descriptor[i];
          int size_code = prefix & 0x03;
@@ -74,7 +75,7 @@ namespace idf
          report_id_,
          inputs_,
          bit_offset_ / 8,
-         report_id_ == 0
+         report_id_ != 0
       });
 
       int maxReport = -1;
@@ -165,7 +166,7 @@ namespace idf
       if (tag_code == 0x0) {  // Usage
          if (data < 0x30) {
             if (device_type_ == "Unknown") {
-               device_type_ = usage_names_[data];
+               device_type_ = usage_names_.at(data);
             }
          }
          else {
@@ -197,16 +198,20 @@ namespace idf
 
          for (uint j = 0; j < current_.report_count; ++j) {
             std::string name;
+            u_int8_t usage = 0;
             if (current_.usage_page == 0x01 && j < expanded_usages.size()) {
-               int usage = expanded_usages[j];
-               name = usage_names_[usage];
+               usage = expanded_usages[j];
+               if (usage_names_.count(usage)) name = usage_names_.at(usage);
+               else name = "Unknown";
             }
             else if (current_.usage_page == 0x09 && j < expanded_usages.size()) {
+               usage = 0x09;
                name = "Button " + std::to_string(button_base_++);
             }
             else if (current_.usage_page == 0x01 && expanded_usages.size() == 1) {
-               int usage = expanded_usages[0];
-               name = usage_names_[usage];
+               usage = expanded_usages[0];
+               if (usage_names_.count(usage)) name = usage_names_.at(usage);
+               else name = "Unknown";
             }
             else {
                name = "Padding";
@@ -224,7 +229,8 @@ namespace idf
                tmp_phys_max = current_.logical_max;
             }
 
-            inputs_.push_back({name,
+            inputs_.push_back({usage,
+                               name,
                                start_bit,
                                end_bit,
                                current_.logical_min,
@@ -273,6 +279,31 @@ namespace idf
          break;
       }
       return value;
+   }
+
+   u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsigned char>& data){
+      int startByte = input.start_bit / 8;
+      int startBit =  input.start_bit % 8;
+      int endByte = input.end_bit / 8;
+      int endBit = input.end_bit % 8;
+      u_int64_t temp = 0;
+      u_int64_t mask = 1;
+
+      // bitmask
+      mask = (mask << (input.end_bit - input.start_bit +1)) - 1;
+
+      // stack bytes in reverse to get continuous bits
+      for(int i = endByte; i >= startByte; --i) {
+         temp = temp << 8;
+         temp |= data[i];
+      }
+
+      temp = temp >> startBit;
+      temp = temp & mask;
+      // testing output
+      // printf("   %s(%02x)  %d[%d] --> %d[%d], mask(%lu),  >> %u", input.name.c_str(), input.usage, startByte, startBit, endByte, endBit, mask, startBit);
+
+      return temp;
    }
 
 } // namespace
