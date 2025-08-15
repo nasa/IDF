@@ -28,7 +28,7 @@ namespace idf {
  */
 class GenericJoystick : public virtual InputLayout {
 
-   public:
+public:
 
    GenericJoystick();
 
@@ -52,7 +52,17 @@ class GenericJoystick : public virtual InputLayout {
    // the slider
    SingleInput slider;
 
-   protected:
+   // Hat Directions
+   SingleInput HatNorth;
+   SingleInput HatNorthEast;
+   SingleInput HatEast;
+   SingleInput HatSouthEast;
+   SingleInput HatSouth;
+   SingleInput HatSouthWest;
+   SingleInput HatWest;
+   SingleInput HatNorthWest;
+
+protected:
 
    virtual const std::vector<Configurable>& getConfigurables();
 

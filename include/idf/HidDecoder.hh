@@ -35,6 +35,7 @@ struct HidInput
    int physical_max;
    int units;
    int units_exp;
+   int button_num;
 };
 
 struct HidReport
@@ -52,8 +53,29 @@ struct HidDecoded
    int maxReportLength;
 };
 
+enum HidUsages {
+   USAGE_POINTER   = 0x01,
+   USAGE_JOYSTICK  = 0x04,
+   USAGE_GAMEPAD   = 0x05,
+   USAGE_MULTIAXIS = 0x08,
+   USAGE_BUTTON    = 0x09,
+   USAGE_X         = 0x30,
+   USAGE_Y         = 0x31,
+   USAGE_Z         = 0x32,
+   USAGE_RX        = 0x33,
+   USAGE_RY        = 0x34,
+   USAGE_RZ        = 0x35,
+   USAGE_SLIDER    = 0x36,
+   USAGE_DIAL      = 0x37,
+   USAGE_WHEEL     = 0x38,
+   USAGE_HAT       = 0x39,
+   USAGE_START     = 0x3D,
+   USAGE_SELECT    = 0x3E,
+};
+
 class HidDecoder
 {
+
 public:
    HidDecoder();
 
@@ -67,6 +89,15 @@ public:
     */
    HidDecoded parseDescriptor(const std::vector<unsigned char>& descriptor);
 
+
+   /**
+    * @brief Print out decoded information to stdout
+    *
+    * @param decoded an @a HidDecoded struct
+    */
+   static void printDecodedInfo(HidDecoded decoded);
+
+
    /**
     * @brief extract the appropriate binary value from the data for a given HidInput
     *
@@ -75,6 +106,28 @@ public:
     * @return u_int64_t raw binary data extracted from device.
     */
    u_int64_t extractValue(const HidInput& input, const std::vector<unsigned char>& data);
+
+
+   const std::map<u_int8_t, std::string> usage_names_ = {
+      {USAGE_POINTER, "Pointer"},
+      {USAGE_JOYSTICK, "Joystick"},
+      {USAGE_GAMEPAD, "Gamepad"},
+      {USAGE_MULTIAXIS, "Multi-axis Controller"},
+      {USAGE_BUTTON, "Button"},
+      {USAGE_X, "X"},
+      {USAGE_Y, "Y"},
+      {USAGE_Z, "Z"},
+      {USAGE_RX, "Rx"},
+      {USAGE_RY, "Ry"},
+      {USAGE_RZ, "Rz"},
+      {USAGE_SLIDER, "Slider"},
+      {USAGE_DIAL, "Dial"},
+      {USAGE_WHEEL, "Wheel"},
+      {USAGE_HAT, "Hat switch"},
+      {USAGE_START, "Start"},
+      {USAGE_SELECT, "Select"},
+   };
+
 
 private:
    void init();
@@ -111,26 +164,6 @@ private:
    HIDState current_;
    std::vector<HIDState> state_stack_;
    int button_base_ = 1;
-
-   std::map<u_int8_t, std::string> usage_names_ = {
-      {0x01, "Pointer"},
-      {0x04, "Joystick"},
-      {0x05, "Gamepad"},
-      {0x09, "Button"},
-      {0x08, "Multi-axis Controller"},
-      {0x30, "X"},
-      {0x31, "Y"},
-      {0x32, "Z"},
-      {0x33, "Rx"},
-      {0x34, "Ry"},
-      {0x35, "Rz"},
-      {0x36, "Slider"},
-      {0x37, "Dial"},
-      {0x38, "Wheel"},
-      {0x39, "Hat switch"},
-      {0x3D, "Start"},
-      {0x3E, "Select"},
-   };
 
 }; // HidDecoder
 

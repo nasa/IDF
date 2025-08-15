@@ -20,13 +20,17 @@ namespace idf {
  * @date 2025-08-07
  */
 class HidDevice : public UsbDevice {
-   public:
 
-   HidDevice( int vendor, int product );
+public:
+   HidDevice( int vendor, int product, int interface );
 
    HidDevice( HidDecoded );
 
    virtual ~HidDevice() {};
+
+   void printHidDescriptor();
+
+   void printDecodedHidInfo();
 
    /**
     * @brief open device with @a vendor and @a product, and parse the HID
@@ -38,15 +42,11 @@ class HidDevice : public UsbDevice {
     */
    static HidDecoded decodeDevice( int vendor, int product);
 
-   void printDecodedInfo();
 
-   protected:
-
+protected:
    HidDecoder decoder;
 
    HidDecoded decoded;
-
-   std::vector<HidReport>hidReports;
 
    std::vector<unsigned char> hidReportDescriptor;
 

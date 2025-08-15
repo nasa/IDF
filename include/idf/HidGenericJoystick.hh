@@ -32,9 +32,15 @@ class HidGenericJoystick : public HidDevice, public virtual GenericJoystick {
 
    public:
 
-   HidGenericJoystick(int vendor, int product);
+   HidGenericJoystick(int vendor, int product, int interface);
 
    void decode(const std::vector<unsigned char>& data);
+
+   protected:
+
+   // Flag indicating whether the report descriptor contained a Z axis. If so
+   // use that for twist.
+   bool useZForTwist;
 
 };
 
