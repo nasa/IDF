@@ -95,7 +95,7 @@ HidDecoded HidDecoder::parseDescriptor(const std::vector<unsigned char> &descrip
 }
 
 
-void HidDecoder::decodeGlobalItem(int tag_code, int data, const std::vector<unsigned char> &data_bytes)
+void HidDecoder::decodeGlobalItem(const int tag_code, int data, const std::vector<unsigned char> &data_bytes)
 {
    if (tag_code == 0x0) {  // Usage Page
       current_.usage_page = data;
@@ -169,7 +169,7 @@ void HidDecoder::decodeGlobalItem(int tag_code, int data, const std::vector<unsi
 }
 
 
-void HidDecoder::decodeLocalItem(int tag_code, int data)
+void HidDecoder::decodeLocalItem(const int tag_code, const int data)
 {
    if (tag_code == 0x0) {  // Usage
       if (data < USAGE_X) {
@@ -190,7 +190,7 @@ void HidDecoder::decodeLocalItem(int tag_code, int data)
 }
 
 
-void HidDecoder::decodeMainItem(int tag_code)
+void HidDecoder::decodeMainItem(const int tag_code)
 {
    if (tag_code == 0x8) {  // Create Input(s) from usage list HIDState information
       std::vector<int> expanded_usages;
@@ -272,7 +272,7 @@ bool HidDecoder::interpretSigned() {
 }
 
 
-int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, bool isSigned) {
+int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) {
    u_int32_t value = 0;
 
    for (uint i = 0; i < data.size(); ++i) {
@@ -296,7 +296,7 @@ int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, bool is
 }
 
 
-void HidDecoder::printDecodedInfo(HidDecoded decoded) {
+void HidDecoder::printDecodedInfo(const HidDecoded decoded) {
    std::ostringstream ss;
    ss << "Device Type: " << decoded.type << "\n";
    for (HidReport report : decoded.reports) {

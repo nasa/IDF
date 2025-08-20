@@ -42,14 +42,19 @@ class HidGenericJoystick : public HidDevice, public virtual GenericJoystick {
     * Scanner @link https://github.com/nasa/IDF/wiki/HID-Scanner can
     * help identify the correct interface
     */
-   HidGenericJoystick(int vendor, int product, int interface);
+   HidGenericJoystick(const int vendor, const int product, const int interface);
 
    void decode(const std::vector<unsigned char>& data);
 
    protected:
 
-   // Flag indicating whether the report descriptor contained a Z axis. If so
-   // use that for twist.
+   /**
+    * @brief Flag indicating whether the report descriptor contained a Z axis. If so
+      use that for twist. Most joysticks will give the 'Rz' usage (0x35) for
+      the twist axis. But some may have additional inputs and often this
+      leads to using Z for twist. - This is NOT guaranteed, and may need to be
+      manually overridden.
+    */
    bool useZForTwist;
 
 };

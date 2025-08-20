@@ -9,18 +9,18 @@
 namespace idf {
 
 
-HidDevice::HidDevice( int vendor, int product, int interface) :
+HidDevice::HidDevice(const int vendor, const int product, const int interface) :
    HidDevice(HidDevice::decodeDevice(vendor, product)) {
       addIdentification(Identification(vendor, product, interface));
    }
 
 
-HidDevice::HidDevice(HidDecoded decoded_in) :
+HidDevice::HidDevice(const HidDecoded decoded_in) :
    UsbDevice("Generic " + decoded_in.type, decoded_in.maxReportLength),
    decoded(decoded_in) {}
 
 
-HidDecoded HidDevice::decodeDevice(int vendor, int product) {
+HidDecoded HidDevice::decodeDevice(const int vendor, const int product) {
    std::ostringstream ss;
    hid_device* hidDevice;
    unsigned char buffer[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];

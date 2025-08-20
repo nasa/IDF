@@ -95,7 +95,7 @@ public:
     *
     * @param decoded an @a HidDecoded struct
     */
-   static void printDecodedInfo(HidDecoded decoded);
+   static void printDecodedInfo(const HidDecoded decoded);
 
 
    /**
@@ -131,11 +131,11 @@ public:
 
 private:
    void init();
-   int convertDataToInt(const std::vector<unsigned char> &data, bool isSigned);
+   int convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned);
    bool interpretSigned();
-   void decodeGlobalItem(int tag_code, int data, const std::vector<unsigned char>& data_bytes);
-   void decodeLocalItem(int tag_code, int data);
-   void decodeMainItem(int tag_code);
+   void decodeGlobalItem(const int tag_code, const int data, const std::vector<unsigned char>& data_bytes);
+   void decodeLocalItem(const int tag_code, const int data);
+   void decodeMainItem(const int tag_code);
 
    struct HIDState {
       uint report_size;

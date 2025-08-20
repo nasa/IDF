@@ -34,9 +34,9 @@ public:
     * Scanner @link https://github.com/nasa/IDF/wiki/HID-Scanner can
     * help identify the correct interface
     */
-   HidDevice( int vendor, int product, int interface );
+   HidDevice(const int vendor, const int product, const int interface);
 
-   HidDevice( HidDecoded );
+   HidDevice(const HidDecoded);
 
    virtual ~HidDevice() {};
 
@@ -60,7 +60,7 @@ public:
     * @param product USB Product ID
     * @return HIDDecodedDevice struct enumerating the available reports
     */
-   static HidDecoded decodeDevice( int vendor, int product);
+   static HidDecoded decodeDevice(const int vendor, const int product);
 
 
 protected:

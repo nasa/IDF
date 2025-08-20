@@ -3,7 +3,7 @@
 namespace idf {
 
 
-HidGenericJoystick::HidGenericJoystick(int vendor, int product, int interface) :
+HidGenericJoystick::HidGenericJoystick(const int vendor, const int product, const int interface) :
    HidDevice(vendor, product, interface) {
       // addIdentification(Identification(vendor, product, interface));
       // configure inputs and instantiate list of buttons
