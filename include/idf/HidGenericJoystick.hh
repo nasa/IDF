@@ -32,6 +32,16 @@ class HidGenericJoystick : public HidDevice, public virtual GenericJoystick {
 
    public:
 
+   /**
+    * @brief Construct a Generic Joystick derived from HID Report Descriptor
+    * of the given device
+    *
+    * @param vendor HID Vendor ID to find the connected device
+    * @param product HID product ID to find the connected device
+    * @param interface specific interface of the connected device. HID
+    * Scanner @link https://github.com/nasa/IDF/wiki/HID-Scanner can
+    * help identify the correct interface
+    */
    HidGenericJoystick(int vendor, int product, int interface);
 
    void decode(const std::vector<unsigned char>& data);
