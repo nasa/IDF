@@ -47,7 +47,7 @@ public:
    SingleInput trigger;
 
    // list of remaining buttons (if any)
-   std::vector<SingleInput>buttons;
+   std::vector<SingleInput*>buttons;
 
    // the slider
    SingleInput slider;

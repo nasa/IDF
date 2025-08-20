@@ -12,9 +12,9 @@ HidGenericJoystick::HidGenericJoystick(int vendor, int product, int interface) :
             switch(input.usage) {
             case USAGE_BUTTON:
                if (input.button_num == 1)
-                  buttons.push_back(trigger);
+                  buttons.push_back(&trigger);
                else
-                  buttons.push_back(SingleInput(0,1));
+                  buttons.push_back(new SingleInput(0,1));
                break;
             case USAGE_X:
                leftRightPivot.configure(input.logical_min, input.logical_max);
@@ -40,7 +40,7 @@ void HidGenericJoystick::decode(const std::vector<unsigned char>& data) {
             switch (input.usage) {
                case USAGE_BUTTON:
                   try {
-                     buttons.at(input.button_num - 1).setValue(value);
+                     buttons.at(input.button_num - 1)->setValue(value);
                   }
                   catch (std::out_of_range & e) {}
                   break;
