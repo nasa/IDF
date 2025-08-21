@@ -54,6 +54,7 @@ UsbDevice::UsbDevice(const std::string& id, unsigned length) :
     identifications["Space Navigator"].push_back(Identification(0x046D, 0xC628, 0));
     identifications["Space Navigator"].push_back(Identification(0x256F, 0xC635, 0));
     identifications["Teensyduino Joystick"].push_back(Identification(0x16C0, 0x0482, 3));
+    identifications["Virpil Constellation Alpha"].push_back(Identification(0x3344, 0x4391, 0));
     identifications["Wing Man"].push_back(Identification(0x046D, 0xC212, 0));
     identifications["Xbox Controller"].push_back(Identification(0x045E, 0x028E, 0));
     identifications["Xbox One Wireless Controller"].push_back(Identification(0x045E, 0x02E0, -1));

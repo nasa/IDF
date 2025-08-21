@@ -56,6 +56,7 @@ class Configurator:
           trick.UsbSpaceMouse,
           trick.UsbSpaceNavigator,
           trick.UsbTeensyduino,
+          trick.UsbVirpilConstellationAlpha,
           trick.UsbWingMan,
           trick.UsbXBox,
           trick.UsbXBoxOne]:
