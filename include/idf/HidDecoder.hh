@@ -105,7 +105,7 @@ public:
     * @param data data that was read in from device
     * @return u_int64_t raw binary data extracted from device.
     */
-   u_int64_t extractValue(const HidInput& input, const std::vector<unsigned char>& data);
+   u_int64_t extractValue(const HidInput& input, const std::vector<unsigned char>& data, const bool print = false) const;
 
 
    const std::map<u_int8_t, std::string> usage_names_ = {
@@ -131,11 +131,11 @@ public:
 
 private:
    void init();
-   int convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned);
-   bool interpretSigned();
    void decodeGlobalItem(const int tag_code, const int data, const std::vector<unsigned char>& data_bytes);
    void decodeLocalItem(const int tag_code, const int data);
    void decodeMainItem(const int tag_code);
+   int convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) const;
+   bool interpretSigned() const;
 
    struct HIDState {
       uint report_size;

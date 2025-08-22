@@ -151,7 +151,6 @@ void HidDecoder::decodeGlobalItem(const int tag_code, int data, const std::vecto
       if (!state_stack_.empty())
       {
          HIDState tmp = state_stack_.back();
-         current_ = state_stack_.back();
          current_.usage_page = tmp.usage_page;
          current_.usage_min = tmp.usage_min;
          current_.usage_max = tmp.usage_max;
@@ -267,12 +266,12 @@ void HidDecoder::decodeMainItem(const int tag_code)
 }
 
 
-bool HidDecoder::interpretSigned() {
+bool HidDecoder::interpretSigned() const {
    return current_.logical_max < 0 || current_.logical_min < 0;
 }
 
 
-int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) {
+int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) const {
    u_int32_t value = 0;
 
    for (uint i = 0; i < data.size(); ++i) {
@@ -327,15 +326,14 @@ void HidDecoder::printDecodedInfo(const HidDecoded decoded) {
 }
 
 
-u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsigned char>& data){
+u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsigned char>& data, const bool print) const {
    if (!usage_names_.count(input.usage)) return 0;
    int startByte = input.start_bit / 8;
    int startBit =  input.start_bit % 8;
    int endByte = input.end_bit / 8;
-   u_int64_t temp = 0;
-   u_int64_t mask = 1;
+   u_int64_t temp = 0; // while HID theoretically allows an item to be 255 bytes, it is
+   u_int64_t mask = 1; // very unlikely that a single HC input will need even 4 bytes
 
-   // bitmask
    mask = (mask << (input.end_bit - input.start_bit +1)) - 1;
 
    // stack bytes in reverse to get continuous bits
@@ -344,13 +342,19 @@ u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsi
       temp |= data[i];
    }
 
-   temp = temp >> startBit;
-   temp = temp & mask;
+   temp = (temp >> startBit) & mask;
 
-   // testing output
-   // int endBit = input.end_bit % 8;
-   // printf("   %s(%02x)  %d[%d] --> %d[%d], mask(%lu),  >> %u  = %llu\n", input.name.c_str(), input.usage, startByte, startBit, endByte, endBit, mask, startBit, temp);
+   if (print) {
+      int endBit = input.end_bit % 8;
+      std::string paddedName = input.name;
+      paddedName.append(11 - paddedName.length(), ' ');
+      std::cout << "   " << paddedName \
+         << std::setw(4) << std::right << startByte << '[' << std::setw(0) << startBit << "]-" \
+         << std::left << endByte << '[' << endBit << "]   " \
+         << "mask(0x" << std::hex << mask << ")  = " \
+         << std::setw(7) << std::dec << temp << std::endl;
 
+   }
    return temp;
 }
 
