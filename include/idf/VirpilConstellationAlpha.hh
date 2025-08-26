@@ -54,37 +54,37 @@ class VirpilConstellationAlpha : public VirpilMT50CM3, public virtual InputLayou
    // Momentary button right of the analog stick
    SingleInput button2;
 
-   // Hat to the upper left - click in
+   // Hat (upper left) - click in
    SingleInput castleIn;
 
-   // Hat to the upper left - up
+   // Hat (upper left) - up
    SingleInput castleUp;
 
-   // Hat to the upper left - left
+   // Hat (upper left) - left
    SingleInput castleLeft;
 
-   // Hat to the upper left - down
+   // Hat (upper left) - down
    SingleInput castleDown;
 
-   // Hat to the upper left - right
+   // Hat (upper left) - right
    SingleInput castleRight;
 
    // Button below the Castle
    SingleInput button3;
 
-   // Hat in middle of Joystick - click in
+   // Hat (middle of face) - click in
    SingleInput hat1In;
 
-   // Hat in middle of Joystick - up
+   // Hat (middle of face) - up
    SingleInput hat1Up;
 
-   // Hat in middle of Joystick - left
+   // Hat (middle of face) - left
    SingleInput hat1Left;
 
-   // Hat in middle of Joystick - down
+   // Hat (middle of face) - down
    SingleInput hat1Down;
 
-   // Hat in middle of Joystick - right
+   // Hat (middle of face) - right
    SingleInput hat1Right;
 
    // Wheel - click in stage 1
