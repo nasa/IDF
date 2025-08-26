@@ -21,11 +21,11 @@ namespace idf {
  * %Virtual Pilot Controls' R-VPC MT-50CM3 Joystick Base implementation. This device serves
  * as a base for a number of compatible grips. Thus, this base class needs to be a little
  * different and more flexible. Since this device is what actually connects to the host,
- * it makes some sense that this class should have the decode logic, even though it is 
+ * it makes some sense that this class should have the decode logic, even though it is
  * not derived from UsbDevice.
  *
- * While many of the comaptible grips have multiple Hat switches, this base presents them as
- * just a collection of buttons
+ * While many of the compatible grips have multiple Hat switches, this base presents them as
+ * just a collection of buttons. This is why the constructor requires 32 @a SingleInput pointers
  *
  * @author Philip Kunz
  */
