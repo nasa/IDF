@@ -28,6 +28,7 @@
 #include "idf/UsbSpaceMouse.hh"
 #include "idf/UsbSpaceNavigator.hh"
 #include "idf/UsbTeensyduino.hh"
+#include "idf/UsbVirpilConstellationAlpha.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
 #include "idf/UsbXBoxOne.hh"
@@ -82,6 +83,7 @@ void run() {
     idf::UsbSpaceMouse spaceMouse;
     idf::UsbSpaceNavigator spaceNavigator;
     idf::UsbTeensyduino teensyduino;
+    idf::UsbVirpilConstellationAlpha constellation;
     idf::UsbWingMan wingMan;
     idf::UsbXBox xBox;
     idf::UsbXBoxOne xBoxOne;
@@ -107,6 +109,7 @@ void run() {
     devices.push_back(&spaceMouse);
     devices.push_back(&spaceNavigator);
     devices.push_back(&teensyduino);
+    devices.push_back(&constellation);
     devices.push_back(&wingMan);
     devices.push_back(&xBox);
     devices.push_back(&xBoxOne);

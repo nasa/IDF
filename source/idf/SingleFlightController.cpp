@@ -366,4 +366,27 @@ SingleFlightController* SingleFlightController::createInstance(const DacoThc& da
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const VirpilConstellationAlpha& virpil) {
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(virpil.hat1Up);
+    z->addInput(virpil.hat1Down, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        virpil.leftRightPivot,
+        virpil.forwardBackwardPivot,
+        virpil.twist,
+        virpil.forwardBackwardTranslation,
+        virpil.leftRightTranslation,
+        *z
+      );
+
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+
+    return controller;
+}
+
 }
