@@ -267,13 +267,36 @@ SingleCameraController* SingleCameraController::createInstance(const XBoxOne& xB
 
 SingleCameraController* SingleCameraController::createInstance(const DacoThc& dacoThc) {
     SingleInput* dummyInput = new SingleInput(-1, 1);
-    
+
     SingleCameraController *controller =
       new SingleCameraController(
         dacoThc.leftRightTranslation,
         dacoThc.leftRightTranslation,
         *dummyInput,
         dacoThc.forwardBackwardTranslation);
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(
+  const VirpilConstellationAlpha& virpil)
+{
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(virpil.hat1Up);
+    zoom->addInput(virpil.hat1Down, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        virpil.twist,
+        virpil.forwardBackwardPivot,
+        virpil.leftRightPivot,
+        *zoom
+      );
 
     controller->pan.setInverted(true);
     controller->tilt.setInverted(true);

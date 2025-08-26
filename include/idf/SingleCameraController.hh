@@ -33,6 +33,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SpaceBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/XBoxOne.hh"
+#include "idf/VirpilConstellationAlpha.hh"
 #include "idf/VirtualLayout.hh"
 #include "idf/WingMan.hh"
 
@@ -266,6 +267,17 @@ class SingleCameraController : public CameraController {
      * @return a new DacoThc-based camera controller
      */
     static SingleCameraController* createInstance(const DacoThc& dacoThc);
+
+    /**
+     * creates a new SingleCameraController mapped to @a Virpil @a Controls @Constellation @Alpha
+     * on a @a MT-50CM3 base using appropriate defaults
+     *
+     * @param virpil the inputs to use in the default mapping
+     *
+     * @return a new Virpil Constellation Alhpa based lander controller
+     */
+    static SingleCameraController* createInstance(const VirpilConstellationAlpha& virpil);
+
 };
 
 }

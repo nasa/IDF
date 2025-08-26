@@ -493,7 +493,7 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const Er7Orio
 
 SingleRoboticsController* SingleRoboticsController::createInstance(const DacoThc& dacoThc) {
     SingleInput* dummyInput = new SingleInput(-1, 1);
-    
+
     SingleRoboticsController *controller =
       new SingleRoboticsController(
       *dummyInput,
@@ -511,4 +511,30 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const DacoThc
 
     return controller;
 }
+
+SingleRoboticsController* SingleRoboticsController::createInstance(const VirpilConstellationAlpha& virpil) {
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(virpil.hat1Up);
+    z->addInput(virpil.hat1Down, -1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        virpil.leftRightPivot,
+        virpil.forwardBackwardPivot,
+        virpil.twist,
+        virpil.forwardBackwardTranslation,
+        virpil.leftRightTranslation,
+        *z,
+        virpil.trigger,
+        virpil.slider
+      );
+
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+
+    return controller;
+}
+
 }
