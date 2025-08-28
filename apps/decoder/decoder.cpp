@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
+#include <iomanip>
 #include <errno.h>
 #include "hidapi/hidapi/hidapi.h"
 #include "idf/HidDecoder.hh"
@@ -120,19 +121,62 @@ int main(int argc, char **args) {
             dataVect.assign(data, data + prevBytesRead);
 
             // attempt to decode
+
+            std::string btnStr = "";
+            int btnStart = -1;
+            int btnCnt = 0;
+            int rows = 0;
+
             for (idf::HidReport r : devDecoded.reports) {
                 if (!r.has_report_byte || (r.has_report_byte && static_cast<int>(data[0]) == r.id)) {
                     printf("\x1b[39;49mDecode report (%d) values:\n", r.id);
+                    ++rows;
                     for( idf::HidInput input : r.inputs) {
                         if (input.name != "Unknown") {
-                            u_int64_t tmp = decoder.extractValue(input, dataVect, true);
+
+                            // cluster buttons together for easier reading
+                            // while keeping them in order
+                            if (input.usage == idf::USAGE_BUTTON) {
+
+                                if (btnCnt == 0) {
+                                    btnStart = input.button_num;
+                                }
+                                else if (btnCnt == 4) btnStr.append(" ");
+
+                                u_int64_t tmp = decoder.extractValue(input, dataVect, false);
+                                btnStr.append(tmp & 0x1 ?  "1" : "0");
+                                ++btnCnt;
+
+                                if (btnCnt == 8) {
+                                    std::cout << "   Buttons " << std::setw(3) << std::right << btnStart << "-" << std::left << std::setw(3) << btnStart+btnCnt-1 << "   " << btnStr.c_str() << std::endl;
+                                    btnCnt = 0;
+                                    btnStr.clear();
+                                    rows++;
+                                }
+                            } // everything else
+                            else {
+                                if (btnCnt) {std::cout << "   Buttons " << std::setw(3) << std::right << btnStart << "-" << std::left << std::setw(3) << btnStart+btnCnt-1 << "   " << btnStr.c_str() << std::endl;
+                                    btnCnt = 0;
+                                    btnStr.clear();
+                                    rows++;
+                                }
+
+                                u_int64_t tmp = decoder.extractValue(input, dataVect, true);
+                                if (decoder.usage_names_.count(input.usage)) rows++;
+                            }
                         }
                     }
                 }
             }
 
             // a short sleep prevents the cursor from visually jumping all over the place
-            usleep(50000);
+            usleep(100000);
+            if (!keepReading) break;
+            if (rows > 0) {
+                for (int i = 0; i < rows; ++i) {
+                    std::cout << "\x1b[A";
+                }
+            }
         }
     }
 

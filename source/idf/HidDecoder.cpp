@@ -347,12 +347,14 @@ u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsi
    if (print) {
       int endBit = input.end_bit % 8;
       std::string paddedName = input.name;
-      paddedName.append(11 - paddedName.length(), ' ');
+      std::string endBitsStr = std::to_string(endByte) + "[" + std::to_string(endBit) + "]";
+      paddedName.append(14 - paddedName.length(), ' ');
+      endBitsStr.append(10 - endBitsStr.length(), ' ');
       std::cout << "   " << paddedName \
          << std::setw(4) << std::right << startByte << '[' << std::setw(0) << startBit << "]-" \
-         << std::left << endByte << '[' << endBit << "]   " \
-         << "mask(0x" << std::hex << mask << ")  = " \
-         << std::setw(7) << std::dec << temp << std::endl;
+         << endBitsStr \
+         << "mask(0x" << std::setw(4) << std::setfill('0') << std::hex << mask << ")  = " \
+         << std::setfill(' ') << std::setw(7) << std::dec << temp << std::endl;
 
    }
    return temp;
