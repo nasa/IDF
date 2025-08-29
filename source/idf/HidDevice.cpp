@@ -15,17 +15,16 @@ HidDevice::HidDevice(const int vendor, const int product, const int interface) :
    }
 
 
-HidDevice::HidDevice(const HidDecoded decoded_in) :
-   UsbDevice("Generic " + decoded_in.type, decoded_in.maxReportLength),
-   decoded(decoded_in) {}
+HidDevice::HidDevice(const HidDecoded* decoded_in) :
+   UsbDevice("Generic " + decoded_in->type, decoded_in->maxReportLength),
+   decoded(*decoded_in) {}
 
 
-HidDecoded HidDevice::decodeDevice(const int vendor, const int product) {
+HidDecoded* HidDevice::decodeDevice(const int vendor, const int product) {
    std::ostringstream ss;
    hid_device* hidDevice;
    unsigned char buffer[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
    HidDecoder decoder;
-   HidDecoded decDevice;
 
    if (!(hidDevice = hid_open(vendor, product, NULL))) {
       ss << "unable to open device " << std::hex << vendor << ":" << product << " : ";
@@ -43,7 +42,7 @@ HidDecoded HidDevice::decodeDevice(const int vendor, const int product) {
    }
 
    std::vector<unsigned char> descriptor(buffer, buffer + descSize);
-   decDevice = decoder.parseDescriptor(descriptor);
+   HidDecoded* decDevice = decoder.parseDescriptor(descriptor);
 
    hid_close(hidDevice);
    return decDevice;

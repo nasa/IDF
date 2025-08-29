@@ -87,7 +87,7 @@ public:
     * @param descriptor binary HID report descriptor.
     * @return HidDecoded struct with a list of HidReports and some metadata
     */
-   HidDecoded parseDescriptor(const std::vector<unsigned char>& descriptor);
+   HidDecoded* parseDescriptor(const std::vector<unsigned char>& descriptor);
 
 
    /**

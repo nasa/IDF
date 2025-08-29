@@ -36,7 +36,7 @@ public:
     */
    HidDevice(const int vendor, const int product, const int interface);
 
-   HidDevice(const HidDecoded);
+   HidDevice(const HidDecoded* decoded_in);
 
    virtual ~HidDevice() {};
 
@@ -60,7 +60,7 @@ public:
     * @param product USB Product ID
     * @return HIDDecodedDevice struct enumerating the available reports
     */
-   static HidDecoded decodeDevice(const int vendor, const int product);
+   static HidDecoded* decodeDevice(const int vendor, const int product);
 
 
 protected:

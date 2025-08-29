@@ -89,7 +89,7 @@ int main(int argc, char **args) {
     std::vector<unsigned char> dataVect;
 
     idf::HidDecoder decoder;
-    idf::HidDecoded devDecoded = decoder.parseDescriptor(descriptor);
+    idf::HidDecoded devDecoded = *decoder.parseDescriptor(descriptor);
 
     unsigned char readTest[devDecoded.maxReportLength];
     unsigned char data[devDecoded.maxReportLength];

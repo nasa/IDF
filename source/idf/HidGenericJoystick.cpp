@@ -5,7 +5,6 @@ namespace idf {
 
 HidGenericJoystick::HidGenericJoystick(const int vendor, const int product, const int interface) :
    HidDevice(vendor, product, interface) {
-      // addIdentification(Identification(vendor, product, interface));
       // configure inputs and instantiate list of buttons
       for( HidReport report : decoded.reports) {
          for (HidInput input : report.inputs) {

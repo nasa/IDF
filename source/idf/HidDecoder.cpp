@@ -37,7 +37,7 @@ void HidDecoder::init() {
 }
 
 
-HidDecoded HidDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
+HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
 {
    init();
    uint i = 0;
@@ -91,7 +91,13 @@ HidDecoded HidDecoder::parseDescriptor(const std::vector<unsigned char> &descrip
       }
    }
 
-   return {device_type_, reports_, maxReport};
+   HidDecoded* decoded = new HidDecoded();
+
+   decoded->type = device_type_;
+   decoded->reports = reports_;
+   decoded->maxReportLength = maxReport;
+
+   return decoded;
 }
 
 
