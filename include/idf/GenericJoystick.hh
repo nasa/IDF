@@ -62,6 +62,14 @@ public:
    SingleInput HatWest;
    SingleInput HatNorthWest;
 
+   /**
+    * @brief Get the Nth Button object
+    *
+    * @param number number of button (1-based indexing)
+    * @return SingleInput* pointer to the appropriate button or null
+    */
+   const SingleInput* getButton(const int number);
+
 protected:
 
    virtual const std::vector<Configurable>& getConfigurables();

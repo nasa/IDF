@@ -1,4 +1,5 @@
 #include "idf/GenericJoystick.hh"
+#include <iostream>
 
 namespace idf {
 
@@ -20,6 +21,14 @@ GenericJoystick::GenericJoystick() :
       buttons = {};
    }
 
+const SingleInput* GenericJoystick::getButton(const int number) {
+   try {
+      return buttons.at(number-1);
+   }
+   catch (const std::out_of_range& e) {
+      return NULL;
+   }
+}
 
 const std::vector<InputLayout::Configurable>& GenericJoystick::getConfigurables() {
    static std::vector<Configurable> inputs;
