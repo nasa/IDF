@@ -32,7 +32,11 @@ set(SRC_IDF
     source/idf/EthernetWingMan.cpp
     source/idf/Extreme3dPro.cpp
     source/idf/FlightController.cpp
+    source/idf/GenericJoystick.cpp
     source/idf/Gravis.cpp
+    source/idf/HidDevice.cpp
+    source/idf/HidDecoder.cpp
+    source/idf/HidGenericJoystick.cpp
     source/idf/HagstromKEUSB36.cpp
     source/idf/IndustrialProducts2.cpp
     source/idf/IndustrialProducts3.cpp

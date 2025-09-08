@@ -73,6 +73,9 @@
 #include "idf/UsbXBox.hh"
 #include "idf/UsbXBoxOne.hh"
 
+// Generic HID Devices
+#include "idf/HidGenericJoystick.hh"
+
 // Ethernet Devices
 #include "idf/EthernetExtreme3dPro.hh"
 #include "idf/EthernetWingMan.hh"

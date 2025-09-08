@@ -22,6 +22,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/DacoThc.hh"
 #include "idf/DualShock.hh"
 #include "idf/Extreme3dPro.hh"
+#include "idf/GenericJoystick.hh"
 #include "idf/Gravis.hh"
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
@@ -278,7 +279,7 @@ class SingleFlightController : public FlightController {
      *
      * @param dacoThc the inputs to use in the default mapping
      *
-     * @return a new DacoThc-based camera controller
+     * @return a new DacoThc-based flight controller
      */
     static SingleFlightController* createInstance(const DacoThc& dacoThc);
 
@@ -288,9 +289,21 @@ class SingleFlightController : public FlightController {
      *
      * @param virpil the inputs to use in the default mapping
      *
-     * @return a new Virpil Constellation Alhpa based lander controller
+     * @return a new Virpil Constellation Alhpa based flight controller
      */
     static SingleFlightController* createInstance(const VirpilConstellationAlpha& virpil);
+
+    /**
+     * creates a new SingleFlightController mapped to @a HidGenericJoystick using appropriate
+     * defaults. Since this is a generic mapping without specific knowledge of the
+     * devices physical layout, it is merely a best guess according to common practices. Thus,
+     * some outputs may not be mapped to an real input.
+     *
+     * @param js the inputs to use in the default mapping
+     *
+     * @return a new Generic HID based flight controller
+     */
+    static SingleFlightController* createInstance(const GenericJoystick& js);
 
 };
 
