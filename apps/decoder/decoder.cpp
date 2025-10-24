@@ -162,7 +162,8 @@ int main(int argc, char **args) {
                                 }
 
                                 u_int64_t tmp = decoder.extractValue(input, dataVect, true);
-                                if (decoder.usage_names_.count(input.usage)) rows++;
+
+                                if (decoder.isUsageKnown(input.usage)) rows++;
                             }
                         }
                     }

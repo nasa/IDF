@@ -9,31 +9,33 @@ namespace idf
 {
 
 
-HidDecoder::HidDecoder() {
+HidDecoder::HidDecoder()
+{
    init();
 }
 
 
-void HidDecoder::init() {
-   reports_.clear();
-   inputs_.clear();
-   bit_offset_ = 0;
-   report_id_ = 0;
-   usage_list_.clear();
-   current_.report_size = 0;
-   current_.report_count = 0;
-   current_.usage_page = 0;
-   current_.usage_min = 0;
-   current_.usage_max = 0;
-   current_.logical_min = 0;
-   current_.logical_max = 0;
-   current_.physical_min = 0;
-   current_.physical_max = 0;
-   current_.units = 0;
-   current_.units_exp = 0;
-   device_type_ = "Unknown";
-   state_stack_.clear();
-   button_base_ = 1;
+void HidDecoder::init()
+{
+   reports.clear();
+   inputs.clear();
+   bit_offset = 0;
+   report_id = 0;
+   usage_list.clear();
+   state.report_size = 0;
+   state.report_count = 0;
+   state.usage_page = 0;
+   state.usage_min = 0;
+   state.usage_max = 0;
+   state.logical_min = 0;
+   state.logical_max = 0;
+   state.physical_min = 0;
+   state.physical_max = 0;
+   state.units = 0;
+   state.units_exp = 0;
+   device_type = "Unknown";
+   state_stack.clear();
+   next_button = 1;
 }
 
 
@@ -77,15 +79,15 @@ HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descri
    }
 
    // add final report to list
-   reports_.push_back({
-      report_id_,
-      inputs_,
-      bit_offset_ / 8,
-      report_id_ != 0
+   reports.push_back({
+      report_id,
+      inputs,
+      bit_offset / 8,
+      report_id != 0
    });
 
    int maxReport = -1;
-   for (HidReport rep : reports_) {
+   for (HidReport rep : reports) {
       if (rep.inputs.size() > 0) {
          maxReport = std::max(maxReport, rep.bytes_count);
       }
@@ -93,8 +95,8 @@ HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descri
 
    HidDecoded* decoded = new HidDecoded();
 
-   decoded->type = device_type_;
-   decoded->reports = reports_;
+   decoded->type = device_type;
+   decoded->reports = reports;
    decoded->maxReportLength = maxReport;
 
    return decoded;
@@ -103,181 +105,222 @@ HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descri
 
 void HidDecoder::decodeGlobalItem(const int tag_code, int data, const std::vector<unsigned char> &data_bytes)
 {
-   if (tag_code == 0x0) {  // Usage Page
-      current_.usage_page = data;
-   }
-   else if (tag_code == 0x1) {  // Logical Minimum
-      current_.logical_min = convertDataToInt(data_bytes, true);
-   }
-   else if (tag_code == 0x2) {  // Logical Maximum
-      current_.logical_max = convertDataToInt(data_bytes, true);
-   }
-   else if (tag_code == 0x3) {  // Physical Minimum
-      current_.physical_min = convertDataToInt(data_bytes, interpretSigned());
-   }
-   else if (tag_code == 0x4) {  // Physical Maximum
-      current_.physical_max = convertDataToInt(data_bytes, interpretSigned());
-   }
-   else if (tag_code == 0x5) {  // Unit exponent
-      current_.units_exp = static_cast<int8_t>(data_bytes[0]);
-   }
-   else if (tag_code == 0x6) {  // Units
-      current_.units = data;
+   switch(tag_code) {
+   case GLOBAL_USAGE_PAGE:
+      state.usage_page = data;
+      break;
+
+   case GLOBAL_LOGICAL_MINIMUM:
+      state.logical_min = convertDataToInt(data_bytes, true);
+      break;
+
+   case GLOBAL_LOGICAL_MAXIMUM:
+      state.logical_max = convertDataToInt(data_bytes, true);
+      break;
+
+   case GLOBAL_PHYSICAL_MINIMUM:
+      state.physical_min = convertDataToInt(data_bytes, interpretSigned());
+      break;
+
+   case GLOBAL_PHYSICAL_MAXIMUM:
+      state.physical_max = convertDataToInt(data_bytes, interpretSigned());
+      break;
+
+   case GLOBAL_UNIT_EXPONENT:
+      state.units_exp = static_cast<int8_t>(data_bytes[0]);
+      break;
+
+   case GLOBAL_UNITS:
+      state.units = data;
       if (data == 0)
       {
-         current_.units = 0;
-         current_.units_exp = 0;
-         current_.physical_min = 0;
-         current_.physical_max = 0;
+         state.units = 0;
+         state.units_exp = 0;
+         state.physical_min = 0;
+         state.physical_max = 0;
       }
-   }
-   else if (tag_code == 0x7) {  // Report Size
-      current_.report_size = data;
-   }
-   else if (tag_code == 0x8) {  // Report ID
-      if (report_id_ != 0)
+      break;
+
+   case GLOBAL_REPORT_SIZE:
+      state.report_size = data;
+      break;
+
+   case GLOBAL_REPORT_ID:
+      if (report_id != 0)
       { // if not the 1st report, save inputs to a report
-         reports_.push_back({report_id_,
-                              inputs_,
-                              bit_offset_ / 8,
+         reports.push_back({report_id,
+                              inputs,
+                              bit_offset / 8,
                               true});
-         inputs_.clear();
+         inputs.clear();
       }
 
-      bit_offset_ = 8;
-      report_id_ = data;
-   }
-   else if (tag_code == 0x9) {  // Report Count
-      current_.report_count = data;
-   }
-   else if (tag_code == 0xA) {  // Push
-      state_stack_.push_back(current_);
-   }
-   else if (tag_code == 0xB) {  // Pop
-      if (!state_stack_.empty())
+      bit_offset = 8;
+      report_id = data;
+      break;
+
+   case GLOBAL_REPORT_COUNT:
+      state.report_count = data;
+      break;
+
+   case GLOBAL_PUSH:
+      state_stack.push_back(state);
+      break;
+
+   case GLOBAL_POP:
+      if (!state_stack.empty())
       {
-         HIDState tmp = state_stack_.back();
-         current_.usage_page = tmp.usage_page;
-         current_.usage_min = tmp.usage_min;
-         current_.usage_max = tmp.usage_max;
-         current_.report_size = tmp.report_size;
-         current_.report_count = tmp.report_count;
-         current_.logical_min = tmp.logical_min;
-         current_.logical_max = tmp.logical_max;
-         current_.physical_min = tmp.physical_min;
-         current_.physical_max = tmp.physical_max;
-         current_.units = tmp.units;
-         current_.units_exp = tmp.units_exp;
-         state_stack_.pop_back();
+         HIDState tmp = state_stack.back();
+         state.usage_page = tmp.usage_page;
+         state.usage_min = tmp.usage_min;
+         state.usage_max = tmp.usage_max;
+         state.report_size = tmp.report_size;
+         state.report_count = tmp.report_count;
+         state.logical_min = tmp.logical_min;
+         state.logical_max = tmp.logical_max;
+         state.physical_min = tmp.physical_min;
+         state.physical_max = tmp.physical_max;
+         state.units = tmp.units;
+         state.units_exp = tmp.units_exp;
+         state_stack.pop_back();
       }
+      break;
+
+   default:
+      break;
    }
 }
 
 
 void HidDecoder::decodeLocalItem(const int tag_code, const int data)
 {
-   if (tag_code == 0x0) {  // Usage
-      if (data < USAGE_X) {
-         if (device_type_ == "Unknown") {
-            device_type_ = usage_names_.at(data);
+   switch(tag_code) {
+   case LOCAL_USAGE:
+      if (data < USAGE_X){
+         if (device_type == "Unknown") {
+            device_type = usageName(data);
          }
       }
       else {
-         usage_list_.push_back(data);
+         usage_list.push_back(data);
       }
-   }
-   else if (tag_code == 0x1) {  // Usage Minimum
-      current_.usage_min = data;
-   }
-   else if (tag_code == 0x2) {  // Usage Maximum
-      current_.usage_max = data;
+      break;
+
+   case LOCAL_MINIMUM:
+      state.usage_min = data;
+      break;
+
+      case LOCAL_MAXIMUM:
+      state.usage_max = data;
+      break;
+
+   case LOCAL_DESIGNATOR_IDX: // not implemented
+   case LOCAL_DESIGNATOR_MINIMUM: // not implemented
+   case LOCAL_DESIGNATOR_MAXIMUM: // not implemented
+   case LOCAL_STRING_IDX: // not implemented
+   case LOCAL_STRING_MINIMUM: // not implemented
+   case LOCAL_STRING_MAXIMUM: // not implemented
+   case LOCAL_DELIMITER: // not implemented
+   default: break; // items not yet defined
    }
 }
 
 
 void HidDecoder::decodeMainItem(const int tag_code)
 {
-   if (tag_code == 0x8) {  // Create Input(s) from usage list HIDState information
-      std::vector<int> expanded_usages;
-      if (current_.usage_min != 0 && current_.usage_max != 0)
+   switch(tag_code) {
+   case MAIN_INPUT:
+      createInputs();
+      break;
+
+   case MAIN_OUTPUT:
+   case MAIN_FEATURE: // Outputs and Features are not supported
+      usage_list.clear();
+      state.usage_min = 0;
+      state.usage_max = 0;
+      break;
+
+      case MAIN_COLLECTION: // not implemented
+   case MAIN_END_COLLECTION: // not implemented
+   default: // items not yet defined
+      break;
+   }
+}
+
+void HidDecoder::createInputs()
+{
+   std::vector<int> expanded_usages;
+
+   if (state.usage_min != 0 && state.usage_max != 0)
+   {
+      for (int j = state.usage_min; j <= state.usage_max; ++j)
       {
-         for (int j = current_.usage_min; j <= current_.usage_max; ++j)
-         {
-            expanded_usages.push_back(j);
-         }
+         expanded_usages.push_back(j);
       }
-      else if (!usage_list_.empty()) {
-         expanded_usages = usage_list_;
-      }
-
-      for (uint j = 0; j < current_.report_count; ++j) {
-         std::string name;
-         u_int8_t usage = 0;
-         int btn_num = -1;
-         if (current_.usage_page == 0x01 && j < expanded_usages.size()) {
-            usage = expanded_usages[j];
-            if (usage_names_.count(usage)) name = usage_names_.at(usage);
-            else name = "Unknown";
-         }
-         else if (current_.usage_page == USAGE_BUTTON && j < expanded_usages.size()) {
-            usage = USAGE_BUTTON;
-            btn_num = button_base_;
-            name = "Button " + std::to_string(button_base_++);
-         }
-         else if (current_.usage_page == 0x01 && expanded_usages.size() == 1) {
-            usage = expanded_usages[0];
-            if (usage_names_.count(usage)) name = usage_names_.at(usage);
-            else name = "Unknown";
-         }
-         else {
-            name = "Padding";
-         }
-
-         int start_bit = bit_offset_;
-         int end_bit = bit_offset_ + current_.report_size - 1;
-
-         int tmp_phys_min = current_.physical_min;
-         int tmp_phys_max = current_.physical_max;
-         if (current_.physical_min == 0) {
-            tmp_phys_min = current_.logical_min;
-         }
-         if (current_.physical_max == 0) {
-            tmp_phys_max = current_.logical_max;
-         }
-
-         inputs_.push_back({usage,
-                              name,
-                              start_bit,
-                              end_bit,
-                              current_.logical_min,
-                              current_.logical_max,
-                              tmp_phys_min,
-                              tmp_phys_max,
-                              current_.units,
-                              current_.units_exp,
-                              btn_num});
-
-         bit_offset_ += current_.report_size;
-      }
-
-      usage_list_.clear();
-      current_.usage_min = 0;
-      current_.usage_max = 0;
    }
-   else if (tag_code == 0x9 || tag_code == 0x0B) { // Output or Feature
-      usage_list_.clear();
-      current_.usage_min = 0;
-      current_.usage_max = 0;
+   else if (!usage_list.empty()) {
+      expanded_usages = usage_list;
    }
+
+   for (uint j = 0; j < state.report_count; ++j) {
+      std::string name;
+      u_int8_t usage = 0;
+      int btn_num = -1;
+      if (state.usage_page == 0x01 && j < expanded_usages.size()) {
+         usage = expanded_usages[j];
+         name = usageName(usage);
+      }
+      else if (state.usage_page == USAGE_BUTTON && j < expanded_usages.size()) {
+         usage = USAGE_BUTTON;
+         btn_num = next_button++;
+         name = "Button " + std::to_string(btn_num);
+      }
+      else if (state.usage_page == 0x01 && expanded_usages.size() == 1) {
+         usage = expanded_usages[0];
+         name = usageName(usage);
+      }
+      else {
+         name = "Padding";
+      }
+
+      int start_bit = bit_offset;
+      int end_bit = bit_offset + state.report_size - 1;
+
+      int tmp_phys_min = state.physical_min;
+      int tmp_phys_max = state.physical_max;
+
+      // when physical min/max are not set, default to logical
+      if (state.physical_min == 0) tmp_phys_min = state.logical_min;
+      if (state.physical_max == 0) tmp_phys_max = state.logical_max;
+
+      inputs.push_back({  usage,
+                           name,
+                           start_bit,
+                           end_bit,
+                           state.logical_min,
+                           state.logical_max,
+                           tmp_phys_min,
+                           tmp_phys_max,
+                           state.units,
+                           state.units_exp,
+                           btn_num});
+
+      bit_offset += state.report_size;
+   }
+
+   usage_list.clear();
+   state.usage_min = 0;
+   state.usage_max = 0;
+}
+
+bool HidDecoder::interpretSigned() const
+{
+   return state.logical_max < 0 || state.logical_min < 0;
 }
 
 
-bool HidDecoder::interpretSigned() const {
-   return current_.logical_max < 0 || current_.logical_min < 0;
-}
-
-
-int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) const {
+int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) const
+{
    u_int32_t value = 0;
 
    for (uint i = 0; i < data.size(); ++i) {
@@ -301,7 +344,8 @@ int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const b
 }
 
 
-void HidDecoder::printDecodedInfo(const HidDecoded decoded) {
+void HidDecoder::printDecodedInfo(const HidDecoded decoded)
+{
    std::ostringstream ss;
    ss << "Device Type: " << decoded.type << "\n";
    for (HidReport report : decoded.reports) {
@@ -332,8 +376,9 @@ void HidDecoder::printDecodedInfo(const HidDecoded decoded) {
 }
 
 
-u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsigned char>& data, const bool print) const {
-   if (!usage_names_.count(input.usage)) return 0;
+u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsigned char>& data, const bool print) const
+{
+   if (!isUsageKnown(input.usage)) return 0;
    int startByte = input.start_bit / 8;
    int startBit =  input.start_bit % 8;
    int endByte = input.end_bit / 8;
@@ -364,6 +409,39 @@ u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsi
 
    }
    return temp;
+}
+
+bool HidDecoder::isUsageKnown(const uint usage ) const
+{
+   switch(usage) {
+      case(USAGE_POINTER):
+      case(USAGE_JOYSTICK):
+      case(USAGE_GAMEPAD):
+      case(USAGE_MULTIAXIS):
+      case(USAGE_BUTTON):
+      case(USAGE_X):
+      case(USAGE_Y):
+      case(USAGE_Z):
+      case(USAGE_RX):
+      case(USAGE_RY):
+      case(USAGE_RZ):
+      case(USAGE_SLIDER):
+      case(USAGE_DIAL):
+      case(USAGE_WHEEL):
+      case(USAGE_HAT):
+      case(USAGE_START):
+      case(USAGE_SELECT):
+         return true; break;
+      default:
+         return false; break;
+   }
+}
+
+std::string HidDecoder::usageName(const uint usage) const
+{
+   if (!isUsageKnown(usage)) return "Unknown";
+
+   return usage_names.at(usage);
 }
 
 } // namespace

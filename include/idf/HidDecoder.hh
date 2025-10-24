@@ -73,6 +73,42 @@ enum HidUsages {
    USAGE_SELECT    = 0x3E,
 };
 
+enum MainItemTag {
+   MAIN_INPUT           = 0x8,
+   MAIN_OUTPUT          = 0x9,
+   MAIN_COLLECTION      = 0xA,
+   MAIN_FEATURE         = 0xB,
+   MAIN_END_COLLECTION  = 0xC,
+};
+
+enum GlobalItemTag {
+   GLOBAL_USAGE_PAGE       = 0x0,
+   GLOBAL_LOGICAL_MINIMUM  = 0x1,
+   GLOBAL_LOGICAL_MAXIMUM  = 0x2,
+   GLOBAL_PHYSICAL_MINIMUM = 0x3,
+   GLOBAL_PHYSICAL_MAXIMUM = 0x4,
+   GLOBAL_UNIT_EXPONENT    = 0x5,
+   GLOBAL_UNITS            = 0x6,
+   GLOBAL_REPORT_SIZE      = 0x7,
+   GLOBAL_REPORT_ID        = 0x8,
+   GLOBAL_REPORT_COUNT     = 0x9,
+   GLOBAL_PUSH             = 0xA,
+   GLOBAL_POP              = 0xB,
+};
+
+enum LocalItemTags {
+   LOCAL_USAGE              = 0x0,
+   LOCAL_MINIMUM            = 0x1,
+   LOCAL_MAXIMUM            = 0x2,
+   LOCAL_DESIGNATOR_IDX     = 0x3,
+   LOCAL_DESIGNATOR_MINIMUM = 0x4,
+   LOCAL_DESIGNATOR_MAXIMUM = 0x5,
+   LOCAL_STRING_IDX         = 0x7,
+   LOCAL_STRING_MINIMUM     = 0x8,
+   LOCAL_STRING_MAXIMUM     = 0x9,
+   LOCAL_DELIMITER          = 0xA,
+};
+
 class HidDecoder
 {
 
@@ -107,8 +143,47 @@ public:
     */
    u_int64_t extractValue(const HidInput& input, const std::vector<unsigned char>& data, const bool print = false) const;
 
+   bool isUsageKnown(const uint usage) const;
+   std::string usageName(const uint usage) const;
 
-   const std::map<u_int8_t, std::string> usage_names_ = {
+private:
+   void init();
+   void decodeGlobalItem(const int tag_code, const int data, const std::vector<unsigned char>& data_bytes);
+   void decodeLocalItem(const int tag_code, const int data);
+   void decodeMainItem(const int tag_code);
+   void createInputs();
+   int convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) const;
+   bool interpretSigned() const;
+
+   struct HIDState {
+      uint report_size;
+      uint report_count;
+      int usage_page;
+      int usage_min;
+      int usage_max;
+      int logical_min;
+      int logical_max;
+      int physical_min;
+      int physical_max;
+      int units;
+      int units_exp;
+   };
+
+   int vendorId;
+   int productId;
+
+   std::string device_type = "Unknown";
+   std::vector<HidReport> reports;
+   std::vector<HidInput> inputs;
+   int bit_offset = 0;
+   int report_id = 0;
+   std::vector<int> usage_list;
+
+   HIDState state;
+   std::vector<HIDState> state_stack;
+   int next_button = 1;
+
+   const std::map<u_int8_t, std::string> usage_names = {
       {USAGE_POINTER, "Pointer"},
       {USAGE_JOYSTICK, "Joystick"},
       {USAGE_GAMEPAD, "Gamepad"},
@@ -127,43 +202,6 @@ public:
       {USAGE_START, "Start"},
       {USAGE_SELECT, "Select"},
    };
-
-
-private:
-   void init();
-   void decodeGlobalItem(const int tag_code, const int data, const std::vector<unsigned char>& data_bytes);
-   void decodeLocalItem(const int tag_code, const int data);
-   void decodeMainItem(const int tag_code);
-   int convertDataToInt(const std::vector<unsigned char> &data, const bool isSigned) const;
-   bool interpretSigned() const;
-
-   struct HIDState {
-      uint report_size;
-      uint report_count;
-      int usage_page;
-      int usage_min;
-      int usage_max;
-      int logical_min;
-      int logical_max;
-      int physical_min;
-      int physical_max;
-      int units;
-      int units_exp;
-   };
-
-   int vendorId_;
-   int productId_;
-
-   std::string device_type_ = "Unknown";
-   std::vector<HidReport> reports_;
-   std::vector<HidInput> inputs_;
-   int bit_offset_ = 0;
-   int report_id_ = 0;
-   std::vector<int> usage_list_;
-
-   HIDState current_;
-   std::vector<HIDState> state_stack_;
-   int button_base_ = 1;
 
 }; // HidDecoder
 
