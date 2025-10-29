@@ -16,6 +16,18 @@ void interruptHandler(int unused){
     keepReading = false;
 }
 
+
+void printHidDescriptor(const std::vector<unsigned char> report)
+{
+   printf("\nHID Report Descriptor (%lu bytes):\n   ", report.size());
+   for(size_t i=0; i < report.size(); ++i) {
+      printf("%02X ", report[i]);
+      if (i % 16 == 15) printf("\n   ");
+      else if (i % 8 == 7) printf(" ");
+   }
+   printf("\n\n");
+}
+
 int main(int argc, char **args) {
 
     signal(SIGINT, interruptHandler);
@@ -88,6 +100,8 @@ int main(int argc, char **args) {
     std::vector<unsigned char> descriptor(report, report + descriptor_size);
     std::vector<unsigned char> dataVect;
 
+    printHidDescriptor(descriptor);
+
     idf::HidDecoder decoder;
     idf::HidDecoded devDecoded = *decoder.parseDescriptor(descriptor);
 
@@ -129,7 +143,7 @@ int main(int argc, char **args) {
 
             for (idf::HidReport r : devDecoded.reports) {
                 if (!r.has_report_byte || (r.has_report_byte && static_cast<int>(data[0]) == r.id)) {
-                    printf("\x1b[39;49mDecode report (%d) values:\n", r.id);
+                    printf("Decode report (%d) values:\n", r.id);
                     ++rows;
                     for( idf::HidInput input : r.inputs) {
                         if (input.name != "Unknown") {
@@ -173,7 +187,7 @@ int main(int argc, char **args) {
             // a short sleep prevents the cursor from visually jumping all over the place
             usleep(100000);
             if (!keepReading) break;
-            if (rows > 0) {
+            if (rows > 0) { // move the cursor up appropriate number of lines to visually update the read out
                 for (int i = 0; i < rows; ++i) {
                     std::cout << "\x1b[A";
                 }

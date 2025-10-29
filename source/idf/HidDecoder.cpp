@@ -351,8 +351,8 @@ void HidDecoder::printDecodedInfo(const HidDecoded decoded)
    for (HidReport report : decoded.reports) {
       ss << "Report: " << report.id << "  (" << report.bytes_count << " bytes)\n";
       if (report.id != 0) {
-            ss << "   Report ID       bits      0:7     value:      " << report.id << "\n";
-         }
+         ss << "   Report ID       bits      0:7     value:      " << report.id << "\n";
+      }
       for(HidInput input : report.inputs) {
          ss << "   " << std::setfill(' ') << std::setw(15) << std::left << input.name;
          if (input.start_bit == input.end_bit) {

@@ -67,7 +67,7 @@ std::vector<unsigned char> HidDevice::getHidReportDescriptor() {
 void HidDevice::printHidDescriptor() {
    std::vector<unsigned char> report = getHidReportDescriptor();
 
-   printf("\x1b[39;49m\nHID Report Descriptor (%lu bytes):\n   ", report.size());
+   printf("\nHID Report Descriptor (%lu bytes):\n   ", report.size());
    for(size_t i=0; i < report.size(); ++i) {
       printf("%02X ", report[i]);
       if (i % 16 == 15) printf("\n   ");
