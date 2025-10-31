@@ -210,7 +210,7 @@ void HidDecoder::decodeLocalItem(const int tag_code, const int data)
       state.usage_min = data;
       break;
 
-      case LOCAL_MAXIMUM:
+   case LOCAL_MAXIMUM:
       state.usage_max = data;
       break;
 
@@ -240,7 +240,7 @@ void HidDecoder::decodeMainItem(const int tag_code)
       state.usage_max = 0;
       break;
 
-      case MAIN_COLLECTION: // not implemented
+   case MAIN_COLLECTION: // not implemented
    case MAIN_END_COLLECTION: // not implemented
    default: // items not yet defined
       break;
@@ -383,7 +383,7 @@ u_int64_t HidDecoder::extractValue(const HidInput& input, const std::vector<unsi
    int startBit =  input.start_bit % 8;
    int endByte = input.end_bit / 8;
    u_int64_t temp = 0; // while HID theoretically allows an item to be 255 bytes, it is
-   u_int64_t mask = 1; // very unlikely that a single HC input will need even 4 bytes
+   u_int64_t mask = 1; // very unlikely that a single HC input will need >16 bits
 
    mask = (mask << (input.end_bit - input.start_bit +1)) - 1;
 

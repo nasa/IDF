@@ -9,22 +9,29 @@ HidGenericJoystick::HidGenericJoystick(const int vendor, const int product, cons
       for( HidReport report : decoded.reports) {
          for (HidInput input : report.inputs) {
             switch(input.usage) {
-            case USAGE_BUTTON:
-               if (input.button_num == 1)
-                  buttons.push_back(&trigger);
-               else
-                  buttons.push_back(new SingleInput(0,1));
-               break;
-            case USAGE_X:
-               leftRightPivot.configure(input.logical_min, input.logical_max);
-               break;
-            case USAGE_Y:
-               forwardBackwardPivot.configure(input.logical_min, input.logical_max);
-               break;
-            case USAGE_Z:
-               useZForTwist = true;
-               twist.configure(input.logical_min, input.logical_max);
-               break;
+               case USAGE_BUTTON:
+                  if (input.button_num == 1)
+                     buttons.push_back(&trigger);
+                  else
+                     buttons.push_back(new SingleInput(0,1));
+                  break;
+
+               case USAGE_X:
+                  // legacy dictates that X is a pivot even though it is a liner axis
+                  leftRightPivot.configure(input.logical_min, input.logical_max);
+                  break;
+
+               case USAGE_Y:
+                  // legacy dictates that Y is a pivot even though it is a liner axis
+                  forwardBackwardPivot.configure(input.logical_min, input.logical_max);
+                  break;
+
+               case USAGE_Z:
+                  // Up to the manufacturer whether twist is Z or RZ, but the
+                  // norm seems to be that if Z exists it is the twist axis
+                  useZForTwist = true;
+                  twist.configure(input.logical_min, input.logical_max);
+                  break;
             }
          }
       }
@@ -43,17 +50,27 @@ void HidGenericJoystick::decode(const std::vector<unsigned char>& data) {
                   }
                   catch (std::out_of_range & e) {}
                   break;
+
                case USAGE_X:
-                  leftRightPivot.setValue(value); break;
+                  leftRightPivot.setValue(value);
+                  break;
+
                case USAGE_Y:
-                  forwardBackwardPivot.setValue(value); break;
+                  forwardBackwardPivot.setValue(value);
+                  break;
+
                case USAGE_Z:
-                  twist.setValue(value); break;
+                  twist.setValue(value);
+                  break;
+
                case USAGE_RZ:
                   if (!useZForTwist) twist.setValue(value);
                   break;
+
                case USAGE_SLIDER:
-                  slider.setValue(value); break;
+                  slider.setValue(value);
+                  break;
+
                case USAGE_HAT:
                   int hat = value - input.logical_min;
                   HatNorth.setValue(hat == 0);
