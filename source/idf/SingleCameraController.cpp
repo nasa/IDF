@@ -305,4 +305,25 @@ SingleCameraController* SingleCameraController::createInstance(
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const GenericJoystick& js) {
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(*js.buttons.at(0));
+    zoom->addInput(*js.buttons.at(1), -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        js.twist,
+        js.forwardBackwardPivot,
+        js.leftRightPivot,
+        *zoom
+      );
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
 }

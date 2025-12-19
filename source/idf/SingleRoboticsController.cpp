@@ -537,4 +537,39 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const VirpilC
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const GenericJoystick& js) {
+
+    CompositeInput* x = new CompositeInput();
+    x->addInput(js.HatEast);
+    x->addInput(js.HatWest, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(js.HatNorth);
+    y->addInput(js.HatSouth, -1);
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(*js.buttons.at(1));
+    z->addInput(*js.buttons.at(2), -1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        js.twist,
+        js.forwardBackwardPivot,
+        js.leftRightPivot,
+        *x,
+        *y,
+        *z,
+        js.trigger,
+        js.slider
+      );
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
+
+    return controller;
+}
+
 }

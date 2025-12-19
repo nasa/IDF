@@ -389,4 +389,35 @@ SingleFlightController* SingleFlightController::createInstance(const VirpilConst
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const GenericJoystick& js) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+
+    CompositeInput* x = new CompositeInput();
+    x->addInput(js.HatEast);
+    x->addInput(js.HatWest, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(js.HatNorth);
+    y->addInput(js.HatSouth, -1);
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(*js.buttons.at(1));
+    z->addInput(*js.buttons.at(2), -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        js.twist,
+        js.forwardBackwardPivot,
+        js.leftRightPivot,
+        *dummyInput,
+        *dummyInput,
+        *dummyInput
+      );
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 }

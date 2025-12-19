@@ -22,6 +22,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/DacoThc.hh"
 #include "idf/DualShock.hh"
 #include "idf/Extreme3dPro.hh"
+#include "idf/GenericJoystick.hh"
 #include "idf/Gravis.hh"
 #include "idf/IndustrialProducts.hh"
 #include "idf/IndustrialProducts2.hh"
@@ -274,10 +275,21 @@ class SingleCameraController : public CameraController {
      *
      * @param virpil the inputs to use in the default mapping
      *
-     * @return a new Virpil Constellation Alhpa based lander controller
+     * @return a new Virpil Constellation Alhpa based camera controller
      */
     static SingleCameraController* createInstance(const VirpilConstellationAlpha& virpil);
 
+    /**
+     * creates a new SingleCameraController mapped to @a HidGenericJoystick using appropriate
+     * defaults. Since this is a generic mapping without specific knowledge of the
+     * devices physical layout, it is merely a best guess according to common practices. Thus,
+     * some outputs may not be mapped to an real input.
+     *
+     * @param js the inputs to use in the default mapping
+     *
+     * @return a new Generic HID based camera controller
+     */
+    static SingleCameraController* createInstance(const GenericJoystick& js);
 };
 
 }

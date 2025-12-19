@@ -9,9 +9,6 @@
 #include <iomanip>
 #include <sstream>
 
-//deleteme
-#include <iostream>
-
 namespace idf {
 
 int UsbDevice::instanceCount = 0;
