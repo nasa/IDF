@@ -65,8 +65,6 @@ void HidGenericJoystick::init()
                wheel.configure(input.logical_min, input.logical_max);
                break;
 
-            default:
-               break;
          }
       }
    }
@@ -137,8 +135,6 @@ void HidGenericJoystick::decode(const std::vector<unsigned char>& data)
                   HatNorthWest.setValue(hat == 7);
                   break;
 
-               default:
-                  break;
             } // switch
          } // for input
       } // if correct report

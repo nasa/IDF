@@ -172,9 +172,6 @@ private:
       int units_exp;
    };
 
-   int vendorId;
-   int productId;
-
    std::string device_type = "Unknown";
    std::vector<HidReport> reports;
    std::vector<HidInput> inputs;
