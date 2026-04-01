@@ -1,6 +1,7 @@
 #include "idf/HidDevice.hh"
 #include "idf/IOException.hh"
 #include <errno.h>
+#include <limits.h>
 #include <string.h>
 #include <sstream>
 #include <iostream>
@@ -8,19 +9,24 @@
 
 namespace idf {
 
-
 HidDevice::HidDevice(const int vendor, const int product, const int interface) :
-   HidDevice(HidDevice::decodeDevice(vendor, product)) {
-      addIdentification(Identification(vendor, product, interface));
+   HidDevice(HidDevice::decodeDevice(vendor, product, interface)) {}
+
+HidDevice::HidDevice(const std::string& devPath) :
+   HidDevice(HidDevice::decodeDevice(devPath)) {
+      setPath(devPath);
    }
 
+HidDevice::HidDevice(const HidDescriptor* descriptor_in) :
+   UsbDevice("Generic " + descriptor_in->type, descriptor_in->maxReportLength),
+   descriptor(*descriptor_in) {
+      std::cout << "[IDF] add device ID: "
+         << std::hex << descriptor.vendor << ":" << descriptor.product
+         << ":" << std::dec << descriptor.interface;
+      addIdentification(Identification(descriptor.vendor, descriptor.product, descriptor.interface));
+   }
 
-HidDevice::HidDevice(const HidDecoded* decoded_in) :
-   UsbDevice("Generic " + decoded_in->type, decoded_in->maxReportLength),
-   decoded(*decoded_in) {}
-
-
-HidDecoded* HidDevice::decodeDevice(const int vendor, const int product) {
+HidDescriptor* HidDevice::decodeDevice(const int vendor, const int product, const int interface) {
    std::ostringstream ss;
    hid_device* hidDevice;
    unsigned char buffer[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
@@ -42,12 +48,77 @@ HidDecoded* HidDevice::decodeDevice(const int vendor, const int product) {
    }
 
    std::vector<unsigned char> descriptor(buffer, buffer + descSize);
-   HidDecoded* decDevice = decoder.parseDescriptor(descriptor);
+   HidDescriptor* decDevice = decoder.parseDescriptor(descriptor);
+   decDevice->vendor = vendor;
+   decDevice->product = product;
+   decDevice->interface = interface;
 
    hid_close(hidDevice);
    return decDevice;
 }
 
+HidDescriptor* HidDevice::decodeDevice(const std::string& targetPath) {
+   hid_device* hidDevice;
+   unsigned char buffer[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
+   HidDecoder decoder;
+
+   std::string resolvedPath = resolvePath(targetPath);
+   std::ostringstream ss;
+   ss << "Failed to open HID device at " << targetPath;
+   if (resolvedPath != targetPath) {
+      ss << " (which resolves to " << resolvedPath << ")";
+   }
+   ss << ": ";
+
+   struct hid_device_info *enumerationHead = hid_enumerate(0, 0);
+   for (struct hid_device_info *deviceInfo = enumerationHead; deviceInfo; deviceInfo = deviceInfo->next) {
+
+      // if the path matches
+      if (!strcmp(resolvedPath.c_str(), deviceInfo->path)) {
+         std::cout << "resolved device at " << resolvedPath << " is a ";
+         std::wcout << deviceInfo->manufacturer_string << " "
+            << deviceInfo->product_string << " ";
+
+         std::cout << std::hex << std::setw(4) << std::setfill('0') << deviceInfo->vendor_id << ":" << deviceInfo->product_id
+            << std::endl;
+
+         // TODO: check that the device isn't already open
+
+         // Open device to read Report Descriptor
+         if (!(hidDevice = hid_open_path(resolvedPath.c_str()))) {
+            ss << strerror(errno) << ". See the https://github.com/nasa/IDF/wiki for troubleshooting.";
+            throw IOException(ss.str());
+         }
+
+         // decode the RD
+         int descSize = hid_get_report_descriptor(hidDevice, buffer, sizeof(buffer));
+
+         if (descSize < 0) {
+            ss << "unable to get HID report descriptor from "
+               << targetPath << strerror(errno) << std::endl;
+            hid_close(hidDevice);
+            throw IOException(ss.str());
+         }
+
+         std::vector<unsigned char> descriptor(buffer, buffer + descSize);
+         HidDescriptor* decDevice = decoder.parseDescriptor(descriptor);
+         decDevice->vendor = deviceInfo->vendor_id;
+         decDevice->product = deviceInfo->product_id;
+         decDevice->interface = deviceInfo->interface_number;
+
+         // release the enumeration
+         hid_free_enumeration(enumerationHead);
+
+         hid_close(hidDevice);
+         return decDevice;
+      }
+   }
+
+   // path not found
+   hid_free_enumeration(enumerationHead);
+   ss << "There is no device at this path.";
+   throw IOException(ss.str());
+}
 
 std::vector<unsigned char> HidDevice::getHidReportDescriptor() {
    unsigned char buffer[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
@@ -63,7 +134,6 @@ std::vector<unsigned char> HidDevice::getHidReportDescriptor() {
    return report;
 }
 
-
 void HidDevice::printHidDescriptor() {
    std::vector<unsigned char> report = getHidReportDescriptor();
 
@@ -75,9 +145,20 @@ void HidDevice::printHidDescriptor() {
    }
 }
 
-
 void HidDevice::printDecodedHidInfo() {
-   decoder.printDecodedInfo(decoded);
+   decoder.printDecodedInfo(descriptor);
+}
+
+std::string HidDevice::resolvePath(const std::string& unresolvedPath) {
+    #ifdef __APPLE__
+        return unresolvedPath;
+    #else
+        char resolvedPath[PATH_MAX];
+        if (!realpath(unresolvedPath.c_str(), resolvedPath)) {
+            throw IOException("Failed to resolve " + unresolvedPath + ": " + strerror(errno));
+        }
+        return resolvedPath;
+    #endif
 }
 
 } //namespace idf

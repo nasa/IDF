@@ -39,7 +39,7 @@ void HidDecoder::init()
 }
 
 
-HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
+HidDescriptor* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
 {
    init();
    uint i = 0;
@@ -93,7 +93,7 @@ HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descri
       }
    }
 
-   HidDecoded* decoded = new HidDecoded();
+   HidDescriptor* decoded = new HidDescriptor();
 
    decoded->type = device_type;
    decoded->reports = reports;
@@ -344,7 +344,7 @@ int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const b
 }
 
 
-void HidDecoder::printDecodedInfo(const HidDecoded decoded)
+void HidDecoder::printDecodedInfo(const HidDescriptor decoded)
 {
    std::ostringstream ss;
    ss << "Device Type: " << decoded.type << "\n";

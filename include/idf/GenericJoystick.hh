@@ -40,6 +40,12 @@ public:
    // left-right pivoting
    SingleInput leftRightPivot;
 
+   // forward-backward Translation
+   SingleInput forwardBackwardTranslation;
+
+   // left-right transation
+   SingleInput leftRightTranslation;
+
    // twisting
    SingleInput twist;
 
@@ -52,6 +58,9 @@ public:
    // the slider
    SingleInput slider;
 
+   // scroll wheel
+   SingleInput wheel;
+
    // Hat Directions
    SingleInput HatNorth;
    SingleInput HatNorthEast;
@@ -61,6 +70,23 @@ public:
    SingleInput HatSouthWest;
    SingleInput HatWest;
    SingleInput HatNorthWest;
+
+   /**
+    * @brief Indicates whether an Rx axis exists, which may be used
+    * for a forwardBackwardTranslation
+    */
+   bool rxExists = false; // TODO: make use of this
+
+   /**
+    * @brief Indicates whether an Ry axis exists, which may be used
+    * for a LeftRightTranslation
+    */
+   bool ryExists = false;
+
+   /**
+    * @brief Indicates whether a Scroll Wheel exists
+    */
+   bool wheelExists = false;
 
    /**
     * @brief Get the Nth Button object

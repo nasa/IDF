@@ -126,6 +126,15 @@ class UsbDevice : public InputDevice {
 
     virtual std::vector<std::vector<unsigned char> > read();
 
+    /**
+     * returns an absolute path to @a path, resolving '.', '..', and symbolic links
+     *
+     * @return the resolved path
+     */
+    std::string resolvePath(const std::string& path) const;
+
+    std::string getDeviceName(const Identification& info);
+
     private:
 
     /** number of instances in existance */
@@ -183,15 +192,6 @@ class UsbDevice : public InputDevice {
      * @return the open instance or @a NULL
      */
     UsbDevice* getInstanceAtPath(const std::string& path) const;
-
-    /**
-     * returns an absolute path to @a path, resolving '.', '..', and symbolic links
-     *
-     * @return the resolved path
-     */
-    std::string resolvePath(const std::string& path) const;
-
-    std::string getDeviceName(const Identification& info);
 
     void operator=(const UsbDevice&);
 
