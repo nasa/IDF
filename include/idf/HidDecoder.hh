@@ -51,6 +51,8 @@ struct HidDescriptor
    unsigned short vendor;
    unsigned short product;
    unsigned short interface;
+   std::wstring vendor_string;
+   std::wstring product_string;
    std::string type;
    std::vector<HidReport> reports;
    int maxReportLength;

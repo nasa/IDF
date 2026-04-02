@@ -82,6 +82,7 @@ public:
    static HidDescriptor* decodeDevice(const std::string& targetPath);
 
 protected:
+
    HidDecoder decoder;
 
    HidDescriptor descriptor;
@@ -91,6 +92,7 @@ protected:
    virtual std::vector<unsigned char> getHidReportDescriptor();
 
 private:
+
    static std::string resolvePath(const std::string& path);
 
 };
