@@ -9,6 +9,7 @@ EthernetWingMan::EthernetWingMan(const std::string& id, const std::string& host,
     EthernetDevice(id, host, port, length) {}
 
 void EthernetWingMan::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 5) { return; }
     leftRightPivot.setValue( static_cast<double>(((unsigned)data[1] & 3) << 8 | data[0]) );
     forwardBackwardPivot.setValue( static_cast<double>(((unsigned)data[2] & 0xF) << 6 | data[1] >> 2) );
     twist.setValue( static_cast<double>(data[3]) );

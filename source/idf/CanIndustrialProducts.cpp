@@ -49,6 +49,7 @@ std::vector<std::vector<unsigned char> > CanIndustrialProducts::read() {
 
 
 void CanIndustrialProducts::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 7) { return; }
     leftRightPivot.setValue(((data[1] & 3) << 8) | data[0]);
     forwardBackwardPivot.setValue(((data[2] & 0xF) << 6) | (data[1] >> 2));
     twist.setValue(((data[3] & 0x3F) << 4) | (data[2] >> 4));

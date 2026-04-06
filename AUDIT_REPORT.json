@@ -1,0 +1,511 @@
+{
+  "project": "/home/curly/projects/IDF",
+  "timestamp": "2026-04-06",
+  "languages_detected": [
+    "cpp",
+    "c"
+  ],
+  "files_scanned": 220,
+  "candidates_found": 32,
+  "confirmed_findings": 31,
+  "false_positives": 1,
+  "findings": [
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/BtXBoxOneWireless.cpp",
+      "line": 16,
+      "matched_text": "data[13]",
+      "context": "14:         directionalPadLeft.setValue(false);\n15:         directionalPadRight.setValue(false);\n16:         switch (data[13] & 0x0F) { // handle diagonals\n17:             case(1):\n18:                 directionalPadUp.setValue(true);\n19:                 break;",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The function `decode()` accesses `data[13]` unconditionally at line 16 without any prior size validation of the `data` vector, and since `data` originates from attacker-controlled HID packets (via Bluetooth for Xbox One Wireless), malformed packets with length <14 will cause an out-of-bounds read. (+21 more matches of this pattern in the same file)",
+        "execution_path": "`BtXBoxOneWireless::decode()` is invoked by the base class `UsbDevice::decode()` (inherited or via virtual dispatch) when a HID report arrives; no size check precedes `data[13]`, so even short packets (e.g., 10 bytes) reach the switch statement.",
+        "suggested_fix": "Add `if (data.size() < 14) return;` before line 11 (or at least before line 16), or use `data.at(13)` for bounds-checked access with exception handling."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/CanIndustrialProducts.cpp",
+      "line": 53,
+      "matched_text": "data[2]",
+      "context": "51: void CanIndustrialProducts::decode(const std::vector<unsigned char>& data) {\n52:     leftRightPivot.setValue(((data[1] & 3) << 8) | data[0]);\n53:     forwardBackwardPivot.setValue(((data[2] & 0xF) << 6) | (data[1] >> 2));\n54:     twist.setValue(((data[3] & 0x3F) << 4) | (data[2] >> 4));\n55:     hatLeftRightPivot.setValue((data[4] << 2) | (data[3] >> 6));\n56:     hatUpDownPivot.setValue(((data[6] & 3) << 8) | data[5]);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode()` function accesses fixed indices up to `data[7]` unconditionally without any prior size validation, and since `data` originates from CAN messages whose length is attacker-controlled (via the CAN bus), malformed packets with `data.size() < 8` will cause out-of-bounds reads. (+13 more matches of this pattern in the same file)",
+        "execution_path": "`CanIndustrialProducts::decode(data)` is called with `data` populated from `message.data` (via `NTCAN_MESSAGE`), where `message.len` can be set by an external CAN controller or malicious node; no size check precedes the index accesses at lines 52–63.",
+        "suggested_fix": "Add `if (data.size() < 8) return;` (or throw) at the start of `decode()` before line 52."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-001-ptr-address-index",
+      "pattern_title": "Suspicious pointer arithmetic: (&var)[N]",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/EthernetDevice.cpp",
+      "line": 160,
+      "matched_text": "(&buffer)[bytesTotal]",
+      "context": "158: \n159:     while (bytesTotal < length) {\n160:         bytesSent = sendto(socketHandle, (&buffer)[bytesTotal], length-bytesTotal, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);\n161:         if (bytesSent < 0) {\n162:             if (errno == EINTR) { continue; } // interrupted by SIGNAL; retry\n163:             else {",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "`buffer` is a parameter of type `const void *`, so `&buffer` yields the address of the pointer variable on the stack; thus `(&buffer)[bytesTotal]` accesses memory *after* the `buffer` variable (i.e., beyond the pointer itself), which is unintended and matches the classic NASA IDF bug pattern.",
+        "execution_path": "`write()` is called → `bytesTotal` increments in the loop → for each iteration, `(&buffer)[bytesTotal]` is computed as the data pointer for `sendto()` → when `bytesTotal > 0`, it reads from stack memory past the `buffer` pointer variable (e.g., possibly `length`, `bytesSent`, or other locals), leading to incorrect or garbage data being sent.",
+        "suggested_fix": "Replace `(&buffer)[bytesTotal]` with `static_cast<const char*>(buffer) + bytesTotal` (or `static_cast<const uint8_t*>(buffer) + bytesTotal`) to correctly advance into the buffer contents rather than beyond the pointer variable."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-002-unreachable-after-return",
+      "pattern_title": "Statement after return/throw/continue (unreachable code)",
+      "severity": "medium",
+      "file": "/home/curly/projects/IDF/source/idf/EthernetDevice.cpp",
+      "line": 143,
+      "matched_text": "",
+      "context": "141:                 throw IOException(\"Error while reading \" + name + \": \" + strerror(errno));\n142:             }\n143:         } else if (bytesRecvd > 0) {\n144:             return static_cast<size_t>(bytesRecvd);\n145:             lastPacketArrived = std::time(nullptr);\n146:         }",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The statement `lastPacketArrived = std::time(nullptr);` on line 145 is unreachable because it appears immediately after a `return` statement within the same block, and there are no loops, switches, or gotos that could cause control to flow past the return.",
+        "execution_path": "When `bytesRecvd > 0`, execution reaches line 144 (`return static_cast<size_t>(bytesRecvd);`), exits the function, and never reaches line 145 — thus `lastPacketArrived` is never updated on successful reads, causing timeout logic (line 133) to rely on stale timestamps.",
+        "suggested_fix": "Move `lastPacketArrived = std::time(nullptr);` before the `return`, e.g., insert it on line 144 before the return or replace line 144–145 with:"
+      },
+      "cwe": "CWE-561"
+    },
+    {
+      "pattern_id": "cpp-004-fd-leak-throw",
+      "pattern_title": "File descriptor opened without closing on error path",
+      "severity": "medium",
+      "file": "/home/curly/projects/IDF/source/idf/EthernetDevice.cpp",
+      "line": 30,
+      "matched_text": "socketHandle = socket(AF_INET, sockType, 0);",
+      "context": "28:         stream << \"[IDF::EthernetDevice::open()] \";\n29: \n30:         socketHandle = socket(AF_INET, sockType, 0);\n31: \n32:         if (socketHandle < 0) {\n33:             stream << \"failed to create socket\";",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `socketHandle` is assigned on line 30 via `socket()`, but if `socket()` fails (line 32), the function throws immediately on line 35 without closing the socket—there is no corresponding `close(socketHandle)` before the throw, and no RAII wrapper (e.g., `std::unique_ptr<int, decltype(&close)>`) is evident in the shown code to manage the descriptor.",
+        "execution_path": "`EthernetDevice::open()` → `socket(AF_INET, sockType, 0)` (line 30) → `socketHandle < 0` (line 32) → `throw IOException(...)` (line 35)",
+        "suggested_fix": "Add `close(socketHandle);` before the throw on line 35 (or wrap `socketHandle` in an RAII guard such as `std::unique_ptr<int, decltype(&close)>` with a custom deleter)."
+      },
+      "cwe": "CWE-772"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/EthernetExtreme3dPro.cpp",
+      "line": 10,
+      "matched_text": "data[4]",
+      "context": "8: void EthernetExtreme3dPro::decode(const std::vector<unsigned char>& data) {\n9:     EthernetWingMan::decode(data);\n10:     button8.setValue( static_cast<double>(data[4] >> 7 & 1) );\n11:     button9.setValue( static_cast<double>(data[6] & 1) );\n12:     button10.setValue( static_cast<double>(data[6] >> 1 & 1) );\n13:     button11.setValue( static_cast<double>(data[6] >> 2 & 1) );",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[4]`, `data[6]` unconditionally without any prior size validation, and since `data` originates from attacker-controlled USB HID packets (as noted in the pattern description), malformed packets shorter than 7 bytes will cause out-of-bounds reads. (+4 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `EthernetWingMan::decode(data)` (line 9) processes first part → `EthernetExtreme3dPro::decode` proceeds to access `data[4]`, `data[6]` (lines 10–14) without checking `data.size()` ≥ 7.",
+        "suggested_fix": "Add `if (data.size() < 7) return;` at the start of `EthernetExtreme3dPro::decode` before line 10."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/EthernetWingMan.cpp",
+      "line": 13,
+      "matched_text": "data[2]",
+      "context": "11: void EthernetWingMan::decode(const std::vector<unsigned char>& data) {\n12:     leftRightPivot.setValue( static_cast<double>(((unsigned)data[1] & 3) << 8 | data[0]) );\n13:     forwardBackwardPivot.setValue( static_cast<double>(((unsigned)data[2] & 0xF) << 6 | data[1] >> 2) );\n14:     twist.setValue( static_cast<double>(data[3]) );\n15: \n16:     trigger.setValue( static_cast<double>(data[4] & 1) );",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices (`data[0]` through `data[4]`, and `data[2]`, `data[4]` multiple times) without any prior size validation of the `data` vector, and since `EthernetWingMan` is instantiated with a fixed expected length of 6 bytes (per constructor on line 6), but no runtime check ensures `data.size() >= 5` before indexing, malformed packets (e.g., <5 bytes) will cause out-of-bounds reads. (+10 more matches of this pattern in the same file)",
+        "execution_path": "`EthernetWingMan::decode(data)` → accesses `data[0]` to `data[4]` unconditionally (lines 12–23); caller (likely HID parser or network receiver) supplies `data` from USB/HID packet, which may be truncated or malformed.",
+        "suggested_fix": "Add `if (data.size() < 5) return;` (or throw) at the start of `decode()` before line 12."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-012-loop-unvalidated-bound",
+      "pattern_title": "Loop bound from external input without validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/HidDecoder.cpp",
+      "line": 265,
+      "matched_text": "for (uint j = 0; j < state.report_count;",
+      "context": "263:    }\n264: \n265:    for (uint j = 0; j < state.report_count; ++j) {\n266:       std::string name;\n267:       u_int8_t usage = 0;\n268:       int btn_num = -1;",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The loop bound `state.report_count` is used directly without prior validation against a known maximum, and since it originates from external HID input (report count is parsed from descriptor fields like REPORT_COUNT), it can be attacker-controlled and arbitrarily large, enabling excessive iterations or infinite loops if combined with other unbounded inputs.",
+        "execution_path": "HID descriptor parsing → `state.report_count` set from REPORT_COUNT item → `HidDecoder::decodeUsage()` (or similar) called → loop at line 265 executes with `j < state.report_count`.",
+        "suggested_fix": "Add a sanity check before the loop, e.g., `if (state.report_count > MAX_REPORT_COUNT) state.report_count = MAX_REPORT_COUNT;` or `if (state.report_count > MAX_REPORT_COUNT) return;`, where `MAX_REPORT_COUNT` is defined (e.g., 256 or 512)."
+      },
+      "cwe": "CWE-606"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/SerialEr7Orion.cpp",
+      "line": 13,
+      "matched_text": "data[3]",
+      "context": "11: void SerialEr7Orion::decode(const std::vector<unsigned char>& data) {\n12:     SerialThrustMasterBase::decode(data);\n13:     forwardBackwardTranslation.setValue(data[3]);\n14:     leftRightTranslation.setValue(data[4]);\n15:     upDownTranslation.setValue(data[5]);\n16: }",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[3]`, `data[4]`, and `data[5]` unconditionally without any prior size validation of the `data` vector, and since `decode` is called on attacker-controlled HID packets (as noted for NASA IDF USB decoders), malformed packets with insufficient length will cause out-of-bounds reads. (+2 more matches of this pattern in the same file)",
+        "execution_path": "`SerialEr7Orion::decode(data)` → reads `data[3]`, `data[4]`, `data[5]` directly → no bounds check before indexing → OOB read if `data.size() < 6`.",
+        "suggested_fix": "Add `if (data.size() < 6) return;` at the start of `SerialEr7Orion::decode` (after `SerialThrustMasterBase::decode(data)` if that doesn’t already enforce minimum size)."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/SerialThrustMasterBase.cpp",
+      "line": 88,
+      "matched_text": "data[2]",
+      "context": "86:     forwardBackwardPivot.setValue(data[0]);\n87:     twist.setValue(data[1]);\n88:     leftRightPivot.setValue(data[2]);\n89:     leftRightTranslation.setValue(data[3]);\n90:     upDownTranslation.setValue(data[4]);\n91:     forwardBackwardTranslation.setValue(data[5]);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode()` function accesses `data[0]` through `data[8]` unconditionally without any prior size validation of the input vector, and since `data` originates from attacker-controlled USB HID packets (as noted in the pattern description), malformed packets with insufficient length will cause out-of-bounds reads. (+6 more matches of this pattern in the same file)",
+        "execution_path": "`SerialThrustMasterBase::decode(data)` is called (likely from a higher-level handler receiving HID reports); within `decode()`, indices 0–8 are accessed directly via `data[N]`, including `data[8]` used for both trigger value and button processing — no `size()` check precedes these accesses.",
+        "suggested_fix": "Add `if (data.size() < 9) return;` (or throw) at the start of `decode()` before the first `data[N]` access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbChProPedals.cpp",
+      "line": 11,
+      "matched_text": "data[2]",
+      "context": "9:     leftPedal.setValue(data[0]);\n10:     rightPedal.setValue(data[1]);\n11:     twist.setValue(data[2]);\n12: }\n13: \n14: }",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function unconditionally accesses `data[0]`, `data[1]`, and `data[2]` without any prior size validation, and since `data` is attacker-controlled HID packet input, malformed packets shorter than 3 bytes will cause out-of-bounds reads.",
+        "execution_path": "USB HID interrupt transfer → `UsbDevice::decode()` (inherited or dispatched) → `UsbChProPedals::decode()` → fixed-index accesses `data[0..2]`",
+        "suggested_fix": "Add `if (data.size() < 3) return;` at the start of `decode()` before the index accesses."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbDacoThc.cpp",
+      "line": 10,
+      "matched_text": "data[3]",
+      "context": "8: void UsbDacoThc::decode(const std::vector<unsigned char>& data) {\n9:    leftRightTranslation.setValue(((unsigned)data[1] << 8) | data[0]);\n10:    upDownTranslation.setValue(((unsigned)data[3] << 8) | data[2]);\n11:    forwardBackwardTranslation.setValue(((unsigned)data[5] << 8) | data[4]);\n12: \n13:    switch1.setValue(data[6] & 0x1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function unconditionally accesses fixed indices 0 through 6 (`data[0]` to `data[6]`) without any prior size validation, and since `data` is attacker-controlled HID packet input, malformed packets shorter than 7 bytes will cause out-of-bounds reads. (+4 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `UsbDevice::handlePacket()` (inherited) → `UsbDacoThc::decode(data)` → accesses `data[0..6]` unconditionally.",
+        "suggested_fix": "Add `if (data.size() < 7) return;` at the start of `decode()` before any indexed access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbDualShock3.cpp",
+      "line": 15,
+      "matched_text": "data[2]",
+      "context": "13: \n14: void UsbDualShock3::decode(const std::vector<unsigned char>& data) {\n15:     selectButton.setValue(data[2] & 1);\n16:     leftAnalogIn.setValue(data[2] >> 1 & 1);\n17:     rightAnalogIn.setValue(data[2] >> 2 & 1);\n18:     startButton.setValue(data[2] >> 3 & 1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices (2, 4, 6–9, 14–17) into `data` without any prior size validation—no `data.size()` checks before indexing—and the function is called unconditionally on HID reports, making it vulnerable to malformed packets with insufficient length. (+20 more matches of this pattern in the same file)",
+        "execution_path": "`UsbDualShock3::decode(data)` is invoked by the USB HID parser (likely `UsbDualShock::handleReport()` or similar) after receiving a report from the controller; attacker-controlled report may be shorter than 18 bytes, causing out-of-bounds reads when accessing `data[17]`.",
+        "suggested_fix": "Add `if (data.size() < 18) return;` (or throw) at the start of `decode()` before any indexing."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbDualShock4.cpp",
+      "line": 20,
+      "matched_text": "data[2]",
+      "context": "18: void UsbDualShock4::decode(const std::vector<unsigned char>& data) {\n19:     leftAnalogLeftRightPivot.setValue(data[1]);\n20:     leftAnalogUpDownPivot.setValue(data[2]);\n21:     rightAnalogLeftRightPivot.setValue(data[3]);\n22:     rightAnalogUpDownPivot.setValue(data[4]);\n23: ",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[N]` at indices 1 through 6 unconditionally without any prior size validation, and since `data` originates from HID reports (attacker-controlled), malformed packets shorter than 7 bytes will cause out-of-bounds reads. (+27 more matches of this pattern in the same file)",
+        "execution_path": "USB HID interrupt transfer → `UsbDualShock4::decode(data)` → direct indexing into `data` (e.g., `data[1]`, `data[2]`, ..., `data[6]`) without `data.size()` check before access.",
+        "suggested_fix": "Add `if (data.size() < 7) return;` (or throw) at the start of `decode()` before the first `data[N]` access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbExtreme3dPro.cpp",
+      "line": 10,
+      "matched_text": "data[4]",
+      "context": "8: void UsbExtreme3dPro::decode(const std::vector<unsigned char>& data) {\n9:     UsbWingMan::decode(data);\n10:     button8.setValue(data[4] >> 7 & 1);\n11:     button9.setValue(data[6] & 1);\n12:     button10.setValue(data[6] >> 1 & 1);\n13:     button11.setValue(data[6] >> 2 & 1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[4]`, `data[6]` unconditionally without any prior size validation, and since `UsbExtreme3dPro` inherits from `UsbWingMan`, it relies on the parent’s `decode` to process the packet—but no size check is present in this function or its immediate caller chain to ensure `data.size() >= 7` before indexing. (+4 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `UsbWingMan::decode(data)` (base class) → `UsbExtreme3dPro::decode(data)` continues and reads `data[4]`, `data[6]` unconditionally → malformed packet with `size < 7` causes out-of-bounds read.",
+        "suggested_fix": "Add `if (data.size() < 7) return;` at the start of `UsbExtreme3dPro::decode()` before line 10."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbGravis.cpp",
+      "line": 15,
+      "matched_text": "data[2]",
+      "context": "13:     directionalPadDown.setValue(data[1] >> 7);\n14: \n15:     westButton.setValue(data[2] & 1);\n16:     southButton.setValue(data[2] >> 1 & 1);\n17:     eastButton.setValue(data[2] >> 2 & 1);\n18:     northButton.setValue(data[2] >> 3 & 1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[0]` through `data[3]` unconditionally without any prior size validation, and since `data` is attacker-controlled HID packet input (as implied by the class context and pattern across other USB decoders), malformed packets shorter than 4 bytes will cause out-of-bounds reads. (+9 more matches of this pattern in the same file)",
+        "execution_path": "USB HID interrupt transfer → `UsbGravis::decode(data)` → accesses `data[0]..data[3]` unconditionally",
+        "suggested_fix": "Add `if (data.size() < 4) return;` at the start of `decode()` before any indexing."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbIndustrialProducts.cpp",
+      "line": 10,
+      "matched_text": "data[3]",
+      "context": "8: void UsbIndustrialProducts::decode(const std::vector<unsigned char>& data) {\n9:     leftRightPivot.setValue(((unsigned)data[1]) << 8 | data[0]);\n10:     forwardBackwardPivot.setValue(((unsigned)data[3]) << 8 | data[2]);\n11:     twist.setValue(((unsigned)data[5]) << 8 | data[4]);\n12: \n13:     trigger.setValue(data[6] & 1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function unconditionally accesses indices 0 through 7 of `data` without any prior size validation, and since `data` originates from USB HID packets (attacker-controlled), malformed packets shorter than 8 bytes will cause out-of-bounds reads. (+12 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `UsbDevice::handleReport()` (inherited) → `UsbIndustrialProducts::decode(data)` → accesses `data[0]` through `data[7]` unconditionally",
+        "suggested_fix": "Add `if (data.size() < 8) return;` at the start of `decode()` before any index access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbIndustrialProducts2.cpp",
+      "line": 11,
+      "matched_text": "data[3]",
+      "context": "9: void UsbIndustrialProducts2::decode(const std::vector<unsigned char>& data) {\n10:     leftRightPivot.setValue(((unsigned)data[1]) << 8 | data[0]);\n11:     forwardBackwardPivot.setValue(((unsigned)data[3]) << 8 | data[2]);\n12:     twist.setValue(((unsigned)data[5]) << 8 | data[4]);\n13: \n14:     trigger.setValue(data[6] & 1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[0]` through `data[7]` unconditionally without any prior size validation, and since `data` originates from HID packets (attacker-controlled), malformed packets shorter than 8 bytes will cause out-of-bounds reads. (+12 more matches of this pattern in the same file)",
+        "execution_path": "USB HID interrupt transfer → `UsbIndustrialProducts2::decode(data)` → accesses `data[0..7]` directly → OOB read if `data.size() < 8`.",
+        "suggested_fix": "Add `if (data.size() < 8) return;` at the start of `decode()` before any index access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbIndustrialProducts3.cpp",
+      "line": 11,
+      "matched_text": "data[3]",
+      "context": "9: void UsbIndustrialProducts3::decode(const std::vector<unsigned char>& data) {\n10:     leftRightPivot.setValue(((unsigned)data[1]) << 8 | data[0]);\n11:     forwardBackwardPivot.setValue(((unsigned)data[3]) << 8 | data[2]);\n12:     twist.setValue(((unsigned)data[5]) << 8 | data[4]);\n13: \n14:     hatLeftRightPivot.setValue(((unsigned)data[7]) << 8 | data[6]);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode()` function accesses fixed indices up to `data[10]` unconditionally without any prior size validation, and since `data` is attacker-controlled HID packet input, malformed packets shorter than 11 bytes will cause out-of-bounds reads. (+15 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `UsbIndustrialProducts3::decode(data)` is invoked with `data` vector (size determined by host/device) → indices 0–10 accessed directly via `data[N]` → OOB read if `data.size() <= 10`.",
+        "suggested_fix": "Add `if (data.size() < 11) return;` at the start of `decode()` before any index access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbIndustrialProducts4.cpp",
+      "line": 10,
+      "matched_text": "data[3]",
+      "context": "8: void UsbIndustrialProducts4::decode(const std::vector<unsigned char>& data) {\n9:     leftRightPivot.setValue(((unsigned)data[1]) << 8 | data[0]);\n10:     forwardBackwardPivot.setValue(((unsigned)data[3]) << 8 | data[2]);\n11:     twist.setValue(((unsigned)data[5]) << 8 | data[4]);\n12: \n13:     hatLeftRightPivot.setValue(((unsigned)data[7]) << 8 | data[6]);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices up to `data[10]` unconditionally without any prior size validation, and since `data` is attacker-controlled HID packet input, malformed packets shorter than 11 bytes will cause out-of-bounds reads. (+13 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `UsbIndustrialProducts4::decode(data)` is invoked (likely from base class or parser) → accesses `data[0]` through `data[10]` without checking `data.size()` first",
+        "suggested_fix": "Add `if (data.size() < 11) return;` at the start of `decode()` (before line 9) to guard against undersized packets."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbMadCatz.cpp",
+      "line": 14,
+      "matched_text": "data[2]",
+      "context": "12: \n13:     // 10-bits B23 B22 B21 B20 B17 B16 B15 B14 B13 B12\n14:     value = ((uint16_t) data[2] & 0x000f) << 6 |  ((uint16_t)data[1] & 0x00FC) >> 2;\n15:     forwardBackwardPivot.setValue(value);\n16: \n17:     // 10-bits  B11 B10 B07 B06 B05 B04 B03 B02 B01 B00",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices `data[0]` through `data[5]` unconditionally without any prior size validation, and since `data` is attacker-controlled HID packet input, malformed packets shorter than 6 bytes will cause out-of-bounds reads. (+21 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `UsbMadCatz::decode(data)` is invoked (likely from base `UsbDevice::decode` or event handler) → accesses `data[2]`, `data[1]`, `data[0]`, `data[4]`, `data[3]`, `data[5]` in sequence without bounds checks → OOB read occurs if `data.size() < 6`.",
+        "suggested_fix": "Add `if (data.size() < 6) return;` at the start of `decode()` (before line 14) to guard against undersized packets."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbSaitek.cpp",
+      "line": 11,
+      "matched_text": "data[2]",
+      "context": "9:     leftPedal.setValue(data[0] & 0x7F);\n10:     rightPedal.setValue(((data[1] << 1) & 0x7F) | (data[0] >> 7));\n11:     twist.setValue((int)(char)data[2] << 2 | (data[1] >> 6));\n12: }\n13: \n14: }",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function unconditionally accesses `data[0]`, `data[1]`, and `data[2]` without any prior size validation, and since `data` originates from HID packets (attacker-controlled), malformed packets shorter than 3 bytes will cause out-of-bounds reads.",
+        "execution_path": "USB HID interrupt transfer → `UsbSaitek::decode()` → accesses `data[0..2]` unconditionally",
+        "suggested_fix": "Add `if (data.size() < 3) return;` at the start of `decode()` before the first index access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbSaitekX52.cpp",
+      "line": 14,
+      "matched_text": "data[2]",
+      "context": "12: void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {\n13:     leftRightPivot.setValue( ((unsigned)data[1] & 0x7) << 8 | data[0]);\n14:     forwardBackwardPivot.setValue( ((unsigned)data[2] & 0x3F) << 5 | data[1] >> 3);\n15:     twist.setValue( ((unsigned)data[3] << 2) | (data[2] >> 6 & 0x3) );\n16:     throttle.setValue( data[4]);\n17:     rotary1.setValue( data[5]);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode()` function accesses `data[N]` for indices up to 9 (e.g., `data[9]`) without any prior size validation—no `if (data.size() > N)` checks or early returns—so malformed HID reports shorter than 10 bytes will cause out-of-bounds reads. (+39 more matches of this pattern in the same file)",
+        "execution_path": "`UsbDevice::handleReport()` → `UsbSaitekX52::decode()` (called directly on HID interrupt transfer), where `data` is attacker-controlled from the USB device and may be shorter than the expected 10 bytes.",
+        "suggested_fix": "Add `if (data.size() < 10) return;` at the start of `decode()` (or `if (data.size() < N+1)` per field) before any `data[N]` access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbSaitekX56Stick.cpp",
+      "line": 14,
+      "matched_text": "data[3]",
+      "context": "12:     /* Axes */\n13:     leftRightPivot.setValue(       ((unsigned)data[1] << 8) | data[0] );\n14:     forwardBackwardPivot.setValue( ((unsigned)data[3] << 8) | data[2] );\n15: \n16:     twist.setValue( ((unsigned)(data[5] & 0xf) << 8) | data[4]);\n17: ",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices (0 through 10) in the `data` vector unconditionally without any prior size validation, and since `data` originates from HID reports (attacker-controlled), malformed packets shorter than 11 bytes will cause out-of-bounds reads. (+15 more matches of this pattern in the same file)",
+        "execution_path": "UsbDevice::handleReport() → UsbSaitekX56Stick::decode(data) → accesses data[0]..data[10] unconditionally",
+        "suggested_fix": "Add `if (data.size() < 11) return;` at the start of `decode()` (before line 13) to guard against undersized packets."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbSaitekX56Throttle.cpp",
+      "line": 13,
+      "matched_text": "data[2]",
+      "context": "11: void UsbSaitekX56Throttle::decode(const std::vector<unsigned char>& data) {\n12:     leftThrottle.setValue( ((unsigned)data[1] & 0x3) << 8 | data[0] );\n13:     rightThrottle.setValue( ((unsigned)data[2] & 0xF) << 6 | data[1] >> 2 );\n14: \n15:     buttonE.setValue( data[2] >> 4 & 0x1 );\n16:     buttonF.setValue( data[2] >> 5 & 0x1 );",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode()` function accesses fixed indices (0 through 6) in `data` without any prior size validation, and since `data` originates from HID reports (attacker-controlled), malformed packets shorter than 7 bytes will cause out-of-bounds reads. (+36 more matches of this pattern in the same file)",
+        "execution_path": "UsbDevice::handleReport() → UsbSaitekX56Throttle::decode() → accesses data[0]..data[6] unconditionally",
+        "suggested_fix": "Add `if (data.size() < 7) return;` at the start of `decode()` before any index access."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbSpaceBase.cpp",
+      "line": 11,
+      "matched_text": "data[2]",
+      "context": "9:     switch (data[0]) {\n10:         case 1:\n11:             leftRightTranslation.setValue((int)(char)data[2] << 8 | data[1]);\n12:             forwardBackwardTranslation.setValue((int)(char)data[4] << 8 | data[3]);\n13:             upDownTranslation.setValue((int)(char)data[6] << 8 | data[5]);\n14:             break;",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices (`data[0]`, `data[1]` through `data[6]`) unconditionally without any prior size validation, and since `data` originates from attacker-controlled HID packets, malformed packets shorter than 7 bytes will cause out-of-bounds reads. (+9 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → `UsbSpaceBase::decode(data)` called with `data.size()` possibly < 7 → `switch(data[0])` → accesses `data[1]`..`data[6]` in cases 1–3 without bounds checks → OOB read on malformed packets.",
+        "suggested_fix": "Add `if (data.size() < 7) return;` at the start of `decode()` before the switch."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbTeensyduino.cpp",
+      "line": 29,
+      "matched_text": "data[2]",
+      "context": "27:     button15.setValue( data[1] >> 6 & 0x1 );\n28:     button16.setValue( data[1] >> 7 & 0x1 );\n29:     button17.setValue( data[2]      & 0x1 );\n30:     button18.setValue( data[2] >> 1 & 0x1 );\n31:     button19.setValue( data[2] >> 2 & 0x1 );\n32:     button20.setValue( data[2] >> 3 & 0x1 );",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The code accesses `data[0]` through `data[3]` unconditionally without any prior size validation in the same function, and since `data` is attacker-controlled HID packet data (as confirmed by the pattern description and similar patterns in other Usb*.cpp files), malformed packets with length < 4 will cause out-of-bounds reads. (+28 more matches of this pattern in the same file)",
+        "execution_path": "USB HID packet arrives → parsed into `data` buffer (typically fixed-size or min-length assumed) → `UsbTeensyduino::processPacket()` (or similar) is called → lines 15–44 execute unconditionally accessing `data[0..3]`",
+        "suggested_fix": "Add `if (data.size() < 4) return;` (or throw) before line 15 to validate buffer size before fixed-index accesses."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbWingMan.cpp",
+      "line": 13,
+      "matched_text": "data[2]",
+      "context": "11: void UsbWingMan::decode(const std::vector<unsigned char>& data) {\n12:     leftRightPivot.setValue(((unsigned)data[1] & 3) << 8 | data[0]);\n13:     forwardBackwardPivot.setValue(((unsigned)data[2] & 0xF) << 6 | data[1] >> 2);\n14:     twist.setValue(data[3]);\n15: \n16:     trigger.setValue(data[4] & 1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[0]` through `data[4]` unconditionally without any prior size validation, and since `UsbWingMan` is initialized with a fixed length of 6 bytes (from `UsbDevice(\"Wing Man\", 6)`), but HID packets may be shorter or malformed, out-of-bounds reads occur when `data.size() < 5`. (+10 more matches of this pattern in the same file)",
+        "execution_path": "`UsbDevice::handleReport()` → `UsbWingMan::decode(data)` where `data` is a HID report (possibly from USB HID interrupt transfer) with no length check before indexing.",
+        "suggested_fix": "Add `if (data.size() < 5) return;` at the start of `decode()` before any indexing."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbXBox.cpp",
+      "line": 9,
+      "matched_text": "data[2]",
+      "context": "7: \n8: void UsbXBox::decode(const std::vector<unsigned char>& data) {\n9:     directionalPadUp.setValue(data[2] & 1);\n10:     directionalPadDown.setValue(data[2] >> 1 & 1);\n11:     directionalPadLeft.setValue(data[2] >> 2 & 1);\n12:     directionalPadRight.setValue(data[2] >> 3 & 1);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices (e.g., `data[2]`, `data[3]`) unconditionally without any prior size validation, and since `data` is attacker-controlled HID packet input, malformed packets shorter than 4 bytes will cause out-of-bounds reads. (+24 more matches of this pattern in the same file)",
+        "execution_path": "USB HID interrupt transfer → `UsbXBox::decode(data)` (where `data` is the raw HID report) → direct indexing into `data[2]`, `data[3]`, etc., regardless of actual report length.",
+        "suggested_fix": "Add `if (data.size() < 4) return;` (or throw) at the start of `decode()` before any index access; optionally validate against expected report length for Xbox controllers (typically ≥4 bytes for basic input reports)."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/UsbXBoxOne.cpp",
+      "line": 12,
+      "matched_text": "data[2]",
+      "context": "10: void UsbXBoxOne::decode(const std::vector<unsigned char>& data) {\n11:     if (data[0] == 1) {\n12:         leftAnalogLeftRightPivot.setValue((int)(unsigned char)data[2] << 8 | data[1]);\n13:         leftAnalogUpDownPivot.setValue((int)(unsigned char)data[4] << 8 | data[3]);\n14:         leftAnalogTrigger.setValue((int)(unsigned char)(data[10] & 0x3) << 8 | data[9]);\n15: ",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses fixed indices up to `data[14]` (e.g., `data[14]`, `data[13]`, `data[12]`, etc.) without any prior size validation—only `data[0] == 1` is checked, leaving out-of-bounds reads possible if the HID packet is shorter than 15 bytes. (+23 more matches of this pattern in the same file)",
+        "execution_path": "HID packet arrives → `UsbXBoxOne::decode(data)` called with `data.size()` possibly < 15 → accesses like `data[14]`, `data[13]`, `data[12]`, `data[11]`, `data[10]`, `data[9]`, `data[8]`, `data[7]`, `data[6]`, `data[5]`, `data[4]`, `data[3]`, `data[2]`, `data[1]` occur unconditionally → out-of-bounds read if `data.size() <= 14`.",
+        "suggested_fix": "Add `if (data.size() < 15) return;` at the start of `decode()` (after `if (data[0] == 1)` or before first access), or `if (data.size() < 15) throw std::runtime_error(\"XBox One packet too short\");`."
+      },
+      "cwe": "CWE-125"
+    },
+    {
+      "pattern_id": "cpp-003-unchecked-data-index",
+      "pattern_title": "Buffer access with fixed index, no size validation",
+      "severity": "high",
+      "file": "/home/curly/projects/IDF/source/idf/VirpilMT50CM3.cpp",
+      "line": 33,
+      "matched_text": "data[2]",
+      "context": "31:    if (data[0] != 1) return;\n32: \n33:    leftRightPivot.setValue(((unsigned)data[2] << 8) | data[1]);\n34:    forwardBackwardPivot.setValue(((unsigned)data[4] << 8) | data[3]);\n35:    forwardBackwardTranslation.setValue(((unsigned)data[6] << 8) | data[5]);\n36:    leftRightTranslation.setValue(((unsigned)data[8] << 8) | data[7]);",
+      "verification": {
+        "verdict": "confirmed",
+        "reasoning": "The `decode` function accesses `data[N]` at indices up to 22 (e.g., `data[22]` on line 48) without any prior size validation—only `data[0] != 1` is checked, leaving accesses like `data[21]` and `data[22]` vulnerable to out-of-bounds reads if the HID packet is shorter than 23 bytes. (+42 more matches of this pattern in the same file)",
+        "execution_path": "USB HID interrupt transfer → `VirpilMT50CM3::decode()` → unbounded indexing into `data` (e.g., `data[21]`, `data[22]`) without length check.",
+        "suggested_fix": "Add `if (data.size() < 23) return;` at the start of `decode()` (after the `data[0]` check) to ensure all accessed indices (max index 22) are valid."
+      },
+      "cwe": "CWE-125"
+    }
+  ],
+  "elapsed_ms": 54693
+}

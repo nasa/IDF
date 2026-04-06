@@ -9,6 +9,7 @@ UsbSaitekX56Stick::UsbSaitekX56Stick(const std::string& id, unsigned length) :
     UsbDevice(id, length) {}
 
 void UsbSaitekX56Stick::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 10) { return; }
     /* Axes */
     leftRightPivot.setValue(       ((unsigned)data[1] << 8) | data[0] );
     forwardBackwardPivot.setValue( ((unsigned)data[3] << 8) | data[2] );

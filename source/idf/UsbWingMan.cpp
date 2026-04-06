@@ -9,6 +9,7 @@ UsbWingMan::UsbWingMan(const std::string& id, unsigned length) :
     UsbDevice(id, length) {}
 
 void UsbWingMan::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 5) { return; }
     leftRightPivot.setValue(((unsigned)data[1] & 3) << 8 | data[0]);
     forwardBackwardPivot.setValue(((unsigned)data[2] & 0xF) << 6 | data[1] >> 2);
     twist.setValue(data[3]);

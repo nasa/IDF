@@ -262,6 +262,7 @@ void HidDecoder::createInputs()
       expanded_usages = usage_list;
    }
 
+   if (state.report_count > 10000) { return; } // guard: cap loop bound
    for (uint j = 0; j < state.report_count; ++j) {
       std::string name;
       u_int8_t usage = 0;

@@ -6,6 +6,7 @@ UsbSpaceBase::UsbSpaceBase(const std::string& id) :
     UsbDevice(id, 7) {}
 
 void UsbSpaceBase::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 6) { return; }
     switch (data[0]) {
         case 1:
             leftRightTranslation.setValue((int)(char)data[2] << 8 | data[1]);

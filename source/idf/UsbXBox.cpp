@@ -6,6 +6,7 @@ UsbXBox::UsbXBox() :
     UsbDevice("Xbox Controller", 14) {}
 
 void UsbXBox::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 13) { return; }
     directionalPadUp.setValue(data[2] & 1);
     directionalPadDown.setValue(data[2] >> 1 & 1);
     directionalPadLeft.setValue(data[2] >> 2 & 1);

@@ -8,6 +8,7 @@ BtXBoxOneWireless::BtXBoxOneWireless() :
     UsbDevice("Xbox One Wireless Controller", 16) {}
 
 void BtXBoxOneWireless::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 15) { return; }
     if (data[0] == 1) {
         directionalPadUp.setValue(false);
         directionalPadDown.setValue(false);

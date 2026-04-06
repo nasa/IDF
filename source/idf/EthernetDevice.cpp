@@ -32,6 +32,7 @@ void EthernetDevice::open() {
         if (socketHandle < 0) {
             stream << "failed to create socket";
             perror(stream.str().c_str());
+            ::close(socketHandle);
             throw IOException(stream.str());
         }
 
@@ -141,8 +142,8 @@ size_t EthernetDevice::peek(unsigned char *buffer, size_t max) {
                 throw IOException("Error while reading " + name + ": " + strerror(errno));
             }
         } else if (bytesRecvd > 0) {
-            return static_cast<size_t>(bytesRecvd);
             lastPacketArrived = std::time(nullptr);
+            return static_cast<size_t>(bytesRecvd);
         }
     }
     return 0;
@@ -157,7 +158,7 @@ size_t EthernetDevice::write(const void *buffer, size_t length) {
     size_t bytesTotal = 0;
 
     while (bytesTotal < length) {
-        bytesSent = sendto(socketHandle, (&buffer)[bytesTotal], length-bytesTotal, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);
+        bytesSent = sendto(socketHandle, ((const char*)buffer + bytesTotal), length-bytesTotal, MSG_NOSIGNAL, (struct sockaddr *)&serverAddr, serverAddrLen);
         if (bytesSent < 0) {
             if (errno == EINTR) { continue; } // interrupted by SIGNAL; retry
             else {

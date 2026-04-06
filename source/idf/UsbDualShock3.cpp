@@ -12,6 +12,7 @@ UsbDualShock3::UsbDualShock3() :
     UsbDualShock("Playstation 3 Controller", 49) {}
 
 void UsbDualShock3::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 25) { return; }
     selectButton.setValue(data[2] & 1);
     leftAnalogIn.setValue(data[2] >> 1 & 1);
     rightAnalogIn.setValue(data[2] >> 2 & 1);

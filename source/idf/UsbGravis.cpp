@@ -6,6 +6,7 @@ UsbGravis::UsbGravis() :
     UsbDevice("Gravis", 4) {}
 
 void UsbGravis::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 3) { return; }
     directionalPadLeft.setValue(~data[0] & 1);
     directionalPadRight.setValue(data[0] >> 7);
 

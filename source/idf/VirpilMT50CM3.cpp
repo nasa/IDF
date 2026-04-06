@@ -28,6 +28,7 @@ VirpilMT50CM3::VirpilMT50CM3(SingleInput* b1, SingleInput* b2, SingleInput* b3, 
    }
 
 void VirpilMT50CM3::decode(const std::vector<unsigned char>& data) {
+   if (data.size() <= 24) { return; }
    if (data[0] != 1) return;
 
    leftRightPivot.setValue(((unsigned)data[2] << 8) | data[1]);

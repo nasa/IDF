@@ -16,6 +16,7 @@ UsbDualShock4::UsbDualShock4() :
 }
 
 void UsbDualShock4::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 42) { return; }
     leftAnalogLeftRightPivot.setValue(data[1]);
     leftAnalogUpDownPivot.setValue(data[2]);
     rightAnalogLeftRightPivot.setValue(data[3]);

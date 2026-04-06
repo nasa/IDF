@@ -83,6 +83,7 @@ std::vector<std::vector<unsigned char> > SerialThrustMasterBase::read() {
 }
 
 void SerialThrustMasterBase::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 8) { return; }
     forwardBackwardPivot.setValue(data[0]);
     twist.setValue(data[1]);
     leftRightPivot.setValue(data[2]);

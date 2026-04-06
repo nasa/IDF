@@ -7,6 +7,7 @@ UsbIndustrialProducts2::UsbIndustrialProducts2() :
 }
 
 void UsbIndustrialProducts2::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 7) { return; }
     leftRightPivot.setValue(((unsigned)data[1]) << 8 | data[0]);
     forwardBackwardPivot.setValue(((unsigned)data[3]) << 8 | data[2]);
     twist.setValue(((unsigned)data[5]) << 8 | data[4]);

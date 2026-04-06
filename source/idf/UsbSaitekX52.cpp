@@ -10,6 +10,7 @@ UsbSaitekX52::UsbSaitekX52(const std::string& id, unsigned length) :
     UsbDevice(id, length) {}
 
 void UsbSaitekX52::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 13) { return; }
     leftRightPivot.setValue( ((unsigned)data[1] & 0x7) << 8 | data[0]);
     forwardBackwardPivot.setValue( ((unsigned)data[2] & 0x3F) << 5 | data[1] >> 3);
     twist.setValue( ((unsigned)data[3] << 2) | (data[2] >> 6 & 0x3) );

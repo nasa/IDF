@@ -8,6 +8,7 @@ UsbXBoxOne::UsbXBoxOne() :
     UsbDevice("Xbox One S Controller [Bluetooth]", 17) {}
 
 void UsbXBoxOne::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 16) { return; }
     if (data[0] == 1) {
         leftAnalogLeftRightPivot.setValue((int)(unsigned char)data[2] << 8 | data[1]);
         leftAnalogUpDownPivot.setValue((int)(unsigned char)data[4] << 8 | data[3]);

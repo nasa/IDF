@@ -8,6 +8,7 @@ UsbMadCatz::UsbMadCatz() :
     UsbDevice("Mad Catz", 8) {}
 
 void UsbMadCatz::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 7) { return; }
     uint16_t value;
 
     // 10-bits B23 B22 B21 B20 B17 B16 B15 B14 B13 B12

@@ -9,6 +9,7 @@ UsbSaitekX56Throttle::UsbSaitekX56Throttle(const std::string& id, unsigned lengt
     UsbDevice(id, length) {}
 
 void UsbSaitekX56Throttle::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 12) { return; }
     leftThrottle.setValue( ((unsigned)data[1] & 0x3) << 8 | data[0] );
     rightThrottle.setValue( ((unsigned)data[2] & 0xF) << 6 | data[1] >> 2 );
 

@@ -10,6 +10,7 @@ UsbTeensyduino::UsbTeensyduino(const std::string& id, unsigned length) :
     UsbDevice(id, length) {}
 
 void UsbTeensyduino::decode(const std::vector<unsigned char>& data) {
+    if (data.size() <= 11) { return; }
     button1.setValue(  data[0]      & 0x1 );
     button2.setValue(  data[0] >> 1 & 0x1 );
     button3.setValue(  data[0] >> 2 & 0x1 );
