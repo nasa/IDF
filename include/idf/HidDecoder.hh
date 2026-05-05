@@ -46,8 +46,13 @@ struct HidReport
    bool has_report_byte;
 };
 
-struct HidDecoded
+struct HidDescriptor
 {
+   unsigned short vendor;
+   unsigned short product;
+   unsigned short interface;
+   std::wstring vendor_string;
+   std::wstring product_string;
    std::string type;
    std::vector<HidReport> reports;
    int maxReportLength;
@@ -120,18 +125,18 @@ public:
     * Report Descriptor. Only @a Input items are kept. @a Output and
     * @a feature items are discarded
     *
-    * @param descriptor binary HID report descriptor.
-    * @return HidDecoded struct with a list of HidReports and some metadata
+    * @param descriptor binary HID Report Descriptor.
+    * @return HidDescriptor struct with a list of HidReports and some metadata
     */
-   HidDecoded* parseDescriptor(const std::vector<unsigned char>& descriptor);
+   HidDescriptor* parseDescriptor(const std::vector<unsigned char>& descriptor);
 
 
    /**
-    * @brief Print out decoded information to stdout
+    * @brief Print out decoded descriptor information to stdout
     *
-    * @param decoded an @a HidDecoded struct
+    * @param describer an @a HidDescriptor struct
     */
-   static void printDecodedInfo(const HidDecoded decoded);
+   static void printDecodedInfo(const HidDescriptor describer);
 
 
    /**
@@ -168,9 +173,6 @@ private:
       int units;
       int units_exp;
    };
-
-   int vendorId;
-   int productId;
 
    std::string device_type = "Unknown";
    std::vector<HidReport> reports;

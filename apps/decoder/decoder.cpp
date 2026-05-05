@@ -103,7 +103,7 @@ int main(int argc, char **args) {
     printHidDescriptor(descriptor);
 
     idf::HidDecoder decoder;
-    idf::HidDecoded devDecoded = *decoder.parseDescriptor(descriptor);
+    idf::HidDescriptor devDecoded = *decoder.parseDescriptor(descriptor);
 
     unsigned char readTest[devDecoded.maxReportLength];
     unsigned char data[devDecoded.maxReportLength];

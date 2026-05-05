@@ -39,7 +39,7 @@ void HidDecoder::init()
 }
 
 
-HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
+HidDescriptor* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descriptor)
 {
    init();
    uint i = 0;
@@ -93,7 +93,7 @@ HidDecoded* HidDecoder::parseDescriptor(const std::vector<unsigned char> &descri
       }
    }
 
-   HidDecoded* decoded = new HidDecoded();
+   HidDescriptor* decoded = new HidDescriptor();
 
    decoded->type = device_type;
    decoded->reports = reports;
@@ -344,21 +344,21 @@ int HidDecoder::convertDataToInt(const std::vector<unsigned char> &data, const b
 }
 
 
-void HidDecoder::printDecodedInfo(const HidDecoded decoded)
+void HidDecoder::printDecodedInfo(const HidDescriptor decoded)
 {
    std::ostringstream ss;
-   ss << "Device Type: " << decoded.type << "\n";
+   ss << "Device Type: " << decoded.type << std::endl;
    for (HidReport report : decoded.reports) {
-      ss << "Report: " << report.id << "  (" << report.bytes_count << " bytes)\n";
+      ss << "Report: " << report.id << "  (" << report.bytes_count << " bytes)" << std::endl;
       if (report.id != 0) {
-         ss << "   Report ID       bits      0:7     value:      " << report.id << "\n";
+         ss << "   Report ID       bits      0:7     value:      " << report.id << std::endl;
       }
       for(HidInput input : report.inputs) {
          ss << "   " << std::setfill(' ') << std::setw(15) << std::left << input.name;
          if (input.start_bit == input.end_bit) {
             ss << " bit     " << std::setw(5) << std::right << input.start_bit << "     range:  ";
             ss << std::setw(5) << std::right << input.logical_min << ":";
-            ss << std::left << input.logical_max << "\n";
+            ss << std::left << input.logical_max << std::endl;
          }
          else {
             ss << " bits  " << std::setw(5) << std::right << input.start_bit << ":";
@@ -367,12 +367,12 @@ void HidDecoder::printDecodedInfo(const HidDecoded decoded)
             ss << std::setw(5) << std::right << input.logical_min << ":";
             ss << std::setw(5) << std::left << input.logical_max << "   ";
             ss << std::setw(5) << std::right << input.physical_min << ":";
-            ss << std::setw(5) << std::left << input.physical_max << "\n";
+            ss << std::setw(5) << std::left << input.physical_max << std::endl;
          }
       }
-      ss << "\n";
+      ss << std::endl;
    }
-   printf(ss.str().c_str());
+   std::cout << ss.str();
 }
 
 

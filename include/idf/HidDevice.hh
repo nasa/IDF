@@ -26,7 +26,7 @@ public:
    /**
     * @brief Find the specified device, read and decode its HID Report
     * Descriptor, then instantiate an HidDevice based on the decoded
-    * input information
+    * descriptor information
     *
     * @param vendor HID Vendor ID to find the connected device
     * @param product HID product ID to find the connected device
@@ -36,7 +36,16 @@ public:
     */
    HidDevice(const int vendor, const int product, const int interface);
 
-   HidDevice(const HidDecoded* decoded_in);
+   /**
+    * @brief Open device at @path, read and decode its HID Report
+    * Descriptor, then instantiate an HidDevice based on the decoded
+    * descriptor information
+    *
+    * @param devPath path to device
+    */
+   HidDevice(const std::string& devPath);
+
+   HidDevice(const HidDescriptor* descriptor);
 
    virtual ~HidDevice() {};
 
@@ -58,19 +67,33 @@ public:
     *
     * @param vendor USB Vendor ID
     * @param product USB Product ID
-    * @return HIDDecodedDevice struct enumerating the available reports
+    * @param interface HID interface # (use HidScanner to help find this info)
+    * @return HidDescriptor struct enumerating the available reports
     */
-   static HidDecoded* decodeDevice(const int vendor, const int product);
+   static HidDescriptor* decodeDevice(const int vendor, const int product, const int interface);
 
+   /**
+    * @brief open device at @a path, and parse the HID
+    * report descriptor. This method exists mainly to ease instantiation
+    *
+    * @param path path to device
+    * @return HidDescriptor struct enumerating the available reports
+    */
+   static HidDescriptor* decodeDevice(const std::string& targetPath);
 
 protected:
+
    HidDecoder decoder;
 
-   HidDecoded decoded;
+   HidDescriptor descriptor;
 
    std::vector<unsigned char> hidReportDescriptor;
 
    virtual std::vector<unsigned char> getHidReportDescriptor();
+
+private:
+
+   static std::string resolvePath(const std::string& path);
 
 };
 

@@ -2,7 +2,6 @@
 PURPOSE:
 LIBRARY DEPENDENCIES: (
 (idf/HidGenericJoystick.cpp)
-
 )
 */
 
@@ -44,9 +43,18 @@ class HidGenericJoystick : public HidDevice, public virtual GenericJoystick {
     */
    HidGenericJoystick(const int vendor, const int product, const int interface);
 
+   /**
+    * @brief Construct a Generic Joystick derived from HID Report Descriptor
+    * of the given device
+    *
+    * @param path path to the device
+    */
+   HidGenericJoystick(const std::string& path);
+
+
    void decode(const std::vector<unsigned char>& data);
 
-   protected:
+protected:
 
    /**
     * @brief Flag indicating whether the report descriptor contained a Z axis. If so
@@ -56,6 +64,10 @@ class HidGenericJoystick : public HidDevice, public virtual GenericJoystick {
       manually overridden.
     */
    bool useZForTwist;
+
+private:
+
+   void init();
 
 };
 

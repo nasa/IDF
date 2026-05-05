@@ -7,9 +7,12 @@ namespace idf {
 GenericJoystick::GenericJoystick() :
    forwardBackwardPivot(0, 1023, 512),
    leftRightPivot(0, 1023, 512),
+   forwardBackwardTranslation(0, 1023, 512),
+   leftRightTranslation(0, 1024, 512),
    twist(0, 1023, 512),
    trigger(0,1),
    slider(0, 1023, 512),
+   wheel(0, 127, 64),
    HatNorth(0,1),
    HatNorthEast(0,1),
    HatEast(0,1),
