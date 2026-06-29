@@ -23,6 +23,7 @@ set(SRC_IDF
     source/idf/DacoThc.cpp
     source/idf/Deadbandable.cpp
     source/idf/Deadband.cpp
+    source/idf/DualSense.cpp
     source/idf/DualShock3.cpp
     source/idf/DualShock4.cpp
     source/idf/DualShock.cpp
@@ -83,6 +84,7 @@ set(SRC_IDF
     source/idf/UsbChProPedals.cpp
     source/idf/UsbDacoThc.cpp
     source/idf/UsbDevice.cpp
+    source/idf/UsbDualSense.cpp
     source/idf/UsbDualShock3.cpp
     source/idf/UsbDualShock4.cpp
     source/idf/UsbDualShock.cpp

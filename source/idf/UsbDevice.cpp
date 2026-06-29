@@ -39,6 +39,7 @@ UsbDevice::UsbDevice(const std::string& id, unsigned length) :
     identifications["Playstation 3 Controller"].push_back(Identification(0x054C, 0x0268, 0));
     identifications["Playstation 4 Controller"].push_back(Identification(0x054C, 0x05C4, 0));
     identifications["Playstation 4 Controller"].push_back(Identification(0x054C, 0x09CC, 3));
+    identifications["Playstation 5 DualSense"].push_back(Identification(0x054C, 0x0CE6, 3));
     identifications["Mad Catz"].push_back(Identification(0x0738, 0x1302, 0));
     identifications["Saitek"].push_back(Identification(0x06A3, 0x0763, 0));
     identifications["Saitek Pro Flight X52 Flight System"].push_back(Identification(0x06A3, 0x075C, 0));
