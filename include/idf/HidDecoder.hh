@@ -36,6 +36,7 @@ struct HidInput
    int units;
    int units_exp;
    int button_num;
+   bool vendor;
 };
 
 struct HidReport
@@ -76,6 +77,7 @@ enum HidUsages {
    USAGE_HAT       = 0x39,
    USAGE_START     = 0x3D,
    USAGE_SELECT    = 0x3E,
+   USAGE_VENDOR    = 0xFF00,
 };
 
 enum MainItemTag {
@@ -203,9 +205,11 @@ private:
       {USAGE_HAT, "Hat switch"},
       {USAGE_START, "Start"},
       {USAGE_SELECT, "Select"},
+      {USAGE_VENDOR, "Vendor"},
    };
 
 }; // HidDecoder
+
 
 } // namespace
 

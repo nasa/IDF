@@ -250,6 +250,7 @@ void HidDecoder::decodeMainItem(const int tag_code)
 void HidDecoder::createInputs()
 {
    std::vector<int> expanded_usages;
+   bool vendor = false;
 
    if (state.usage_min != 0 && state.usage_max != 0)
    {
@@ -266,6 +267,8 @@ void HidDecoder::createInputs()
       std::string name;
       u_int8_t usage = 0;
       int btn_num = -1;
+      vendor = false;
+
       if (state.usage_page == 0x01 && j < expanded_usages.size()) {
          usage = expanded_usages[j];
          name = usageName(usage);
@@ -278,6 +281,10 @@ void HidDecoder::createInputs()
       else if (state.usage_page == 0x01 && expanded_usages.size() == 1) {
          usage = expanded_usages[0];
          name = usageName(usage);
+      }
+      else if (state.usage_page == USAGE_VENDOR) {
+         vendor = true;
+         name = "Vendor";
       }
       else {
          name = "Padding";
@@ -303,7 +310,8 @@ void HidDecoder::createInputs()
                            tmp_phys_max,
                            state.units,
                            state.units_exp,
-                           btn_num});
+                           btn_num,
+                           vendor});
 
       bit_offset += state.report_size;
    }
