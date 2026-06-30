@@ -62,14 +62,6 @@ const std::vector<InputLayout::Configurable>& ThrustMasterAvaBase::getConfigurab
         inputs.push_back(Configurable(forwardBackwardThumbstickPivot, "forwardBackwardThumbstickPivot", "forwardBackwardThumbstickPivot"));
         inputs.push_back(Configurable(leftRightThumbstickPivot, "leftRightThumbstickPivot", "leftRightThumbstickPivot"));
         inputs.push_back(Configurable(rotationZ, "rotationZ", "rotationZ"));
-        inputs.push_back(Configurable(hatNorth, "hatNorth", "hatNorth"));
-        inputs.push_back(Configurable(hatNorthEast, "hatNorthEast", "hatNorthEast"));
-        inputs.push_back(Configurable(hatEast, "hatEast", "hatEast"));
-        inputs.push_back(Configurable(hatSouthEast, "hatSouthEast", "hatSouthEast"));
-        inputs.push_back(Configurable(hatSouth, "hatSouth", "hatSouth"));
-        inputs.push_back(Configurable(hatSouthWest, "hatSouthWest", "hatSouthWest"));
-        inputs.push_back(Configurable(hatWest, "hatWest", "hatWest"));
-        inputs.push_back(Configurable(hatNorthWest, "hatNorthWest", "hatNorthWest"));
         inputs.push_back(Configurable(slider, "slider", "slider"));
         inputs.push_back(Configurable(dial, "dial", "dial"));
     }
