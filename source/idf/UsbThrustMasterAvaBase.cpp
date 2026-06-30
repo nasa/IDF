@@ -7,6 +7,7 @@ UsbThrustMasterAvaBase::UsbThrustMasterAvaBase() :
 
 void UsbThrustMasterAvaBase::decode(const std::vector<unsigned char>& data) {
     if (data[0] != 1) return;
+    if (data.size() < 64) return;
 
     trigger.setValue(data[1] & 0x1);
     button2.setValue(data[1] >> 1 & 0x1);
