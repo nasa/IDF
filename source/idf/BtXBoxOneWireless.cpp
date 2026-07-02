@@ -9,6 +9,8 @@ BtXBoxOneWireless::BtXBoxOneWireless() :
 
 void BtXBoxOneWireless::decode(const std::vector<unsigned char>& data) {
     if (data[0] == 1) {
+        if (data.size() < 16) return;
+
         directionalPadUp.setValue(false);
         directionalPadDown.setValue(false);
         directionalPadLeft.setValue(false);
@@ -67,6 +69,7 @@ void BtXBoxOneWireless::decode(const std::vector<unsigned char>& data) {
         rightAnalogTrigger.setValue((int)(unsigned char)(data[12] & 0x3) << 8 | data[11]);
     }
     else if (data[0] == 2) {
+        if (data.size() < 2) return;
         xBoxButton.setValue(data[1] & 0x1);
     }
 }

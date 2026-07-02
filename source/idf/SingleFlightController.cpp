@@ -389,6 +389,33 @@ SingleFlightController* SingleFlightController::createInstance(const VirpilConst
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const ThrustMasterAvaBase& ava) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+
+    CompositeInput* x = new CompositeInput();
+    x->addInput(ava.hatEast);
+    x->addInput(ava.hatWest, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(ava.hatNorth);
+    y->addInput(ava.hatSouth, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        ava.leftRightPivot,
+        ava.forwardBackwardPivot,
+        ava.twist,
+        *x,
+        *y,
+        *dummyInput
+      );
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 SingleFlightController* SingleFlightController::createInstance(const GenericJoystick& js) {
     SingleInput* dummyInput = new SingleInput(-1, 1);
 
@@ -406,9 +433,9 @@ SingleFlightController* SingleFlightController::createInstance(const GenericJoys
 
     SingleFlightController *controller =
       new SingleFlightController(
-        js.twist,
-        js.forwardBackwardPivot,
         js.leftRightPivot,
+        js.forwardBackwardPivot,
+        js.twist,
         *dummyInput,
         *dummyInput,
         *dummyInput
