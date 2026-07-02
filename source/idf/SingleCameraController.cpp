@@ -305,6 +305,22 @@ SingleCameraController* SingleCameraController::createInstance(
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const ThrustMasterAvaBase& ava) {
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(ava.hatNorth);
+    zoom->addInput(ava.hatSouth, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        ava.twist,
+        ava.forwardBackwardPivot,
+        ava.leftRightPivot,
+        *zoom
+      );
+
+    return controller;
+}
+
 SingleCameraController* SingleCameraController::createInstance(const GenericJoystick& js) {
 
     CompositeInput* zoom = new CompositeInput();

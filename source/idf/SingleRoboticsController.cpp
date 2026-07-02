@@ -537,6 +537,35 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const VirpilC
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const ThrustMasterAvaBase& ava) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+
+    CompositeInput* x = new CompositeInput();
+    x->addInput(ava.hatEast);
+    x->addInput(ava.hatWest, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(ava.hatNorth);
+    y->addInput(ava.hatSouth, -1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        ava.leftRightPivot,
+        ava.forwardBackwardPivot,
+        ava.twist,
+        *x,
+        *y,
+        *dummyInput,
+        ava.trigger,
+        ava.slider
+      );
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 SingleRoboticsController* SingleRoboticsController::createInstance(const GenericJoystick& js) {
 
     CompositeInput* x = new CompositeInput();

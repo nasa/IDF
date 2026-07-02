@@ -31,6 +31,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SaitekX52.hh"
 #include "idf/SaitekX56Stick.hh"
 #include "idf/SpaceBase.hh"
+#include "idf/ThrustMasterAvaBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/XBoxOne.hh"
 #include "idf/VirpilConstellationAlpha.hh"
@@ -292,6 +293,27 @@ class SingleFlightController : public FlightController {
      * @return a new Virpil Constellation Alhpa based flight controller
      */
     static SingleFlightController* createInstance(const VirpilConstellationAlpha& virpil);
+
+    /**
+     * creates a new SingleFlightController mapped to @a ThrustMasterAvaBase base using appropriate
+     * defaults. The AVA Base has 32 discrete generic buttons, X, Y, Z, Rx, Ry, Rz, Slider, Dial
+     * single directional Hat inputs. But, due to the interchangable grips, generally only a subset
+     * of these inputs will be functional, and many functions will be mapped to the generic buttons.
+     * eg for the F-16C Viper grip there are three 4-way hats which are just mapped to 4 buttons
+     * each and it lacks a twist axis (Z).
+     *
+     * HID inherited some legacy norms, such as Joysticks using X and Y for the normal pivot axes, and
+     * Z to the twist axis, instead of using Rx, Ry and Rz. As such, the Rotational Axes are used for
+     * other analog inputs. Often a secondary thumbstick or throttle or slider or dial of some kind.
+     *
+     * Thus, this mapping will only use the most common and universally typical inputs.
+     *
+     * @param ava the inputs to use in the default mapping
+     *
+     * @return a new Thrust Master AVA based flight controller
+     */
+    static SingleFlightController* createInstance(const ThrustMasterAvaBase& ava);
+
 
     /**
      * creates a new SingleFlightController mapped to @a HidGenericJoystick using appropriate
