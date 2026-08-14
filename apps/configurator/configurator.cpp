@@ -27,6 +27,7 @@
 #include "idf/UsbSpaceExplorer.hh"
 #include "idf/UsbSpaceMouse.hh"
 #include "idf/UsbSpaceNavigator.hh"
+#include "idf/UsbT16000M.hh"
 #include "idf/UsbTeensyduino.hh"
 #include "idf/UsbThrustMasterAvaBase.hh"
 #include "idf/UsbThrustMasterWarthogStickBase.hh"
@@ -84,6 +85,7 @@ void run() {
     idf::UsbSpaceExplorer spaceExplorer;
     idf::UsbSpaceMouse spaceMouse;
     idf::UsbSpaceNavigator spaceNavigator;
+    idf::UsbT16000M t16000m;
     idf::UsbTeensyduino teensyduino;
     idf::UsbThrustMasterAvaBase tmAvaBase;
     idf::UsbThrustMasterWarthogStickBase tmHogBase;
@@ -112,6 +114,7 @@ void run() {
     devices.push_back(&spaceExplorer);
     devices.push_back(&spaceMouse);
     devices.push_back(&spaceNavigator);
+    devices.push_back(&t16000m);
     devices.push_back(&teensyduino);
     devices.push_back(&tmAvaBase);
     devices.push_back(&tmHogBase);

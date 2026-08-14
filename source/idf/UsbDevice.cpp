@@ -52,6 +52,7 @@ UsbDevice::UsbDevice(const std::string& id, unsigned length) :
     identifications["Space Navigator"].push_back(Identification(0x256F, 0xC635, 0));
     identifications["Teensyduino Joystick"].push_back(Identification(0x16C0, 0x0482, 3));
     identifications["ThrustMaster AVA Base"].push_back(Identification(0x044F, 0x0415, 0));
+    identifications["ThrustMaster T.16000M"].push_back(Identification(0x044F, 0xB10A, 0));
     identifications["ThrustMaster Warthog Stick"].push_back(Identification(0x044F, 0x0402, 0));
     identifications["Virpil Constellation Alpha"].push_back(Identification(0x3344, 0x4391, 0));
     identifications["Wing Man"].push_back(Identification(0x046D, 0xC212, 0));

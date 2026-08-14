@@ -73,6 +73,7 @@ set(SRC_IDF
     source/idf/SpaceExplorer.cpp
     source/idf/SpaceMouse.cpp
     source/idf/SpaceNavigator.cpp
+    source/idf/T16000M.cpp
     source/idf/Teensyduino.cpp
     source/idf/ThrustMaster2.cpp
     source/idf/ThrustMasterBase.cpp
@@ -105,6 +106,7 @@ set(SRC_IDF
     source/idf/UsbSpaceExplorer.cpp
     source/idf/UsbSpaceMouse.cpp
     source/idf/UsbSpaceNavigator.cpp
+    source/idf/UsbT16000M.cpp
     source/idf/UsbTeensyduino.cpp
     source/idf/UsbThrustMasterAvaBase.cpp
     source/idf/UsbThrustMasterWarthogStickBase.cpp

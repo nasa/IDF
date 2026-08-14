@@ -69,6 +69,7 @@
 #include "idf/UsbSpaceNavigator.hh"
 #include "idf/UsbTeensyduino.hh"
 #include "idf/UsbThrustMasterAvaBase.hh"
+#include "idf/UsbT16000M.hh"
 #include "idf/UsbThrustMasterWarthogStickBase.hh"
 #include "idf/UsbVirpilConstellationAlpha.hh"
 #include "idf/UsbWingMan.hh"

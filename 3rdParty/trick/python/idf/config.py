@@ -55,6 +55,7 @@ class Configurator:
           trick.UsbSpaceExplorer,
           trick.UsbSpaceMouse,
           trick.UsbSpaceNavigator,
+          trick.UsbT16000M,
           trick.UsbTeensyduino,
           trick.UsbThrustMasterAvaBase,
           trick.UsbThrustMasterWarthogStickBase,
