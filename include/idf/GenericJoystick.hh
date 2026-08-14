@@ -75,7 +75,7 @@ public:
     * @brief Indicates whether an Rx axis exists, which may be used
     * for a forwardBackwardTranslation
     */
-   bool rxExists = false; // TODO: make use of this
+   bool rxExists = false;
 
    /**
     * @brief Indicates whether an Ry axis exists, which may be used
