@@ -47,9 +47,6 @@ public:
     /** left-right pivoting */
     SingleInput leftRightPivot;
 
-    /** trigger */
-    SingleInput trigger;
-
     /** hat north */
     SingleInput hatNorth;
 
@@ -73,6 +70,9 @@ public:
 
     /** hat north west */
     SingleInput hatNorthWest;
+
+    /** trigger */
+    SingleInput trigger;
 
     /** other buttons */
     SingleInput button2;

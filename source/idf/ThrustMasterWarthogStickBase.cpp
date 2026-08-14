@@ -6,6 +6,14 @@ namespace idf
 ThrustMasterWarthogStickBase::ThrustMasterWarthogStickBase()
     : forwardBackwardPivot(0, 65535, 32767),
       leftRightPivot(0, 65535, 32767),
+      hatNorth(0, 1),
+      hatNorthEast(0, 1),
+      hatEast(0, 1),
+      hatSouthEast(0, 1),
+      hatSouth(0, 1),
+      hatSouthWest(0, 1),
+      hatWest(0, 1),
+      hatNorthWest(0, 1),
       trigger(0, 1),
       button2(0, 1),
       button3(0, 1),
@@ -24,15 +32,7 @@ ThrustMasterWarthogStickBase::ThrustMasterWarthogStickBase()
       button16(0, 1),
       button17(0, 1),
       button18(0, 1),
-      button19(0, 1),
-      hatNorth(0, 1),
-      hatNorthEast(0, 1),
-      hatEast(0, 1),
-      hatSouthEast(0, 1),
-      hatSouth(0, 1),
-      hatSouthWest(0, 1),
-      hatWest(0, 1),
-      hatNorthWest(0, 1)
+      button19(0, 1)
 {
 }
 
