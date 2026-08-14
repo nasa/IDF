@@ -133,6 +133,7 @@ int main(int argc, char **args) {
 
             dataVect.clear();
             dataVect.assign(data, data + prevBytesRead);
+            if (dataVect.size() == 0) continue;
 
             // attempt to decode
 
