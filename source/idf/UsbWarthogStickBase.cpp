@@ -1,12 +1,12 @@
-#include "idf/UsbThrustMasterWarthogStickBase.hh"
+#include "idf/UsbWarthogStickBase.hh"
 
 namespace idf
 {
 
-UsbThrustMasterWarthogStickBase::UsbThrustMasterWarthogStickBase() :
+UsbWarthogStickBase::UsbWarthogStickBase() :
     UsbDevice("ThrustMaster Warthog Stick", 12) {}
 
-void UsbThrustMasterWarthogStickBase::decode(const std::vector<unsigned char> & data)
+void UsbWarthogStickBase::decode(const std::vector<unsigned char> & data)
 {
     if(data[0] != 1) return;
 

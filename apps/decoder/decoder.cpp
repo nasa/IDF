@@ -1,11 +1,12 @@
 #include <algorithm>
 #include <cstring>
 #include <cwchar>
+#include <iomanip>
+#include <limits>
 #include <unistd.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
-#include <iomanip>
 #include <errno.h>
 #include "hidapi/hidapi/hidapi.h"
 #include "idf/HidDecoder.hh"
@@ -65,13 +66,17 @@ int main(int argc, char **args) {
     }
 
     int selection = -1;
-    printf("\n");
+    std::cout << std::endl;
 
     while (selection < 0 || selection > count - 1) {
-        char buffer[1024];
-        printf("Select a device to listen to: ");
-        fgets(buffer, sizeof(buffer), stdin);
-        sscanf(buffer, "%d", &selection);
+        std::cout << "Select a device to listen to: ";
+        std::cin >> selection;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (!keepReading) {
+            return -1;
+        }
     }
 
     deviceInfo = enumerationHead;
@@ -133,6 +138,7 @@ int main(int argc, char **args) {
 
             dataVect.clear();
             dataVect.assign(data, data + prevBytesRead);
+            if (dataVect.size() == 0) continue;
 
             // attempt to decode
 
