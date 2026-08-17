@@ -1,13 +1,13 @@
 /*
 PURPOSE:
 LIBRARY DEPENDENCIES: (
-(idf/ThrustMasterWarthogStickBase.cpp)
+(idf/WarthogStickBase.cpp)
 )
 */
 
 /**
  * @trick_parse{everything}
- * @trick_link_dependency{idf/ThrustMasterWarthogStickBase.cpp}
+ * @trick_link_dependency{idf/WarthogStickBase.cpp}
  */
 
 #ifndef THRUSTMASTER_WARTHOG_STICK_HH
@@ -32,14 +32,14 @@ namespace idf
  *
  * @author Philip Kunz
  */
-class ThrustMasterWarthogStickBase : public virtual InputLayout
+class WarthogStickBase : public virtual InputLayout
 {
 public:
     /** constructor */
-    ThrustMasterWarthogStickBase();
+    WarthogStickBase();
 
     /** destructor */
-    virtual ~ThrustMasterWarthogStickBase() {}
+    virtual ~WarthogStickBase() {}
 
     /** forward-backward pivoting */
     SingleInput forwardBackwardPivot;

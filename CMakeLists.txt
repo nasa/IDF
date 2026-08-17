@@ -79,9 +79,9 @@ set(SRC_IDF
     source/idf/ThrustMasterBase.cpp
     source/idf/ThrustMaster.cpp
     source/idf/ThrustMasterAvaBase.cpp
-    source/idf/ThrustMasterWarthogStickBase.cpp
     source/idf/VirpilMT50CM3.cpp
     source/idf/VirpilConstellationAlpha.cpp
+    source/idf/WarthogStickBase.cpp
     source/idf/UsbChProPedals.cpp
     source/idf/UsbDacoThc.cpp
     source/idf/UsbDevice.cpp
@@ -109,8 +109,8 @@ set(SRC_IDF
     source/idf/UsbT16000M.cpp
     source/idf/UsbTeensyduino.cpp
     source/idf/UsbThrustMasterAvaBase.cpp
-    source/idf/UsbThrustMasterWarthogStickBase.cpp
     source/idf/UsbVirpilConstellationAlpha.cpp
+    source/idf/UsbWarthogStickBase.cpp
     source/idf/UsbWingMan.cpp
     source/idf/UsbXBox.cpp
     source/idf/UsbXBoxOne.cpp

@@ -58,7 +58,7 @@ class Configurator:
           trick.UsbT16000M,
           trick.UsbTeensyduino,
           trick.UsbThrustMasterAvaBase,
-          trick.UsbThrustMasterWarthogStickBase,
+          trick.UsbWarthogStickBase,
           trick.UsbVirpilConstellationAlpha,
           trick.UsbWingMan,
           trick.UsbXBox,

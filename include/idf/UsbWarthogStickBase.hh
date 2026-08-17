@@ -1,20 +1,20 @@
 /*
 PURPOSE:
 LIBRARY DEPENDENCIES: (
-(idf/UsbThrustMasterWarthogStickBase.cpp)
+(idf/UsbWarthogStickBase.cpp)
 )
 */
 
 /**
  * @trick_parse{everything}
- * @trick_link_dependency{idf/UsbThrustMasterWarthogStickBase.cpp}
+ * @trick_link_dependency{idf/UsbWarthogStickBase.cpp}
  */
 
 #ifndef USB_THRUSTMASTER_WARTHOG_STICK_HH
 #define USB_THRUSTMASTER_WARTHOG_STICK_HH
 
 #include "idf/UsbDevice.hh"
-#include "idf/ThrustMasterWarthogStickBase.hh"
+#include "idf/WarthogStickBase.hh"
 
 namespace idf
 {
@@ -27,12 +27,12 @@ namespace idf
  *
  * @author Philip Kunz
  */
-class UsbThrustMasterWarthogStickBase : public UsbDevice, public ThrustMasterWarthogStickBase
+class UsbWarthogStickBase : public UsbDevice, public WarthogStickBase
 {
 public:
 
     /** constructor */
-    UsbThrustMasterWarthogStickBase();
+    UsbWarthogStickBase();
 
     virtual void decode(const std::vector<unsigned char> & data);
 

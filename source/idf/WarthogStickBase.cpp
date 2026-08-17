@@ -1,9 +1,9 @@
-#include "idf/ThrustMasterWarthogStickBase.hh"
+#include "idf/WarthogStickBase.hh"
 
 namespace idf
 {
 
-ThrustMasterWarthogStickBase::ThrustMasterWarthogStickBase()
+WarthogStickBase::WarthogStickBase()
     : forwardBackwardPivot(0, 65535, 32767),
       leftRightPivot(0, 65535, 32767),
       hatNorth(0, 1),
@@ -36,7 +36,7 @@ ThrustMasterWarthogStickBase::ThrustMasterWarthogStickBase()
 {
 }
 
-const std::vector<InputLayout::Configurable> & ThrustMasterWarthogStickBase::getConfigurables()
+const std::vector<InputLayout::Configurable> & WarthogStickBase::getConfigurables()
 {
     static std::vector<Configurable> inputs;
     if(inputs.empty())

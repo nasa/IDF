@@ -30,7 +30,7 @@
 #include "idf/UsbT16000M.hh"
 #include "idf/UsbTeensyduino.hh"
 #include "idf/UsbThrustMasterAvaBase.hh"
-#include "idf/UsbThrustMasterWarthogStickBase.hh"
+#include "idf/UsbWarthogStickBase.hh"
 #include "idf/UsbVirpilConstellationAlpha.hh"
 #include "idf/UsbWingMan.hh"
 #include "idf/UsbXBox.hh"
@@ -88,8 +88,8 @@ void run() {
     idf::UsbT16000M t16000m;
     idf::UsbTeensyduino teensyduino;
     idf::UsbThrustMasterAvaBase tmAvaBase;
-    idf::UsbThrustMasterWarthogStickBase tmHogBase;
     idf::UsbVirpilConstellationAlpha constellation;
+    idf::UsbWarthogStickBase warthogBase;
     idf::UsbWingMan wingMan;
     idf::UsbXBox xBox;
     idf::UsbXBoxOne xBoxOne;
@@ -117,8 +117,8 @@ void run() {
     devices.push_back(&t16000m);
     devices.push_back(&teensyduino);
     devices.push_back(&tmAvaBase);
-    devices.push_back(&tmHogBase);
     devices.push_back(&constellation);
+    devices.push_back(&warthogBase);
     devices.push_back(&wingMan);
     devices.push_back(&xBox);
     devices.push_back(&xBoxOne);
