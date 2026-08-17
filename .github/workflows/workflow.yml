@@ -14,4 +14,5 @@ jobs:
         if: matrix.os != 'macos-latest'
       - run: make -C apps/configurator
       - run: make -C apps/hidScanner
+      - run: make -C apps/decoder
       - run: make -C examples/basic
