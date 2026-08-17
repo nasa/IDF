@@ -11,19 +11,35 @@ void UsbT16000M::decode(const std::vector<unsigned char> & data)
     middleButton.setValue( data[0] >> 1 & 0x1 );
     leftButton.setValue(   data[0] >> 2 & 0x1 );
     rightButton.setValue(  data[0] >> 3 & 0x1 );
-    button5.setValue(  data[0] >> 4 & 0x1 );
-    button6.setValue(  data[0] >> 5 & 0x1 );
-    button7.setValue(  data[0] >> 6 & 0x1 );
-    button8.setValue(  data[0] >> 7 & 0x1 );
 
-    button9.setValue(  data[1] & 0x1 );
-    button10.setValue( data[1] >> 1 & 0x1 );
-    button11.setValue( data[1] >> 2 & 0x1 );
-    button12.setValue( data[1] >> 3 & 0x1 );
-    button13.setValue( data[1] >> 4 & 0x1 );
-    button14.setValue( data[1] >> 5 & 0x1 );
-    button15.setValue( data[1] >> 6 & 0x1 );
-    button16.setValue( data[1] >> 7 & 0x1 );
+    bool rightHanded = data[2] >> 5 & 0x1;
+    unsigned char leftButtons = 0;
+    unsigned char rightButtons = 0;
+
+    if (forceRightHanded && !rightHanded) {
+        leftButtons = data[1] >> 2;
+        rightButtons = (data[0] >> 4 & 0xF) | (data[1] << 4);
+    } else {
+        leftButtons = (data[0] >> 4 & 0xF) | (data[1] << 4);
+        rightButtons = data[1] >> 2;
+    }
+
+    button5.setValue(  leftButtons & 0x1 );
+    button6.setValue(  leftButtons >> 1 & 0x1 );
+    button7.setValue(  leftButtons >> 2 & 0x1 );
+    button8.setValue(  leftButtons >> 3 & 0x1 );
+    button9.setValue(  leftButtons >> 4 & 0x1 );
+    button10.setValue( leftButtons >> 5 & 0x1 );
+
+    button11.setValue( rightButtons & 0x1 );
+    button12.setValue( rightButtons >> 1 & 0x1 );
+    button13.setValue( rightButtons >> 2 & 0x1 );
+    button14.setValue( rightButtons >> 3 & 0x1 );
+    button15.setValue( rightButtons >> 4 & 0x1 );
+    button16.setValue( rightButtons >> 5 & 0x1 );
+
+    // rightHandMode bit is not specified in the HID Report Descriptor
+    rightHandMode.setValue( rightHanded );
 
     int hat = (data[2]) & 0xF;
 

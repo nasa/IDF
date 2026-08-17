@@ -30,8 +30,17 @@ T16000M::T16000M() :
    hatSouthWest(0, 1),
    hatWest(0, 1),
    hatNorthWest(0, 1),
-   slider(0, 255)
+   slider(0, 255),
+   rightHandMode(0, 1)
 {}
+
+void T16000M::setForceRightHandedMode(bool force) {
+    forceRightHanded = force;
+}
+
+bool T16000M::getForceRightHandedMode() {
+    return forceRightHanded;
+}
 
 const std::vector<InputLayout::Configurable>& T16000M::getConfigurables() {
     static std::vector<Configurable> inputs;
@@ -42,6 +51,7 @@ const std::vector<InputLayout::Configurable>& T16000M::getConfigurables() {
         inputs.push_back(Configurable(twist, "Twist", "twist"));
         inputs.push_back(Configurable(slider, "Slider", "slider"));
     }
+
     return inputs;
 }
 

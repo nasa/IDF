@@ -27,6 +27,7 @@ class UsbT16000M: public UsbDevice, public virtual T16000M {
     UsbT16000M();
 
     virtual void decode(const std::vector<unsigned char> & data);
+
 };
 
 } // namespace idf
