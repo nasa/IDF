@@ -566,6 +566,40 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const ThrustM
     return controller;
 }
 
+SingleRoboticsController* SingleRoboticsController::createInstance(const T16000M& t16m) {
+
+    CompositeInput * x = new CompositeInput();
+    x->addInput(t16m.button5);
+    x->addInput(t16m.button10, -1);
+
+    CompositeInput * y = new CompositeInput();
+    y->addInput(t16m.button6);
+    y->addInput(t16m.button7, -1);
+
+    CompositeInput * z = new CompositeInput();
+    z->addInput(t16m.hatNorth);
+    z->addInput(t16m.hatSouth, -1);
+
+    const SingleInput* dummyInput = new SingleInput(-1,1);
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        t16m.leftRightPivot,       // roll
+        t16m.forwardBackwardPivot, // pitch
+        t16m.twist,                // yaw
+        *x,                 // x
+        *y,                 // y
+        *z,                 // z
+        t16m.trigger,       // trigger
+        t16m.middleButton   // rate mode
+      );
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 SingleRoboticsController* SingleRoboticsController::createInstance(const GenericJoystick& js) {
 
     CompositeInput* x = new CompositeInput();

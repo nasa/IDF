@@ -34,6 +34,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SpaceExplorer.hh"
 #include "idf/SpaceNavigator.hh"
 #include "idf/SpaceMouse.hh"
+#include "idf/T16000M.hh"
 #include "idf/ThrustMaster.hh"
 #include "idf/ThrustMaster2.hh"
 #include "idf/ThrustMasterAvaBase.hh"
@@ -328,6 +329,15 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new SaitekX56Stick-based robotics controller
      */
     static SingleRoboticsController* createInstance(const SaitekX56Stick& saitekX56Stick);
+
+    /**
+     * creates a new SingleRoboticsController mapped to Thrustmaster @a T.16000M @a flight stick
+     *
+     * @param t16m the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster T.16000M based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const T16000M& t16m);
 
     /*
      * creates a new SingleRoboticsController mapped to @a Er7Orion using appropriate defaults

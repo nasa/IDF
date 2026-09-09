@@ -31,6 +31,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SaitekX52.hh"
 #include "idf/SaitekX56Stick.hh"
 #include "idf/SpaceBase.hh"
+#include "idf/T16000M.hh"
 #include "idf/ThrustMasterAvaBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/XBoxOne.hh"
@@ -265,6 +266,15 @@ class SingleFlightController : public FlightController {
      * @return a new SaitekX56Stick-based flight controller
      */
     static SingleFlightController* createInstance(const SaitekX56Stick& saitekX56Stick);
+
+    /**
+     * creates a new SingleFlightController mapped to Thrustmaster @a T.16000M @a flight stick
+     *
+     * @param t16m the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster T.16000M based flight controller
+     */
+    static SingleFlightController* createInstance(const T16000M& t16m);
 
     /**
      * creates a new SingleFlightController mapped to @a XBoxOne using appropriate defaults
