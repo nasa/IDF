@@ -342,4 +342,27 @@ SingleCameraController* SingleCameraController::createInstance(const GenericJoys
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const T16000M& t16m) {
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(t16m.hatNorth);
+    zoom->addInput(t16m.hatSouth, -1);
+
+    const SingleInput* dummyInput = new SingleInput(-1,1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        t16m.twist,                // path
+        t16m.forwardBackwardPivot, // tilt
+        t16m.leftRightPivot,       // spin
+        *zoom                      // zoom
+      );
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
 }

@@ -323,6 +323,38 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX56St
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const T16000M& t16m) {
+
+    CompositeInput * x = new CompositeInput();
+    x->addInput(t16m.button5);
+    x->addInput(t16m.button10, -1);
+
+    CompositeInput * y = new CompositeInput();
+    y->addInput(t16m.button6);
+    y->addInput(t16m.button7, -1);
+
+    CompositeInput * z = new CompositeInput();
+    z->addInput(t16m.hatNorth);
+    z->addInput(t16m.hatSouth, -1);
+
+    const SingleInput* dummyInput = new SingleInput(-1,1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        t16m.leftRightPivot,       // roll
+        t16m.forwardBackwardPivot, // pitch
+        t16m.twist,                // yaw
+        *x, // x
+        *y, // y
+        *z  // z
+      );
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 SingleFlightController* SingleFlightController::createInstance(const XBoxOne& xBoxOne) {
     CompositeInput* x = new CompositeInput();
     x->addInput(xBoxOne.directionalPadUp);

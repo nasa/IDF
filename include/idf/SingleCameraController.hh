@@ -32,6 +32,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/SaitekX56Stick.hh"
 #include "idf/SaitekX56Throttle.hh"
 #include "idf/SpaceBase.hh"
+#include "idf/T16000M.hh"
 #include "idf/ThrustMasterAvaBase.hh"
 #include "idf/ThrustMasterBase.hh"
 #include "idf/XBoxOne.hh"
@@ -311,6 +312,16 @@ class SingleCameraController : public CameraController {
      * @return a new Generic HID based camera controller
      */
     static SingleCameraController* createInstance(const GenericJoystick& js);
+
+    /**
+     * creates a new SingleCameraController mapped to Thrustmaster @a T.16000M @a flight stick
+     *
+     * @param t16m the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster T.16000M based camera controller
+     */
+    static SingleCameraController* createInstance(const T16000M& t16m);
+
 };
 
 }
