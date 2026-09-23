@@ -282,6 +282,35 @@ SingleCameraController* SingleCameraController::createInstance(const T16000M& t1
     return controller;
 }
 
+/** Mapping:
+ * Pan: Grey Hat left/right (west/east)
+ * Tilt: forwardBackwardPivot
+ * Spin: leftRightPivot
+ * Zoom: Grey hat up/down (north/south)
+ */
+SingleCameraController* SingleCameraController::createInstance(const WarthogStickBase& warthog) {
+
+    CompositeInput* pan = new CompositeInput();
+    pan->addInput(warthog.hatWest);
+    pan->addInput(warthog.hatEast, -1);
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(warthog.hatNorth);
+    zoom->addInput(warthog.hatSouth, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+       *pan,
+        warthog.forwardBackwardPivot,
+        warthog.leftRightPivot,
+        *zoom
+      );
+
+    controller->tilt.setInverted(true);
+
+    return controller;
+}
+
 SingleCameraController* SingleCameraController::createInstance(const VirpilConstellationAlpha& virpil) {
     CompositeInput* zoom = new CompositeInput();
     zoom->addInput(virpil.hat1Up);

@@ -370,6 +370,49 @@ SingleFlightController* SingleFlightController::createInstance(const T16000M& t1
     return controller;
 }
 
+/** Mapping:
+ * pitch: forwardBackwardPivot
+ * roll: leftRightPivot
+ * yaw: thumb hat left/right
+ * x: Grey hat up/down (north/south)
+ * y: Grey hat left/right (west/east)
+ * z: D-pad style 4-way up/down (buttons 11/13)
+ */
+SingleFlightController* SingleFlightController::createInstance(const WarthogStickBase& warthog) {
+
+    CompositeInput * yaw = new CompositeInput();
+    yaw->addInput(warthog.button18CmsLeft);
+    yaw->addInput(warthog.button16CmsRight, -1);
+
+    CompositeInput * x = new CompositeInput();
+    x->addInput(warthog.hatNorth);
+    x->addInput(warthog.hatSouth, -1);
+
+    CompositeInput * y = new CompositeInput();
+    y->addInput(warthog.hatWest);
+    y->addInput(warthog.hatEast, -1);
+
+    CompositeInput * z = new CompositeInput();
+    z->addInput(warthog.button11DmsUp);
+    z->addInput(warthog.button13DmsDown, -1);
+
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        warthog.leftRightPivot,       // roll
+        warthog.forwardBackwardPivot, // pitch
+        *yaw,
+        *x,
+        *y,
+        *z
+      );
+
+    controller->pitch.setInverted(true);
+    controller->roll.setInverted(true);
+
+    return controller;
+}
+
 SingleFlightController* SingleFlightController::createInstance(const VirpilConstellationAlpha& virpil) {
 
     CompositeInput* z = new CompositeInput();
