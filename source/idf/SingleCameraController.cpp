@@ -124,28 +124,6 @@ SingleCameraController* SingleCameraController::createInstance(const DualShock& 
     return controller;
 }
 
-SingleCameraController* SingleCameraController::createInstance(const VirtualLayout& virtualLayout) {
-    return new SingleCameraController(
-      virtualLayout.leftRightRotation,
-      virtualLayout.upDownRotation,
-      virtualLayout.clockwiseCounterclockwiseRotation,
-      virtualLayout.inOutTranslation);
-}
-
-SingleCameraController* SingleCameraController::createInstance(const ThrustMasterBase& thrustMaster) {
-    SingleCameraController *controller =
-      new SingleCameraController(
-      thrustMaster.twist,
-      thrustMaster.forwardBackwardPivot,
-      thrustMaster.leftRightPivot,
-      thrustMaster.forwardBackwardTranslation);
-
-    controller->tilt.setInverted(true);
-    controller->pan.setInverted(true);
-
-    return controller;
-}
-
 SingleCameraController* SingleCameraController::createInstance(const IndustrialProducts& industrialProducts) {
     SingleCameraController *controller =
       new SingleCameraController(
@@ -254,6 +232,77 @@ SingleCameraController* SingleCameraController::createInstance(const SaitekX56Th
     return controller;
 }
 
+SingleCameraController* SingleCameraController::createInstance(const ThrustMasterBase& thrustMaster) {
+    SingleCameraController *controller =
+      new SingleCameraController(
+      thrustMaster.twist,
+      thrustMaster.forwardBackwardPivot,
+      thrustMaster.leftRightPivot,
+      thrustMaster.forwardBackwardTranslation);
+
+    controller->tilt.setInverted(true);
+    controller->pan.setInverted(true);
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(const ThrustMasterAvaBase& ava) {
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(ava.hatNorth);
+    zoom->addInput(ava.hatSouth, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        ava.twist,
+        ava.forwardBackwardPivot,
+        ava.leftRightPivot,
+        *zoom
+      );
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(const T16000M& t16m) {
+
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(t16m.hatNorth);
+    zoom->addInput(t16m.hatSouth, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        t16m.twist,                // path
+        t16m.forwardBackwardPivot, // tilt
+        t16m.leftRightPivot,       // spin
+        *zoom                      // zoom
+      );
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
+SingleCameraController* SingleCameraController::createInstance(const VirpilConstellationAlpha& virpil) {
+    CompositeInput* zoom = new CompositeInput();
+    zoom->addInput(virpil.hat1Up);
+    zoom->addInput(virpil.hat1Down, -1);
+
+    SingleCameraController *controller =
+      new SingleCameraController(
+        virpil.twist,
+        virpil.forwardBackwardPivot,
+        virpil.leftRightPivot,
+        *zoom
+      );
+
+    controller->pan.setInverted(true);
+    controller->tilt.setInverted(true);
+    controller->zoom.setInverted(true);
+
+    return controller;
+}
+
 SingleCameraController* SingleCameraController::createInstance(const XBoxOne& xBoxOne) {
     SingleCameraController *controller =
       new SingleCameraController(
@@ -282,43 +331,12 @@ SingleCameraController* SingleCameraController::createInstance(const DacoThc& da
     return controller;
 }
 
-SingleCameraController* SingleCameraController::createInstance(
-  const VirpilConstellationAlpha& virpil)
-{
-
-    CompositeInput* zoom = new CompositeInput();
-    zoom->addInput(virpil.hat1Up);
-    zoom->addInput(virpil.hat1Down, -1);
-
-    SingleCameraController *controller =
-      new SingleCameraController(
-        virpil.twist,
-        virpil.forwardBackwardPivot,
-        virpil.leftRightPivot,
-        *zoom
-      );
-
-    controller->pan.setInverted(true);
-    controller->tilt.setInverted(true);
-    controller->zoom.setInverted(true);
-
-    return controller;
-}
-
-SingleCameraController* SingleCameraController::createInstance(const ThrustMasterAvaBase& ava) {
-    CompositeInput* zoom = new CompositeInput();
-    zoom->addInput(ava.hatNorth);
-    zoom->addInput(ava.hatSouth, -1);
-
-    SingleCameraController *controller =
-      new SingleCameraController(
-        ava.twist,
-        ava.forwardBackwardPivot,
-        ava.leftRightPivot,
-        *zoom
-      );
-
-    return controller;
+SingleCameraController* SingleCameraController::createInstance(const VirtualLayout& virtualLayout) {
+    return new SingleCameraController(
+      virtualLayout.leftRightRotation,
+      virtualLayout.upDownRotation,
+      virtualLayout.clockwiseCounterclockwiseRotation,
+      virtualLayout.inOutTranslation);
 }
 
 SingleCameraController* SingleCameraController::createInstance(const GenericJoystick& js) {
@@ -333,29 +351,6 @@ SingleCameraController* SingleCameraController::createInstance(const GenericJoys
         js.forwardBackwardPivot,
         js.leftRightPivot,
         *zoom
-      );
-
-    controller->pan.setInverted(true);
-    controller->tilt.setInverted(true);
-    controller->zoom.setInverted(true);
-
-    return controller;
-}
-
-SingleCameraController* SingleCameraController::createInstance(const T16000M& t16m) {
-
-    CompositeInput* zoom = new CompositeInput();
-    zoom->addInput(t16m.hatNorth);
-    zoom->addInput(t16m.hatSouth, -1);
-
-    const SingleInput* dummyInput = new SingleInput(-1,1);
-
-    SingleCameraController *controller =
-      new SingleCameraController(
-        t16m.twist,                // path
-        t16m.forwardBackwardPivot, // tilt
-        t16m.leftRightPivot,       // spin
-        *zoom                      // zoom
       );
 
     controller->pan.setInverted(true);
