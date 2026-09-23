@@ -173,24 +173,6 @@ class SingleCameraController : public CameraController {
     static SingleCameraController* createInstance(const DualShock& dualShock);
 
     /**
-     * creates a new SingleCameraController mapped to @a virtualLayout using appropriate defaults
-     *
-     * @param virtualLayout the inputs to use in the default mapping
-     *
-     * @return a new VirtualLayout-based camera controller
-     */
-    static SingleCameraController* createInstance(const VirtualLayout& virtualLayout);
-
-    /**
-     * creates a new SingleCameraController mapped to @a thrustMaster using appropriate defaults
-     *
-     * @param thrustMaster the inputs to use in the default mapping
-     *
-     * @return a new ThrustMaster-based camera controller
-     */
-    static SingleCameraController* createInstance(const ThrustMasterBase& thrustMaster);
-
-    /**
      * creates a new SingleCameraController mapped to @a industrialProducts using appropriate defaults
      *
      * @param industrialProducts the inputs to use in the default mapping
@@ -254,32 +236,13 @@ class SingleCameraController : public CameraController {
     static SingleCameraController* createInstance(const SaitekX56Throttle& saitekX56Throttle);
 
     /**
-     * creates a new SingleCameraController mapped to @a XBoxOne using appropriate defaults
+     * creates a new SingleCameraController mapped to @a thrustMaster using appropriate defaults
      *
-     * @param xBoxOne the inputs to use in the default mapping
+     * @param thrustMaster the inputs to use in the default mapping
      *
-     * @return a new XBoxOne-based camera controller
+     * @return a new ThrustMaster-based camera controller
      */
-    static SingleCameraController* createInstance(const XBoxOne& xBoxOne);
-
-    /**
-     * creates a new SingleCameraController mapped to @a DacoThc using appropriate defaults
-     *
-     * @param dacoThc the inputs to use in the default mapping
-     *
-     * @return a new DacoThc-based camera controller
-     */
-    static SingleCameraController* createInstance(const DacoThc& dacoThc);
-
-    /**
-     * creates a new SingleCameraController mapped to @a Virpil @a Controls @Constellation @Alpha
-     * on a @a MT-50CM3 base using appropriate defaults
-     *
-     * @param virpil the inputs to use in the default mapping
-     *
-     * @return a new Virpil Constellation Alhpa based camera controller
-     */
-    static SingleCameraController* createInstance(const VirpilConstellationAlpha& virpil);
+    static SingleCameraController* createInstance(const ThrustMasterBase& thrustMaster);
 
     /**
      * creates a new SingleCameraController mapped to @a ThrustMasterAvaBase base using appropriate
@@ -302,6 +265,52 @@ class SingleCameraController : public CameraController {
     static SingleCameraController* createInstance(const ThrustMasterAvaBase& ava);
 
     /**
+     * creates a new SingleCameraController mapped to Thrustmaster @a T.16000M @a flight stick
+     *
+     * @param t16m the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster T.16000M based camera controller
+     */
+    static SingleCameraController* createInstance(const T16000M& t16m);
+
+    /**
+     * creates a new SingleCameraController mapped to @a Virpil @a Controls @Constellation @Alpha
+     * on a @a MT-50CM3 base using appropriate defaults
+     *
+     * @param virpil the inputs to use in the default mapping
+     *
+     * @return a new Virpil Constellation Alhpa based camera controller
+     */
+    static SingleCameraController* createInstance(const VirpilConstellationAlpha& virpil);
+
+    /**
+     * creates a new SingleCameraController mapped to @a XBoxOne using appropriate defaults
+     *
+     * @param xBoxOne the inputs to use in the default mapping
+     *
+     * @return a new XBoxOne-based camera controller
+     */
+    static SingleCameraController* createInstance(const XBoxOne& xBoxOne);
+
+    /**
+     * creates a new SingleCameraController mapped to @a DacoThc using appropriate defaults
+     *
+     * @param dacoThc the inputs to use in the default mapping
+     *
+     * @return a new DacoThc-based camera controller
+     */
+    static SingleCameraController* createInstance(const DacoThc& dacoThc);
+
+    /**
+     * creates a new SingleCameraController mapped to @a virtualLayout using appropriate defaults
+     *
+     * @param virtualLayout the inputs to use in the default mapping
+     *
+     * @return a new VirtualLayout-based camera controller
+     */
+    static SingleCameraController* createInstance(const VirtualLayout& virtualLayout);
+
+    /**
      * creates a new SingleCameraController mapped to @a HidGenericJoystick using appropriate
      * defaults. Since this is a generic mapping without specific knowledge of the
      * devices physical layout, it is merely a best guess according to common practices. Thus,
@@ -312,15 +321,6 @@ class SingleCameraController : public CameraController {
      * @return a new Generic HID based camera controller
      */
     static SingleCameraController* createInstance(const GenericJoystick& js);
-
-    /**
-     * creates a new SingleCameraController mapped to Thrustmaster @a T.16000M @a flight stick
-     *
-     * @param t16m the inputs to use in the default mapping
-     *
-     * @return a new ThrustMaster T.16000M based camera controller
-     */
-    static SingleCameraController* createInstance(const T16000M& t16m);
 
 };
 

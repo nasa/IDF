@@ -196,24 +196,6 @@ class SingleFlightController : public FlightController {
     static SingleFlightController* createInstance(const DualShock& dualShock);
 
     /*
-     * creates a new SingleFlightController mapped to @a virtualLayout using appropriate defaults
-     *
-     * @param virtualLayout the inputs to use in the default mapping
-     *
-     * @return a new VirtualLayout-based flight controller
-     */
-    static SingleFlightController* createInstance(const VirtualLayout& virtualLayout);
-
-    /*
-     * creates a new SingleFlightController mapped to @a thrustMaster using appropriate defaults
-     *
-     * @param thrustMaster the inputs to use in the default mapping
-     *
-     * @return a new ThrustMaster-based flight controller
-     */
-    static SingleFlightController* createInstance(const ThrustMasterBase& thrustMaster);
-
-    /*
      * creates a new SingleFlightController mapped to @a industrialProducts using appropriate defaults
      *
      * @param industrialProducts the inputs to use in the default mapping
@@ -267,42 +249,14 @@ class SingleFlightController : public FlightController {
      */
     static SingleFlightController* createInstance(const SaitekX56Stick& saitekX56Stick);
 
-    /**
-     * creates a new SingleFlightController mapped to Thrustmaster @a T.16000M @a flight stick
+    /*
+     * creates a new SingleFlightController mapped to @a thrustMaster using appropriate defaults
      *
-     * @param t16m the inputs to use in the default mapping
+     * @param thrustMaster the inputs to use in the default mapping
      *
-     * @return a new ThrustMaster T.16000M based flight controller
+     * @return a new ThrustMaster-based flight controller
      */
-    static SingleFlightController* createInstance(const T16000M& t16m);
-
-    /**
-     * creates a new SingleFlightController mapped to @a XBoxOne using appropriate defaults
-     *
-     * @param xBoxOne the inputs to use in the default mapping
-     *
-     * @return a new XboxOne-based flight controller
-     */
-    static SingleFlightController* createInstance(const XBoxOne& xBoxOne);
-
-    /**
-     * creates a new SingleFlightController mapped to @a DacoThc using appropriate defaults
-     *
-     * @param dacoThc the inputs to use in the default mapping
-     *
-     * @return a new DacoThc-based flight controller
-     */
-    static SingleFlightController* createInstance(const DacoThc& dacoThc);
-
-    /**
-     * creates a new SingleFlightController mapped to @a Virpil @a Controls @Constellation @Alpha
-     * on a @a MT-50CM3 base using appropriate defaults
-     *
-     * @param virpil the inputs to use in the default mapping
-     *
-     * @return a new Virpil Constellation Alhpa based flight controller
-     */
-    static SingleFlightController* createInstance(const VirpilConstellationAlpha& virpil);
+    static SingleFlightController* createInstance(const ThrustMasterBase& thrustMaster);
 
     /**
      * creates a new SingleFlightController mapped to @a ThrustMasterAvaBase base using appropriate
@@ -324,6 +278,51 @@ class SingleFlightController : public FlightController {
      */
     static SingleFlightController* createInstance(const ThrustMasterAvaBase& ava);
 
+    /**
+     * creates a new SingleFlightController mapped to Thrustmaster @a T.16000M @a flight stick
+     *
+     * @param t16m the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster T.16000M based flight controller
+     */
+    static SingleFlightController* createInstance(const T16000M& t16m);
+
+    /**
+     * creates a new SingleFlightController mapped to @a Virpil @a Controls @Constellation @Alpha
+     * on a @a MT-50CM3 base using appropriate defaults
+     *
+     * @param virpil the inputs to use in the default mapping
+     *
+     * @return a new Virpil Constellation Alhpa based flight controller
+     */
+    static SingleFlightController* createInstance(const VirpilConstellationAlpha& virpil);
+
+    /**
+     * creates a new SingleFlightController mapped to @a XBoxOne using appropriate defaults
+     *
+     * @param xBoxOne the inputs to use in the default mapping
+     *
+     * @return a new XboxOne-based flight controller
+     */
+    static SingleFlightController* createInstance(const XBoxOne& xBoxOne);
+
+    /**
+     * creates a new SingleFlightController mapped to @a DacoThc using appropriate defaults
+     *
+     * @param dacoThc the inputs to use in the default mapping
+     *
+     * @return a new DacoThc-based flight controller
+     */
+    static SingleFlightController* createInstance(const DacoThc& dacoThc);
+
+    /*
+     * creates a new SingleFlightController mapped to @a virtualLayout using appropriate defaults
+     *
+     * @param virtualLayout the inputs to use in the default mapping
+     *
+     * @return a new VirtualLayout-based flight controller
+     */
+    static SingleFlightController* createInstance(const VirtualLayout& virtualLayout);
 
     /**
      * creates a new SingleFlightController mapped to @a HidGenericJoystick using appropriate

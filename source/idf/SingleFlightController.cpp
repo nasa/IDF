@@ -170,37 +170,6 @@ SingleFlightController* SingleFlightController::createInstance(const DualShock& 
     return controller;
 }
 
-SingleFlightController* SingleFlightController::createInstance(const VirtualLayout& virtualLayout) {
-    return new SingleFlightController(
-      virtualLayout.clockwiseCounterclockwiseRotation,
-      virtualLayout.upDownRotation,
-      virtualLayout.leftRightRotation,
-      virtualLayout.inOutTranslation,
-      virtualLayout.leftRightTranslation,
-      virtualLayout.upDownTranslation);
-}
-
-SingleFlightController* SingleFlightController::createInstance(const ThrustMasterBase& thrustMaster) {
-    SingleFlightController *controller =
-      new SingleFlightController(
-      thrustMaster.leftRightPivot,
-      thrustMaster.forwardBackwardPivot,
-      thrustMaster.twist,
-      thrustMaster.forwardBackwardTranslation,
-      thrustMaster.leftRightTranslation,
-      thrustMaster.upDownTranslation);
-
-    controller->y.setInverted(true);
-    controller->pitch.setInverted(true);
-    controller->yaw.setInverted(true);
-
-    if (thrustMaster.male) {
-        controller->z.setInverted(true);
-    }
-
-    return controller;
-}
-
 SingleFlightController* SingleFlightController::createInstance(const IndustrialProducts& industrialProducts) {
     CompositeInput* z = new CompositeInput();
     z->addInput(industrialProducts.switchUp);
@@ -323,6 +292,54 @@ SingleFlightController* SingleFlightController::createInstance(const SaitekX56St
     return controller;
 }
 
+SingleFlightController* SingleFlightController::createInstance(const ThrustMasterBase& thrustMaster) {
+    SingleFlightController *controller =
+      new SingleFlightController(
+      thrustMaster.leftRightPivot,
+      thrustMaster.forwardBackwardPivot,
+      thrustMaster.twist,
+      thrustMaster.forwardBackwardTranslation,
+      thrustMaster.leftRightTranslation,
+      thrustMaster.upDownTranslation);
+
+    controller->y.setInverted(true);
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    if (thrustMaster.male) {
+        controller->z.setInverted(true);
+    }
+
+    return controller;
+}
+
+SingleFlightController* SingleFlightController::createInstance(const ThrustMasterAvaBase& ava) {
+    SingleInput* dummyInput = new SingleInput(-1, 1);
+
+    CompositeInput* x = new CompositeInput();
+    x->addInput(ava.hatEast);
+    x->addInput(ava.hatWest, -1);
+
+    CompositeInput* y = new CompositeInput();
+    y->addInput(ava.hatNorth);
+    y->addInput(ava.hatSouth, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        ava.leftRightPivot,
+        ava.forwardBackwardPivot,
+        ava.twist,
+        *x,
+        *y,
+        *dummyInput
+      );
+
+    controller->pitch.setInverted(true);
+    controller->yaw.setInverted(true);
+
+    return controller;
+}
+
 SingleFlightController* SingleFlightController::createInstance(const T16000M& t16m) {
 
     CompositeInput * x = new CompositeInput();
@@ -337,8 +354,6 @@ SingleFlightController* SingleFlightController::createInstance(const T16000M& t1
     z->addInput(t16m.hatNorth);
     z->addInput(t16m.hatSouth, -1);
 
-    const SingleInput* dummyInput = new SingleInput(-1,1);
-
     SingleFlightController *controller =
       new SingleFlightController(
         t16m.leftRightPivot,       // roll
@@ -351,6 +366,29 @@ SingleFlightController* SingleFlightController::createInstance(const T16000M& t1
 
     controller->pitch.setInverted(true);
     controller->yaw.setInverted(true);
+
+    return controller;
+}
+
+SingleFlightController* SingleFlightController::createInstance(const VirpilConstellationAlpha& virpil) {
+
+    CompositeInput* z = new CompositeInput();
+    z->addInput(virpil.hat1Up);
+    z->addInput(virpil.hat1Down, -1);
+
+    SingleFlightController *controller =
+      new SingleFlightController(
+        virpil.leftRightPivot,
+        virpil.forwardBackwardPivot,
+        virpil.twist,
+        virpil.forwardBackwardTranslation,
+        virpil.leftRightTranslation,
+        *z
+      );
+
+    controller->x.setInverted(true);
+    controller->y.setInverted(true);
+    controller->z.setInverted(true);
 
     return controller;
 }
@@ -398,54 +436,14 @@ SingleFlightController* SingleFlightController::createInstance(const DacoThc& da
     return controller;
 }
 
-SingleFlightController* SingleFlightController::createInstance(const VirpilConstellationAlpha& virpil) {
-
-    CompositeInput* z = new CompositeInput();
-    z->addInput(virpil.hat1Up);
-    z->addInput(virpil.hat1Down, -1);
-
-    SingleFlightController *controller =
-      new SingleFlightController(
-        virpil.leftRightPivot,
-        virpil.forwardBackwardPivot,
-        virpil.twist,
-        virpil.forwardBackwardTranslation,
-        virpil.leftRightTranslation,
-        *z
-      );
-
-    controller->x.setInverted(true);
-    controller->y.setInverted(true);
-    controller->z.setInverted(true);
-
-    return controller;
-}
-
-SingleFlightController* SingleFlightController::createInstance(const ThrustMasterAvaBase& ava) {
-    SingleInput* dummyInput = new SingleInput(-1, 1);
-
-    CompositeInput* x = new CompositeInput();
-    x->addInput(ava.hatEast);
-    x->addInput(ava.hatWest, -1);
-
-    CompositeInput* y = new CompositeInput();
-    y->addInput(ava.hatNorth);
-    y->addInput(ava.hatSouth, -1);
-
-    SingleFlightController *controller =
-      new SingleFlightController(
-        ava.leftRightPivot,
-        ava.forwardBackwardPivot,
-        ava.twist,
-        *x,
-        *y,
-        *dummyInput
-      );
-
-    controller->pitch.setInverted(true);
-    controller->yaw.setInverted(true);
-
-    return controller;
+SingleFlightController* SingleFlightController::createInstance(const VirtualLayout& virtualLayout) {
+    return new SingleFlightController(
+      virtualLayout.clockwiseCounterclockwiseRotation,
+      virtualLayout.upDownRotation,
+      virtualLayout.leftRightRotation,
+      virtualLayout.inOutTranslation,
+      virtualLayout.leftRightTranslation,
+      virtualLayout.upDownTranslation);
 }
 
 SingleFlightController* SingleFlightController::createInstance(const GenericJoystick& js) {

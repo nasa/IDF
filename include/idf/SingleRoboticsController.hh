@@ -241,42 +241,6 @@ class SingleRoboticsController : public RoboticsController {
     static SingleRoboticsController* createInstance(const DualShock& dualShock);
 
     /*
-     * creates a new SingleRoboticsController mapped to @a virtualLayout using appropriate defaults
-     *
-     * @param virtualLayout the inputs to use in the default mapping
-     *
-     * @return a new VirtualLayout-based robotics controller
-     */
-    static SingleRoboticsController* createInstance(const VirtualLayout& virtualLayout);
-
-    /*
-     * creates a new SingleRoboticsController mapped to @a thrustMaster using appropriate defaults
-     *
-     * @param thrustMaster the inputs to use in the default mapping
-     *
-     * @return a new shuttle-style ThrustMaster-based robotics controller
-     */
-    static SingleRoboticsController* createInstance(const ThrustMaster& thrustMaster);
-
-    /*
-     * creates a new SingleRoboticsController mapped to @a thrustMaster2 using appropriate defaults
-     *
-     * @param thrustMaster2 the inputs to use in the default mapping
-     *
-     * @return a new Orion-style ThrustMaster-based robotics controller
-     */
-    static SingleRoboticsController* createInstance(const ThrustMaster2& thrustMaster2);
-
-    /*
-     * creates a new SingleRoboticsController mapped to @a XBoxOne using appropriate defaults
-     *
-     * @param XBoxOne the inputs to use in the default mapping
-     *
-     * @return a new XBoxOne-based flight controller
-     */
-    static SingleRoboticsController* createInstance(const XBoxOne& xBoxOne);
-
-    /*
      * creates a new SingleRoboticsController mapped to @a industrialProducts using appropriate defaults
      *
      * @param industrialProducts the inputs to use in the default mapping
@@ -330,43 +294,14 @@ class SingleRoboticsController : public RoboticsController {
      */
     static SingleRoboticsController* createInstance(const SaitekX56Stick& saitekX56Stick);
 
-    /**
-     * creates a new SingleRoboticsController mapped to Thrustmaster @a T.16000M @a flight stick
-     *
-     * @param t16m the inputs to use in the default mapping
-     *
-     * @return a new ThrustMaster T.16000M based robotics controller
-     */
-    static SingleRoboticsController* createInstance(const T16000M& t16m);
-
     /*
-     * creates a new SingleRoboticsController mapped to @a Er7Orion using appropriate defaults
+     * creates a new SingleRoboticsController mapped to @a thrustMaster using appropriate defaults
      *
-     * @param Er7Orion the inputs to use in the default mapping
+     * @param thrustMaster the inputs to use in the default mapping
      *
-     * @return a new Er7Orion-based flight controller
+     * @return a new shuttle-style ThrustMaster-based robotics controller
      */
-    static SingleRoboticsController* createInstance(const Er7Orion& er7Orion);
-
-
-    /**
-     * creates a new SingleRoboticsController mapped to @a DacoThc using appropriate defaults
-     *
-     * @param dacoThc the inputs to use in the default mapping
-     *
-     * @return a new DacoThc-based robotics controller
-     */
-    static SingleRoboticsController* createInstance(const DacoThc& dacoThc);
-
-    /**
-     * creates a new SingleRoboticsController mapped to @a Virpil @a Controls @Constellation @Alpha
-     * on a @a MT-50CM3 base using appropriate defaults
-     *
-     * @param virpil the inputs to use in the default mapping
-     *
-     * @return a new Virpil Constellation Alhpa based robotics controller
-     */
-    static SingleRoboticsController* createInstance(const VirpilConstellationAlpha& virpil);
+    static SingleRoboticsController* createInstance(const ThrustMaster& thrustMaster);
 
     /**
      * creates a new SingleRoboticsController mapped to @a ThrustMasterAvaBase base using appropriate
@@ -388,6 +323,70 @@ class SingleRoboticsController : public RoboticsController {
      */
     static SingleRoboticsController* createInstance(const ThrustMasterAvaBase& ava);
 
+    /*
+     * creates a new SingleRoboticsController mapped to @a thrustMaster2 using appropriate defaults
+     *
+     * @param thrustMaster2 the inputs to use in the default mapping
+     *
+     * @return a new Orion-style ThrustMaster-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const ThrustMaster2& thrustMaster2);
+
+    /**
+     * creates a new SingleRoboticsController mapped to Thrustmaster @a T.16000M @a flight stick
+     *
+     * @param t16m the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster T.16000M based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const T16000M& t16m);
+
+    /**
+     * creates a new SingleRoboticsController mapped to @a Virpil @a Controls @Constellation @Alpha
+     * on a @a MT-50CM3 base using appropriate defaults
+     *
+     * @param virpil the inputs to use in the default mapping
+     *
+     * @return a new Virpil Constellation Alhpa based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const VirpilConstellationAlpha& virpil);
+
+    /*
+     * creates a new SingleRoboticsController mapped to @a XBoxOne using appropriate defaults
+     *
+     * @param XBoxOne the inputs to use in the default mapping
+     *
+     * @return a new XBoxOne-based flight controller
+     */
+    static SingleRoboticsController* createInstance(const XBoxOne& xBoxOne);
+
+    /**
+     * creates a new SingleRoboticsController mapped to @a DacoThc using appropriate defaults
+     *
+     * @param dacoThc the inputs to use in the default mapping
+     *
+     * @return a new DacoThc-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const DacoThc& dacoThc);
+
+    /*
+     * creates a new SingleRoboticsController mapped to @a Er7Orion using appropriate defaults
+     *
+     * @param Er7Orion the inputs to use in the default mapping
+     *
+     * @return a new Er7Orion-based flight controller
+     */
+    static SingleRoboticsController* createInstance(const Er7Orion& er7Orion);
+
+    /*
+     * creates a new SingleRoboticsController mapped to @a virtualLayout using appropriate defaults
+     *
+     * @param virtualLayout the inputs to use in the default mapping
+     *
+     * @return a new VirtualLayout-based robotics controller
+     */
+    static SingleRoboticsController* createInstance(const VirtualLayout& virtualLayout);
+
     /**
      * creates a new SingleRoboticsController mapped to @a HidGenericJoystick using appropriate
      * defaults. Since this is a generic mapping without specific knowledge of the
@@ -399,6 +398,7 @@ class SingleRoboticsController : public RoboticsController {
      * @return a new Generic HID based robotics controller
      */
     static SingleRoboticsController* createInstance(const GenericJoystick& js);
+
 };
 
 }
