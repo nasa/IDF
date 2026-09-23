@@ -511,6 +511,53 @@ SingleRoboticsController* SingleRoboticsController::createInstance(const T16000M
     return controller;
 }
 
+/** Mapping:
+ * pitch: forwardBackwardPivot
+ * roll: leftRightPivot
+ * yaw: thumb hat left/right
+ * x: Grey hat up/down (north/south)
+ * y: Grey hat left/right (west/east)
+ * z: D-pad style 4-way up/down (buttons 11/13)
+ * Trigger: trigger
+ * Rate Mode: Weapon Reelase (button 2)
+ */
+SingleRoboticsController* SingleRoboticsController::createInstance(const WarthogStickBase& warthog) {
+
+    CompositeInput * yaw = new CompositeInput();
+    yaw->addInput(warthog.button18CmsLeft);
+    yaw->addInput(warthog.button16CmsRight, -1);
+
+    CompositeInput * x = new CompositeInput();
+    x->addInput(warthog.hatNorth);
+    x->addInput(warthog.hatSouth, -1);
+
+    CompositeInput * y = new CompositeInput();
+    y->addInput(warthog.hatWest);
+    y->addInput(warthog.hatEast, -1);
+
+    CompositeInput * z = new CompositeInput();
+    z->addInput(warthog.button11DmsUp);
+    z->addInput(warthog.button13DmsDown, -1);
+
+
+    SingleRoboticsController *controller =
+      new SingleRoboticsController(
+        warthog.leftRightPivot,       // roll
+        warthog.forwardBackwardPivot, // pitch
+        *yaw,
+        *x,
+        *y,
+        *z,
+        warthog.trigger,
+        warthog.button2WeaponRelease
+      );
+
+    controller->pitch.setInverted(true);
+    controller->roll.setInverted(true);
+
+    return controller;
+}
+
 SingleRoboticsController* SingleRoboticsController::createInstance(const VirpilConstellationAlpha& virpil) {
 
     CompositeInput* z = new CompositeInput();

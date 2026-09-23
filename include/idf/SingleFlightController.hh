@@ -38,6 +38,7 @@ LIBRARY DEPENDENCIES: (
 #include "idf/VirpilConstellationAlpha.hh"
 #include "idf/VirtualLayout.hh"
 #include "idf/WingMan.hh"
+#include "idf/WarthogStickBase.hh"
 
 namespace idf {
 
@@ -286,6 +287,15 @@ class SingleFlightController : public FlightController {
      * @return a new ThrustMaster T.16000M based flight controller
      */
     static SingleFlightController* createInstance(const T16000M& t16m);
+
+    /**
+     * creates a new SingleFlightController mapped to Thrustmaster @a Warthog Hotas @a flight stick
+     *
+     * @param t16m the inputs to use in the default mapping
+     *
+     * @return a new ThrustMaster Warthog Hotas based flight controller
+     */
+    static SingleFlightController* createInstance(const WarthogStickBase& warthog);
 
     /**
      * creates a new SingleFlightController mapped to @a Virpil @a Controls @Constellation @Alpha
