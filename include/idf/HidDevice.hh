@@ -95,6 +95,14 @@ private:
 
    static std::string resolvePath(const std::string& path);
 
+   /**
+    * @brief convert wide text to utf-8 for consistent output
+    * 
+    * @param wide wide character string that needs to be converted
+    * @return utf-8 encoded string for maximum compatability
+    */
+   static std::string wcharToChar(const wchar_t* wide);
+
 };
 
 } // namespace idf

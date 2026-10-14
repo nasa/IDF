@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
+#include <cstdint>
 #include <sstream>
 #include <iostream>
 #include <iomanip>
@@ -54,12 +55,12 @@ HidDescriptor* HidDevice::decodeDevice(const int vendor, const int product, cons
    wchar_t vendStr[255];
    wchar_t prodStr[255];
    if (hid_get_manufacturer_string(hidDevice, vendStr, 255) != 0) {
-      ss << "unable to read manufacturer string from device: " << strerror(errno) << hid_error(hidDevice) << std::endl;
+      ss << "unable to read manufacturer string from device: " << strerror(errno) << wcharToChar(hid_error(hidDevice)) << std::endl;
       throw IOException(ss.str());
    }
 
    if (hid_get_product_string(hidDevice, prodStr, 255) != 0) {
-      ss << "unable to read manufacturer string from device: " << strerror(errno) << hid_error(hidDevice) << std::endl;
+      ss << "unable to read manufacturer string from device: " << strerror(errno) << wcharToChar(hid_error(hidDevice)) << std::endl;
       throw IOException(ss.str());
    }
 
@@ -124,12 +125,12 @@ HidDescriptor* HidDevice::decodeDevice(const std::string& targetPath)
          wchar_t vendStr[255];
          wchar_t prodStr[255];
          if (hid_get_manufacturer_string(hidDevice, vendStr, 255) != 0) {
-            ss << "unable to read manufacturer string from device: " << strerror(errno) << hid_error(hidDevice) << std::endl;
+            ss << "unable to read manufacturer string from device: " << strerror(errno) << wcharToChar(hid_error(hidDevice)) << std::endl;
             throw IOException(ss.str());
          }
 
          if (hid_get_product_string(hidDevice, prodStr, 255) != 0) {
-            ss << "unable to read manufacturer string from device: " << strerror(errno) << hid_error(hidDevice) << std::endl;
+            ss << "unable to read manufacturer string from device: " << strerror(errno) << wcharToChar(hid_error(hidDevice)) << std::endl;
             throw IOException(ss.str());
          }
 
@@ -198,6 +199,36 @@ std::string HidDevice::resolvePath(const std::string& unresolvedPath)
         }
         return resolvedPath;
     #endif
+}
+
+std::string HidDevice::wcharToChar(const wchar_t* wide)
+{
+   if (!wide) {
+      return std::string();
+   }
+
+   std::string result;
+   for (const wchar_t* c = wide; *c != L'\0'; ++c) {
+      std::uint32_t codepoint = static_cast<std::uint32_t>(*c);
+
+      // Encode the code point as UTF-8.
+      if (codepoint <= 0x7F) {
+         result += static_cast<char>(codepoint);
+      } else if (codepoint <= 0x7FF) {
+         result += static_cast<char>(0xC0 | (codepoint >> 6));
+         result += static_cast<char>(0x80 | (codepoint & 0x3F));
+      } else if (codepoint <= 0xFFFF) {
+         result += static_cast<char>(0xE0 | (codepoint >> 12));
+         result += static_cast<char>(0x80 | ((codepoint >> 6) & 0x3F));
+         result += static_cast<char>(0x80 | (codepoint & 0x3F));
+      } else {
+         result += static_cast<char>(0xF0 | (codepoint >> 18));
+         result += static_cast<char>(0x80 | ((codepoint >> 12) & 0x3F));
+         result += static_cast<char>(0x80 | ((codepoint >> 6) & 0x3F));
+         result += static_cast<char>(0x80 | (codepoint & 0x3F));
+      }
+   }
+   return result;
 }
 
 } //namespace idf
