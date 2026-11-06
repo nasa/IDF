@@ -144,10 +144,7 @@ def launchVirtualController(vhcVariable):
     vhc.add_arguments('--disconnectBehavior Close --simObjectName ' + str(vhcVariable) + ' --translationOrientation XYZ --rotationOrientation RYP --invertX false --invertY true --invertZ false --invertRoll true --invertPitch true --invertYaw true --xMin -100 --xMax 100 --yMin -100 --yMax 100 --zMin -100 --zMax 100 -rollMin -100 --rollMax 100 --pitchMin -100 --pitchMax 100 --yawMin -100 --yawMax 100')
 
     executable = os.path.abspath(os.path.dirname(inspect.getsourcefile(lambda:0)) + '/../../../../apps/vhc/build') + '/'
-    if sys.platform == 'darwin':
-        vhc.set_startup_command('open ' + executable + 'VHC.app --args')
-    else:
-        vhc.set_startup_command('java -jar ' + executable + 'VirtualHandController.jar')
+    vhc.set_startup_command('java -jar ' + executable + 'VirtualHandController.jar')
 
     return
 
